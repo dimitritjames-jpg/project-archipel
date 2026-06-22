@@ -1,5 +1,10 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { CODE_TO_SLUG, type IslandSlug } from "@/lib/islands";
+import {
+  findLaunchPreviewBusiness,
+  findLaunchPreviewBusinesses,
+  LAUNCH_PREVIEW_BUSINESSES,
+} from "@/lib/businesses/launch-preview-catalog";
 
 export type PublishedBusinessRow = {
   id: string;
@@ -15,6 +20,7 @@ export type PublishedBusinessRow = {
   website_url: string | null;
   price_range: string | null;
   is_verified: boolean;
+  is_demo: boolean;
   premium_tier: string;
   published_at: string | null;
   category: { slug: string; name: string; schema_type: string } | null;
@@ -26,16 +32,11 @@ export type BusinessStaticParam = {
 };
 
 /** Seeded listings — used when Supabase is unreachable at build time. */
-export const SEEDED_BUSINESS_STATIC_PARAMS: BusinessStaticParam[] = [
-  { island: "st-john", slug: "azure-current-charters" },
-  { island: "st-thomas", slug: "harbor-and-hibiscus-supper-club" },
-  { island: "st-croix", slug: "cane-bay-cliff-villa" },
-  { island: "st-thomas", slug: "ember-and-tide-rooftop" },
-  { island: "st-thomas", slug: "solstice-spa-at-magens" },
-  { island: "st-john", slug: "coral-and-salt-kitchen" },
-  { island: "st-croix", slug: "reef-runner-expeditions" },
-  { island: "water-island", slug: "honeymoon-cove-hideaway" },
-];
+export const SEEDED_BUSINESS_STATIC_PARAMS: BusinessStaticParam[] =
+  LAUNCH_PREVIEW_BUSINESSES.map((business) => ({
+    island: CODE_TO_SLUG[business.island],
+    slug: business.slug,
+  }));
 
 function createBuildTimeClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -92,16 +93,19 @@ export async function fetchPublishedBusiness(
   businessSlug: string,
 ): Promise<PublishedBusinessRow | null> {
   const supabase = createBuildTimeClient();
-  if (!supabase) {
-    return null;
-  }
-
   const islandCode = Object.entries(CODE_TO_SLUG).find(
     ([, slug]) => slug === islandSlug,
   )?.[0];
 
   if (!islandCode) {
     return null;
+  }
+
+  if (!supabase) {
+    return findLaunchPreviewBusiness(
+      islandCode as PublishedBusinessRow["island"],
+      businessSlug,
+    );
   }
 
   const { data, error } = await supabase
@@ -121,6 +125,7 @@ export async function fetchPublishedBusiness(
       website_url,
       price_range,
       is_verified,
+      is_demo,
       premium_tier,
       published_at,
       category:categories!primary_category_id ( slug, name, schema_type )
@@ -132,7 +137,10 @@ export async function fetchPublishedBusiness(
     .maybeSingle();
 
   if (error || !data) {
-    return null;
+    return findLaunchPreviewBusiness(
+      islandCode as PublishedBusinessRow["island"],
+      businessSlug,
+    );
   }
 
   return {
@@ -151,16 +159,22 @@ export async function fetchPublishedBusinessesByCategory(
   categorySlug: string,
 ): Promise<PublishedBusinessRow[]> {
   const supabase = createBuildTimeClient();
-  if (!supabase) {
-    return [];
-  }
-
   const islandCode = Object.entries(CODE_TO_SLUG).find(
     ([, slug]) => slug === islandSlug,
   )?.[0];
 
   if (!islandCode) {
     return [];
+  }
+
+  const previewFallback = () =>
+    findLaunchPreviewBusinesses(
+      islandCode as PublishedBusinessRow["island"],
+      categorySlug,
+    );
+
+  if (!supabase) {
+    return previewFallback();
   }
 
   const { data: category, error: categoryError } = await supabase
@@ -171,7 +185,7 @@ export async function fetchPublishedBusinessesByCategory(
     .maybeSingle();
 
   if (categoryError || !category) {
-    return [];
+    return previewFallback();
   }
 
   const { data, error } = await supabase
@@ -191,6 +205,7 @@ export async function fetchPublishedBusinessesByCategory(
       website_url,
       price_range,
       is_verified,
+      is_demo,
       premium_tier,
       published_at,
       category:categories!primary_category_id ( slug, name, schema_type )
@@ -201,8 +216,8 @@ export async function fetchPublishedBusinessesByCategory(
     .eq("primary_category_id", category.id)
     .order("name");
 
-  if (error || !data) {
-    return [];
+  if (error || !data?.length) {
+    return previewFallback();
   }
 
   return data.map((row) => ({

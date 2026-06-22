@@ -16,6 +16,21 @@ The launch foundation prioritizes useful discovery over feature volume:
 
 VibeVI does not claim live ferry positions, real-time traffic, actual cruise passenger counts, live booking inventory, or active self-serve business claiming.
 
+## Launch inventory
+
+`src/lib/businesses/launch-preview-catalog.ts` provides 24 fictional, clearly labeled demo profiles when a category has no reachable published Supabase records. Demo profiles:
+
+- contain no phone numbers, hours, prices, booking links, or availability claims
+- are unverified and never receive premium placement
+- are marked `is_demo` and emitted with `noindex`
+- do not emit `LocalBusiness` structured data
+
+The `is_demo` database flag is introduced by migration `20260622000013_business_demo_flag.sql`. Replace demo inventory with verified, source-backed business records before public launch.
+
+## Business inquiries
+
+The `/get-listed` page explains current listing value and future premium/sponsor directions without implying self-serve onboarding. Set `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL` to enable its prefilled mail inquiry links. When unset, the UI displays a configuration-pending state.
+
 ## Stack
 
 - **Next.js 15** App Router, React 19, TypeScript, Tailwind CSS

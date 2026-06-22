@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
+import { serializeJsonLd } from "@/lib/utils";
 
 type PillarLink = { href: string; label: string; detail: string; accent?: "aqua" | "coral" | "gold" };
 
@@ -12,6 +13,8 @@ type PillarPageProps = {
   highlights: string[];
   links: PillarLink[];
   gradient: string;
+  decisions?: { title: string; body: string }[];
+  faq?: { question: string; answer: string }[];
 };
 
 const accentStyles = {
@@ -20,9 +23,10 @@ const accentStyles = {
   gold: "text-gold border-gold/25 bg-gold/5",
 };
 
-export function PillarPage({ eyebrow, title, island, introduction, planningNote, highlights, links, gradient }: PillarPageProps) {
+export function PillarPage({ eyebrow, title, island, introduction, planningNote, highlights, links, gradient, decisions = [], faq = [] }: PillarPageProps) {
   return (
     <>
+      {faq.length > 0 ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }) }} /> : null}
       <MediaBackdrop
         media={{ id: title.toLowerCase().replace(/[^a-z0-9]+/g, "-"), label: eyebrow, gradient, src: null, alt: `Abstract island composition for ${title}` }}
         overlay="hero"
@@ -64,6 +68,8 @@ export function PillarPage({ eyebrow, title, island, introduction, planningNote,
             </div>
           </section>
         </div>
+        {decisions.length > 0 ? <section className="mt-20 border-t border-white/8 pt-14"><p className="eyebrow-label">Make the call</p><h2 className="display-type mt-4 text-3xl font-semibold text-white sm:text-4xl">What changes the shape of this day.</h2><div className="mt-8 grid gap-4 lg:grid-cols-3">{decisions.map((item, index) => <article key={item.title} className="command-surface rounded-[1.35rem] p-5"><span className="font-mono text-[10px] text-aqua/55">0{index + 1}</span><h3 className="mt-8 text-lg font-semibold text-white">{item.title}</h3><p className="mt-3 text-sm leading-7 text-white/52">{item.body}</p></article>)}</div></section> : null}
+        {faq.length > 0 ? <section className="mt-20 border-t border-white/8 pt-14"><p className="eyebrow-label">Before you go</p><h2 className="display-type mt-4 text-3xl font-semibold text-white sm:text-4xl">Useful answers, honest limits.</h2><div className="mt-8 grid gap-4 lg:grid-cols-2">{faq.map((item) => <article key={item.question} className="glass-luminous rounded-[1.35rem] p-6"><h3 className="font-semibold text-white">{item.question}</h3><p className="mt-3 text-sm leading-7 text-white/54">{item.answer}</p></article>)}</div></section> : null}
       </main>
     </>
   );

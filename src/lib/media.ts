@@ -25,8 +25,11 @@ export const PRODUCTION_MEDIA_PATHS = {
     "water-island": "/media/islands/water-island-honeymoon-beach.webp",
   },
   experiences: "/media/experiences/{island-or-usvi}-{experience}.webp",
+  categories: "/media/categories/{category-slug}.webp",
   guides: "/media/guides/{guide-slug}.webp",
   businesses: "/media/businesses/{business-slug}/cover.webp",
+  openGraph: "/media/og/vibevi-default-1200x630.webp",
+  sponsors: "/media/sponsors/{placement-id}.webp",
 } as const;
 
 export const ISLAND_PORTALS: Record<

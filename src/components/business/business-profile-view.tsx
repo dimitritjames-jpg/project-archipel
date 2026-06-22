@@ -19,6 +19,7 @@ export function BusinessProfileView({
 }: BusinessProfileViewProps) {
   const islandName = getIslandName(islandSlug);
   const categorySlug = business.category?.slug ?? "directory";
+  const isDemo = business.is_demo;
   const gradient =
     CATEGORY_MEDIA[categorySlug] ?? "from-cyan-400/40 via-midnight-950 to-indigo-600/35";
 
@@ -45,7 +46,9 @@ export function BusinessProfileView({
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
+      {!isDemo ? (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
+      ) : null}
 
       <MediaBackdrop
         media={{
@@ -72,8 +75,8 @@ export function BusinessProfileView({
           <div className="mt-7 grid gap-8 lg:grid-cols-[1fr_0.42fr] lg:items-end">
             <header>
               <div className="flex flex-wrap items-center gap-3">
-                <ComingSoonBadge label="Launch preview" />
-                {business.is_verified ? (
+                <ComingSoonBadge label={isDemo ? "Fictional demo listing" : "Launch preview"} />
+                {business.is_verified && !isDemo ? (
                   <span className="rounded-full border border-botanical/25 bg-botanical/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-botanical">
                     Verified
                   </span>
@@ -110,7 +113,9 @@ export function BusinessProfileView({
                 ) : null}
               </div>
               <p className="mt-4 text-[10px] leading-relaxed text-archipel-white/35">
-                Confirm hours, availability, and booking details directly with the business.
+                {isDemo
+                  ? "Demonstration only. This does not represent a real business or active offer."
+                  : "Confirm hours, availability, and booking details directly with the business."}
               </p>
             </aside>
           </div>
@@ -120,7 +125,9 @@ export function BusinessProfileView({
       <article className="section-shell py-14 sm:py-18 lg:py-22">
         <div className="grid gap-10 lg:grid-cols-[1fr_0.42fr] lg:gap-16">
           <div>
-            <p className="eyebrow-label">Why it is on the board</p>
+            <p className="eyebrow-label">
+              {isDemo ? "What this preview demonstrates" : "Why it is on the board"}
+            </p>
             <div className="mt-6 space-y-5 text-base leading-relaxed text-archipel-white/68 sm:text-lg">
               {business.description_plain.split(/\n+/).map((paragraph) => (
                 <p key={paragraph.slice(0, 48)}>{paragraph}</p>
@@ -152,7 +159,9 @@ export function BusinessProfileView({
               </div>
             ) : null}
             <div className="mt-5 border-t border-white/8 pt-4 text-xs leading-relaxed text-archipel-white/38">
-              Preview presentation. Public business details are sourced from the published directory record.
+              {isDemo
+                ? "Fictional demo inventory. No contact, availability, pricing, or service claim is active."
+                : "Preview presentation. Public business details are sourced from the published directory record."}
             </div>
           </dl>
         </div>
@@ -171,7 +180,7 @@ export function BusinessProfileView({
                 Prepare richer media, hours, offers, and future featured placement. Self-serve claiming is not active yet; join the launch workflow to register interest.
               </p>
             </div>
-            <Link href="/dashboard" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]">
+            <Link href="/get-listed" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]">
               Claim your business
             </Link>
           </div>

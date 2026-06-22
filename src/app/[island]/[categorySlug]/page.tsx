@@ -36,6 +36,18 @@ const HIGH_INTENT_CATEGORY_COPY: Record<string, { title: string; description: st
   },
 };
 
+const CHANNEL_GUIDANCE: Record<string, { heading: string; points: string[]; guideHref?: string; guideLabel?: string }> = {
+  "st-thomas/nightlife-rhythm": {
+    heading: "Choose the night by location, transport, and the trip home.",
+    points: ["Charlotte Amalie and the East End create different nights and return routes.", "Confirm current hours, music, cover, dress expectations, and reservations directly.", "Arrange a responsible return before the late part of the night begins."],
+    guideHref: "/st-thomas/things-to-do",
+    guideLabel: "Open the St. Thomas field guide",
+  },
+  "st-thomas/excursions-charters": { heading: "Compare the departure point before the boat.", points: ["Confirm marina, pickup, duration, fuel, equipment, weather policy, and cancellation terms.", "VibeVI does not claim live availability or booking inventory.", "Match the return time to ferries, dining, or ship schedules."], guideHref: "/guides/usvi-charters", guideLabel: "Read the USVI charter guide" },
+  "st-john/excursions-charters": { heading: "Make the charter fit the ferry and the island.", points: ["Confirm Cruz Bay or Coral Bay departure details directly.", "Treat conditions and operator guidance as authoritative on the day.", "Protect enough time for the return crossing if you are not staying on St. John."], guideHref: "/guides/usvi-charters", guideLabel: "Read the USVI charter guide" },
+  "st-croix/excursions-charters": { heading: "Start with the St. Croix departure geography.", points: ["Buck Island, East End, and West End outings solve different days.", "Confirm authorization, inclusions, conditions, and timing directly.", "VibeVI profiles are discovery context, not live booking inventory."], guideHref: "/st-croix/buck-island", guideLabel: "Open the Buck Island guide" },
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { island: islandParam, categorySlug } = await params;
   const island = getIslandBySlug(islandParam);
@@ -66,8 +78,11 @@ export default async function CategoryPage({ params }: Props) {
     islandParam as IslandSlug,
     categorySlug,
   );
+  const demoCount = businesses.filter((business) => business.is_demo).length;
+  const realCount = businesses.length - demoCount;
   const gradient =
     CATEGORY_MEDIA[categorySlug] ?? "from-cyan-400/40 via-navy-900 to-indigo-600/35";
+  const guidance = CHANNEL_GUIDANCE[`${islandParam}/${categorySlug}`];
 
   return (
     <>
@@ -97,7 +112,9 @@ export default async function CategoryPage({ params }: Props) {
               </h1>
               <p className="text-pretty mt-5 max-w-2xl text-base leading-relaxed text-archipel-white/64 sm:text-lg">
                 {businesses.length > 0
-                  ? `${businesses.length} published listing${businesses.length === 1 ? "" : "s"} on the launch board. Scan the set, then open a profile for source details.`
+                  ? demoCount === businesses.length
+                    ? `${demoCount} clearly labeled demo profile${demoCount === 1 ? "" : "s"} show how this channel will work while verified inventory is collected.`
+                    : `${realCount} published listing${realCount === 1 ? "" : "s"}${demoCount ? ` plus ${demoCount} labeled demo profile${demoCount === 1 ? "" : "s"}` : ""}. Open a profile for source details.`
                   : "This channel is being assembled. Use search or move laterally into another island category."}
               </p>
             </div>
@@ -109,20 +126,27 @@ export default async function CategoryPage({ params }: Props) {
               <p className="mt-6 text-3xl font-semibold tracking-[-0.04em] text-archipel-white">
                 {String(businesses.length).padStart(2, "0")}
               </p>
-              <p className="mt-1 text-xs text-archipel-white/42">published profiles</p>
+              <p className="mt-1 text-xs text-archipel-white/42">
+                {demoCount === businesses.length && businesses.length > 0
+                  ? "demo profiles · no real business claims"
+                  : "directory profiles"}
+              </p>
             </div>
           </div>
         </div>
       </MediaBackdrop>
 
       <div className="section-shell py-12 sm:py-16 lg:py-20">
+        {guidance ? <section className="mb-12 grid gap-6 rounded-[1.5rem] border border-white/9 bg-white/[0.025] p-6 lg:grid-cols-[0.8fr_1.2fr]"><div><p className="eyebrow-label">Plan before you pick</p><h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">{guidance.heading}</h2>{guidance.guideHref ? <Link href={guidance.guideHref} className="mt-6 inline-flex text-sm font-semibold text-aqua">{guidance.guideLabel} <span className="ml-2" aria-hidden>→</span></Link> : null}</div><ul className="space-y-3">{guidance.points.map((point, index) => <li key={point} className="flex gap-3 rounded-xl border border-white/7 bg-midnight-950/30 p-4 text-sm leading-6 text-white/55"><span className="font-mono text-[10px] text-aqua/55">0{index + 1}</span>{point}</li>)}</ul></section> : null}
         <div className="flex flex-col gap-4 border-b border-white/8 pb-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-archipel-white/32">
               Directory results
             </p>
             <p className="mt-1 text-sm text-archipel-white/55">
-              Published Supabase listings · no paid ranking in this view
+              {demoCount === businesses.length && businesses.length > 0
+                ? "Fictional demo inventory · unverified · no paid ranking"
+                : "Published Supabase listings · no paid ranking in this view"}
             </p>
           </div>
           <Link

@@ -6,6 +6,7 @@ import {
   fetchPublishedBusinessStaticParams,
   SEEDED_BUSINESS_STATIC_PARAMS,
 } from "@/lib/businesses/queries";
+import { findLaunchPreviewCategorySlug } from "@/lib/businesses/launch-preview-catalog";
 import { getCategoryBySlug } from "@/lib/categories";
 import { env } from "@/lib/env";
 import { CODE_TO_SLUG, getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
@@ -62,6 +63,9 @@ export async function generateStaticParams() {
 }
 
 function inferCategorySlug(businessSlug: string): string {
+  const previewCategory = findLaunchPreviewCategorySlug(businessSlug);
+  if (previewCategory) return previewCategory;
+
   const map: Record<string, string> = {
     "azure-current-charters": "excursions-charters",
     "reef-runner-expeditions": "excursions-charters",
@@ -91,11 +95,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${categorySlug}/${businessSlug}`;
 
   return {
-    title: `${business.name} — ${category.name} in ${islandName}`,
+    title: business.is_demo
+      ? `${business.name} — Demo Profile`
+      : `${business.name} — ${category.name} in ${islandName}`,
     description: business.description_plain.slice(0, 160),
     alternates: { canonical },
     openGraph: { url: canonical },
-    robots: { index: true, follow: true },
+    robots: { index: !business.is_demo, follow: true },
   };
 }
 

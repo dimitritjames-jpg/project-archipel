@@ -7,6 +7,7 @@ const utilityLinks = [
   { href: "/st-john/ferry-schedule", label: "Ferries" },
   { href: "/st-thomas/cruise-schedule", label: "Port radar" },
   { href: "/map", label: "Map" },
+  { href: "/get-listed", label: "Get listed" },
 ] as const;
 
 export function SiteHeader() {

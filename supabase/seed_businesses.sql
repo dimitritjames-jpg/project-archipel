@@ -1,7 +1,9 @@
 -- =============================================================================
 -- Project Archipel — Phase 3, Module 1: Curated Business Directory Seed
 -- =============================================================================
--- 8 published listings across STT · STJ · STX · WI
+-- 8 FICTIONAL DEMO listings across STT · STJ · STX · WI
+-- These records exist only to exercise launch layouts. They are explicitly
+-- marked is_demo, unverified, non-premium, and have no contact/booking fields.
 -- Categories: Excursions, Dining, Stays, Nightlife, Wellness
 --
 -- Idempotent: fixed UUIDs; safe to re-run (deletes prior seed block first).
@@ -573,6 +575,34 @@ values
     'https://honeymooncove.vi/book',
     timezone('utc', now())
   );
+
+-- Trust normalization for every fictional seed record. This deliberately
+-- removes fields that could be mistaken for verified business information.
+update public.businesses
+set
+  is_demo = true,
+  is_verified = false,
+  premium_tier = 'none',
+  premium_starts_at = null,
+  premium_ends_at = null,
+  street_address = null,
+  postal_code = null,
+  location = null,
+  phone = null,
+  email = null,
+  website_url = null,
+  price_range = null,
+  booking_url = null
+where id in (
+  'e1000000-0000-4000-8000-000000000001',
+  'e1000000-0000-4000-8000-000000000002',
+  'e1000000-0000-4000-8000-000000000003',
+  'e1000000-0000-4000-8000-000000000004',
+  'e1000000-0000-4000-8000-000000000005',
+  'e1000000-0000-4000-8000-000000000006',
+  'e1000000-0000-4000-8000-000000000007',
+  'e1000000-0000-4000-8000-000000000008'
+);
 
 -- Owner membership (satisfies deferred constraint trigger)
 insert into public.business_members (business_id, user_id, role)

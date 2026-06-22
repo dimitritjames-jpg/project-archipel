@@ -8,6 +8,7 @@ const utilityLinks = [
   ["/st-thomas/cruise-schedule", "Port radar"],
   ["/map", "Island map"],
   ["/search", "Discovery search"],
+  ["/get-listed", "Get listed on VibeVI"],
 ] as const;
 
 export function SiteFooter() {
@@ -70,7 +71,7 @@ export function SiteFooter() {
                 </li>
               ))}
               <li>
-                <Link href="/dashboard" className="text-sm text-coral-sunset/80 hover:text-coral-sunset">
+                <Link href="/get-listed" className="text-sm text-coral-sunset/80 hover:text-coral-sunset">
                   Get listed on VibeVI
                 </Link>
               </li>
@@ -84,8 +85,8 @@ export function SiteFooter() {
             <p className="mt-2 text-sm text-white/50">Get listed on VibeVI now and prepare for richer profiles, sponsor features, and direct discovery.</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Link href="/dashboard" className="rounded-full bg-coral px-5 py-2.5 text-sm font-bold text-midnight-950">Get listed on VibeVI</Link>
-            <Link href="/sign-in" className="rounded-full border border-white/12 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white">Claim your business</Link>
+            <Link href="/get-listed" className="rounded-full bg-coral px-5 py-2.5 text-sm font-bold text-midnight-950">Get listed on VibeVI</Link>
+            <Link href="/get-listed#active-now" className="rounded-full border border-white/12 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white">Claim your business</Link>
           </div>
         </div>
 

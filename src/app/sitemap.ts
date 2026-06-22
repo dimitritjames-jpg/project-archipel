@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const entries: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: now, changeFrequency: "daily", priority: 1 },
+    { url: `${siteUrl}/get-listed`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
   ];
 
   for (const island of ISLAND_SLUGS) {

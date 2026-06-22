@@ -15,6 +15,7 @@ const envSchema = z.object({
   ALGOLIA_APP_ID: z.string().optional(),
   ALGOLIA_ADMIN_KEY: z.string().min(1).optional(),
   SEARCH_SYNC_WEBHOOK_SECRET: z.string().min(1).optional(),
+  NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL: z.string().email().optional(),
 });
 
 export const env = envSchema.parse({
@@ -29,6 +30,8 @@ export const env = envSchema.parse({
   ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID,
   ALGOLIA_ADMIN_KEY: process.env.ALGOLIA_ADMIN_KEY,
   SEARCH_SYNC_WEBHOOK_SECRET: process.env.SEARCH_SYNC_WEBHOOK_SECRET,
+  NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL:
+    process.env.NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL,
 });
 
 export const SITE_TIMEZONE = "America/St_Thomas" as const;

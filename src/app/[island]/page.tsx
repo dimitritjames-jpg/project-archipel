@@ -74,6 +74,9 @@ export default async function IslandPage({ params }: Props) {
   const featuredListings = featuredCategory
     ? await fetchPublishedBusinessesByCategory(islandSlug, featuredCategory.slug)
     : [];
+  const featuredAreDemo =
+    featuredListings.length > 0 &&
+    featuredListings.every((business) => business.is_demo);
 
   const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}`;
   const jsonLd = {
@@ -210,9 +213,9 @@ export default async function IslandPage({ params }: Props) {
         {featuredListings.length > 0 ? (
           <section className="mt-22" aria-labelledby="featured-heading">
             <SectionHeader
-              eyebrow="Published launch set"
-              title={`Operators already on the ${name} board.`}
-              description="Preview presentation around published seed listings. Business-provided details remain the source of truth."
+              eyebrow={featuredAreDemo ? "Inventory preview" : "Published launch set"}
+              title={featuredAreDemo ? `See how ${name} listings will work.` : `Operators already on the ${name} board.`}
+              description={featuredAreDemo ? "Fictional demonstration profiles populate the layout while verified local inventory is collected. They contain no real contact, price, availability, or service claims." : "Preview presentation around published listings. Business-provided details remain the source of truth."}
             />
             <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {featuredListings.slice(0, 3).map((business) => (

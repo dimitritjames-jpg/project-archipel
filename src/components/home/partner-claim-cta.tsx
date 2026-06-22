@@ -33,13 +33,13 @@ export function PartnerClaimCTA() {
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/dashboard"
+                  href="/get-listed"
                   className="inline-flex min-h-12 items-center gap-2 rounded-full bg-coral px-6 text-sm font-bold text-midnight-950 transition hover:-translate-y-0.5 hover:bg-[#ff9b8e]"
                 >
                   Get listed on VibeVI <span aria-hidden>↗</span>
                 </Link>
                 <Link
-                  href="/sign-in"
+                  href="/get-listed#active-now"
                   className="inline-flex min-h-12 items-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-archipel-white transition hover:border-aqua/30 hover:bg-aqua/6"
                 >
                   Claim your business

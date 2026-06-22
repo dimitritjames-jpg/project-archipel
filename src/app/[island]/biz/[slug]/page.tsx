@@ -35,7 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${categorySlug}/${slug}`;
 
   return {
-    title: `${business.name} — ${categoryName} in ${islandName}`,
+    title: business.is_demo
+      ? `${business.name} — Demo Profile`
+      : `${business.name} — ${categoryName} in ${islandName}`,
     description:
       business.description_plain.slice(0, 160) ||
       `${business.name} in ${islandName}.`,
@@ -45,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: business.description_plain.slice(0, 160),
       url: canonical,
     },
-    robots: { index: true, follow: true },
+    robots: { index: !business.is_demo, follow: true },
   };
 }
 

@@ -46,13 +46,17 @@ export function BusinessPreviewCard({
         />
         <div className="absolute inset-x-4 top-4 z-20 flex items-start justify-between gap-2">
           <div className="flex flex-wrap gap-2">
-            {launchPreview ? <ComingSoonBadge label="Launch preview" /> : null}
-            {business.is_verified ? (
+            {business.is_demo ? (
+              <ComingSoonBadge label="Demo listing" />
+            ) : launchPreview ? (
+              <ComingSoonBadge label="Launch preview" />
+            ) : null}
+            {business.is_verified && !business.is_demo ? (
               <span className="rounded-full border border-lime/30 bg-lime/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lime">
                 Verified
               </span>
             ) : null}
-            {business.premium_tier !== "none" ? (
+            {business.premium_tier !== "none" && !business.is_demo ? (
               <span className="rounded-full border border-sand/20 bg-sand/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sand">
                 Featured
               </span>
@@ -74,7 +78,9 @@ export function BusinessPreviewCard({
           {business.description_plain}
         </p>
         <div className="mt-5 flex items-center justify-between border-t border-white/7 pt-4">
-          <span className="text-[11px] font-semibold text-aqua/75">Open profile</span>
+          <span className="text-[11px] font-semibold text-aqua/75">
+            {business.is_demo ? "View demo profile" : "Open profile"}
+          </span>
           {business.price_range ? (
             <span className="text-xs text-archipel-white/38">{business.price_range}</span>
           ) : null}
