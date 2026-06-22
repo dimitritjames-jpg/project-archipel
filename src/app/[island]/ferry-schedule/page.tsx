@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { island: slug } = await params;
   if (!getIslandBySlug(slug)) return { robots: { index: false, follow: false } };
   const name = getIslandName(slug as IslandSlug);
-  return { title: `Ferry Dashboard — ${name}`, description: `Directional ferry schedule planning for ${name}, with source and verification context.`, alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/${slug}/ferry-schedule` }, robots: { index: true, follow: true } };
+  return { title: `${name} Ferry Schedule`, description: `Check schedule-based ferry planning for ${name}, including directional route context, source information, and verification status.`, alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/${slug}/ferry-schedule` }, openGraph: { title: `${name} Ferry Schedule | VibeVI`, description: `Schedule-based ferry planning for ${name}. Confirm current operation directly with the ferry provider.` }, robots: { index: true, follow: true } };
 }
 
 export default async function IslandFerrySchedulePage({ params }: Props) {

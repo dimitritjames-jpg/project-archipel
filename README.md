@@ -1,28 +1,28 @@
-# Project Archipel
+# VibeVI
 
-US Virgin Islands commerce directory and daily utility platform.
+**Find Your Island Vibe.**
+
+VibeVI is the modern discovery layer for the U.S. Virgin Islands—helping visitors, locals, crews, and businesses find beaches, boats, bites, nightlife, ferry checks, cruise-day planning, local experiences, and island businesses across St. Thomas, St. Croix, St. John, and Water Island.
+
+## Product focus
+
+The launch foundation prioritizes useful discovery over feature volume:
+
+- Island hubs, category directories, and source-backed business profiles
+- High-intent field guides with strong internal links
+- Schedule-based ferry planning and scheduled cruise-capacity context
+- Search and map discovery backed by published Supabase records
+- Clearly labeled previews for owner tools and incomplete datasets
+
+VibeVI does not claim live ferry positions, real-time traffic, actual cruise passenger counts, live booking inventory, or active self-serve business claiming.
 
 ## Stack
 
-- **Next.js 15** App Router, TypeScript, Tailwind CSS
+- **Next.js 15** App Router, React 19, TypeScript, Tailwind CSS
 - **Supabase** PostgreSQL with Row Level Security
-- **Mapbox GL JS** (react-map-gl) — Phase 2
-- **Algolia** search — Phase 2
-- **Framer Motion** — Phase 2
-
-## Phase 1 deliverables
-
-- [x] Next.js App Router scaffold with full routing tree
-- [x] Core taxonomy constants (6 categories)
-- [x] Island slug validation (`st-thomas`, `st-croix`, `st-john`, `water-island`)
-- [x] Supabase migrations: enums, tables, indexes, triggers
-- [x] RLS policies (public read / authenticated write / service role ingestion)
-- [x] Column-level privilege restrictions on privileged fields
-- [x] Seed data: categories, ferry terminals/routes, cruise ports
-- [x] `port_load_daily` view for Crowd Predictor bands
-- [x] pgTAP security test suite
-- [x] SEO foundations: `sitemap.ts`, `robots.ts`, WebSite JSON-LD
-- [x] Design tokens (indigo / botanical / coral)
+- **Mapbox GL JS** with a premium no-token fallback
+- **Framer Motion** for restrained interface motion
+- **Algolia adapter** planned and disabled until production indexing is configured
 
 ## Getting started
 
@@ -32,14 +32,24 @@ npm install
 npm run dev
 ```
 
-### Database (requires Docker + Supabase CLI)
+The database workflow targets a linked Supabase Cloud environment. Local Docker is not required for the frontend build.
+
+## Validation
 
 ```bash
-npx supabase start
-npx supabase db reset
-npm run db:test
+npm run typecheck
+npm run lint
+npm run build
 ```
+
+## Media
+
+Only licensed, commissioned, or owned media belongs in `public/media`. See `public/media/README.md` for the launch naming convention and drop locations. The production UI remains complete with legal gradient fallbacks when no photography is present.
 
 ## Canonical timezone
 
-All ferry and cruise display logic uses `America/St_Thomas`.
+Ferry and cruise display logic uses `America/St_Thomas` (Atlantic Standard Time, UTC−04:00).
+
+## Intentional legacy internals
+
+Some internal identifiers retain the original `archipel` codename to protect migration and integration stability. These include SQL seed identities, Supabase project configuration, CSS token names, Mapbox layer IDs, internal component/function names, and the planned Algolia index name. They are not public brand references.

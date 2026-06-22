@@ -40,6 +40,26 @@ export default function HomePage() {
 
       <ExperienceMosaic />
 
+      <section className="section-shell py-20 lg:py-28" aria-labelledby="planning-guides-heading">
+        <SectionHeader eyebrow="Plan the next move" title="The island questions people actually ask." description="Useful launch guides connect search intent to island context, schedule utilities, directory categories, and published local businesses." />
+        <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            ["/st-thomas/things-to-do", "Things to do in St. Thomas", "Beach, harbor, ferry, cruise-day, and nightlife context."],
+            ["/st-croix/things-to-do", "Things to do in St. Croix", "Christiansted, Frederiksted, Buck Island, food, and reef routes."],
+            ["/st-john/things-to-do", "Things to do in St. John", "Ferry timing, national park, beaches, and Cruz Bay."],
+            ["/guides/best-beaches-usvi", "Best beaches in the USVI", "Choose by island, access, pace, and the shape of the day."],
+            ["/guides/usvi-charters", "USVI charters", "Find published operators and compare the right booking questions."],
+            ["/water-island/day-trip", "Water Island day trip", "Build the ferry hop around Honeymoon Beach and the return."],
+          ].map(([href, label, detail], index) => (
+            <Link key={href} href={href} className="command-surface group rounded-[1.35rem] p-5 transition hover:-translate-y-1 hover:border-aqua/25">
+              <span className="font-mono text-[9px] text-aqua/55">FIELD NOTE {String(index + 1).padStart(2, "0")}</span>
+              <h3 className="mt-8 text-lg font-semibold text-white group-hover:text-aqua">{label}</h3>
+              <p className="mt-3 text-sm leading-6 text-white/48">{detail}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       <section className="px-4 py-20 sm:px-6 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
@@ -57,3 +77,4 @@ export default function HomePage() {
     </>
   );
 }
+import Link from "next/link";

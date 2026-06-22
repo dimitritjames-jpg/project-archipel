@@ -37,6 +37,11 @@ export const RESERVED_ISLAND_ROUTES = [
   "snorkeling-charters",
   "buck-island",
   "virgin-islands-national-park",
+  "things-to-do",
+  "beaches",
+  "best-snorkeling",
+  "cruise-day",
+  "day-trip",
 ] as const;
 
 export function isIslandSlug(value: string): value is IslandSlug {

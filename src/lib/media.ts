@@ -1,6 +1,10 @@
 import type { IslandSlug } from "@/lib/islands";
 
-/** Gradient-only placeholders until licensed VI photography is added to /public/media. */
+/**
+ * Legal-first media registry. Keep `src: null` until an owned or licensed asset is
+ * dropped into the matching `/public/media` location. Gradient fallbacks are the
+ * production-safe default and must remain usable without photography.
+ */
 export type MediaAsset = {
   id: string;
   label: string;
@@ -10,6 +14,20 @@ export type MediaAsset = {
   src: string | null;
   alt: string;
 };
+
+/** Recommended production drop paths; see `/public/media/README.md`. */
+export const PRODUCTION_MEDIA_PATHS = {
+  hero: "/media/hero/vibevi-usvi-hero.webp",
+  islands: {
+    "st-thomas": "/media/islands/st-thomas-harbor.webp",
+    "st-croix": "/media/islands/st-croix-coast.webp",
+    "st-john": "/media/islands/st-john-cove.webp",
+    "water-island": "/media/islands/water-island-honeymoon-beach.webp",
+  },
+  experiences: "/media/experiences/{island-or-usvi}-{experience}.webp",
+  guides: "/media/guides/{guide-slug}.webp",
+  businesses: "/media/businesses/{business-slug}/cover.webp",
+} as const;
 
 export const ISLAND_PORTALS: Record<
   IslandSlug,

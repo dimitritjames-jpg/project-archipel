@@ -156,6 +156,26 @@ export function BusinessProfileView({
             </div>
           </dl>
         </div>
+
+        <aside className="command-surface topographic-field mt-14 overflow-hidden rounded-[1.6rem] border-coral/15 p-6 sm:p-8">
+          <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <div className="flex flex-wrap items-center gap-3">
+                <p className="eyebrow-label !text-coral-sunset">Is this your business?</p>
+                <ComingSoonBadge label="Owner tools coming soon" />
+              </div>
+              <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">
+                Claim your profile on VibeVI.
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/52">
+                Prepare richer media, hours, offers, and future featured placement. Self-serve claiming is not active yet; join the launch workflow to register interest.
+              </p>
+            </div>
+            <Link href="/dashboard" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]">
+              Claim your business
+            </Link>
+          </div>
+        </aside>
       </article>
     </>
   );

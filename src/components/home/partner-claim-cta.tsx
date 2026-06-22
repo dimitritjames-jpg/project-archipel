@@ -2,9 +2,9 @@ import Link from "next/link";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 
 const partnerSignals = [
-  "Own your public profile",
-  "Add hours, media, and offers",
-  "Reach people planning island time",
+  "A richer profile built for discovery",
+  "Future featured and sponsor placements",
+  "Reach people deciding what to do next",
 ] as const;
 
 export function PartnerClaimCTA() {
@@ -27,21 +27,22 @@ export function PartnerClaimCTA() {
                 Be part of how the islands get discovered.
               </h2>
               <p className="text-pretty mt-5 max-w-2xl text-base leading-relaxed text-archipel-white/62 sm:text-lg">
-                Project Archipel is building a useful layer between local
-                businesses and people deciding where their day goes next.
+                VibeVI connects local businesses with visitors, residents, and
+                crews deciding where their island day goes next. Owner tools are
+                still in preview, but the directory is being built for you now.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/dashboard"
                   className="inline-flex min-h-12 items-center gap-2 rounded-full bg-coral px-6 text-sm font-bold text-midnight-950 transition hover:-translate-y-0.5 hover:bg-[#ff9b8e]"
                 >
-                  Preview owner tools <span aria-hidden>↗</span>
+                  Get listed on VibeVI <span aria-hidden>↗</span>
                 </Link>
                 <Link
                   href="/sign-in"
                   className="inline-flex min-h-12 items-center rounded-full border border-white/15 bg-white/5 px-6 text-sm font-semibold text-archipel-white transition hover:border-aqua/30 hover:bg-aqua/6"
                 >
-                  Join the launch list
+                  Claim your business
                 </Link>
               </div>
             </div>

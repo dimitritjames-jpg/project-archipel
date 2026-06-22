@@ -13,6 +13,29 @@ import { CATEGORY_MEDIA } from "@/lib/media";
 
 type Props = { params: Promise<{ island: string; categorySlug: string }> };
 
+const HIGH_INTENT_CATEGORY_COPY: Record<string, { title: string; description: string }> = {
+  "st-thomas/nightlife-rhythm": {
+    title: "St. Thomas Nightlife",
+    description: "Find published St. Thomas nightlife, bar, music, and late-night business listings with direct-source profile details.",
+  },
+  "st-croix/indulgent-dining": {
+    title: "St. Croix Restaurants",
+    description: "Discover published St. Croix restaurant and dining listings across Christiansted, Frederiksted, and the wider island.",
+  },
+  "st-thomas/excursions-charters": {
+    title: "St. Thomas Charters & Excursions",
+    description: "Browse published St. Thomas boat charter, tour, and island excursion profiles and confirm availability directly.",
+  },
+  "st-john/excursions-charters": {
+    title: "St. John Charters & Excursions",
+    description: "Browse published St. John charter and excursion profiles around Cruz Bay and the wider island.",
+  },
+  "st-croix/excursions-charters": {
+    title: "St. Croix Charters & Excursions",
+    description: "Browse published St. Croix charter, Buck Island, and excursion business profiles.",
+  },
+};
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { island: islandParam, categorySlug } = await params;
   const island = getIslandBySlug(islandParam);
@@ -21,12 +44,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const islandName = getIslandName(islandParam as IslandSlug);
   const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${categorySlug}`;
+  const searchCopy = HIGH_INTENT_CATEGORY_COPY[`${islandParam}/${categorySlug}`];
 
   return {
-    title: `${category.name} in ${islandName}`,
-    description: `Find published ${category.name.toLowerCase()} listings across ${islandName}.`,
+    title: searchCopy?.title ?? `${category.name} in ${islandName}`,
+    description: searchCopy?.description ?? `Find published ${category.name.toLowerCase()} listings across ${islandName}.`,
     alternates: { canonical },
-    openGraph: { url: canonical },
+    openGraph: { url: canonical, title: `${searchCopy?.title ?? `${category.name} in ${islandName}`} | VibeVI`, description: searchCopy?.description ?? `Find published ${category.name.toLowerCase()} listings across ${islandName}.` },
     robots: { index: true, follow: true },
   };
 }

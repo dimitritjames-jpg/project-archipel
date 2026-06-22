@@ -23,17 +23,17 @@ export function HeroMediaSection() {
         <div className="section-shell flex min-h-[min(94vh,900px)] flex-col justify-center pb-12 pt-20 sm:pb-16 lg:pt-24">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.55fr)] lg:gap-16">
             <div className="relative z-10">
-              <p className="eyebrow-label">The U.S. Virgin Islands adventure board</p>
+              <p className="eyebrow-label">VibeVI · The U.S. Virgin Islands discovery layer</p>
               <h1 className="display-type text-balance mt-6 max-w-5xl text-archipel-white">
-                Find the day that
+                Find Your
                 <span className="block bg-gradient-to-r from-aqua via-[#8df8ee] to-sand bg-clip-text text-transparent">
-                  fits your island.
+                  Island Vibe.
                 </span>
               </h1>
               <p className="text-pretty mt-7 max-w-2xl text-base leading-relaxed text-archipel-white/68 sm:text-lg lg:text-xl">
-                Beaches, boats, tables, ferries, port pressure, and local rhythm—
-                one launch board for moving through St. Thomas, St. Croix,
-                St. John, and Water Island.
+                You’re in the Virgin Islands. Here’s the move: beaches, boats,
+                bites, nightlife, ferry checks, cruise-day context, and local
+                businesses across all four islands.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -44,7 +44,7 @@ export function HeroMediaSection() {
                     "shadow-glow-aqua transition hover:-translate-y-0.5 hover:bg-[#78f7eb]",
                   )}
                 >
-                  Open the adventure board
+                  Find your island vibe
                   <span aria-hidden="true">↗</span>
                 </Link>
                 <Link

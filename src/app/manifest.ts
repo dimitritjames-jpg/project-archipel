@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Project Archipel",
-    short_name: "Archipel",
+    name: "VibeVI — Find Your Island Vibe",
+    short_name: "VibeVI",
     description:
-      "US Virgin Islands business directory and daily planning utility",
+      "US Virgin Islands discovery directory and daily island planning utility",
     start_url: "/",
     display: "standalone",
-    background_color: "#0a0e27",
-    theme_color: "#121a3d",
+    background_color: "#020815",
+    theme_color: "#061326",
     lang: "en-US",
   };
 }

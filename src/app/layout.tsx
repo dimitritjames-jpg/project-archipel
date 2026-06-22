@@ -23,9 +23,10 @@ const websiteJsonLd = {
   "@type": "WebSite",
   "@id": `${siteUrl}/#website`,
   url: siteUrl,
-  name: "Project Archipel",
+  name: "VibeVI",
+  alternateName: "Find Your Island Vibe",
   description:
-    "Plan the island before the island plans you. Ferry moves, cruise pressure, and local discovery across the USVI.",
+    "The modern discovery layer for beaches, boats, bites, nightlife, ferry checks, cruise-day planning, and island businesses across the U.S. Virgin Islands.",
   inLanguage: "en-US",
   publisher: { "@id": `${siteUrl}/#organization` },
   potentialAction: {
@@ -39,22 +40,45 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": `${siteUrl}/#organization`,
-  name: "Project Archipel",
+  name: "VibeVI",
+  slogan: "Find Your Island Vibe",
   url: siteUrl,
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Project Archipel — US Virgin Islands Adventure Board",
-    template: "%s | Project Archipel",
+    default: "VibeVI — Find Your Island Vibe",
+    template: "%s | VibeVI",
   },
   description:
-    "Plan your US Virgin Islands day — beaches, boats, bites, ferries, and local discovery across St. Thomas, St. Croix, St. John, and Water Island.",
+    "Find beaches, boats, bites, nightlife, ferry checks, cruise-day planning, and local businesses across St. Thomas, St. Croix, St. John, and Water Island.",
+  keywords: [
+    "US Virgin Islands",
+    "St. Thomas things to do",
+    "St. John ferry schedule",
+    "St. Croix restaurants",
+    "USVI beaches",
+    "USVI charters",
+  ],
+  applicationName: "VibeVI",
+  authors: [{ name: "VibeVI" }],
+  creator: "VibeVI",
+  publisher: "VibeVI",
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Project Archipel",
+    url: siteUrl,
+    siteName: "VibeVI",
+    title: "VibeVI — Find Your Island Vibe",
+    description:
+      "The modern discovery layer for the U.S. Virgin Islands: beaches, boats, bites, ferry checks, cruise-day planning, and local businesses.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "VibeVI — Find Your Island Vibe",
+    description:
+      "Beaches, boats, bites, ferry checks, cruise-day planning, and local businesses across the U.S. Virgin Islands.",
   },
 };
 

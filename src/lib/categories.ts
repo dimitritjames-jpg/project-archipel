@@ -50,6 +50,11 @@ export const RESERVED_CATEGORY_SLUGS = [
   "snorkeling-charters",
   "buck-island",
   "virgin-islands-national-park",
+  "things-to-do",
+  "beaches",
+  "best-snorkeling",
+  "cruise-day",
+  "day-trip",
 ] as const;
 
 export function isCategorySlug(value: string): value is CategorySlug {

@@ -5,7 +5,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 
 export const metadata: Metadata = {
   title: "Archipelago Map",
-  description: "A map-oriented view of published Project Archipel listings.",
+  description: "A map-oriented view of published VibeVI business listings across the U.S. Virgin Islands.",
   robots: { index: false, follow: true },
 };
 

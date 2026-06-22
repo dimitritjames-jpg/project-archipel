@@ -50,8 +50,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}`;
 
   return {
-    title: `${name} — Adventure Hub`,
-    description: `Beaches, boats, bites, and useful planning context for ${name}.`,
+    title: `${name} Guide — Things to Do, Beaches & Local Businesses`,
+    description: `Find things to do, beaches, boats, dining, nightlife, useful planning tools, and local businesses across ${name}.`,
     alternates: { canonical },
     openGraph: { url: canonical },
     robots: { index: true, follow: true },
@@ -89,6 +89,29 @@ export default async function IslandPage({ params }: Props) {
     { label: "Discovery search", href: `/search?island=${islandParam}`, tone: "white" },
     { label: "Map view", href: "/map", tone: "white" },
   ].filter(Boolean) as { label: string; href: string; tone: string }[];
+
+  const guideLinks: Record<IslandSlug, { label: string; href: string; detail: string }[]> = {
+    "st-thomas": [
+      { label: "Things to do in St. Thomas", href: "/st-thomas/things-to-do", detail: "Build a day from beach, harbor, ferry, and nightlife context." },
+      { label: "Cruise day in St. Thomas", href: "/st-thomas/cruise-day", detail: "Plan backward from the ship with honest port-load context." },
+      { label: "Magens Bay guide", href: "/st-thomas/magens-bay", detail: "Connect the famous beach to transport and the rest of the day." },
+    ],
+    "st-croix": [
+      { label: "Things to do in St. Croix", href: "/st-croix/things-to-do", detail: "Choose between Christiansted, Frederiksted, reef, and food routes." },
+      { label: "Buck Island guide", href: "/st-croix/buck-island", detail: "Plan the boat day and the return to shore." },
+      { label: "St. Croix restaurants", href: "/st-croix/indulgent-dining", detail: "Browse published dining profiles across the island." },
+    ],
+    "st-john": [
+      { label: "Things to do in St. John", href: "/st-john/things-to-do", detail: "Route the ferry, park, beaches, and Cruz Bay into one day." },
+      { label: "St. John beaches", href: "/st-john/beaches", detail: "Choose by access, pace, snorkeling interest, and return plan." },
+      { label: "Best snorkeling in St. John", href: "/st-john/best-snorkeling", detail: "Plan around ability, access, conditions, and local operators." },
+    ],
+    "water-island": [
+      { label: "Water Island day trip", href: "/water-island/day-trip", detail: "Keep the ferry, beach, supplies, and return crossing aligned." },
+      { label: "Best beaches in the USVI", href: "/guides/best-beaches-usvi", detail: "Compare beach-day styles across all four islands." },
+      { label: "Water Island ferry schedule", href: "/water-island/ferry-schedule", detail: "Review schedule-based directional crossing context." },
+    ],
+  };
 
   return (
     <>
@@ -136,6 +159,19 @@ export default async function IslandPage({ params }: Props) {
 
       <div className="section-shell py-14 sm:py-18 lg:py-22">
         <VibeFilterRail className="!px-0" title={`Route ${name} by mood`} />
+
+        <section className="mt-18" aria-labelledby="island-guides-heading">
+          <SectionHeader eyebrow="Plan with context" title={`Useful guides for ${name}.`} description="Start with a high-intent guide, then move directly into schedules, directory categories, and published business profiles." />
+          <div className="mt-8 grid gap-4 lg:grid-cols-3">
+            {guideLinks[islandSlug].map((guide, index) => (
+              <Link key={guide.href} href={guide.href} className="command-surface group rounded-[1.35rem] p-5 transition hover:-translate-y-1 hover:border-aqua/25">
+                <span className="font-mono text-[9px] text-aqua/55">GUIDE 0{index + 1}</span>
+                <h3 className="mt-8 text-lg font-semibold text-white group-hover:text-aqua">{guide.label}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/48">{guide.detail}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-18" aria-labelledby="categories-heading">
           <SectionHeader

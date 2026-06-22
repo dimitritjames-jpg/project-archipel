@@ -69,13 +69,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/st-croix/snorkeling-charters",
     "/st-john/virgin-islands-national-park",
     "/st-john/snorkeling-charters",
+    "/st-thomas/things-to-do",
+    "/st-croix/things-to-do",
+    "/st-john/things-to-do",
+    "/st-john/beaches",
+    "/st-john/best-snorkeling",
+    "/st-thomas/cruise-day",
+    "/water-island/day-trip",
+    "/guides/usvi-charters",
+    "/guides/best-beaches-usvi",
   ];
   for (const path of pillars) {
     entries.push({
       url: `${siteUrl}${path}`,
       lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.75,
+      changeFrequency: "weekly",
+      priority: 0.8,
     });
   }
 

@@ -20,12 +20,12 @@ export function SiteFooter() {
             <div className="flex items-center gap-3">
               <ArchipelMark />
               <p className="text-xl font-semibold tracking-[-0.04em] text-archipel-white">
-                Project Archipel
+                VibeVI
               </p>
             </div>
             <p className="text-pretty mt-5 max-w-xl text-base leading-relaxed text-archipel-white/55">
-              A smarter way to move through the Virgin Islands—where to go, what
-              to do, and what to check before heading out.
+              Find Your Island Vibe—beaches, boats, bites, ferry checks, cruise-day
+              planning, and local businesses across the U.S. Virgin Islands.
             </p>
             <div className="mt-7 flex flex-wrap gap-2">
               <span className="rounded-full border border-aqua/15 bg-aqua/7 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-aqua/80">
@@ -71,10 +71,21 @@ export function SiteFooter() {
               ))}
               <li>
                 <Link href="/dashboard" className="text-sm text-coral-sunset/80 hover:text-coral-sunset">
-                  Claim a listing
+                  Get listed on VibeVI
                 </Link>
               </li>
             </ul>
+          </div>
+        </div>
+
+        <div className="mt-12 flex flex-col gap-5 rounded-[1.4rem] border border-coral/15 bg-coral/6 p-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="flex flex-wrap items-center gap-2"><p className="text-lg font-semibold text-white">Run a USVI business?</p><span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[9px] uppercase tracking-[0.12em] text-white/50">Owner tools preview</span></div>
+            <p className="mt-2 text-sm text-white/50">Get listed on VibeVI now and prepare for richer profiles, sponsor features, and direct discovery.</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link href="/dashboard" className="rounded-full bg-coral px-5 py-2.5 text-sm font-bold text-midnight-950">Get listed on VibeVI</Link>
+            <Link href="/sign-in" className="rounded-full border border-white/12 bg-white/5 px-5 py-2.5 text-sm font-semibold text-white">Claim your business</Link>
           </div>
         </div>
 
@@ -84,7 +95,7 @@ export function SiteFooter() {
             travel. Scheduled ship capacity is a planning estimate—not an actual
             passenger count. Times display in {SITE_TIMEZONE} when available.
           </p>
-          <p>© {new Date().getFullYear()} Archipel VI</p>
+          <p>© {new Date().getFullYear()} VibeVI</p>
         </div>
       </div>
     </footer>

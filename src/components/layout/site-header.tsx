@@ -16,12 +16,11 @@ export function SiteHeader() {
         <Link
           href="/"
           className="group flex items-center gap-2.5 text-base font-semibold tracking-[-0.03em] text-archipel-white sm:text-lg"
-          aria-label="Project Archipel home"
+          aria-label="VibeVI home"
         >
           <ArchipelMark className="transition duration-300 group-hover:rotate-12 group-hover:border-aqua/70" />
           <span>
-            Archipel
-            <span className="ml-1 text-aqua/80 transition group-hover:text-aqua">VI</span>
+            Vibe<span className="text-aqua/80 transition group-hover:text-aqua">VI</span>
           </span>
         </Link>
 
