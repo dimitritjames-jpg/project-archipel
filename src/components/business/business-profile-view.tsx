@@ -1,7 +1,15 @@
 import Link from "next/link";
+import { AnalyticsEvent } from "@/components/analytics/analytics-event";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import type { PublishedBusinessRow } from "@/lib/businesses/queries";
+import {
+  canShowDirectContact,
+  getListingTrustState,
+  isLocalBusinessSchemaEligible,
+  LISTING_STATE_LABELS,
+} from "@/lib/businesses/listing-trust";
 import { getIslandName, type IslandSlug } from "@/lib/islands";
 import { CATEGORY_MEDIA } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
@@ -19,7 +27,10 @@ export function BusinessProfileView({
 }: BusinessProfileViewProps) {
   const islandName = getIslandName(islandSlug);
   const categorySlug = business.category?.slug ?? "directory";
-  const isDemo = business.is_demo;
+  const trustState = getListingTrustState(business);
+  const isDemo = trustState === "demo";
+  const schemaEligible = isLocalBusinessSchemaEligible(business);
+  const showDirectContact = canShowDirectContact(business);
   const gradient =
     CATEGORY_MEDIA[categorySlug] ?? "from-cyan-400/40 via-midnight-950 to-indigo-600/35";
 
@@ -30,9 +41,10 @@ export function BusinessProfileView({
     name: business.name,
     url: canonicalUrl,
     description: business.description_plain,
-    telephone: business.phone ?? undefined,
-    email: business.email ?? undefined,
+    telephone: showDirectContact ? (business.phone ?? undefined) : undefined,
+    email: showDirectContact ? (business.email ?? undefined) : undefined,
     priceRange: business.price_range ?? undefined,
+    sameAs: business.same_as.length > 0 ? business.same_as : undefined,
     address: business.street_address
       ? {
           "@type": "PostalAddress",
@@ -46,7 +58,11 @@ export function BusinessProfileView({
 
   return (
     <>
-      {!isDemo ? (
+      <AnalyticsEvent
+        name="business_profile_viewed"
+        properties={{ island: islandSlug, category: categorySlug, listing_state: trustState }}
+      />
+      {schemaEligible ? (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
       ) : null}
 
@@ -75,10 +91,15 @@ export function BusinessProfileView({
           <div className="mt-7 grid gap-8 lg:grid-cols-[1fr_0.42fr] lg:items-end">
             <header>
               <div className="flex flex-wrap items-center gap-3">
-                <ComingSoonBadge label={isDemo ? "Fictional demo listing" : "Launch preview"} />
-                {business.is_verified && !isDemo ? (
+                <ComingSoonBadge label={LISTING_STATE_LABELS[trustState]} />
+                {(trustState === "verified" || trustState === "verified_claimed") ? (
                   <span className="rounded-full border border-botanical/25 bg-botanical/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-botanical">
-                    Verified
+                    Verified local listing
+                  </span>
+                ) : null}
+                {business.premium_tier !== "none" && (trustState === "verified" || trustState === "verified_claimed") ? (
+                  <span className="rounded-full border border-sand/20 bg-sand/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-sand">
+                    Featured placement
                   </span>
                 ) : null}
               </div>
@@ -87,7 +108,7 @@ export function BusinessProfileView({
               </h1>
               <p className="mt-4 text-sm font-medium text-aqua/78">
                 {business.category?.name ?? "Business"} · {islandName}
-                {business.price_range ? ` · ${business.price_range}` : ""}
+                {schemaEligible && business.price_range ? ` · ${business.price_range}` : ""}
               </p>
             </header>
 
@@ -96,12 +117,12 @@ export function BusinessProfileView({
                 Profile controls
               </p>
               <div className="mt-4 grid gap-2">
-                {business.phone ? (
+                {showDirectContact && business.phone ? (
                   <a href={`tel:${business.phone}`} className="rounded-xl bg-aqua px-4 py-3 text-center text-sm font-bold text-midnight-950">
                     Call business
                   </a>
                 ) : null}
-                {business.website_url ? (
+                {schemaEligible && business.website_url ? (
                   <a
                     href={business.website_url}
                     rel="noopener noreferrer"
@@ -115,7 +136,9 @@ export function BusinessProfileView({
               <p className="mt-4 text-[10px] leading-relaxed text-archipel-white/35">
                 {isDemo
                   ? "Demonstration only. This does not represent a real business or active offer."
-                  : "Confirm hours, availability, and booking details directly with the business."}
+                  : schemaEligible
+                    ? "Source verified. Confirm hours, availability, and booking details directly with the business."
+                    : "This listing is still in source review. Direct contact actions remain hidden until verification and permission checks pass."}
               </p>
             </aside>
           </div>
@@ -139,7 +162,7 @@ export function BusinessProfileView({
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-archipel-white/35">
               Listing details
             </p>
-            {business.street_address ? (
+            {schemaEligible && business.street_address ? (
               <div className="mt-5 border-t border-white/8 pt-4">
                 <dt className="text-[10px] uppercase tracking-[0.14em] text-archipel-white/35">Address</dt>
                 <dd className="mt-2 leading-relaxed text-archipel-white/70">
@@ -148,7 +171,7 @@ export function BusinessProfileView({
                 </dd>
               </div>
             ) : null}
-            {business.phone ? (
+            {showDirectContact && business.phone ? (
               <div className="mt-4 border-t border-white/8 pt-4">
                 <dt className="text-[10px] uppercase tracking-[0.14em] text-archipel-white/35">Phone</dt>
                 <dd className="mt-2">
@@ -161,7 +184,9 @@ export function BusinessProfileView({
             <div className="mt-5 border-t border-white/8 pt-4 text-xs leading-relaxed text-archipel-white/38">
               {isDemo
                 ? "Fictional demo inventory. No contact, availability, pricing, or service claim is active."
-                : "Preview presentation. Public business details are sourced from the published directory record."}
+                : schemaEligible
+                  ? `Source-verified listing${business.last_verified_at ? ` · last checked ${new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeZone: "America/St_Thomas" }).format(new Date(business.last_verified_at))}` : ""}. Confirm time-sensitive details directly.`
+                  : "Submitted or unverified listing. Public contact actions and LocalBusiness schema remain disabled pending source review."}
             </div>
           </dl>
         </div>
@@ -180,9 +205,9 @@ export function BusinessProfileView({
                 Prepare richer media, hours, offers, and future featured placement. Self-serve claiming is not active yet; join the launch workflow to register interest.
               </p>
             </div>
-            <Link href="/get-listed" className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]">
+            <TrackedLink href="/get-listed" eventName="get_listed_cta_clicked" eventProperties={{ placement: "business_profile", listing_state: trustState }} className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]">
               Claim your business
-            </Link>
+            </TrackedLink>
           </div>
         </aside>
       </article>

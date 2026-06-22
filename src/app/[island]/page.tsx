@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { notFound } from "next/navigation";
 import { BusinessPreviewCard } from "@/components/discovery/business-preview-card";
 import { VibeFilterRail } from "@/components/home/vibe-filter-rail";
@@ -184,9 +185,11 @@ export default async function IslandPage({ params }: Props) {
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {CORE_CATEGORIES.map((category, index) => (
-              <Link
+              <TrackedLink
                 key={category.slug}
                 href={`/${islandParam}/${category.slug}`}
+                eventName="category_clicked"
+                eventProperties={{ island: islandParam, category: category.slug, source: "island_hub" }}
                 className="island-card-glow group command-surface relative min-h-[190px] overflow-hidden rounded-[1.4rem] transition duration-500 hover:-translate-y-1 hover:border-aqua/25"
               >
                 <div
@@ -205,7 +208,7 @@ export default async function IslandPage({ params }: Props) {
                     {category.name}
                   </h3>
                 </div>
-              </Link>
+              </TrackedLink>
             ))}
           </div>
         </section>

@@ -31,6 +31,16 @@ The `is_demo` database flag is introduced by migration `20260622000013_business_
 
 The `/get-listed` page explains current listing value and future premium/sponsor directions without implying self-serve onboarding. Set `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL` to enable its prefilled mail inquiry links. When unset, the UI displays a configuration-pending state.
 
+## Public launch operations
+
+- Real-business import template: `data/business-import-template.json`
+- Verified inventory and schema workflow: `docs/verified-inventory-workflow.md`
+- Privacy-conscious analytics plan: `docs/analytics-foundation.md`
+- Local business outreach copy: `docs/business-outreach.md`
+- Go/no-go launch control: `docs/launch-readiness.md`
+
+The browser analytics boundary currently dispatches local `vibevi:analytics` events only. No provider, cookie, tracking pixel, network collection, or analytics secret is enabled by default.
+
 ## Stack
 
 - **Next.js 15** App Router, React 19, TypeScript, Tailwind CSS

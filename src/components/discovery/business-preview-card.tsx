@@ -3,6 +3,11 @@ import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { CATEGORY_MEDIA } from "@/lib/media";
 import type { PublishedBusinessRow } from "@/lib/businesses/queries";
+import {
+  getListingTrustState,
+  isLocalBusinessSchemaEligible,
+  LISTING_STATE_LABELS,
+} from "@/lib/businesses/listing-trust";
 import { getIslandName, type IslandSlug } from "@/lib/islands";
 import { cn } from "@/lib/utils";
 
@@ -20,6 +25,8 @@ export function BusinessPreviewCard({
   className,
 }: BusinessPreviewCardProps) {
   const categorySlug = business.category?.slug ?? "directory";
+  const trustState = getListingTrustState(business);
+  const schemaEligible = isLocalBusinessSchemaEligible(business);
   const href = `/${islandSlug}/${categorySlug}/${business.slug}`;
   const gradient =
     CATEGORY_MEDIA[categorySlug] ?? "from-cyan-400/40 via-navy-900 to-indigo-600/35";
@@ -46,17 +53,14 @@ export function BusinessPreviewCard({
         />
         <div className="absolute inset-x-4 top-4 z-20 flex items-start justify-between gap-2">
           <div className="flex flex-wrap gap-2">
-            {business.is_demo ? (
-              <ComingSoonBadge label="Demo listing" />
-            ) : launchPreview ? (
-              <ComingSoonBadge label="Launch preview" />
-            ) : null}
-            {business.is_verified && !business.is_demo ? (
+            <ComingSoonBadge label={LISTING_STATE_LABELS[trustState]} />
+            {launchPreview && trustState !== "demo" ? <ComingSoonBadge label="Launch set" /> : null}
+            {(trustState === "verified" || trustState === "verified_claimed") ? (
               <span className="rounded-full border border-lime/30 bg-lime/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lime">
-                Verified
+                Verified local
               </span>
             ) : null}
-            {business.premium_tier !== "none" && !business.is_demo ? (
+            {business.premium_tier !== "none" && (trustState === "verified" || trustState === "verified_claimed") ? (
               <span className="rounded-full border border-sand/20 bg-sand/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sand">
                 Featured
               </span>
@@ -79,9 +83,9 @@ export function BusinessPreviewCard({
         </p>
         <div className="mt-5 flex items-center justify-between border-t border-white/7 pt-4">
           <span className="text-[11px] font-semibold text-aqua/75">
-            {business.is_demo ? "View demo profile" : "Open profile"}
+            {trustState === "demo" ? "View demo profile" : "Open profile"}
           </span>
-          {business.price_range ? (
+          {schemaEligible && business.price_range ? (
             <span className="text-xs text-archipel-white/38">{business.price_range}</span>
           ) : null}
         </div>

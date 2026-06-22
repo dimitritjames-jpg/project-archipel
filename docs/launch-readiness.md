@@ -1,42 +1,134 @@
-# VibeVI soft-launch readiness
+# VibeVI public soft-launch control document
 
-Do not treat the demo catalog as launch inventory. A public launch requires verified, source-backed business records and production configuration.
+Launch owner: __________  Target date: __________  Go/no-go reviewer: __________
 
-## Required before indexing push
+Status values: `blocked`, `in progress`, `passed`, `accepted risk`.
 
-- [ ] Set the production `NEXT_PUBLIC_SITE_URL` and verify canonical URLs
-- [ ] Configure a valid Mapbox token and confirm the legal map attribution
-- [ ] Configure `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL`
-- [ ] Replace default Open Graph fallbacks with licensed `1200 × 630` media
-- [ ] Add licensed hero, island, category, guide, and business media
-- [ ] Publish 30–75 verified USVI business listings across islands and categories
-- [ ] Confirm each listing’s name, island, category, official contact, ownership/source, and permission to publish
-- [ ] Remove or retain `noindex` on every remaining demo profile
-- [ ] Verify ferry sources and timestamps; keep operator-confirmation language
-- [ ] Verify cruise import sources and scheduled-capacity coverage
+Do not count the fictional demo catalog as launch inventory. Public launch requires verified, source-backed businesses and production configuration.
 
-## Search and measurement
+## 1. Infrastructure and domain
 
-- [ ] Verify the production domain in Google Search Console
-- [ ] Submit `/sitemap.xml` and monitor excluded/error pages
-- [ ] Configure privacy-aware analytics and document the data collected
-- [ ] Add consent handling if the selected analytics stack requires it
-- [ ] Confirm robots rules for search, map, dashboard, APIs, and preview routes
-- [ ] Test canonical business routes and redirects
+| Check | Status | Evidence / owner |
+|---|---|---|
+| Production domain connected to the intended Vercel project |  |  |
+| HTTPS, apex/WWW redirect, and canonical host verified |  |  |
+| `NEXT_PUBLIC_SITE_URL` equals the canonical production origin |  |  |
+| Production Supabase URL and anon key configured |  |  |
+| Service-role and webhook secrets limited to server environments |  |  |
+| Valid Mapbox token configured; attribution and fallback tested |  |  |
+| `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL` configured and monitored |  |  |
+| Preview and production Vercel env vars reviewed separately |  |  |
 
-## Quality gate
+Never place Supabase service keys, webhook secrets, or analytics secrets in public variables.
 
-- [ ] Run `npm run typecheck`, `npm run lint`, and `npm run build`
-- [ ] Run Lighthouse on homepage, an island hub, a guide, a category, and a business profile
-- [ ] Check mobile navigation, keyboard focus, reduced motion, contrast, and empty states
-- [ ] Confirm no unlicensed or hotlinked media is present
-- [ ] Confirm no live, real-time, booking, verified, or sponsor claim appears without supporting implementation/data
-- [ ] Test contact links, external links, 404s, sitemap URLs, and structured data
+## 2. Search and metadata
 
-## Deliberately deferred
+| Check | Status | Evidence / owner |
+|---|---|---|
+| `/robots.txt` returns 200 and protects APIs/dashboard/preview surfaces |  |  |
+| `/sitemap.xml` returns 200 and uses the production host |  |  |
+| Sitemap submitted in Google Search Console |  |  |
+| Production domain ownership verified in Search Console |  |  |
+| Root, island, guide, utility, category, and business canonicals checked |  |  |
+| Default and key-route Open Graph images are licensed and render at 1200×630 |  |  |
+| Twitter/Open Graph titles and descriptions checked |  |  |
+| Demo profile emits `noindex` and no LocalBusiness schema |  |  |
+| Verified sample emits eligible LocalBusiness schema and may index |  |  |
+| Submitted/unverified sample remains noindex with contacts hidden |  |  |
+
+## 3. Verified inventory gate
+
+- [ ] Publish 30–75 verified USVI businesses with useful island/category coverage.
+- [ ] Record a verification source and human review date for every verified record.
+- [ ] Record contact publication permission before displaying phone/email.
+- [ ] Keep disputed, incomplete, stale, submitted, and demo records noindex.
+- [ ] Confirm premium and claimed states do not bypass verification.
+- [ ] Validate coordinates against an official/direct source before map publication.
+- [ ] Remove all sample rows from production imports.
+- [ ] Run duplicate name/slug/contact checks.
+- [ ] Confirm every external URL uses HTTPS and resolves to the intended business.
+
+## 4. Top 10 route smoke test
+
+Run on production at desktop and mobile widths. Record status, HTTP response, canonical, visible heading, console errors, and primary CTA.
+
+| # | Route | Status | Notes |
+|---:|---|---|---|
+| 1 | `/` |  |  |
+| 2 | `/search` |  |  |
+| 3 | `/st-thomas` |  |  |
+| 4 | `/st-croix/things-to-do` |  |  |
+| 5 | `/st-john/ferry-schedule` |  |  |
+| 6 | `/st-thomas/cruise-schedule` |  |  |
+| 7 | `/st-thomas/magens-bay` |  |  |
+| 8 | `/guides/best-beaches-usvi` |  |  |
+| 9 | one verified category and business profile |  |  |
+| 10 | `/get-listed` |  |  |
+
+Also test a demo profile, a missing route, `/manifest.webmanifest`, `/robots.txt`, and `/sitemap.xml`.
+
+## 5. Inquiry and business flow
+
+| Check | Status | Evidence / owner |
+|---|---|---|
+| Get Listed inquiry link opens the intended monitored inbox |  |  |
+| Prefilled inquiry contains no secret or user data |  |  |
+| Test inquiry received and acknowledged |  |  |
+| Owner dashboard and claiming remain labeled unavailable |  |  |
+| Premium/sponsor copy states that packages are not launched |  |  |
+| Business outreach message and verification workflow approved |  |  |
+
+## 6. Analytics and privacy
+
+| Check | Status | Evidence / owner |
+|---|---|---|
+| Analytics provider and account owner approved |  |  |
+| Privacy/consent requirements reviewed for target audience |  |  |
+| Retention and access policy documented |  |  |
+| Provider adapter tested without duplicate events |  |  |
+| No free-form query, contact details, inquiry body, or precise location collected |  |  |
+| Eight core event names verified in preview and production |  |  |
+| Analytics disclosures updated before network collection starts |  |  |
+
+VibeVI currently dispatches local provider-neutral browser events only; no provider is enabled by default.
+
+## 7. Media and accessibility
+
+- [ ] Every asset has ownership/license evidence, approval date, credit requirements, and allowed use.
+- [ ] No remote hotlinks or unlicensed images.
+- [ ] Hero, island, category, guide, business, sponsor, and OG crops checked.
+- [ ] Alt text describes the image rather than marketing intent.
+- [ ] Mobile navigation, horizontal rails, cards, and forms checked at 390 px width.
+- [ ] Keyboard focus, landmarks, heading order, link names, and reduced motion checked.
+- [ ] Color contrast checked for text, badges, and focus states.
+
+## 8. Performance and final validation
+
+| Check | Status | Evidence / owner |
+|---|---|---|
+| `npm run typecheck` |  |  |
+| `npm run lint` |  |  |
+| `npm run build` reaches final route summary |  |  |
+| Lighthouse mobile: homepage |  |  |
+| Lighthouse mobile: island hub |  |  |
+| Lighthouse mobile: guide |  |  |
+| Lighthouse mobile: category |  |  |
+| Lighthouse mobile: verified profile |  |  |
+| Map no-token fallback and valid-token view tested |  |  |
+| Ferry/cruise empty, partial, error, and sourced states tested |  |  |
+
+## 9. Explicitly deferred
 
 - AI concierge
 - Booking and checkout
-- Self-serve owner authentication and claiming
-- Paid sponsor checkout
+- Full owner authentication/dashboard
+- Paid sponsor checkout or performance claims
 - Algolia production search until indexing and sync are enabled
+
+## Go / no-go
+
+Decision: __________  Date/time: __________  Reviewer: __________
+
+Accepted risks and rollback owner:
+
+____________________________________________________________________

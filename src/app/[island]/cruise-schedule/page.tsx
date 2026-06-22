@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CrowdPredictor } from "@/components/transit/CrowdPredictor";
+import { AnalyticsEvent } from "@/components/analytics/analytics-event";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
@@ -21,6 +22,7 @@ export default async function IslandCruiseSchedulePage({ params }: Props) {
   const name = getIslandName(slug as IslandSlug);
   return (
     <>
+      <AnalyticsEvent name="cruise_page_viewed" properties={{ island: slug }} />
       <MediaBackdrop media={{ id: "cruise-radar", label: "Cruise ports", gradient: "from-rose-400/35 via-midnight-950 to-amber-500/30", src: null, alt: "Abstract port radar composition" }} overlay="hero" priority className="min-h-[54svh]">
         <div className="section-shell flex min-h-[54svh] flex-col justify-end pb-12 pt-32"><p className="eyebrow-label text-coral">Port radar · Planning signal</p><h1 className="display-type mt-5 text-5xl font-semibold text-white sm:text-7xl">Cruise radar — {name}</h1><p className="mt-5 max-w-2xl text-base leading-7 text-white/68">Read the shape of a port day using scheduled ship capacity. This is a planning estimate—not observed foot traffic or a passenger count.</p></div>
       </MediaBackdrop>

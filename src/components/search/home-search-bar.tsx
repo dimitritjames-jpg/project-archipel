@@ -7,6 +7,7 @@ import {
   type LocalSearchResult,
 } from "@/lib/search/local-search";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics/events";
 
 type HomeSearchBarProps = {
   className?: string;
@@ -40,6 +41,10 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
 
     const timeoutId = window.setTimeout(() => {
       const requestId = ++requestSequence.current;
+      trackEvent("search_submitted", {
+        query_length: trimmed.length,
+        source: "directory_search",
+      });
       startTransition(async () => {
         try {
           setError(null);

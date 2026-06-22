@@ -18,9 +18,17 @@ export type PublishedBusinessRow = {
   phone: string | null;
   email: string | null;
   website_url: string | null;
+  same_as: string[];
   price_range: string | null;
   is_verified: boolean;
   is_demo: boolean;
+  verification_status: "demo" | "unverified" | "submitted" | "verified";
+  verification_source: string | null;
+  last_verified_at: string | null;
+  contact_permission_status: "unknown" | "not_requested" | "pending" | "granted" | "declined";
+  robots_noindex: boolean;
+  is_claimed: boolean;
+  claimed_at: string | null;
   premium_tier: string;
   published_at: string | null;
   category: { slug: string; name: string; schema_type: string } | null;
@@ -123,9 +131,17 @@ export async function fetchPublishedBusiness(
       phone,
       email,
       website_url,
+      same_as,
       price_range,
       is_verified,
       is_demo,
+      verification_status,
+      verification_source,
+      last_verified_at,
+      contact_permission_status,
+      robots_noindex,
+      is_claimed,
+      claimed_at,
       premium_tier,
       published_at,
       category:categories!primary_category_id ( slug, name, schema_type )
@@ -203,9 +219,17 @@ export async function fetchPublishedBusinessesByCategory(
       phone,
       email,
       website_url,
+      same_as,
       price_range,
       is_verified,
       is_demo,
+      verification_status,
+      verification_source,
+      last_verified_at,
+      contact_permission_status,
+      robots_noindex,
+      is_claimed,
+      claimed_at,
       premium_tier,
       published_at,
       category:categories!primary_category_id ( slug, name, schema_type )

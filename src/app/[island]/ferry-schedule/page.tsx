@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NextBoatWidget } from "@/components/transit/NextBoatWidget";
+import { AnalyticsEvent } from "@/components/analytics/analytics-event";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
@@ -21,6 +22,7 @@ export default async function IslandFerrySchedulePage({ params }: Props) {
   const name = getIslandName(slug as IslandSlug);
   return (
     <>
+      <AnalyticsEvent name="ferry_page_viewed" properties={{ island: slug }} />
       <MediaBackdrop media={{ id: "ferry-dashboard", label: "Ferry routes", gradient: "from-cyan-300/45 via-midnight-950 to-teal-600/35", src: null, alt: "Abstract ferry route composition" }} overlay="hero" priority className="min-h-[54svh]">
         <div className="section-shell flex min-h-[54svh] flex-col justify-end pb-12 pt-32"><p className="eyebrow-label">Transit utility · Atlantic Standard Time</p><h1 className="display-type mt-5 text-5xl font-semibold text-white sm:text-7xl">Ferry board — {name}</h1><p className="mt-5 max-w-2xl text-base leading-7 text-white/68">A directional schedule utility built around verified sources. It is not live vessel tracking, a service alert system, or a boarding guarantee.</p></div>
       </MediaBackdrop>

@@ -5,6 +5,7 @@ import {
   fetchPublishedBusiness,
   fetchPublishedBusinessStaticParams,
 } from "@/lib/businesses/queries";
+import { shouldIndexListing } from "@/lib/businesses/listing-trust";
 import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
 
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: business.description_plain.slice(0, 160),
       url: canonical,
     },
-    robots: { index: !business.is_demo, follow: true },
+    robots: { index: shouldIndexListing(business), follow: true },
   };
 }
 

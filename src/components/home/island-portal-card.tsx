@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import type { IslandSlug } from "@/lib/islands";
 import { ISLAND_PORTALS } from "@/lib/media";
@@ -21,8 +21,10 @@ export function IslandPortalCard({ islandSlug, className }: IslandPortalCardProp
   const signal = ISLAND_SIGNAL[islandSlug];
 
   return (
-    <Link
+    <TrackedLink
       href={`/${islandSlug}`}
+      eventName="island_selected"
+      eventProperties={{ island: islandSlug, source: "homepage_portal" }}
       className={cn(
         "island-card-glow group relative block min-h-[320px] overflow-hidden rounded-[1.8rem] border border-white/8 transition duration-500 hover:-translate-y-1.5 hover:border-aqua/25 hover:shadow-glow-aqua sm:min-h-[360px]",
         className,
@@ -66,6 +68,6 @@ export function IslandPortalCard({ islandSlug, className }: IslandPortalCardProp
           </span>
         </div>
       </div>
-    </Link>
+    </TrackedLink>
   );
 }

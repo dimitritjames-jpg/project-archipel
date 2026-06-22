@@ -582,6 +582,13 @@ update public.businesses
 set
   is_demo = true,
   is_verified = false,
+  verification_status = 'demo',
+  verification_source = null,
+  last_verified_at = null,
+  contact_permission_status = 'not_requested',
+  robots_noindex = true,
+  is_claimed = false,
+  claimed_at = null,
   premium_tier = 'none',
   premium_starts_at = null,
   premium_ends_at = null,
