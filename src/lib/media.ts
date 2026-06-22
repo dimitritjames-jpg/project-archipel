@@ -159,16 +159,17 @@ export const HERO_MEDIA: MediaAsset = {
 };
 
 export const VIBE_FILTERS = [
-  { id: "adventure", label: "Adventure", href: "/search?vibe=adventure" },
+  { id: "adventure", label: "Adventure", href: "/experiences/adventure" },
   { id: "beach", label: "Beach", href: "/search?vibe=beach" },
   { id: "boat", label: "Boat", href: "/st-john/excursions-charters" },
-  { id: "food", label: "Food", href: "/search?vibe=food" },
+  { id: "food", label: "Culinary", href: "/experiences/culinary" },
+  { id: "culture", label: "Culture", href: "/experiences/culture" },
   { id: "nightlife", label: "Nightlife", href: "/st-thomas/nightlife-rhythm" },
   { id: "family", label: "Family", href: "/search?vibe=family" },
   { id: "luxury", label: "Luxury", href: "/search?vibe=luxury" },
   { id: "local", label: "Local", href: "/search?vibe=local" },
   { id: "rainy", label: "Rainy day", href: "/search?vibe=rainy" },
-  { id: "cruise", label: "Cruise stop", href: "/st-thomas/cruise-schedule" },
+  { id: "cruise", label: "Cruise stop", href: "/experiences/cruise-day" },
   { id: "date", label: "Date night", href: "/search?vibe=date" },
 ] as const;
 

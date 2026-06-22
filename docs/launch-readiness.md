@@ -72,6 +72,9 @@ Also test a demo profile, a missing route, `/manifest.webmanifest`, `/robots.txt
 | Check | Status | Evidence / owner |
 |---|---|---|
 | Get Listed inquiry link opens the intended monitored inbox |  |  |
+| Experience routes load: `/experiences/adventure`, `/experiences/culture`, `/experiences/culinary`, `/experiences/cruise-day` |  |  |
+| Experience CTAs avoid instant booking, payment, live availability, and guaranteed reservation language |  |  |
+| Request-availability CTAs are mailto or preview-only; no personal data is stored locally |  |  |
 | Prefilled inquiry contains no secret or user data |  |  |
 | Test inquiry received and acknowledged |  |  |
 | Owner dashboard and claiming remain labeled unavailable |  |  |
@@ -87,7 +90,7 @@ Also test a demo profile, a missing route, `/manifest.webmanifest`, `/robots.txt
 | Retention and access policy documented |  |  |
 | Provider adapter tested without duplicate events |  |  |
 | No free-form query, contact details, inquiry body, or precise location collected |  |  |
-| Eight core event names verified in preview and production |  |  |
+| Core event names, including experience and request-availability events, verified in preview and production |  |  |
 | Analytics disclosures updated before network collection starts |  |  |
 
 VibeVI currently dispatches local provider-neutral browser events only; no provider is enabled by default.

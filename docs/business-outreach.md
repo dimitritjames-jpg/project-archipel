@@ -65,3 +65,9 @@ VibeVI does not promise traffic, rankings, bookings, or paid placement. Premium 
 Thank you,
 [Your Name]
 VibeVI — Find Your Island Vibe
+
+## Experience inquiry positioning
+
+For adventure, culinary, cruise-day, culture, nightlife, wellness, stays, and local-shop pages, VibeVI may surface “Plan this experience,” “Request availability,” or “Contact this business” CTAs. These are discovery and inquiry prompts only. They do not promise instant booking, live availability, paid placement, or guaranteed leads.
+
+When speaking with businesses, describe future lead routing as a roadmap item: featured partners may be able to receive structured leads as VibeVI grows, but paid sponsor placement and booking tools are not active until formally launched.

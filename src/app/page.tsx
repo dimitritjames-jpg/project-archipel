@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { DirectoryMapSection } from "@/components/map/directory-map-section";
 import { ExperienceMosaic } from "@/components/home/experience-mosaic";
 import { HeroMediaSection } from "@/components/home/hero-media-section";
@@ -44,6 +45,10 @@ export default function HomePage() {
         <SectionHeader eyebrow="Plan the next move" title="The island questions people actually ask." description="Useful launch guides connect search intent to island context, schedule utilities, directory categories, and published local businesses." />
         <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
+            ["/experiences/adventure", "Adventure in the USVI", "Charters, reefs, trails, ferry-aware routes, and inquiry-ready operators."],
+            ["/experiences/culture", "Culture in the USVI", "History, music, markets, foodways, etiquette, and local discovery routes."],
+            ["/experiences/culinary", "Culinary discovery", "Restaurants, beach bars, local plates, date nights, and direct contact paths."],
+            ["/experiences/cruise-day", "Cruise day planner", "One-day port decisions built around scheduled capacity and return buffers."],
             ["/st-thomas/things-to-do", "Things to do in St. Thomas", "Beach, harbor, ferry, cruise-day, and nightlife context."],
             ["/st-croix/things-to-do", "Things to do in St. Croix", "Christiansted, Frederiksted, Buck Island, food, and reef routes."],
             ["/st-john/things-to-do", "Things to do in St. John", "Ferry timing, national park, beaches, and Cruz Bay."],
@@ -77,4 +82,3 @@ export default function HomePage() {
     </>
   );
 }
-import Link from "next/link";

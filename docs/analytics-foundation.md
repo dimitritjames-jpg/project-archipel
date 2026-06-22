@@ -14,8 +14,18 @@ No analytics provider, cookie, tracking pixel, or secret is enabled by this comm
 - `sponsor_cta_clicked` — preview placement and preview-only state
 - `ferry_page_viewed` — island only
 - `cruise_page_viewed` — island only
+- `experience_pillar_viewed` — pillar slug only
+- `experience_cta_clicked` — pillar, placement, and intent only
+- `request_availability_clicked` — pillar, placement, and channel only
+- `plan_experience_clicked` — pillar and placement only
+- `culinary_page_viewed` — page-level event without personal data
+- `adventure_page_viewed` — page-level event without personal data
+- `culture_page_viewed` — page-level event without personal data
+- `cruise_day_page_viewed` — page-level event without personal data
 
-Do not attach phone numbers, email addresses, free-form search text, precise user location, business inquiry content, or user identifiers to events.
+Do not attach phone numbers, email addresses, free-form search text, precise user location, business inquiry content, user identifiers, visitor names, dates, group sizes, or message contents to events.
+
+Experience and inquiry events are intentionally intent-level until a backend intake flow with consent, rate limiting, retention rules, and privacy review is intentionally implemented.
 
 ## Provider path
 

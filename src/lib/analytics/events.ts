@@ -7,6 +7,14 @@ export const ANALYTICS_EVENTS = [
   "sponsor_cta_clicked",
   "ferry_page_viewed",
   "cruise_page_viewed",
+  "experience_pillar_viewed",
+  "experience_cta_clicked",
+  "request_availability_clicked",
+  "plan_experience_clicked",
+  "culinary_page_viewed",
+  "adventure_page_viewed",
+  "culture_page_viewed",
+  "cruise_day_page_viewed",
 ] as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[number];

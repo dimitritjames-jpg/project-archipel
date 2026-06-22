@@ -4,10 +4,18 @@ import { ISLAND_SLUGS, ISLAND_MAP } from "@/lib/islands";
 import { cn } from "@/lib/utils";
 
 const utilityLinks = [
+  { href: "/experiences/adventure", label: "Adventure" },
+  { href: "/experiences/culture", label: "Culture" },
+  { href: "/experiences/culinary", label: "Culinary" },
+  { href: "/experiences/cruise-day", label: "Cruise Day" },
+  { href: "/st-thomas/nightlife-rhythm", label: "Nightlife" },
+  { href: "/get-listed", label: "Get listed" },
+] as const;
+
+const planningLinks = [
   { href: "/st-john/ferry-schedule", label: "Ferries" },
   { href: "/st-thomas/cruise-schedule", label: "Port radar" },
   { href: "/map", label: "Map" },
-  { href: "/get-listed", label: "Get listed" },
 ] as const;
 
 export function SiteHeader() {
@@ -35,12 +43,21 @@ export function SiteHeader() {
               {ISLAND_MAP[slug].name}
             </Link>
           ))}
-          <span className="mx-2 h-4 w-px bg-white/12" aria-hidden="true" />
           {utilityLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/50 transition hover:text-aqua"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <span className="mx-2 h-4 w-px bg-white/12" aria-hidden="true" />
+          {planningLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/40 transition hover:text-aqua"
             >
               {link.label}
             </Link>
@@ -64,10 +81,10 @@ export function SiteHeader() {
         aria-label="Mobile island navigation"
         className="section-shell flex gap-1 overflow-x-auto border-t border-white/5 py-2 lg:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {[...ISLAND_SLUGS.map((slug) => ({
+        {[...utilityLinks, ...ISLAND_SLUGS.map((slug) => ({
           href: `/${slug}`,
           label: ISLAND_MAP[slug].name,
-        })), ...utilityLinks].map((link) => (
+        })), ...planningLinks].map((link) => (
           <Link
             key={link.href}
             href={link.href}

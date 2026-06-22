@@ -6,14 +6,14 @@ import { CORE_CATEGORIES } from "@/lib/categories";
 import { cn } from "@/lib/utils";
 
 const MOSAIC_LINKS: Record<string, string> = {
-  "beach-day": "/st-thomas/magens-bay",
-  "boat-charter": "/st-john/excursions-charters",
-  "snorkel-dive": "/st-john/snorkeling-charters",
-  "sunset-dinner": "/st-thomas/indulgent-dining",
+  "beach-day": "/experiences/adventure",
+  "boat-charter": "/experiences/adventure",
+  "snorkel-dive": "/experiences/adventure",
+  "sunset-dinner": "/experiences/culinary",
   nightlife: "/st-thomas/nightlife-rhythm",
   "local-shops": "/st-thomas/local-provisions",
   wellness: "/st-thomas/wellness-spas",
-  "family-day": "/water-island",
+  "family-day": "/experiences/cruise-day",
 };
 
 const MOSAIC_COPY: Record<string, string> = {

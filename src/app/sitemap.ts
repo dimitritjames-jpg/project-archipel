@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { env } from "@/lib/env";
 import { ISLAND_SLUGS } from "@/lib/islands";
 import { CORE_CATEGORIES } from "@/lib/categories";
+import { FEATURED_EXPERIENCE_PILLARS } from "@/lib/experience-pillars";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = env.NEXT_PUBLIC_SITE_URL;
@@ -46,6 +47,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.85,
       });
     }
+  }
+
+  for (const slug of FEATURED_EXPERIENCE_PILLARS) {
+    entries.push({
+      url: `${siteUrl}/experiences/${slug}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    });
   }
 
   const ferryRoutes = [

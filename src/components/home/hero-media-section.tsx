@@ -38,20 +38,20 @@ export function HeroMediaSection() {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
-                  href="/search"
+                  href="/experiences/adventure"
                   className={cn(
                     "inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-aqua px-6 text-sm font-bold text-midnight-950",
                     "shadow-glow-aqua transition hover:-translate-y-0.5 hover:bg-[#78f7eb]",
                   )}
                 >
-                  Find your island vibe
+                  Find an experience
                   <span aria-hidden="true">↗</span>
                 </Link>
                 <Link
-                  href="/st-john/ferry-schedule"
+                  href="/experiences/culinary"
                   className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/16 bg-white/6 px-6 text-sm font-semibold text-archipel-white backdrop-blur-md transition hover:border-aqua/35 hover:bg-white/10"
                 >
-                  Check the next boat
+                  Find the table
                 </Link>
               </div>
 

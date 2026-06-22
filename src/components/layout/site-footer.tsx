@@ -4,6 +4,11 @@ import { SITE_TIMEZONE } from "@/lib/env";
 import { ISLAND_SLUGS, ISLAND_MAP } from "@/lib/islands";
 
 const utilityLinks = [
+  ["/experiences/adventure", "Adventure"],
+  ["/experiences/culture", "Culture"],
+  ["/experiences/culinary", "Culinary"],
+  ["/experiences/cruise-day", "Cruise Day"],
+  ["/st-thomas/nightlife-rhythm", "Nightlife"],
   ["/st-john/ferry-schedule", "Ferry board"],
   ["/st-thomas/cruise-schedule", "Port radar"],
   ["/map", "Island map"],
