@@ -25,7 +25,7 @@ const websiteJsonLd = {
   url: siteUrl,
   name: "Project Archipel",
   description:
-    "A refined directory and daily planning utility for the US Virgin Islands.",
+    "Plan the island before the island plans you. Ferry moves, cruise pressure, and local discovery across the USVI.",
   inLanguage: "en-US",
   publisher: { "@id": `${siteUrl}/#organization` },
   potentialAction: {
@@ -46,11 +46,11 @@ const organizationJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Project Archipel — US Virgin Islands Directory & Daily Utilities",
+    default: "Project Archipel — US Virgin Islands Adventure Board",
     template: "%s | Project Archipel",
   },
   description:
-    "Discover businesses, ferry schedules, and cruise planning across St. Thomas, St. Croix, St. John, and Water Island.",
+    "Plan your US Virgin Islands day — beaches, boats, bites, ferries, and local discovery across St. Thomas, St. Croix, St. John, and Water Island.",
   openGraph: {
     type: "website",
     locale: "en_US",

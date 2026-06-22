@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useState, useTransition } from "react";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
 import {
   searchLocalBusinesses,
   type LocalSearchResult,
 } from "@/lib/search/local-search";
+import { cn } from "@/lib/utils";
 
 type HomeSearchBarProps = {
   className?: string;
@@ -19,6 +20,7 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
   const [results, setResults] = useState<LocalSearchResult[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
+  const requestSequence = useRef(0);
 
   useEffect(() => {
     setHydrated(true);
@@ -37,18 +39,23 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
     }
 
     const timeoutId = window.setTimeout(() => {
+      const requestId = ++requestSequence.current;
       startTransition(async () => {
         try {
           setError(null);
           const hits = await searchLocalBusinesses(trimmed);
-          setResults(hits);
+          if (requestSequence.current === requestId) {
+            setResults(hits);
+          }
         } catch (searchError) {
-          setResults([]);
-          setError(
-            searchError instanceof Error
-              ? searchError.message
-              : "Search is temporarily unavailable.",
-          );
+          if (requestSequence.current === requestId) {
+            setResults([]);
+            setError(
+              searchError instanceof Error
+                ? searchError.message
+                : "Search is temporarily unavailable.",
+            );
+          }
         }
       });
     }, 250);
@@ -59,15 +66,15 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
   const showResults = hydrated && query.trim().length >= 2;
 
   return (
-    <div className={`relative z-30 ${className ?? ""}`}>
+    <div className={cn("relative z-30", className)}>
       <label htmlFor={inputId} className="sr-only">
         Search businesses
       </label>
-      <div className="rounded-2xl border border-white/20 bg-white/10 p-2 shadow-xl backdrop-blur-md">
-        <div className="flex min-h-[3rem] items-center gap-3 px-3 py-2">
+      <div className="command-surface rounded-2xl p-1.5 shadow-2xl backdrop-blur-xl">
+        <div className="flex min-h-[3.5rem] items-center gap-3 rounded-xl border border-white/6 bg-midnight-950/50 px-4 py-2">
           <svg
             aria-hidden
-            className="h-5 w-5 shrink-0 text-archipel-white/50"
+            className="h-5 w-5 shrink-0 text-aqua/75"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -84,19 +91,22 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search dining, charters, stays…"
+            placeholder="Search a beach, boat, table, stay…"
             autoComplete="off"
             role="combobox"
             aria-expanded={showResults}
             aria-controls={listboxId}
             aria-autocomplete="list"
-            className="w-full bg-transparent text-sm text-archipel-white placeholder:text-archipel-white/45 focus:outline-none sm:text-base"
+            className="w-full bg-transparent text-sm text-archipel-white placeholder:text-archipel-white/38 focus:outline-none sm:text-base"
           />
           {isPending ? (
             <span className="text-xs text-archipel-white/50" aria-live="polite">
               Searching…
             </span>
           ) : null}
+          <span className="hidden rounded-md border border-white/10 bg-white/5 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.08em] text-archipel-white/38 sm:inline">
+            Supabase
+          </span>
         </div>
 
         {showResults ? (
@@ -104,22 +114,23 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
             id={listboxId}
             role="listbox"
             aria-label="Search results"
-            className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-40 max-h-72 overflow-y-auto rounded-xl border border-white/10 bg-indigo-950/95 shadow-2xl"
+            className="absolute left-0 right-0 top-[calc(100%+0.6rem)] z-40 max-h-80 overflow-y-auto rounded-2xl border border-aqua/15 bg-[#041022]/98 p-1.5 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
           >
             {error ? (
-              <p className="px-4 py-3 text-sm text-coral">{error}</p>
+              <p className="rounded-xl border border-coral/15 bg-coral/8 px-4 py-3 text-sm text-coral">{error}</p>
             ) : results.length === 0 && !isPending ? (
-              <p className="px-4 py-3 text-sm text-archipel-white/60">
-                No published businesses match &ldquo;{query.trim()}&rdquo;.
+              <p className="px-4 py-4 text-sm text-archipel-white/60">
+                Nothing published matches &ldquo;{query.trim()}&rdquo; yet. Try an
+                island, category, or mood.
               </p>
             ) : (
-              <ul className="divide-y divide-white/8">
+              <ul className="space-y-1">
                 {results.map((result) => (
                   <li key={result.id}>
                     <Link
                       href={result.href}
                       role="option"
-                      className="block px-4 py-3 transition hover:bg-white/5"
+                      className="block rounded-xl border border-transparent px-4 py-3 transition hover:border-aqua/12 hover:bg-aqua/6"
                     >
                       <p className="font-medium text-archipel-white">
                         {result.name}

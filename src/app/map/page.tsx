@@ -1,17 +1,52 @@
 import type { Metadata } from "next";
+import Link from "next/link";
+import { DirectoryMapSection } from "@/components/map/directory-map-section";
+import { SectionHeader } from "@/components/ui/section-header";
 
 export const metadata: Metadata = {
-  title: "Map",
+  title: "Archipelago Map",
+  description: "A map-oriented view of published Project Archipel listings.",
   robots: { index: false, follow: true },
 };
 
+const mapRoutes = [
+  ["St. Thomas", "/st-thomas"],
+  ["St. Croix", "/st-croix"],
+  ["St. John", "/st-john"],
+  ["Water Island", "/water-island"],
+] as const;
+
 export default function MapPage() {
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <h1 className="text-3xl font-semibold text-archipel-white">Directory Map</h1>
-      <p className="mt-4 text-archipel-white/70">
-        Mapbox GL map with dark indigo styling loads in Phase 2.
-      </p>
-    </div>
+    <>
+      <section className="relative overflow-hidden border-b border-white/7 px-4 py-20 sm:px-6 lg:py-28">
+        <div className="topographic-field absolute inset-0 opacity-50" aria-hidden />
+        <div className="section-shell relative grid gap-8 lg:grid-cols-[1fr_0.6fr] lg:items-end">
+          <SectionHeader
+            eyebrow="Archipelago radar"
+            title="Four islands. One connected field."
+            description="Use the visual map when Mapbox is configured, or move through the same published directory with island and search routes."
+          />
+          <div className="grid grid-cols-2 gap-2">
+            {mapRoutes.map(([label, href], index) => (
+              <Link
+                key={href}
+                href={href}
+                className="rounded-xl border border-white/8 bg-white/[0.035] px-4 py-3 text-sm text-archipel-white/62 transition hover:border-aqua/25 hover:text-aqua"
+              >
+                <span className="mr-2 font-mono text-[9px] text-archipel-white/28">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="section-shell py-12 sm:py-16 lg:py-20">
+        <DirectoryMapSection />
+      </div>
+    </>
   );
 }

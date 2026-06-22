@@ -145,3 +145,73 @@ export async function fetchPublishedBusiness(
     ),
   };
 }
+
+export async function fetchPublishedBusinessesByCategory(
+  islandSlug: IslandSlug,
+  categorySlug: string,
+): Promise<PublishedBusinessRow[]> {
+  const supabase = createBuildTimeClient();
+  if (!supabase) {
+    return [];
+  }
+
+  const islandCode = Object.entries(CODE_TO_SLUG).find(
+    ([, slug]) => slug === islandSlug,
+  )?.[0];
+
+  if (!islandCode) {
+    return [];
+  }
+
+  const { data: category, error: categoryError } = await supabase
+    .from("categories")
+    .select("id")
+    .eq("slug", categorySlug)
+    .eq("is_active", true)
+    .maybeSingle();
+
+  if (categoryError || !category) {
+    return [];
+  }
+
+  const { data, error } = await supabase
+    .from("businesses")
+    .select(
+      `
+      id,
+      name,
+      slug,
+      island,
+      description_plain,
+      description_json,
+      street_address,
+      address_locality,
+      phone,
+      email,
+      website_url,
+      price_range,
+      is_verified,
+      premium_tier,
+      published_at,
+      category:categories!primary_category_id ( slug, name, schema_type )
+    `,
+    )
+    .eq("status", "published")
+    .eq("island", islandCode)
+    .eq("primary_category_id", category.id)
+    .order("name");
+
+  if (error || !data) {
+    return [];
+  }
+
+  return data.map((row) => ({
+    ...(row as Omit<PublishedBusinessRow, "category">),
+    category: normalizeCategory(
+      row.category as
+        | PublishedBusinessRow["category"]
+        | NonNullable<PublishedBusinessRow["category"]>[]
+        | null,
+    ),
+  }));
+}

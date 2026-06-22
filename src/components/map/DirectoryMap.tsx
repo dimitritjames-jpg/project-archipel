@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
+import Link from "next/link";
 import Map, { NavigationControl } from "react-map-gl/mapbox";
 import type { Map as MapboxMap } from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -41,14 +42,34 @@ export function DirectoryMap({ className, height = 480 }: DirectoryMapProps) {
   if (!token) {
     return (
       <div
-        className={`flex min-h-[320px] items-center justify-center rounded-2xl border border-white/10 bg-[#0A192F] p-8 text-center text-sm text-archipel-white/70 ${className ?? ""}`}
+        className={`topographic-field signal-grid relative flex min-h-[380px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#07182c] p-8 text-center ${className ?? ""}`}
         style={{ height }}
         role="img"
-        aria-label="Map unavailable"
+        aria-label="Island map preview; interactive Mapbox view is not configured"
       >
-        Map unavailable — set{" "}
-        <code className="mx-1 text-archipel-white">NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN</code>{" "}
-        in <code className="mx-1 text-archipel-white">.env.local</code>.
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(55,234,217,0.14),transparent_42%)]" />
+        <div className="relative max-w-md">
+          <span className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-aqua/20 bg-aqua/7">
+            <span className="relative h-8 w-8 rounded-full border border-aqua/25">
+              <span className="absolute left-2 top-2 h-2 w-2 rounded-full bg-aqua shadow-[0_0_12px_#37ead9]" />
+              <span className="absolute bottom-1.5 right-2 h-1.5 w-1.5 rounded-full bg-coral shadow-[0_0_10px_#ff7968]" />
+            </span>
+          </span>
+          <p className="eyebrow-label mt-6">Map preview</p>
+          <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-archipel-white">
+            The interactive island layer is waiting for its map signal.
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-archipel-white/55">
+            Directory search and island portals remain available while the optional
+            Mapbox token is not configured.
+          </p>
+          <Link
+            href="/search"
+            className="mt-6 inline-flex min-h-11 items-center rounded-full bg-aqua px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#78f7eb]"
+          >
+            Browse the directory
+          </Link>
+        </div>
       </div>
     );
   }

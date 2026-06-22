@@ -1,55 +1,251 @@
 @import "tailwindcss";
 
 :root {
-  --archipel-indigo-950: #0a0e27;
-  --archipel-indigo-900: #121a3d;
-  --archipel-indigo-800: #1a2554;
-  --archipel-indigo-700: #243070;
-  --archipel-white: #f8f9fc;
-  --archipel-botanical: #2d6a4f;
-  --archipel-coral: #e07a5f;
-  --archipel-glass: rgba(18, 26, 61, 0.72);
-  --background: var(--archipel-indigo-950);
+  --midnight-950: #020815;
+  --midnight-900: #061326;
+  --midnight-850: #091a31;
+  --midnight-800: #0d2340;
+  --archipel-indigo-950: #020815;
+  --archipel-indigo-900: #061326;
+  --archipel-indigo-800: #0d2948;
+  --archipel-white: #f5f8fb;
+  --aqua: #37ead9;
+  --aqua-dim: #1bb6aa;
+  --coral-sunset: #ff7968;
+  --lime-vi: #b8ee75;
+  --sand: #f4dfb8;
+  --archipel-botanical: #37d495;
+  --archipel-coral: #ff7968;
+  --archipel-glass: rgba(6, 19, 38, 0.72);
+  --archipel-glass-luminous: rgba(10, 30, 54, 0.7);
+  --background: var(--midnight-950);
   --foreground: var(--archipel-white);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-midnight-950: var(--midnight-950);
+  --color-midnight-900: var(--midnight-900);
+  --color-midnight-850: var(--midnight-850);
+  --color-midnight-800: var(--midnight-800);
   --color-indigo-950: var(--archipel-indigo-950);
   --color-indigo-900: var(--archipel-indigo-900);
   --color-indigo-800: var(--archipel-indigo-800);
-  --color-indigo-700: var(--archipel-indigo-700);
   --color-archipel-white: var(--archipel-white);
-  --color-botanical: var(--archipel-botanical);
+  --color-aqua: var(--aqua);
+  --color-aqua-dim: var(--aqua-dim);
   --color-coral: var(--archipel-coral);
+  --color-coral-sunset: var(--coral-sunset);
+  --color-lime: var(--lime-vi);
+  --color-sand: var(--sand);
+  --color-botanical: var(--archipel-botanical);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --shadow-glow-aqua: 0 0 0 1px rgba(55, 234, 217, 0.12), 0 22px 80px rgba(19, 196, 187, 0.13);
+  --shadow-command: 0 30px 100px rgba(0, 0, 0, 0.32);
+  --animate-radar-pulse: radar-pulse 4s ease-in-out infinite;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--midnight-950);
+  color-scheme: dark;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: radial-gradient(
-      ellipse 120% 80% at 50% -20%,
-      var(--archipel-indigo-800),
-      var(--archipel-indigo-950) 60%
-    ),
-    var(--background);
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgba(55, 234, 217, 0.12), transparent 58%),
+    radial-gradient(ellipse 70% 42% at 95% 18%, rgba(255, 121, 104, 0.09), transparent 55%),
+    linear-gradient(180deg, var(--midnight-900) 0%, var(--midnight-950) 44%, #010610 100%);
   color: var(--foreground);
   min-height: 100vh;
+  overflow-x: clip;
+}
+
+body::before {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 72px 72px;
+  content: "";
+  inset: 0;
+  mask-image: linear-gradient(to bottom, black, transparent 72%);
+  pointer-events: none;
+  position: fixed;
+  z-index: -1;
+}
+
+::selection {
+  background: rgba(55, 234, 217, 0.28);
+  color: white;
+}
+
+:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 4px;
 }
 
 .glass-panel {
   background: var(--archipel-glass);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(248, 249, 252, 0.08);
+  backdrop-filter: blur(18px) saturate(125%);
+  border: 1px solid rgba(244, 248, 252, 0.1);
+  box-shadow: 0 26px 90px rgba(0, 0, 0, 0.2);
+}
+
+.glass-luminous {
+  background:
+    linear-gradient(145deg, rgba(16, 42, 72, 0.78), rgba(5, 17, 34, 0.82));
+  backdrop-filter: blur(22px) saturate(130%);
+  border: 1px solid rgba(55, 234, 217, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.065),
+    0 22px 80px rgba(0, 0, 0, 0.22);
+}
+
+.command-surface {
+  background:
+    linear-gradient(135deg, rgba(13, 42, 70, 0.82), rgba(4, 14, 29, 0.9)),
+    radial-gradient(circle at top right, rgba(55, 234, 217, 0.12), transparent 36%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--shadow-command);
+  overflow: hidden;
+  position: relative;
+}
+
+.command-surface::after {
+  background: linear-gradient(90deg, transparent, rgba(55, 234, 217, 0.65), transparent);
+  content: "";
+  height: 1px;
+  left: 12%;
+  opacity: 0.6;
+  position: absolute;
+  right: 12%;
+  top: 0;
+}
+
+.section-shell {
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: 1rem;
+}
+
+.eyebrow-label {
+  align-items: center;
+  color: var(--aqua);
+  display: inline-flex;
+  font-size: 0.68rem;
+  font-weight: 760;
+  gap: 0.6rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.eyebrow-label::before {
+  background: currentColor;
+  border-radius: 999px;
+  box-shadow: 0 0 18px currentColor;
+  content: "";
+  height: 0.38rem;
+  width: 0.38rem;
+}
+
+.display-type {
+  font-size: clamp(2.65rem, 7vw, 6.8rem);
+  font-weight: 680;
+  letter-spacing: -0.065em;
+  line-height: 0.92;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.text-pretty {
+  text-wrap: pretty;
+}
+
+.shadow-glow-aqua {
+  box-shadow: var(--shadow-glow-aqua);
+}
+
+.topographic-field {
+  background-image:
+    repeating-radial-gradient(ellipse at 68% 44%, transparent 0 26px, rgba(55, 234, 217, 0.055) 27px 28px, transparent 29px 52px),
+    radial-gradient(circle at 68% 44%, rgba(55, 234, 217, 0.1), transparent 36%);
+}
+
+.signal-grid {
+  background-image:
+    linear-gradient(rgba(55, 234, 217, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(55, 234, 217, 0.055) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.island-card-glow::before {
+  background: radial-gradient(circle, rgba(55, 234, 217, 0.26), transparent 68%);
+  content: "";
+  height: 14rem;
+  opacity: 0;
+  position: absolute;
+  right: -4rem;
+  top: -4rem;
+  transform: scale(0.7);
+  transition: opacity 400ms ease, transform 500ms ease;
+  width: 14rem;
+}
+
+.island-card-glow:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.animate-radar-pulse {
+  animation: var(--animate-radar-pulse);
+}
+
+.animate-tide-drift {
+  animation: tide-drift 13s ease-in-out infinite alternate;
+}
+
+.animate-scan {
+  animation: scan-line 5s linear infinite;
+}
+
+@keyframes radar-pulse {
+  0%, 100% { transform: scale(0.94); opacity: 0.28; }
+  50% { transform: scale(1.06); opacity: 0.7; }
+}
+
+@keyframes tide-drift {
+  from { transform: translate3d(-1.5%, 0, 0) rotate(-1deg); }
+  to { transform: translate3d(1.5%, -1.5%, 0) rotate(1deg); }
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-10%); opacity: 0; }
+  12%, 82% { opacity: 0.65; }
+  100% { transform: translateY(460%); opacity: 0; }
+}
+
+@media (min-width: 640px) {
+  .section-shell { padding-inline: 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .section-shell { padding-inline: 2rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
 }

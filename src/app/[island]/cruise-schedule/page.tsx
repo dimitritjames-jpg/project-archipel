@@ -1,49 +1,30 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CrowdPredictor } from "@/components/transit/CrowdPredictor";
+import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
 
 type Props = { params: Promise<{ island: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { island: islandParam } = await params;
-  const island = getIslandBySlug(islandParam);
-  if (!island) return { robots: { index: false, follow: false } };
-
-  const name = getIslandName(islandParam as IslandSlug);
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/cruise-schedule`;
-
-  return {
-    title: `Cruise Schedule — ${name}`,
-    description: `Scheduled ship calls and Crowd Predictor for ${name} ports.`,
-    alternates: { canonical },
-    robots: { index: true, follow: true },
-  };
+  const { island: slug } = await params;
+  if (!getIslandBySlug(slug)) return { robots: { index: false, follow: false } };
+  const name = getIslandName(slug as IslandSlug);
+  return { title: `Cruise Radar — ${name}`, description: `Scheduled ship capacity bands for ${name} ports—planning estimates, not passenger counts.`, alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/${slug}/cruise-schedule` }, robots: { index: true, follow: true } };
 }
 
 export default async function IslandCruiseSchedulePage({ params }: Props) {
-  const { island: islandParam } = await params;
-  const island = getIslandBySlug(islandParam);
-  if (!island) notFound();
-
-  if (islandParam !== "st-thomas" && islandParam !== "st-croix") {
-    notFound();
-  }
-
-  const name = getIslandName(islandParam as IslandSlug);
-
+  const { island: slug } = await params;
+  if (!getIslandBySlug(slug) || !["st-thomas", "st-croix"].includes(slug)) notFound();
+  const name = getIslandName(slug as IslandSlug);
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-      <h1 className="text-3xl font-semibold text-archipel-white">
-        Cruise schedule — {name}
-      </h1>
-      <p className="mt-4 text-archipel-white/70">
-        Crowd Predictor dashboard connects in Phase 2.
-      </p>
-      <p className="mt-6 text-sm text-archipel-white/50">
-        Scheduled ship capacity is a planning estimate, not an actual passenger
-        count.
-      </p>
-    </div>
+    <>
+      <MediaBackdrop media={{ id: "cruise-radar", label: "Cruise ports", gradient: "from-rose-400/35 via-midnight-950 to-amber-500/30", src: null, alt: "Abstract port radar composition" }} overlay="hero" priority className="min-h-[54svh]">
+        <div className="section-shell flex min-h-[54svh] flex-col justify-end pb-12 pt-32"><p className="eyebrow-label text-coral">Port radar · Planning signal</p><h1 className="display-type mt-5 text-5xl font-semibold text-white sm:text-7xl">Cruise radar — {name}</h1><p className="mt-5 max-w-2xl text-base leading-7 text-white/68">Read the shape of a port day using scheduled ship capacity. This is a planning estimate—not observed foot traffic or a passenger count.</p></div>
+      </MediaBackdrop>
+      <main className="section-shell py-16 sm:py-20"><div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]"><div className="glass-luminous rounded-[2rem] p-2 sm:p-4"><CrowdPredictor className="border-0 bg-transparent shadow-none" /></div><section className="command-surface rounded-[2rem] p-7 sm:p-9"><p className="eyebrow-label">Read the bands</p><h2 className="display-type mt-4 text-3xl font-semibold text-white">A signal for pacing the island.</h2><div className="mt-7 space-y-3">{[["Quiet", "Lower scheduled capacity"], ["Elevated", "A more active port day"], ["High-impact", "Plan extra time around port corridors"]].map(([label, detail], index) => <div key={label} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/4 p-4"><span className={`h-2.5 w-2.5 rounded-full ${index === 0 ? "bg-aqua" : index === 1 ? "bg-gold" : "bg-coral"}`} /><span><strong className="block text-sm text-white">{label}</strong><span className="text-xs text-white/45">{detail}</span></span></div>)}</div><p className="mt-6 text-xs leading-6 text-white/46">Unknown ship capacity lowers data coverage. Imported schedules should always retain their source and verification timestamp.</p><Link href={`/${slug}`} className="mt-7 inline-flex text-sm font-semibold text-aqua hover:text-white">Return to {name} <span aria-hidden className="ml-2">→</span></Link></section></div></main>
+    </>
   );
 }

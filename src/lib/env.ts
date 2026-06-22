@@ -34,7 +34,16 @@ export const env = envSchema.parse({
 export const SITE_TIMEZONE = "America/St_Thomas" as const;
 
 export function getMapboxAccessToken(): string {
-  return (
+  const token = (
     env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN ?? env.NEXT_PUBLIC_MAPBOX_TOKEN ?? ""
-  );
+  ).trim();
+
+  if (
+    !token ||
+    /^(your[-_ ]|replace[-_ ]|placeholder|changeme)/i.test(token)
+  ) {
+    return "";
+  }
+
+  return token;
 }
