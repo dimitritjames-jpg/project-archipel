@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+:root {
+  --archipel-indigo-950: #0a0e27;
+  --archipel-indigo-900: #121a3d;
+  --archipel-indigo-800: #1a2554;
+  --archipel-indigo-700: #243070;
+  --archipel-white: #f8f9fc;
+  --archipel-botanical: #2d6a4f;
+  --archipel-coral: #e07a5f;
+  --archipel-glass: rgba(18, 26, 61, 0.72);
+  --background: var(--archipel-indigo-950);
+  --foreground: var(--archipel-white);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-indigo-950: var(--archipel-indigo-950);
+  --color-indigo-900: var(--archipel-indigo-900);
+  --color-indigo-800: var(--archipel-indigo-800);
+  --color-indigo-700: var(--archipel-indigo-700);
+  --color-archipel-white: var(--archipel-white);
+  --color-botanical: var(--archipel-botanical);
+  --color-coral: var(--archipel-coral);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: radial-gradient(
+      ellipse 120% 80% at 50% -20%,
+      var(--archipel-indigo-800),
+      var(--archipel-indigo-950) 60%
+    ),
+    var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+}
+
+.glass-panel {
+  background: var(--archipel-glass);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(248, 249, 252, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
