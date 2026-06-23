@@ -159,18 +159,15 @@ export const HERO_MEDIA: MediaAsset = {
 };
 
 export const VIBE_FILTERS = [
-  { id: "adventure", label: "Adventure", href: "/experiences/adventure" },
   { id: "beach", label: "Beach day", href: "/search?vibe=beach" },
   { id: "boat", label: "Boat charter", href: "/st-john/excursions-charters" },
   { id: "food", label: "Local plate", href: "/experiences/culinary" },
-  { id: "culture", label: "Culture walk", href: "/experiences/culture" },
+  { id: "luxury", label: "Sunset dinner", href: "/search?vibe=luxury" },
   { id: "nightlife", label: "Boardwalk night", href: "/st-thomas/nightlife-rhythm" },
-  { id: "family", label: "Family day", href: "/search?vibe=family" },
-  { id: "luxury", label: "Sunset table", href: "/search?vibe=luxury" },
-  { id: "local", label: "Local stop", href: "/search?vibe=local" },
-  { id: "rainy", label: "Rainy day", href: "/search?vibe=rainy" },
+  { id: "culture", label: "Culture walk", href: "/experiences/culture" },
   { id: "cruise", label: "Cruise day", href: "/experiences/cruise-day" },
-  { id: "date", label: "Date night", href: "/search?vibe=date" },
+  { id: "family", label: "Family day", href: "/search?vibe=family" },
+  { id: "rainy", label: "Rainy day", href: "/search?vibe=rainy" },
 ] as const;
 
 export const CATEGORY_MEDIA: Record<string, string> = {

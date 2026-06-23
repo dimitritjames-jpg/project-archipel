@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const islandStats = [
   { value: "Beach", label: "sand + shade" },
   { value: "Boat", label: "reef + sail" },
-  { value: "Bite", label: "plates + bars" },
+  { value: "Night", label: "music + rum" },
 ] as const;
 
 export function HeroMediaSection() {
@@ -25,17 +25,17 @@ export function HeroMediaSection() {
         <div className="section-shell flex min-h-[min(96vh,920px)] flex-col justify-center pb-12 pt-20 sm:pb-16 lg:pt-24">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.55fr)] lg:gap-16">
             <div className="relative z-10">
-              <p className="eyebrow-label">Beach / Boat / Bite / Night</p>
+              <p className="eyebrow-label">The Virgin Islands, by feeling</p>
               <h1 className="display-type text-balance mt-6 max-w-5xl text-archipel-white">
-                Find the move{" "}
+                Find Your{" "}
                 <span className="block bg-gradient-to-r from-sand via-[#8df8ee] to-coral-sunset bg-clip-text text-transparent">
-                  before the sun drops.
+                  Island Vibe.
                 </span>
               </h1>
-              <p className="text-pretty mt-7 max-w-2xl text-base leading-relaxed text-archipel-white/72 sm:text-lg lg:text-xl">
-                You&apos;re in the Virgin Islands. Here&apos;s the move: beach day,
-                boat charter, local plate, boardwalk night, ferry check,
-                cruise-day plan, and the local spots that make the day feel easy.
+              <p className="text-pretty mt-7 max-w-2xl text-base leading-relaxed text-archipel-white/74 sm:text-lg lg:text-xl">
+                Swim the morning, boat the afternoon, eat by the water, and follow
+                the music after dark. VibeVI helps you find the beach, bite, boat,
+                night, and local story that fit your island day.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -59,8 +59,8 @@ export function HeroMediaSection() {
 
               <div className="mt-9 max-w-2xl">
                 <HomeSearchBar />
-                <p className="mt-3 pl-2 text-[11px] leading-relaxed text-archipel-white/42">
-                  Published listings · schedule data, not GPS tracking · preview experiences are labeled
+                <p className="mt-3 pl-2 text-[11px] leading-relaxed text-sand/58">
+                  Try “beach bar,” “Cruz Bay,” “charter,” “pate,” or “sunset dinner.”
                 </p>
               </div>
             </div>
@@ -82,7 +82,7 @@ export function HeroMediaSection() {
                 <div className="absolute inset-x-7 bottom-8 z-10 rounded-[1.4rem] border border-sand/20 bg-[#08242d]/72 p-5 shadow-2xl backdrop-blur-xl">
                   <p className="text-xs font-bold uppercase tracking-[0.18em] text-sand">Today&apos;s island ingredients</p>
                   <p className="mt-3 text-sm leading-6 text-white/70">
-                    Turquoise water, a ferry hop, reef time, local plates, rum-bar gold, and one more sunset stop.
+                    Turquoise water, a ferry hop, reef time, johnny cakes, rum sunset, and one more song after dinner.
                   </p>
                 </div>
               </div>

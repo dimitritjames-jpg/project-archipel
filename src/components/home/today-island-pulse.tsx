@@ -60,12 +60,13 @@ function IslandMoveCard({
 
 export function TodayIslandPulse() {
   return (
-    <section className="relative px-4 py-20 sm:px-6 lg:py-28" aria-labelledby="today-pulse">
+    <section id="today-pulse" className="relative px-4 py-20 sm:px-6 lg:py-28" aria-labelledby="today-pulse-heading">
       <div className="absolute inset-x-0 top-10 h-64 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,184,77,0.12),transparent_62%)]" aria-hidden />
       <div className="relative mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
           <SectionHeader
             eyebrow="What's the move today?"
+            id="today-pulse-heading"
             title="Start with the vibe, then follow the water."
             description="Plan the ferry. Find the table. Chase the sunset. Build the day around ferry hops, beach windows, cruise-day moves, dinner, boats, and late-night rhythm."
           />

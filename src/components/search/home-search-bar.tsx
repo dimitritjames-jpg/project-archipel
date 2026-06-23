@@ -28,9 +28,7 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
   }, []);
 
   useEffect(() => {
-    if (!hydrated) {
-      return;
-    }
+    if (!hydrated) return;
 
     const trimmed = query.trim();
     if (trimmed.length < 2) {
@@ -73,13 +71,13 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
   return (
     <div className={cn("relative z-30", className)}>
       <label htmlFor={inputId} className="sr-only">
-        Search businesses
+        Search VibeVI
       </label>
-      <div className="command-surface rounded-2xl p-1.5 shadow-2xl backdrop-blur-xl">
+      <div className="island-postcard-card rounded-2xl border border-sand/12 bg-[#061b22]/88 p-1.5 shadow-2xl backdrop-blur-xl">
         <div className="flex min-h-[3.5rem] items-center gap-3 rounded-xl border border-white/6 bg-midnight-950/50 px-4 py-2">
           <svg
             aria-hidden
-            className="h-5 w-5 shrink-0 text-aqua/75"
+            className="h-5 w-5 shrink-0 text-sand/75"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -102,15 +100,15 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
             aria-expanded={showResults}
             aria-controls={listboxId}
             aria-autocomplete="list"
-            className="w-full bg-transparent text-sm text-archipel-white placeholder:text-archipel-white/38 focus:outline-none sm:text-base"
+            className="w-full bg-transparent text-sm text-archipel-white placeholder:text-archipel-white/42 focus:outline-none sm:text-base"
           />
           {isPending ? (
             <span className="text-xs text-archipel-white/50" aria-live="polite">
               Searching…
             </span>
           ) : null}
-          <span className="hidden rounded-md border border-white/10 bg-white/5 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.08em] text-archipel-white/38 sm:inline">
-            Supabase
+          <span className="hidden rounded-md border border-sand/15 bg-sand/8 px-2 py-1 text-[9px] font-black uppercase tracking-[0.08em] text-sand/66 sm:inline">
+            Island search
           </span>
         </div>
 
@@ -119,7 +117,7 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
             id={listboxId}
             role="listbox"
             aria-label="Search results"
-            className="absolute left-0 right-0 top-[calc(100%+0.6rem)] z-40 max-h-80 overflow-y-auto rounded-2xl border border-aqua/15 bg-[#041022]/98 p-1.5 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
+            className="absolute left-0 right-0 top-[calc(100%+0.6rem)] z-40 max-h-80 overflow-y-auto rounded-2xl border border-sand/15 bg-[#041022]/98 p-1.5 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
           >
             {error ? (
               <p className="rounded-xl border border-coral/15 bg-coral/8 px-4 py-3 text-sm text-coral">{error}</p>
@@ -135,7 +133,7 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
                     <Link
                       href={result.href}
                       role="option"
-                      className="block rounded-xl border border-transparent px-4 py-3 transition hover:border-aqua/12 hover:bg-aqua/6"
+                      className="block rounded-xl border border-transparent px-4 py-3 transition hover:border-sand/12 hover:bg-sand/6"
                     >
                       <p className="font-medium text-archipel-white">
                         {result.name}

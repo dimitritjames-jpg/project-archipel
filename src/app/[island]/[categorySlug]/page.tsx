@@ -45,7 +45,7 @@ const CHANNEL_GUIDANCE: Record<string, { heading: string; points: string[]; guid
   },
   "st-thomas/excursions-charters": { heading: "Compare the departure point before the boat.", points: ["Confirm marina, pickup, duration, fuel, equipment, weather policy, and cancellation terms.", "VibeVI does not claim live availability or booking inventory.", "Match the return time to ferries, dining, or ship schedules."], guideHref: "/guides/usvi-charters", guideLabel: "Read the USVI charter guide" },
   "st-john/excursions-charters": { heading: "Make the charter fit the ferry and the island.", points: ["Confirm Cruz Bay or Coral Bay departure details directly.", "Treat conditions and operator guidance as authoritative on the day.", "Protect enough time for the return crossing if you are not staying on St. John."], guideHref: "/guides/usvi-charters", guideLabel: "Read the USVI charter guide" },
-  "st-croix/excursions-charters": { heading: "Start with the St. Croix departure geography.", points: ["Buck Island, East End, and West End outings solve different days.", "Confirm authorization, inclusions, conditions, and timing directly.", "VibeVI profiles are discovery context, not live booking inventory."], guideHref: "/st-croix/buck-island", guideLabel: "Open the Buck Island guide" },
+  "st-croix/excursions-charters": { heading: "Start with the St. Croix departure geography.", points: ["Buck Island, East End, and West End outings solve different days.", "Confirm authorization, inclusions, conditions, and timing directly.", "VibeVI profiles are planning starters, not live booking inventory."], guideHref: "/st-croix/buck-island", guideLabel: "Open the Buck Island guide" },
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -106,7 +106,7 @@ export default async function CategoryPage({ params }: Props) {
           </Link>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.45fr] lg:items-end">
             <div>
-              <p className="eyebrow-label">{islandName} / Discovery channel</p>
+              <p className="eyebrow-label">{islandName} / Island route</p>
               <h1 className="text-balance mt-5 text-4xl font-semibold tracking-[-0.055em] text-archipel-white sm:text-6xl lg:text-7xl">
                 {category.name}
               </h1>
@@ -128,7 +128,7 @@ export default async function CategoryPage({ params }: Props) {
               </p>
               <p className="mt-1 text-xs text-archipel-white/42">
                 {demoCount === businesses.length && businesses.length > 0
-                  ? "demo profiles · no real business claims"
+                  ? "sample profiles · no real business claims"
                   : "directory profiles"}
               </p>
             </div>
@@ -180,7 +180,7 @@ export default async function CategoryPage({ params }: Props) {
               href="/search"
               className="mt-7 inline-flex min-h-11 items-center rounded-full bg-aqua px-5 text-sm font-bold text-midnight-950"
             >
-              Open discovery search
+              Find the move
             </Link>
           </div>
         )}

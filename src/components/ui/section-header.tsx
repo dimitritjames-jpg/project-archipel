@@ -6,6 +6,7 @@ type SectionHeaderProps = {
   description?: string;
   className?: string;
   align?: "left" | "center";
+  id?: string;
 };
 
 export function SectionHeader({
@@ -14,6 +15,7 @@ export function SectionHeader({
   description,
   className,
   align = "left",
+  id,
 }: SectionHeaderProps) {
   return (
     <header
@@ -27,7 +29,7 @@ export function SectionHeader({
           {eyebrow}
         </p>
       ) : null}
-      <h2 className="text-balance mt-4 text-3xl font-semibold tracking-[-0.045em] text-archipel-white sm:text-4xl lg:text-5xl">
+      <h2 id={id} className="text-balance mt-4 text-3xl font-semibold tracking-[-0.045em] text-archipel-white sm:text-4xl lg:text-5xl">
         {title}
       </h2>
       {description ? (

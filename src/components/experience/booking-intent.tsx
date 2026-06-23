@@ -34,7 +34,7 @@ export function BookingComingSoonBadge({ className }: { className?: string }) {
         className,
       )}
     >
-      Booking tools coming soon
+      Confirm directly
     </span>
   );
 }

@@ -98,7 +98,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       "A guide-first route into USVI history, festivals, foodways, music, makers, markets, and cultural etiquette.",
     heroTitle: "Go beyond the postcard and find the island story.",
     heroBody:
-      "Culture on VibeVI is built as a respectful discovery path: places to learn, neighborhoods to explore, events to watch for, and local businesses or makers to support when verified inventory is available.",
+      "Follow the sound, people, streets, foodways, makers, forts, markets, and night energy that make the Virgin Islands feel alive.",
     islandRelevance: [
       { island: "st-thomas", angle: "Charlotte Amalie history, harbor culture, music, shopping corridors, and cruise-day context.", href: "/st-thomas/things-to-do" },
       { island: "st-croix", angle: "Christiansted, Frederiksted, food culture, historic forts, music, and community rhythm.", href: "/st-croix/things-to-do" },
@@ -131,9 +131,9 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
     eyebrow: "Local plates · seafood · beach bars · date nights",
     shortDescription:
       "Restaurants, beach bars, brunch, rum rooms, food trucks, private chefs, and dining routes across the USVI.",
-    heroTitle: "Eat where the day is already taking you.",
+    heroTitle: "Eat where the island takes you.",
     heroBody:
-      "Culinary pages should solve the actual island question: what table fits the beach, ferry, cruise port, date night, or late-night route? VibeVI connects dining intent to island categories and verified profile gates.",
+      "Waterfront tables, beach bars, grilled lobster, johnny cakes, pate, brunch, rum drinks, chef-led nights, and late bites after the music starts.",
     islandRelevance: [
       { island: "st-thomas", angle: "Waterfront dining, Red Hook nights, Charlotte Amalie stops, and cruise-day meals.", href: "/st-thomas/indulgent-dining" },
       { island: "st-croix", angle: "Christiansted, Frederiksted, local plates, seafood, food culture, and a slower dining map.", href: "/st-croix/indulgent-dining" },
@@ -156,7 +156,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       "Which profile facts are verified and which should be confirmed directly before you go?",
     ],
     faq: [
-      { question: "Can I reserve a restaurant table on VibeVI?", answer: "No. VibeVI can route you to published profiles and contact paths when verified; reservations stay direct with the business until booking tools launch." },
+      { question: "Can I reserve a restaurant table on VibeVI?", answer: "No. VibeVI can point you toward published profiles and contact paths when verified; reservations stay direct with the business." },
       { question: "Are prices and hours guaranteed?", answer: "No. Prices, hours, menus, and availability must be verified directly with the business." },
     ],
   },
@@ -200,7 +200,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
     slug: "nightlife",
     name: "Nightlife",
     eyebrow: "Music · bars · harbor nights",
-    shortDescription: "Late-night and music discovery mapped to safe return planning.",
+    shortDescription: "Late-night music, beach bars, harbor nights, and safe return planning.",
     heroTitle: "Find the after-dark current.",
     heroBody: "Nightlife pages will grow from verified bars, music rooms, and late-night food.",
     islandRelevance: [{ island: "st-thomas", angle: "The strongest launch nightlife path.", href: "/st-thomas/nightlife-rhythm" }],
@@ -217,7 +217,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
     slug: "wellness",
     name: "Wellness",
     eyebrow: "Spa · reset · slow hours",
-    shortDescription: "Recovery and wellness discovery for slower island days.",
+    shortDescription: "Recovery, spa time, beach calm, and slower island days.",
     heroTitle: "Reset between the bigger moves.",
     heroBody: "Wellness will route visitors to verified spa, recovery, and calm-day listings as inventory grows.",
     islandRelevance: [{ island: "st-thomas", angle: "Launch category path for wellness profiles.", href: "/st-thomas/wellness-spas" }],
@@ -234,9 +234,9 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
     slug: "stays",
     name: "Stays",
     eyebrow: "Hotels · villas · boutique bases",
-    shortDescription: "Stay discovery that helps visitors choose a base by island rhythm.",
+    shortDescription: "Stay ideas that help visitors choose a base by island rhythm.",
     heroTitle: "Choose the base that matches the trip.",
-    heroBody: "Stay pages remain discovery-first until verified lodging inventory and booking partnerships are ready.",
+    heroBody: "Stay pages help frame the kind of base that fits the trip while lodging inventory and direct booking relationships mature.",
     islandRelevance: [{ island: "st-thomas", angle: "Boutique-stay launch category path.", href: "/st-thomas/boutique-stays" }],
     relatedCategories: ["boutique-stays"],
     relatedGuides: [{ href: "/st-thomas/things-to-do", label: "Things to do in St. Thomas", description: "Understand the day routes around a potential base." }],

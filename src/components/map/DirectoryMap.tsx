@@ -61,7 +61,7 @@ export function DirectoryMap({ className, height = 480 }: DirectoryMapProps) {
           </h3>
           <p className="mt-3 text-sm leading-relaxed text-archipel-white/55">
             Find what&apos;s nearby, then follow the water, road, or ferry. Search
-            and island pages remain available while the optional Mapbox token is not configured.
+            and island pages are available while the full interactive view is prepared.
           </p>
           <Link
             href="/search"

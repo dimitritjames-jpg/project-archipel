@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArchipelMark } from "@/components/ui/archipel-mark";
-import { ISLAND_SLUGS, ISLAND_MAP } from "@/lib/islands";
 import { cn } from "@/lib/utils";
 
 const utilityLinks = [
@@ -9,13 +8,10 @@ const utilityLinks = [
   { href: "/experiences/culinary", label: "Bite" },
   { href: "/st-thomas/nightlife-rhythm", label: "Night" },
   { href: "/experiences/culture", label: "Culture" },
-  { href: "/get-listed", label: "Get listed" },
-] as const;
-
-const planningLinks = [
-  { href: "/st-john/ferry-schedule", label: "Ferries" },
-  { href: "/st-thomas/cruise-schedule", label: "Cruise days" },
+  { href: "/#today-pulse", label: "Today" },
+  { href: "/#islands-heading", label: "Islands" },
   { href: "/map", label: "Map" },
+  { href: "/get-listed", label: "Get listed" },
 ] as const;
 
 export function SiteHeader() {
@@ -34,30 +30,11 @@ export function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-0.5 lg:flex">
-          {ISLAND_SLUGS.map((slug) => (
-            <Link
-              key={slug}
-              href={`/${slug}`}
-              className="rounded-full px-3 py-2 text-sm font-medium text-archipel-white/62 transition hover:bg-sand/10 hover:text-sand"
-            >
-              {ISLAND_MAP[slug].name}
-            </Link>
-          ))}
           {utilityLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/52 transition hover:bg-coral/10 hover:text-sand"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <span className="mx-2 h-4 w-px bg-white/12" aria-hidden="true" />
-          {planningLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/42 transition hover:text-aqua"
+              className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/58 transition hover:bg-coral/10 hover:text-sand"
             >
               {link.label}
             </Link>
@@ -72,7 +49,7 @@ export function SiteHeader() {
           )}
         >
           <span className="hidden sm:inline">Find the move</span>
-          <span className="sm:hidden">Discover</span>
+          <span className="sm:hidden">Search</span>
           <span aria-hidden="true">↗</span>
         </Link>
       </div>
@@ -81,14 +58,11 @@ export function SiteHeader() {
         aria-label="Mobile island navigation"
         className="section-shell flex gap-1 overflow-x-auto border-t border-white/5 py-2 lg:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {[...utilityLinks, ...ISLAND_SLUGS.map((slug) => ({
-          href: `/${slug}`,
-          label: ISLAND_MAP[slug].name,
-        })), ...planningLinks].map((link) => (
+        {utilityLinks.map((link) => (
           <Link
             key={link.href}
             href={link.href}
-            className="shrink-0 rounded-full border border-white/8 bg-white/[0.035] px-3 py-1.5 text-xs font-medium text-archipel-white/60 transition hover:border-aqua/25 hover:text-aqua"
+            className="shrink-0 rounded-full border border-white/8 bg-white/[0.035] px-3 py-1.5 text-xs font-medium text-archipel-white/60 transition hover:border-sand/25 hover:text-sand"
           >
             {link.label}
           </Link>

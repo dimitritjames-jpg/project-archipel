@@ -66,7 +66,7 @@ export function DirectoryMapSection({
       </div>
 
       <div className="flex flex-col gap-2 border-t border-white/8 px-5 py-4 text-[11px] text-archipel-white/38 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <p>Map view appears when a Mapbox token is configured.</p>
+        <p>Interactive map view appears when fully configured.</p>
         <p>Search and island pages remain available without the map.</p>
       </div>
     </section>

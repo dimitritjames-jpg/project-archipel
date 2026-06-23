@@ -13,7 +13,7 @@ const utilityLinks = [
   ["/st-john/ferry-schedule", "Ferry board"],
   ["/st-thomas/cruise-schedule", "Cruise days"],
   ["/map", "Island map"],
-  ["/search", "Discovery search"],
+  ["/search", "Find the move"],
   ["/get-listed", "Get listed on VibeVI"],
 ] as const;
 

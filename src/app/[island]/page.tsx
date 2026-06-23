@@ -27,7 +27,7 @@ const ISLAND_DETAILS: Record<
   },
   "st-croix": {
     coordinate: "17.7246° N · 64.7505° W",
-    rhythm: "A wider island canvas: reef depth, food culture, history, and long-road discovery.",
+    rhythm: "A wider island canvas: reef depth, food culture, history, and long-road wandering.",
     editorial: "Move between Christiansted, Cane Bay, Frederiksted, and Buck Island without rushing the middle.",
   },
   "st-john": {
@@ -90,7 +90,7 @@ export default async function IslandPage({ params }: Props) {
   const utilityLinks = [
     hasFerry ? { label: "Ferry board", href: `/${islandParam}/ferry-schedule`, tone: "aqua" } : null,
     hasCruise ? { label: "Cruise days", href: `/${islandParam}/cruise-schedule`, tone: "coral" } : null,
-    { label: "Discovery search", href: `/search?island=${islandParam}`, tone: "white" },
+    { label: "Find the move", href: `/search?island=${islandParam}`, tone: "white" },
     { label: "Map view", href: "/map", tone: "white" },
   ].filter(Boolean) as { label: string; href: string; tone: string }[];
 
@@ -181,7 +181,7 @@ export default async function IslandPage({ params }: Props) {
           <SectionHeader
             eyebrow={`${name} directory`}
             title="Choose the reason you are heading out."
-            description="Premium discovery categories shaped around how an island day actually comes together."
+            description="Premium island-day categories shaped around how a beach, boat, bite, or night actually comes together."
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {CORE_CATEGORIES.map((category, index) => (
