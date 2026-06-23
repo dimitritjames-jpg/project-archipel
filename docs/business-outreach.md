@@ -27,7 +27,7 @@ Future premium profiles may include richer licensed media, expanded story module
 
 - Official business name
 - Island and primary category
-- 40–120 word factual description
+- 40-120 word factual description
 - Area or public address
 - Official website
 - Public phone/email and explicit permission to republish
@@ -37,9 +37,20 @@ Future premium profiles may include richer licensed media, expanded story module
 - Best contact for verification
 - Written confirmation that the submitted information may be published
 
+Use `data/business-intake-template.csv` for bulk collection or `data/business-import-template.json` for admin import preparation. Leave unknown values blank/null rather than guessing.
+
 ## Verification
 
 VibeVI compares submitted information with official/direct sources, records the source and review date, and may ask follow-up questions. Listings remain noindex and direct contact actions stay hidden until the applicable checks pass. Claimed, premium, and verified are separate states.
+
+## Intake handoff checklist
+
+- [ ] Business supplied details directly or details were collected from official/direct sources.
+- [ ] Official website or business-owned social source is recorded.
+- [ ] Public phone/email permission is `granted`, `pending`, or `declined`; never inferred.
+- [ ] Media ownership/license evidence is recorded before any image is used.
+- [ ] `verification_status=submitted`, `demo_status=false`, and `robots_noindex=true` before admin import.
+- [ ] No traffic, ranking, lead, booking, or paid placement promises were made.
 
 ## Ready-to-send message
 

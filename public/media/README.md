@@ -38,3 +38,5 @@ Prefer optimized AVIF or WebP files. Keep meaningful alt text in `src/lib/media.
 - Sponsor creative: `1600 × 900` source plus any placement-specific crop
 
 Keep text, logos, and important faces away from outer crop zones. Record the source, owner, license, approval date, and required credit for every asset before setting a non-null `src` in `src/lib/media.ts`.
+
+See `docs/media-acquisition-checklist.md` for the launch shot list, rights evidence fields, and pre-launch media QA checks.

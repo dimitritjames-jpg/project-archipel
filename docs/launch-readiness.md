@@ -4,7 +4,7 @@ Launch owner: __________  Target date: __________  Go/no-go reviewer: __________
 
 Status values: `blocked`, `in progress`, `passed`, `accepted risk`.
 
-Do not count the fictional demo catalog as launch inventory. Public launch requires verified, source-backed businesses and production configuration.
+Do not count the fictional demo catalog as launch inventory. Public launch requires verified, source-backed businesses and production configuration. Use `docs/public-soft-launch-qa.md` for the required route, mobile, and trust QA pass.
 
 ## 1. Infrastructure and domain
 
@@ -18,6 +18,8 @@ Do not count the fictional demo catalog as launch inventory. Public launch requi
 | Valid Mapbox token configured; attribution and fallback tested |  |  |
 | `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL` configured and monitored |  |  |
 | Preview and production Vercel env vars reviewed separately |  |  |
+| Build command, install command, and output settings match the Vercel project |  |  |
+| Production rollback owner and rollback commit identified |  |  |
 
 Never place Supabase service keys, webhook secrets, or analytics secrets in public variables.
 
@@ -29,8 +31,8 @@ Never place Supabase service keys, webhook secrets, or analytics secrets in publ
 | `/sitemap.xml` returns 200 and uses the production host |  |  |
 | Sitemap submitted in Google Search Console |  |  |
 | Production domain ownership verified in Search Console |  |  |
-| Root, island, guide, utility, category, and business canonicals checked |  |  |
-| Default and key-route Open Graph images are licensed and render at 1200×630 |  |  |
+| Root, island, guide, utility, category, experience, and business canonicals checked |  |  |
+| Default and key-route Open Graph images are licensed and render at 1200x630 |  |  |
 | Twitter/Open Graph titles and descriptions checked |  |  |
 | Demo profile emits `noindex` and no LocalBusiness schema |  |  |
 | Verified sample emits eligible LocalBusiness schema and may index |  |  |
@@ -38,7 +40,7 @@ Never place Supabase service keys, webhook secrets, or analytics secrets in publ
 
 ## 3. Verified inventory gate
 
-- [ ] Publish 30–75 verified USVI businesses with useful island/category coverage.
+- [ ] Publish 30-75 verified USVI businesses with useful island/category coverage.
 - [ ] Record a verification source and human review date for every verified record.
 - [ ] Record contact publication permission before displaying phone/email.
 - [ ] Keep disputed, incomplete, stale, submitted, and demo records noindex.
@@ -47,39 +49,42 @@ Never place Supabase service keys, webhook secrets, or analytics secrets in publ
 - [ ] Remove all sample rows from production imports.
 - [ ] Run duplicate name/slug/contact checks.
 - [ ] Confirm every external URL uses HTTPS and resolves to the intended business.
+- [ ] Intake rows use `data/business-intake-template.csv` or `data/business-import-template.json`.
+- [ ] Intake stage is recorded before admin import.
+- [ ] No private correspondence, owner notes, credentials, or payment details appear in source-controlled import files.
 
-## 4. Top 10 route smoke test
+## 4. Required route smoke test
 
 Run on production at desktop and mobile widths. Record status, HTTP response, canonical, visible heading, console errors, and primary CTA.
 
-| # | Route | Status | Notes |
-|---:|---|---|---|
-| 1 | `/` |  |  |
-| 2 | `/search` |  |  |
-| 3 | `/st-thomas` |  |  |
-| 4 | `/st-croix/things-to-do` |  |  |
-| 5 | `/st-john/ferry-schedule` |  |  |
-| 6 | `/st-thomas/cruise-schedule` |  |  |
-| 7 | `/st-thomas/magens-bay` |  |  |
-| 8 | `/guides/best-beaches-usvi` |  |  |
-| 9 | one verified category and business profile |  |  |
-| 10 | `/get-listed` |  |  |
+| Route | Status | Notes |
+|---|---|---|
+| `/` |  |  |
+| `/search` |  |  |
+| `/map` |  |  |
+| `/get-listed` |  |  |
+| `/experiences/adventure` |  |  |
+| `/experiences/culture` |  |  |
+| `/experiences/culinary` |  |  |
+| `/experiences/cruise-day` |  |  |
+| `/sitemap.xml` |  |  |
+| `/manifest.webmanifest` |  |  |
 
-Also test a demo profile, a missing route, `/manifest.webmanifest`, `/robots.txt`, and `/sitemap.xml`.
+Also test a demo profile, a missing route, `/robots.txt`, one island hub, one category page, one ferry page, and one cruise page.
 
 ## 5. Inquiry and business flow
 
 | Check | Status | Evidence / owner |
 |---|---|---|
 | Get Listed inquiry link opens the intended monitored inbox |  |  |
-| Experience routes load: `/experiences/adventure`, `/experiences/culture`, `/experiences/culinary`, `/experiences/cruise-day` |  |  |
-| Experience CTAs avoid instant booking, payment, live availability, and guaranteed reservation language |  |  |
-| Request-availability CTAs are mailto or preview-only; no personal data is stored locally |  |  |
 | Prefilled inquiry contains no secret or user data |  |  |
 | Test inquiry received and acknowledged |  |  |
 | Owner dashboard and claiming remain labeled unavailable |  |  |
 | Premium/sponsor copy states that packages are not launched |  |  |
 | Business outreach message and verification workflow approved |  |  |
+| Real-business intake workflow reviewed: `docs/real-business-intake-workflow.md` |  |  |
+| CSV/JSON intake templates parse and contain no real guessed data |  |  |
+| Experience/request-availability CTAs remain mailto or preview-only |  |  |
 
 ## 6. Analytics and privacy
 
@@ -92,11 +97,13 @@ Also test a demo profile, a missing route, `/manifest.webmanifest`, `/robots.txt
 | No free-form query, contact details, inquiry body, or precise location collected |  |  |
 | Core event names, including experience and request-availability events, verified in preview and production |  |  |
 | Analytics disclosures updated before network collection starts |  |  |
+| No analytics provider script is present until provider/privacy approval |  |  |
 
 VibeVI currently dispatches local provider-neutral browser events only; no provider is enabled by default.
 
 ## 7. Media and accessibility
 
+- [ ] Media acquisition checklist reviewed: `docs/media-acquisition-checklist.md`.
 - [ ] Every asset has ownership/license evidence, approval date, credit requirements, and allowed use.
 - [ ] No remote hotlinks or unlicensed images.
 - [ ] Hero, island, category, guide, business, sponsor, and OG crops checked.
@@ -104,6 +111,7 @@ VibeVI currently dispatches local provider-neutral browser events only; no provi
 - [ ] Mobile navigation, horizontal rails, cards, and forms checked at 390 px width.
 - [ ] Keyboard focus, landmarks, heading order, link names, and reduced motion checked.
 - [ ] Color contrast checked for text, badges, and focus states.
+- [ ] No non-null media path is set until the asset exists and rights evidence is recorded.
 
 ## 8. Performance and final validation
 
@@ -113,7 +121,8 @@ VibeVI currently dispatches local provider-neutral browser events only; no provi
 | `npm run lint` |  |  |
 | `npm run build` reaches final route summary |  |  |
 | Lighthouse mobile: homepage |  |  |
-| Lighthouse mobile: island hub |  |  |
+| Lighthouse mobile: Get Listed |  |  |
+| Lighthouse mobile: experience page |  |  |
 | Lighthouse mobile: guide |  |  |
 | Lighthouse mobile: category |  |  |
 | Lighthouse mobile: verified profile |  |  |

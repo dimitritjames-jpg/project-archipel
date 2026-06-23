@@ -1,12 +1,13 @@
 {
-  "template_version": "1.0",
+  "template_version": "1.1",
   "instructions": "Duplicate the blank record for each business. Do not guess. Leave unknown optional values null and keep robots_noindex true until verification review passes.",
   "allowed_values": {
     "island": ["STT", "STX", "STJ", "WI"],
     "category": ["excursions-charters", "indulgent-dining", "boutique-stays", "nightlife-rhythm", "wellness-spas", "local-provisions"],
     "verification_status": ["demo", "unverified", "submitted", "verified"],
     "contact_permission_status": ["unknown", "not_requested", "pending", "granted", "declined"],
-    "premium_status": ["none", "featured", "signature"]
+    "premium_status": ["none", "featured", "signature"],
+    "intake_stage": ["sample", "new_submission", "needs_source_review", "needs_permission", "ready_for_admin_import", "imported"]
   },
   "records": [
     {
@@ -27,10 +28,12 @@
       "verification_source": null,
       "last_verified_date": null,
       "contact_permission_status": "not_requested",
+      "contact_permission_evidence": null,
       "premium_status": "none",
       "demo_status": true,
       "robots_noindex": true,
       "claimed_status": false,
+      "intake_stage": "sample",
       "notes": "SAMPLE ROW. Delete or replace before import. Never publish guessed details."
     },
     {
@@ -51,10 +54,12 @@
       "verification_source": null,
       "last_verified_date": null,
       "contact_permission_status": "pending",
+      "contact_permission_evidence": null,
       "premium_status": "none",
       "demo_status": false,
       "robots_noindex": true,
       "claimed_status": false,
+      "intake_stage": "new_submission",
       "notes": ""
     }
   ]

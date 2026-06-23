@@ -49,3 +49,14 @@ Experience and inquiry events are intentionally intent-level until a backend int
 - No event fires from server rendering.
 - The app behaves identically when no provider listens.
 - Consent and privacy disclosures are updated before any provider begins network collection.
+- Source and production HTML do not include provider network scripts until approval.
+- Smoke-test routes can load with analytics disabled.
+- Search Console setup is treated as SEO monitoring, not behavioral analytics.
+
+## Soft-launch provider decision log
+
+| Decision | Status | Notes |
+|---|---|---|
+| Vercel Web Analytics | not enabled | Candidate for post-privacy-review launch. |
+| Google Search Console | required | Submit sitemap after production domain is live. |
+| Google Analytics / Plausible | deferred | Requires owner, retention, consent, and PII review. |

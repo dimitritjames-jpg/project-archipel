@@ -2,6 +2,8 @@
 
 This is an editorial verification workflow, not self-serve onboarding. A listing is never considered verified because it is premium, claimed, well-known, or visually complete.
 
+For soft-launch business collection, start with `docs/real-business-intake-workflow.md` and the templates in `data/`. This document remains the authority for moving a submitted record into verified, indexable public inventory.
+
 ## Listing states
 
 | State | Intended use | Indexing | LocalBusiness schema | Public phone/email |
