@@ -192,6 +192,22 @@ body::before {
     linear-gradient(to top, rgba(5, 31, 35, 0.82), rgba(5, 31, 35, 0.24) 42%, rgba(5, 31, 35, 0.32)) !important;
 }
 
+.destination-hero-photo .bg-gradient-to-t {
+  background-image:
+    linear-gradient(90deg, rgba(4, 20, 25, 0.86) 0%, rgba(4, 20, 25, 0.58) 34%, rgba(4, 20, 25, 0.18) 72%, rgba(4, 20, 25, 0.36) 100%),
+    linear-gradient(to top, rgba(4, 20, 25, 0.8), transparent 48%, rgba(4, 20, 25, 0.22)) !important;
+}
+
+.destination-hero-photo .destination-hero-sky,
+.destination-hero-photo .destination-hero-water,
+.destination-hero-photo .destination-hero-ridge,
+.destination-hero-photo .destination-hero-road,
+.destination-hero-photo .destination-hero-sun,
+.destination-hero-photo .destination-hero-sail,
+.destination-hero-photo .destination-hero-stamp {
+  display: none;
+}
+
 .destination-hero-sky {
   background:
     radial-gradient(circle at 77% 24%, rgba(255, 244, 214, 0.94) 0 4.5rem, rgba(255, 184, 77, 0.42) 4.6rem 9rem, transparent 9.2rem),
@@ -336,6 +352,13 @@ body::before {
   letter-spacing: -0.085em;
   line-height: 0.82;
   text-shadow: 0 5px 32px rgba(0, 0, 0, 0.24);
+}
+
+.destination-hero-photo .destination-display {
+  font-size: clamp(3.4rem, 7.6vw, 6.9rem);
+  letter-spacing: -0.078em;
+  line-height: 0.88;
+  max-width: 54rem;
 }
 
 .destination-postcard-chip {

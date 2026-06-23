@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { DirectoryMapSection } from "@/components/map/directory-map-section";
 import { HeroMediaSection } from "@/components/home/hero-media-section";
 import { IslandPortalCard } from "@/components/home/island-portal-card";
@@ -8,6 +9,7 @@ import { VibeFilterRail } from "@/components/home/vibe-filter-rail";
 import { HomeSearchBar } from "@/components/search/home-search-bar";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ISLAND_SLUGS, type IslandSlug } from "@/lib/islands";
+import { GENERATED_MEDIA_PATHS } from "@/lib/media";
 
 const dayMoves = [
   {
@@ -16,6 +18,8 @@ const dayMoves = [
     line: "Find the sand, shade, and water that fit the day.",
     motif: "Reef-blue shallows, towel down, easy swim.",
     className: "beach-day-card",
+    imageSrc: GENERATED_MEDIA_PATHS.beachDay,
+    imageAlt: "Generated atmospheric beach-day scene with cream sand and turquoise water",
   },
   {
     label: "Boat",
@@ -23,6 +27,8 @@ const dayMoves = [
     line: "Snorkel, beach-hop, or chase the sunset from the water.",
     motif: "Sails, coves, turtles, and one more swim stop.",
     className: "boat-day-card",
+    imageSrc: GENERATED_MEDIA_PATHS.boatDay,
+    imageAlt: "Generated atmospheric boat-day scene with an unbranded sailboat on turquoise water",
   },
   {
     label: "Bite",
@@ -30,6 +36,8 @@ const dayMoves = [
     line: "Local plates, boardwalk tables, beach bars, and chef-led nights.",
     motif: "Johnny cakes, pate, fresh fish, rum-bar gold.",
     className: "bite-day-card",
+    imageSrc: GENERATED_MEDIA_PATHS.biteWaterfront,
+    imageAlt: "Generated atmospheric waterfront dining scene with island plates and golden-hour light",
   },
   {
     label: "Night",
@@ -37,6 +45,8 @@ const dayMoves = [
     line: "Music, rum, waterfront energy, and late moves.",
     motif: "Sunset dinner into harbor lights.",
     className: "night-day-card",
+    imageSrc: GENERATED_MEDIA_PATHS.nightBoardwalk,
+    imageAlt: "Generated atmospheric waterfront boardwalk night scene with warm lights",
   },
 ] as const;
 
@@ -49,6 +59,8 @@ const editorialSections = [
     cta: "Find a bite",
     accent: "from-mango/38 via-coral/24 to-rum-amber/22",
     items: ["Waterfront tables", "Local plates", "Beach bars", "Rum + sunset drinks"],
+    imageSrc: GENERATED_MEDIA_PATHS.biteWaterfront,
+    imageAlt: "Generated atmospheric waterfront dining scene for VibeVI culinary discovery",
   },
   {
     eyebrow: "Feel the rhythm",
@@ -58,6 +70,8 @@ const editorialSections = [
     cta: "Follow the rhythm",
     accent: "from-bougainvillea/30 via-violet-500/24 to-mango/22",
     items: ["Carnival color", "Music roots", "Harbor nights", "Local makers"],
+    imageSrc: GENERATED_MEDIA_PATHS.cultureStreet,
+    imageAlt: "Generated atmospheric island culture street scene with color, market textures, and waterfront light",
   },
   {
     eyebrow: "Pick your water",
@@ -67,6 +81,8 @@ const editorialSections = [
     cta: "Chase the water",
     accent: "from-aqua/42 via-reef-blue/24 to-lime/20",
     items: ["Beach day", "Boat charter", "Snorkel route", "Ferry hop"],
+    imageSrc: GENERATED_MEDIA_PATHS.boatDay,
+    imageAlt: "Generated atmospheric boat-day scene for VibeVI water discovery",
   },
 ] as const;
 
@@ -134,11 +150,18 @@ export default function HomePage() {
                   href={move.href}
                   className={`${move.className} island-vibe-poster group relative min-h-[330px] overflow-hidden rounded-[2rem] border border-white/55 p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)]`}
                 >
-                  <div className="poster-photo-window" aria-hidden />
-                  <span className="relative z-10 inline-flex rounded-full border border-white/60 bg-white/55 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#143740]/78 backdrop-blur-md">
+                  <Image
+                    src={move.imageSrc}
+                    alt={move.imageAlt}
+                    fill
+                    sizes="(max-width: 640px) 92vw, (max-width: 1280px) 44vw, 22vw"
+                    className="object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/24 to-white/8" aria-hidden />
+                  <span className="relative z-10 inline-flex rounded-full border border-white/60 bg-white/72 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#143740]/88 backdrop-blur-md">
                     {move.label}
                   </span>
-                  <div className="relative z-10 mt-28">
+                  <div className="relative z-10 mt-36">
                     <h3 className="text-4xl font-semibold tracking-[-0.06em] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.22)]">{move.label}</h3>
                     <p className="mt-3 text-sm leading-6 text-white/88 drop-shadow">{move.line}</p>
                     <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-white/86">{move.motif}</p>
@@ -219,7 +242,16 @@ export default function HomePage() {
                 href={section.href}
                 className={`island-editorial-card group relative min-h-[430px] overflow-hidden rounded-[2rem] border border-white/55 bg-gradient-to-br ${section.accent} p-5 shadow-[0_26px_86px_rgba(7,151,166,0.14)] transition hover:-translate-y-1 hover:border-white/80`}
               >
-                <div className="editorial-media-frame" aria-hidden />
+                <div className="editorial-media-frame">
+                  <Image
+                    src={section.imageSrc}
+                    alt={section.imageAlt}
+                    fill
+                    sizes="(max-width: 1024px) 92vw, 31vw"
+                    className="object-cover transition duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-white/12" aria-hidden />
+                </div>
                 <div className="relative z-10 mt-6 rounded-[1.5rem] border border-white/45 bg-white/62 p-5 backdrop-blur-md">
                   <p className="eyebrow-label text-reef-blue">{section.eyebrow}</p>
                   <h3 className="mt-5 max-w-sm text-3xl font-semibold tracking-[-0.055em] text-[#173941]">{section.title}</h3>

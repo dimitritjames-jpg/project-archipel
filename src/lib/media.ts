@@ -42,8 +42,17 @@ export const PRODUCTION_MEDIA_PATHS = {
   guides: "/media/guides/{guide-slug}.webp",
   businesses: "/media/businesses/{business-slug}/cover.webp",
   openGraph: "/media/og/vibevi-default-1200x630.webp",
-  generated: "/media/generated/{asset-id}.webp",
+  generated: "/media/generated/{asset-id}.jpg",
   sponsors: "/media/sponsors/{placement-id}.webp",
+} as const;
+
+export const GENERATED_MEDIA_PATHS = {
+  heroIslandSunrise: "/media/generated/vibevi-ai-hero-island-sunrise.jpg",
+  beachDay: "/media/generated/vibevi-ai-beach-day.jpg",
+  boatDay: "/media/generated/vibevi-ai-boat-day.jpg",
+  biteWaterfront: "/media/generated/vibevi-ai-bite-waterfront.jpg",
+  nightBoardwalk: "/media/generated/vibevi-ai-night-boardwalk.jpg",
+  cultureStreet: "/media/generated/vibevi-ai-culture-street.jpg",
 } as const;
 
 export const ISLAND_PORTALS: Record<
@@ -110,15 +119,15 @@ export const EXPERIENCE_MOSAIC: MediaAsset[] = [
     id: "beach-day",
     label: "Beach day",
     gradient: "from-cyan-300/60 via-sky-800 to-amber-200/30",
-    src: null,
-    alt: "Abstract island composition for beach-day discovery",
+    src: GENERATED_MEDIA_PATHS.beachDay,
+    alt: "Generated atmospheric beach-day scene with cream sand, turquoise water, palm shade, and a quiet island cove",
   },
   {
     id: "boat-charter",
     label: "Boat charter",
     gradient: "from-teal-400/50 via-navy-900 to-indigo-500/40",
-    src: null,
-    alt: "Abstract ocean composition for boat-charter discovery",
+    src: GENERATED_MEDIA_PATHS.boatDay,
+    alt: "Generated atmospheric boat-day scene with an unbranded sailboat on turquoise water near a green island cove",
   },
   {
     id: "snorkel-dive",
@@ -131,15 +140,15 @@ export const EXPERIENCE_MOSAIC: MediaAsset[] = [
     id: "sunset-dinner",
     label: "Sunset dinner",
     gradient: "from-orange-400/50 via-purple-950 to-rose-500/45",
-    src: null,
-    alt: "Abstract sunset composition for waterfront dining",
+    src: GENERATED_MEDIA_PATHS.biteWaterfront,
+    alt: "Generated atmospheric waterfront dining scene with island plates, tropical drink, and golden-hour ocean light",
   },
   {
     id: "nightlife",
     label: "Nightlife + rhythm",
     gradient: "from-fuchsia-500/40 via-indigo-950 to-violet-600/50",
-    src: null,
-    alt: "Abstract night composition for island nightlife",
+    src: GENERATED_MEDIA_PATHS.nightBoardwalk,
+    alt: "Generated atmospheric waterfront boardwalk night scene with warm lights, blue-hour water, and music energy",
   },
   {
     id: "local-shops",
@@ -165,11 +174,11 @@ export const EXPERIENCE_MOSAIC: MediaAsset[] = [
 ];
 
 export const HERO_MEDIA: MediaAsset = {
-  id: "hero-archipelago",
+  id: "generated-hero-island-sunrise",
   label: "US Virgin Islands",
   gradient: "from-cyan-200/45 via-midnight-950 to-orange-400/35",
-  src: null,
-  alt: "Abstract warm ocean composition representing the U.S. Virgin Islands",
+  src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
+  alt: "Generated atmospheric island sunrise scene with turquoise water, green hills, beach shoreline, and a distant unbranded sailboat",
 };
 
 export const VIBE_FILTERS = [

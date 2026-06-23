@@ -5,8 +5,10 @@ import { HERO_MEDIA } from "@/lib/media";
 const postcardStops = ["Beach", "Boat", "Bite", "Night"] as const;
 
 export function HeroMediaSection() {
+  const hasGeneratedHero = Boolean(HERO_MEDIA.src);
+
   return (
-    <section className="destination-hero relative -mt-20 overflow-hidden">
+    <section className={`destination-hero ${hasGeneratedHero ? "destination-hero-photo" : ""} relative -mt-20 overflow-hidden`}>
       <MediaBackdrop
         media={HERO_MEDIA}
         overlay="hero"
