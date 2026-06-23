@@ -57,7 +57,8 @@ export function IslandPortalCard({ islandSlug, className }: IslandPortalCardProp
       eventName="island_selected"
       eventProperties={{ island: islandSlug, source: "homepage_portal" }}
       className={cn(
-        "island-card-glow island-portal-postcard group relative block min-h-[320px] overflow-hidden rounded-[1.8rem] border border-white/8 transition duration-500 hover:-translate-y-1.5 hover:border-sand/30 hover:shadow-glow-aqua sm:min-h-[360px]",
+        "island-card-glow island-portal-postcard group relative block min-h-[340px] overflow-hidden rounded-[2rem] border border-white/60 transition duration-500 hover:-translate-y-1.5 hover:border-white/85 hover:shadow-glow-aqua sm:min-h-[390px]",
+        `island-portal-${islandSlug}`,
         className,
       )}
     >

@@ -32,26 +32,26 @@ function IslandMoveCard({
   return (
     <Link
       href={href}
-      className="island-card-glow island-postcard-card group relative flex min-h-52 flex-col justify-between overflow-hidden rounded-[1.4rem] border border-sand/12 bg-[#062532] p-5 transition duration-300 hover:-translate-y-1 hover:border-sand/30"
+      className="island-card-glow group relative flex min-h-52 flex-col justify-between overflow-hidden rounded-[1.5rem] border border-white/70 bg-white/68 p-5 shadow-[0_20px_70px_rgba(7,151,166,0.12)] transition duration-300 hover:-translate-y-1 hover:border-reef-blue/25"
     >
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-black uppercase tracking-[0.18em] text-sand/62">
+        <span className="text-[10px] font-black uppercase tracking-[0.18em] text-reef-blue/72">
           Move / {index}
         </span>
         <span className={cn("h-2 w-2 rounded-full", accentStyles[accent])} />
       </div>
       <div className="relative z-10 mt-10">
         <div className="flex items-center gap-2">
-          <h3 className="text-xl font-semibold tracking-[-0.035em] text-archipel-white transition group-hover:text-sand">
+          <h3 className="text-xl font-semibold tracking-[-0.035em] text-[#173941] transition group-hover:text-reef-blue">
             {title}
           </h3>
           {preview ? <ComingSoonBadge label="Preview" /> : null}
         </div>
-        <p className="text-pretty mt-3 text-sm leading-relaxed text-archipel-white/58">
+        <p className="text-pretty mt-3 text-sm leading-relaxed text-[#496871]">
           {summary}
         </p>
-        <p className="mt-5 text-xs font-semibold text-sand/85">
-          Open the move <span aria-hidden="true">↗</span>
+        <p className="mt-5 text-xs font-semibold text-reef-blue/85">
+          Open the move <span aria-hidden="true">&rarr;</span>
         </p>
       </div>
     </Link>
@@ -60,8 +60,8 @@ function IslandMoveCard({
 
 export function TodayIslandPulse() {
   return (
-    <section id="today-pulse" className="relative px-4 py-20 sm:px-6 lg:py-28" aria-labelledby="today-pulse-heading">
-      <div className="absolute inset-x-0 top-10 h-64 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,184,77,0.12),transparent_62%)]" aria-hidden />
+    <section id="today-pulse" className="homepage-water-section relative px-4 py-20 sm:px-6 lg:py-28" aria-labelledby="today-pulse-heading">
+      <div className="absolute inset-x-0 top-10 h-64 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,184,77,0.22),transparent_62%)]" aria-hidden />
       <div className="relative mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
           <SectionHeader
@@ -70,40 +70,40 @@ export function TodayIslandPulse() {
             title="Start with the vibe, then follow the water."
             description="Plan the ferry. Find the table. Chase the sunset. Build the day around ferry hops, beach windows, cruise-day moves, dinner, boats, and late-night rhythm."
           />
-          <div className="grid grid-cols-3 gap-2 rounded-2xl border border-sand/14 bg-sand/[0.045] p-2 sm:gap-3 sm:p-3">
+          <div className="grid grid-cols-3 gap-2 rounded-2xl border border-white/70 bg-white/62 p-2 shadow-[0_18px_60px_rgba(7,151,166,0.12)] backdrop-blur-md sm:gap-3 sm:p-3">
             {[
               ["Ferry", "Hop"],
               ["Beach", "Window"],
               ["Night", "Rhythm"],
             ].map(([label, state], index) => (
-              <div key={label} className={cn("rounded-xl px-3 py-3", index === 0 && "bg-aqua/7", index === 1 && "bg-sand/7", index === 2 && "bg-coral/7")}>
-                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-archipel-white/42">{label}</p>
-                <p className="mt-1 text-xs font-semibold text-archipel-white/70">{state}</p>
+              <div key={label} className={cn("rounded-xl px-3 py-3", index === 0 && "bg-aqua/12", index === 1 && "bg-sand/32", index === 2 && "bg-coral/12")}>
+                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-[#496871]/62">{label}</p>
+                <p className="mt-1 text-xs font-semibold text-[#173941]/78">{state}</p>
               </div>
             ))}
           </div>
         </div>
 
         <div className="mt-10 grid gap-4 xl:grid-cols-2">
-          <div className="island-postcard-card overflow-hidden rounded-[1.6rem] border border-sand/12 bg-gradient-to-br from-aqua/18 via-[#062532] to-sand/10 p-4 sm:p-5">
+          <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/64 p-4 shadow-[0_24px_80px_rgba(7,151,166,0.14)] backdrop-blur-md sm:p-5">
             <div className="mb-3 flex items-center justify-between px-1">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-aqua/78">
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-reef-blue/78">
                 Ferry hop
               </p>
-              <Link href="/st-john/ferry-schedule" className="text-[11px] text-archipel-white/45 hover:text-aqua">
-                Full ferry board ↗
+              <Link href="/st-john/ferry-schedule" className="text-[11px] text-[#496871]/68 hover:text-reef-blue">
+                Full ferry board &rarr;
               </Link>
             </div>
             <NextBoatWidget className="!min-h-0 !border-0 !bg-transparent !p-1 !shadow-none" />
           </div>
 
-          <div className="island-postcard-card overflow-hidden rounded-[1.6rem] border border-coral/14 bg-gradient-to-br from-coral/18 via-[#221223] to-sand/10 p-4 sm:p-5">
+          <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/64 p-4 shadow-[0_24px_80px_rgba(255,121,104,0.12)] backdrop-blur-md sm:p-5">
             <div className="mb-3 flex items-center justify-between px-1">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-coral-sunset/82">
                 Cruise-day flow
               </p>
-              <Link href="/st-thomas/cruise-schedule" className="text-[11px] text-archipel-white/45 hover:text-coral-sunset">
-                Open cruise schedule ↗
+              <Link href="/st-thomas/cruise-schedule" className="text-[11px] text-[#496871]/68 hover:text-coral-sunset">
+                Open cruise schedule &rarr;
               </Link>
             </div>
             <CrowdPredictor className="!min-h-0 !border-0 !bg-transparent !p-1 !shadow-none" />

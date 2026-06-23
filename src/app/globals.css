@@ -172,6 +172,127 @@ body::before {
   z-index: 1;
 }
 
+.homepage-sunrise-hero {
+  background:
+    radial-gradient(circle at 72% 16%, rgba(255, 184, 77, 0.34), transparent 22rem),
+    radial-gradient(circle at 22% 6%, rgba(125, 232, 220, 0.5), transparent 28rem),
+    linear-gradient(180deg, #fff4d6 0%, #b9f5ed 42%, #fff1cf 100%);
+  color: #173941;
+}
+
+.homepage-sunrise-hero .bg-gradient-to-t {
+  background-image:
+    linear-gradient(to top, rgba(255, 244, 214, 0.82), rgba(255, 244, 214, 0.34) 38%, rgba(255, 244, 214, 0.12)) !important;
+}
+
+.homepage-sunrise-hero .topographic-field {
+  opacity: 0.42;
+}
+
+.homepage-sunrise-hero .signal-grid {
+  opacity: 0.08;
+}
+
+.hero-sandbar {
+  background:
+    radial-gradient(ellipse at 40% 0%, rgba(255, 255, 255, 0.62), transparent 45%),
+    linear-gradient(180deg, rgba(255, 244, 214, 0), rgba(244, 223, 184, 0.94));
+  bottom: -3%;
+  clip-path: ellipse(78% 34% at 50% 100%);
+  height: 30%;
+  left: -8%;
+  pointer-events: none;
+  position: absolute;
+  right: -8%;
+  z-index: 2;
+}
+
+.hero-island-collage {
+  min-height: clamp(30rem, 48vw, 42rem);
+  position: relative;
+}
+
+.hero-collage-photo-slot {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow: 0 32px 90px rgba(7, 151, 166, 0.18);
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-collage-photo-slot::after,
+.poster-photo-window::after,
+.editorial-photo-slot::after,
+.homepage-mini-photo-slot::after,
+.guide-photo-slot::after,
+.story-photo-strip::after {
+  background:
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 18px),
+    radial-gradient(circle at 22% 16%, rgba(255, 244, 214, 0.36), transparent 34%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.hero-collage-photo-main {
+  aspect-ratio: 1.28 / 1;
+  background:
+    radial-gradient(circle at 80% 18%, rgba(255, 244, 214, 0.92), rgba(255, 184, 77, 0.38) 18%, transparent 32%),
+    linear-gradient(135deg, #fff4d6 0%, #7de8dc 42%, #0797a6 74%, #f4dfb8 100%);
+  border-radius: 2.6rem;
+}
+
+.hero-collage-tile {
+  align-items: end;
+  border-radius: 1.6rem;
+  display: flex;
+  min-height: 9.5rem;
+  padding: 1rem;
+  position: absolute;
+  width: 32%;
+  z-index: 7;
+}
+
+.hero-collage-tile span {
+  color: white;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.22);
+}
+
+.hero-collage-tile-beach {
+  background: linear-gradient(145deg, #7de8dc, #f4dfb8);
+  bottom: 7%;
+  left: -3%;
+}
+
+.hero-collage-tile-bite {
+  background: linear-gradient(145deg, #ffb84d, #ff7968);
+  bottom: 0;
+  left: 34%;
+}
+
+.hero-collage-tile-night {
+  background: linear-gradient(145deg, #4f46e5, #ff4f9a 58%, #c9762f);
+  bottom: 9%;
+  right: -2%;
+}
+
+.hero-collage-note {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 1.6rem;
+  bottom: 24%;
+  box-shadow: 0 22px 70px rgba(7, 151, 166, 0.16);
+  max-width: 18rem;
+  padding: 1rem;
+  position: absolute;
+  right: 4%;
+  z-index: 9;
+}
+
 .hero-island-postcard {
   aspect-ratio: 1 / 1;
   background:
@@ -278,8 +399,180 @@ body::before {
   background: linear-gradient(145deg, rgba(255, 79, 154, 0.32), rgba(79, 70, 229, 0.28), rgba(255, 184, 77, 0.16));
 }
 
+.homepage-sand-section,
+.homepage-island-portal-section {
+  background:
+    radial-gradient(circle at 14% 18%, rgba(255, 184, 77, 0.16), transparent 24rem),
+    radial-gradient(circle at 86% 8%, rgba(125, 232, 220, 0.2), transparent 26rem),
+    linear-gradient(180deg, #fff4d6 0%, #f7e7c5 100%);
+  color: #173941;
+}
+
+.homepage-water-section {
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 244, 214, 0.42), transparent 22rem),
+    repeating-radial-gradient(ellipse at 58% 28%, transparent 0 26px, rgba(255, 255, 255, 0.2) 27px 29px, transparent 30px 58px),
+    linear-gradient(135deg, #d9fff9 0%, #fff4d6 48%, #e9fbf7 100%);
+  color: #173941;
+}
+
+.homepage-night-section {
+  background:
+    radial-gradient(circle at 70% 10%, rgba(255, 184, 77, 0.24), transparent 22rem),
+    radial-gradient(circle at 18% 28%, rgba(255, 79, 154, 0.2), transparent 24rem),
+    linear-gradient(180deg, #201232 0%, #120b1f 100%);
+}
+
+.homepage-sand-section .eyebrow-label,
+.homepage-water-section .eyebrow-label,
+.homepage-island-portal-section .eyebrow-label {
+  color: #0797a6;
+}
+
+.homepage-sand-section h2,
+.homepage-water-section h2,
+.homepage-island-portal-section h2 {
+  color: #173941;
+}
+
+.homepage-sand-section header p,
+.homepage-water-section header p,
+.homepage-island-portal-section header p {
+  color: rgba(46, 75, 83, 0.78);
+}
+
+.homepage-night-section header p {
+  color: rgba(255, 244, 214, 0.68);
+}
+
+.homepage-mini-photo-slot,
+.poster-photo-window,
+.editorial-photo-slot,
+.guide-photo-slot,
+.story-photo-strip {
+  position: relative;
+  overflow: hidden;
+}
+
+.homepage-mini-photo-slot {
+  align-items: end;
+  aspect-ratio: 1.55 / 1;
+  background: linear-gradient(135deg, #7de8dc 0%, #fff4d6 56%, #ffb84d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 1.5rem;
+  display: flex;
+  padding: 1rem;
+}
+
+.homepage-mini-photo-slot span,
+.editorial-photo-slot span {
+  color: rgba(23, 57, 65, 0.62);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  position: relative;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.island-vibe-poster::before {
+  background:
+    radial-gradient(circle at 72% 12%, rgba(255, 244, 214, 0.58), transparent 26%),
+    linear-gradient(180deg, transparent 34%, rgba(0, 0, 0, 0.3) 100%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.poster-photo-window {
+  background:
+    radial-gradient(circle at 72% 18%, rgba(255, 244, 214, 0.72), transparent 26%),
+    repeating-radial-gradient(ellipse at 34% 54%, transparent 0 20px, rgba(255, 255, 255, 0.18) 21px 23px, transparent 24px 46px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 1.4rem;
+  height: 42%;
+  inset-inline: 1rem;
+  position: absolute;
+  top: 1rem;
+  z-index: 0;
+}
+
+.beach-day-card {
+  background: linear-gradient(155deg, #7de8dc 0%, #37ead9 38%, #f4dfb8 100%);
+}
+
+.boat-day-card {
+  background: linear-gradient(155deg, #0a4a80 0%, #0797a6 48%, #7de8dc 100%);
+}
+
+.bite-day-card {
+  background: linear-gradient(155deg, #ffb84d 0%, #ff7968 50%, #c9762f 100%);
+}
+
+.night-day-card {
+  background: linear-gradient(155deg, #24133d 0%, #6d3fb9 45%, #ff4f9a 78%, #c9762f 100%);
+}
+
+.editorial-photo-slot {
+  align-items: end;
+  aspect-ratio: 1.45 / 1;
+  background:
+    radial-gradient(circle at 80% 14%, rgba(255, 244, 214, 0.68), transparent 30%),
+    linear-gradient(135deg, rgba(255,255,255,0.2), rgba(7,151,166,0.32));
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 1.55rem;
+  display: flex;
+  padding: 1rem;
+}
+
+.story-photo-strip,
+.guide-photo-slot {
+  background:
+    radial-gradient(circle at 72% 18%, rgba(255, 184, 77, 0.28), transparent 28%),
+    linear-gradient(135deg, rgba(125, 232, 220, 0.48), rgba(255, 244, 214, 0.74));
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 1.15rem;
+}
+
+.story-photo-strip {
+  height: 7.5rem;
+}
+
+.guide-photo-slot {
+  aspect-ratio: 1.35 / 0.78;
+}
+
 .island-portal-postcard {
-  box-shadow: 0 30px 110px rgba(0, 0, 0, 0.34);
+  box-shadow: 0 30px 110px rgba(7, 151, 166, 0.18);
+}
+
+.island-portal-postcard::before {
+  background:
+    radial-gradient(circle at 74% 16%, rgba(255, 244, 214, 0.62), transparent 18%),
+    linear-gradient(180deg, transparent 42%, rgba(0, 0, 0, 0.32));
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 4;
+}
+
+.island-portal-st-thomas {
+  background: linear-gradient(145deg, #0a7ca0, #7de8dc 48%, #ff7968);
+}
+
+.island-portal-st-croix {
+  background: linear-gradient(145deg, #c9762f, #ffb84d 42%, #0797a6);
+}
+
+.island-portal-st-john {
+  background: linear-gradient(145deg, #1b7f54, #37d495 44%, #7de8dc);
+}
+
+.island-portal-water-island {
+  background: linear-gradient(145deg, #f4dfb8, #b8ee75 42%, #7de8dc);
 }
 
 .island-portal-coastline {
