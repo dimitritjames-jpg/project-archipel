@@ -88,6 +88,8 @@ Use this path when the Vercel CLI is not installed, not linked, or not authentic
 
 Do not enter secrets into source files, screenshots, issues, chat messages, or documentation. Keep secret values only in Vercel environment variables or approved secret stores.
 
+If a Vercel URL serves the old Project Archipel build, first confirm the current VibeVI commit is pushed to GitHub. Then redeploy from the latest `main` commit without build cache. See `docs/deployment-recovery.md`.
+
 ## Set environment variables
 
 1. Add Production variables from the table above.
