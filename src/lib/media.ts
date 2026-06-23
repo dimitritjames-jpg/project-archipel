@@ -42,20 +42,20 @@ export const ISLAND_PORTALS: Record<
   }
 > = {
   "st-thomas": {
-    tagline: "Harbor energy & cruise-day pulse",
-    vibe: "Nightlife · ferries · beaches · shopping",
+    tagline: "Harbor buzz, beach resets, and late nights",
+    vibe: "Ferries · Magens Bay · Charlotte Amalie · Red Hook nights",
     highlights: ["Red Hook ferries", "Havensight cruise port", "Magens Bay", "Charlotte Amalie"],
     media: {
       id: "island-stt",
       label: "St. Thomas",
-      gradient: "from-cyan-300/55 via-sky-950/95 to-orange-500/35",
+      gradient: "from-cyan-200/65 via-sky-950/95 to-orange-400/45",
       src: null,
       alt: "Abstract coastal composition representing St. Thomas harbor and hills",
     },
   },
   "st-john": {
-    tagline: "National park & turquoise coves",
-    vibe: "Trails · snorkeling · quiet escape",
+    tagline: "Park trails, turquoise coves, and Cruz Bay ease",
+    vibe: "Trails · snorkeling · quiet escape · reef days",
     highlights: ["Virgin Islands National Park", "Cruz Bay", "Trunk Bay", "Reef charters"],
     media: {
       id: "island-stj",
@@ -66,7 +66,7 @@ export const ISLAND_PORTALS: Record<
     },
   },
   "st-croix": {
-    tagline: "Culture, cuisine & reef depth",
+    tagline: "Big-island soul, food culture, and reef depth",
     vibe: "Food · history · diving · boardwalk rhythm",
     highlights: ["Christiansted", "Buck Island", "Cane Bay", "Frederiksted pier"],
     media: {
@@ -153,23 +153,23 @@ export const EXPERIENCE_MOSAIC: MediaAsset[] = [
 export const HERO_MEDIA: MediaAsset = {
   id: "hero-archipelago",
   label: "US Virgin Islands",
-  gradient: "from-cyan-400/30 via-midnight-950 to-coral-500/25",
+  gradient: "from-cyan-200/45 via-midnight-950 to-orange-400/35",
   src: null,
-  alt: "Abstract navigation field representing the U.S. Virgin Islands",
+  alt: "Abstract warm ocean composition representing the U.S. Virgin Islands",
 };
 
 export const VIBE_FILTERS = [
   { id: "adventure", label: "Adventure", href: "/experiences/adventure" },
-  { id: "beach", label: "Beach", href: "/search?vibe=beach" },
-  { id: "boat", label: "Boat", href: "/st-john/excursions-charters" },
-  { id: "food", label: "Culinary", href: "/experiences/culinary" },
-  { id: "culture", label: "Culture", href: "/experiences/culture" },
-  { id: "nightlife", label: "Nightlife", href: "/st-thomas/nightlife-rhythm" },
-  { id: "family", label: "Family", href: "/search?vibe=family" },
-  { id: "luxury", label: "Luxury", href: "/search?vibe=luxury" },
-  { id: "local", label: "Local", href: "/search?vibe=local" },
+  { id: "beach", label: "Beach day", href: "/search?vibe=beach" },
+  { id: "boat", label: "Boat charter", href: "/st-john/excursions-charters" },
+  { id: "food", label: "Local plate", href: "/experiences/culinary" },
+  { id: "culture", label: "Culture walk", href: "/experiences/culture" },
+  { id: "nightlife", label: "Boardwalk night", href: "/st-thomas/nightlife-rhythm" },
+  { id: "family", label: "Family day", href: "/search?vibe=family" },
+  { id: "luxury", label: "Sunset table", href: "/search?vibe=luxury" },
+  { id: "local", label: "Local stop", href: "/search?vibe=local" },
   { id: "rainy", label: "Rainy day", href: "/search?vibe=rainy" },
-  { id: "cruise", label: "Cruise stop", href: "/experiences/cruise-day" },
+  { id: "cruise", label: "Cruise day", href: "/experiences/cruise-day" },
   { id: "date", label: "Date night", href: "/search?vibe=date" },
 ] as const;
 

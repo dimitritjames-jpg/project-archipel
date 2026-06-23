@@ -18,26 +18,26 @@ type Props = { params: Promise<{ island: string }> };
 
 const ISLAND_DETAILS: Record<
   IslandSlug,
-  { coordinate: string; dispatch: string; editorial: string }
+  { coordinate: string; rhythm: string; editorial: string }
 > = {
   "st-thomas": {
     coordinate: "18.3419° N · 64.9307° W",
-    dispatch: "Harbor energy, ferry choices, cruise-day movement, and late-night momentum.",
+    rhythm: "Harbor energy, ferry choices, cruise-day movement, beach resets, and late-night momentum.",
     editorial: "Build a day from Red Hook to Charlotte Amalie, with Magens Bay as the reset button.",
   },
   "st-croix": {
     coordinate: "17.7246° N · 64.7505° W",
-    dispatch: "A wider island canvas: reef depth, food culture, history, and long-road discovery.",
+    rhythm: "A wider island canvas: reef depth, food culture, history, and long-road discovery.",
     editorial: "Move between Christiansted, Cane Bay, Frederiksted, and Buck Island without rushing the middle.",
   },
   "st-john": {
     coordinate: "18.3358° N · 64.7354° W",
-    dispatch: "National park trails, protected coves, Cruz Bay rhythm, and ferry-timed movement.",
+    rhythm: "National park trails, protected coves, Cruz Bay rhythm, and ferry-timed movement.",
     editorial: "Let the ferry set the clock, then let the park decide the rest of the route.",
   },
   "water-island": {
     coordinate: "18.3181° N · 64.9535° W",
-    dispatch: "Small scale, calm water, a ferry hop, and room for the day to stay simple.",
+    rhythm: "Small scale, calm water, a ferry hop, and room for the day to stay simple.",
     editorial: "Honeymoon Beach, a slow afternoon, and one of the easiest ways to leave the noise behind.",
   },
 };
@@ -89,7 +89,7 @@ export default async function IslandPage({ params }: Props) {
 
   const utilityLinks = [
     hasFerry ? { label: "Ferry board", href: `/${islandParam}/ferry-schedule`, tone: "aqua" } : null,
-    hasCruise ? { label: "Port radar", href: `/${islandParam}/cruise-schedule`, tone: "coral" } : null,
+    hasCruise ? { label: "Cruise days", href: `/${islandParam}/cruise-schedule`, tone: "coral" } : null,
     { label: "Discovery search", href: `/search?island=${islandParam}`, tone: "white" },
     { label: "Map view", href: "/map", tone: "white" },
   ].filter(Boolean) as { label: string; href: string; tone: string }[];
@@ -134,13 +134,13 @@ export default async function IslandPage({ params }: Props) {
                 {portal.tagline}
               </p>
               <p className="text-pretty mt-4 max-w-2xl text-base leading-relaxed text-archipel-white/65 sm:text-lg">
-                {details.dispatch}
+                {details.rhythm}
               </p>
             </div>
 
             <div className="command-surface rounded-[1.4rem] p-5">
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-aqua/65">
-                Island controls
+                Island shortcuts
               </p>
               <div className="mt-4 grid grid-cols-2 gap-2">
                 {utilityLinks.map((link) => (

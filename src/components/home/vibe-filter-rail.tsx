@@ -21,7 +21,7 @@ export function VibeFilterRail({
         <div className="flex items-end justify-between gap-4 border-t border-white/8 pt-6">
           <div>
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-archipel-white/32">
-              Mood routing
+              Pick the feeling
             </p>
             <h2 className="mt-1 text-lg font-semibold tracking-[-0.03em] text-archipel-white sm:text-xl">
               {title}

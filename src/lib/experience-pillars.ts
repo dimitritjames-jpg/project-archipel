@@ -60,9 +60,9 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
     eyebrow: "Boat days · reefs · trails · big water",
     shortDescription:
       "Charters, snorkeling, diving, hiking, beach routes, and water days across the U.S. Virgin Islands.",
-    heroTitle: "Find the adventure that fits today’s island clock.",
+    heroTitle: "Find the adventure that fits today’s island rhythm.",
     heroBody:
-      "Start with the shape of the day: ferry window, cruise return, reef conditions, family pace, or a full-send boat run. VibeVI routes you from inspiration to the right island, guide, category, and published operator profile.",
+      "Start with the feel of the day: ferry window, cruise return, reef conditions, family pace, or a full-send boat run. VibeVI routes you from inspiration to the right island, guide, category, and published operator profile.",
     islandRelevance: [
       { island: "st-thomas", angle: "East End charters, Magens Bay, ferry-linked boat days, and cruise-friendly tours.", href: "/st-thomas/excursions-charters" },
       { island: "st-john", angle: "National park beaches, snorkeling, Cruz Bay charters, and ferry-aware day plans.", href: "/st-john/excursions-charters" },
@@ -98,7 +98,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       "A guide-first route into USVI history, festivals, foodways, music, makers, markets, and cultural etiquette.",
     heroTitle: "Go beyond the postcard and find the island story.",
     heroBody:
-      "Culture on VibeVI is built as a respectful planning layer: places to learn, neighborhoods to explore, events to watch for, and local businesses or makers to support when verified inventory is available.",
+      "Culture on VibeVI is built as a respectful discovery path: places to learn, neighborhoods to explore, events to watch for, and local businesses or makers to support when verified inventory is available.",
     islandRelevance: [
       { island: "st-thomas", angle: "Charlotte Amalie history, harbor culture, music, shopping corridors, and cruise-day context.", href: "/st-thomas/things-to-do" },
       { island: "st-croix", angle: "Christiansted, Frederiksted, food culture, historic forts, music, and community rhythm.", href: "/st-croix/things-to-do" },
@@ -168,7 +168,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       "Cruise-port planning for beaches, tours, food, shopping, and one-day USVI decisions without pretending capacity is live traffic.",
     heroTitle: "Build the shore day backward from all-aboard.",
     heroBody:
-      "Cruise Day turns scheduled port context into practical decisions: which beach, tour, lunch, shop, or cultural stop fits the clock? Capacity is a planning signal—not observed passengers or traffic.",
+      "Cruise Day turns scheduled port context into practical decisions: which beach, tour, lunch, shop, or cultural stop fits the day? Capacity is planning context—not observed passengers or traffic.",
     islandRelevance: [
       { island: "st-thomas", angle: "Havensight, Crown Bay, Magens Bay, Charlotte Amalie, tours, food, and return buffers.", href: "/st-thomas/cruise-day" },
       { island: "st-croix", angle: "Frederiksted arrivals, island distances, Buck Island constraints, and west-end pacing.", href: "/st-croix/cruise-schedule" },
@@ -178,7 +178,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
     relatedCategories: ["excursions-charters", "indulgent-dining", "local-provisions"],
     relatedGuides: [
       { href: "/st-thomas/cruise-day", label: "Cruise day in St. Thomas", description: "Use port, beach, food, and return-margin context in one plan." },
-      { href: "/st-thomas/cruise-schedule", label: "St. Thomas cruise schedule", description: "Review scheduled capacity as a planning signal." },
+      { href: "/st-thomas/cruise-schedule", label: "St. Thomas cruise schedule", description: "Review scheduled capacity as planning context." },
       { href: "/st-thomas/magens-bay", label: "Magens Bay guide", description: "Decide whether the beach fits your port-day clock." },
       { href: "/st-thomas/excursions-charters", label: "St. Thomas excursions", description: "Browse published tour and charter profiles." },
     ],

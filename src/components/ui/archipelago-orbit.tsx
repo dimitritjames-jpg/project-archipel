@@ -23,8 +23,8 @@ export function ArchipelagoOrbit({ className }: ArchipelagoOrbitProps) {
     >
       <div className="absolute inset-4 rounded-[1.4rem] border border-white/6" />
       <div className="absolute left-6 top-6 z-10">
-        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-aqua/70">
-          Archipelago signal
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-sand/80">
+          Four-island flow
         </p>
         <p className="mt-1 text-xs text-archipel-white/45">18.00° N · 64.75° W</p>
       </div>
@@ -36,7 +36,7 @@ export function ArchipelagoOrbit({ className }: ArchipelagoOrbitProps) {
       >
         <defs>
           <radialGradient id="archipel-radar" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#37ead9" stopOpacity="0.18" />
+            <stop offset="0%" stopColor="#7de8dc" stopOpacity="0.18" />
             <stop offset="100%" stopColor="#37ead9" stopOpacity="0" />
           </radialGradient>
           <filter id="archipel-glow" x="-100%" y="-100%" width="300%" height="300%">
@@ -56,7 +56,7 @@ export function ArchipelagoOrbit({ className }: ArchipelagoOrbitProps) {
             cy="150"
             r={radius}
             fill="none"
-            stroke="#37ead9"
+            stroke="#7de8dc"
             strokeOpacity="0.12"
             strokeWidth="1"
           />
@@ -64,7 +64,7 @@ export function ArchipelagoOrbit({ className }: ArchipelagoOrbitProps) {
         <path
           d="M82 114 C95 106 98 98 108 91 C134 75 151 87 175 96 C185 128 169 169 150 208"
           fill="none"
-          stroke="#37ead9"
+          stroke="#fff4d6"
           strokeDasharray="4 7"
           strokeLinecap="round"
           strokeOpacity="0.55"

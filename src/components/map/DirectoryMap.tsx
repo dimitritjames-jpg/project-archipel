@@ -57,7 +57,7 @@ export function DirectoryMap({ className, height = 480 }: DirectoryMapProps) {
           </span>
           <p className="eyebrow-label mt-6">Map preview</p>
           <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-archipel-white">
-            The interactive island layer is waiting for its map signal.
+            The interactive island map is ready when Mapbox is connected.
           </h3>
           <p className="mt-3 text-sm leading-relaxed text-archipel-white/55">
             Directory search and island portals remain available while the optional

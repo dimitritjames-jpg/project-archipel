@@ -4,7 +4,7 @@ import { DirectoryMapSection } from "@/components/map/directory-map-section";
 import { SectionHeader } from "@/components/ui/section-header";
 
 export const metadata: Metadata = {
-  title: "Archipelago Map",
+  title: "Island Map",
   description: "A map-oriented view of published VibeVI business listings across the U.S. Virgin Islands.",
   robots: { index: false, follow: true },
 };
@@ -23,8 +23,8 @@ export default function MapPage() {
         <div className="topographic-field absolute inset-0 opacity-50" aria-hidden />
         <div className="section-shell relative grid gap-8 lg:grid-cols-[1fr_0.6fr] lg:items-end">
           <SectionHeader
-            eyebrow="Archipelago radar"
-            title="Four islands. One connected field."
+            eyebrow="Island map"
+            title="Find the beach, boat, bite, or night."
             description="Use the visual map when Mapbox is configured, or move through the same published directory with island and search routes."
           />
           <div className="grid grid-cols-2 gap-2">

@@ -49,11 +49,11 @@ export function MediaBackdrop({
             aria-hidden
           />
           <div
-            className="topographic-field animate-tide-drift absolute -inset-[8%] opacity-60"
+            className="topographic-field wave-lines animate-tide-drift absolute -inset-[8%] opacity-60"
             aria-hidden
           />
           <div
-            className="signal-grid absolute inset-0 opacity-20 [mask-image:linear-gradient(to_bottom,black,transparent_82%)]"
+            className="signal-grid sailcloth absolute inset-0 opacity-20 [mask-image:linear-gradient(to_bottom,black,transparent_82%)]"
             aria-hidden
           />
         </>
@@ -69,7 +69,7 @@ export function MediaBackdrop({
         className="pointer-events-none absolute inset-0 opacity-35 mix-blend-screen"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 20% 20%, rgba(45,212,191,0.35), transparent 40%), radial-gradient(circle at 80% 0%, rgba(251,113,133,0.25), transparent 35%)",
+            "radial-gradient(circle at 18% 18%, rgba(255,244,214,0.28), transparent 36%), radial-gradient(circle at 76% 0%, rgba(255,184,77,0.18), transparent 34%), radial-gradient(circle at 80% 60%, rgba(45,212,191,0.22), transparent 40%)",
         }}
         aria-hidden
       />

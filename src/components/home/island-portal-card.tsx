@@ -9,7 +9,7 @@ type IslandPortalCardProps = {
   className?: string;
 };
 
-const ISLAND_SIGNAL: Record<IslandSlug, { index: string; coordinate: string }> = {
+const ISLAND_RHYTHM: Record<IslandSlug, { index: string; coordinate: string }> = {
   "st-thomas": { index: "01", coordinate: "18.3419° N" },
   "st-croix": { index: "02", coordinate: "17.7246° N" },
   "st-john": { index: "03", coordinate: "18.3358° N" },
@@ -18,7 +18,7 @@ const ISLAND_SIGNAL: Record<IslandSlug, { index: string; coordinate: string }> =
 
 export function IslandPortalCard({ islandSlug, className }: IslandPortalCardProps) {
   const portal = ISLAND_PORTALS[islandSlug];
-  const signal = ISLAND_SIGNAL[islandSlug];
+  const rhythm = ISLAND_RHYTHM[islandSlug];
 
   return (
     <TrackedLink
@@ -39,9 +39,9 @@ export function IslandPortalCard({ islandSlug, className }: IslandPortalCardProp
         <div className="flex items-start justify-between">
           <div>
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-aqua/75">
-              Portal / {signal.index}
+              Island / {rhythm.index}
             </p>
-            <p className="mt-1 text-[10px] text-archipel-white/35">{signal.coordinate}</p>
+            <p className="mt-1 text-[10px] text-archipel-white/35">{rhythm.coordinate}</p>
           </div>
           <div className="grid h-11 w-11 place-items-center rounded-full border border-white/12 bg-white/5 backdrop-blur-md">
             <span className="h-2 w-2 rounded-full bg-aqua shadow-[0_0_14px_#37ead9]" />

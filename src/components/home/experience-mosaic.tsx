@@ -17,11 +17,11 @@ const MOSAIC_LINKS: Record<string, string> = {
 };
 
 const MOSAIC_COPY: Record<string, string> = {
-  "beach-day": "Read the light, wind, and route before picking your sand.",
-  "boat-charter": "Sails, reef runs, and day boats around the archipelago.",
-  "snorkel-dive": "Reef access and operators for going below the surface.",
+  "beach-day": "Choose the sand by mood: easy swim, quiet cove, or famous view.",
+  "boat-charter": "Sails, reef runs, and day boats that turn the water into the plan.",
+  "snorkel-dive": "Reef access, protected coves, and operators for going below the surface.",
   "sunset-dinner": "Tables with a horizon and kitchens worth crossing town for.",
-  nightlife: "Harbor rooms, rooftops, and the late-night island current.",
+  nightlife: "Harbor rooms, rooftops, music, and the late-night island current.",
   "local-shops": "Markets, makers, provisions, and useful island stops.",
   wellness: "Recovery, reset, and slow hours between bigger plans.",
   "family-day": "Calmer water, easier routes, and room for everyone.",
@@ -33,13 +33,13 @@ export function ExperienceMosaic() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <SectionHeader
-            eyebrow="Build your route"
-            title="Eight ways into the islands."
+            eyebrow="Where the day can go"
+            title="Eight ways into island mode."
             description="Start with the feeling, then find the place. Each tile routes into published listings or clearly labeled editorial previews."
           />
           <p className="max-w-md justify-self-end text-sm leading-relaxed text-archipel-white/42 lg:text-right">
             No generic itinerary required. Mix a ferry hop, a swim, a table, and
-            a late-night signal into a day that actually fits.
+            a boardwalk night into a day that actually fits.
           </p>
         </div>
 
@@ -78,7 +78,7 @@ export function ExperienceMosaic() {
                     </p>
                   ) : null}
                   <span className="mt-3 inline-flex text-[11px] font-semibold text-aqua opacity-0 transition group-hover:opacity-100">
-                    Route me there ↗
+                    Take me there ↗
                   </span>
                 </div>
               </Link>

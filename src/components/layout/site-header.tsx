@@ -14,7 +14,7 @@ const utilityLinks = [
 
 const planningLinks = [
   { href: "/st-john/ferry-schedule", label: "Ferries" },
-  { href: "/st-thomas/cruise-schedule", label: "Port radar" },
+  { href: "/st-thomas/cruise-schedule", label: "Cruise days" },
   { href: "/map", label: "Map" },
 ] as const;
 

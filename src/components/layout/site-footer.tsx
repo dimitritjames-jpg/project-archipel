@@ -10,7 +10,7 @@ const utilityLinks = [
   ["/experiences/cruise-day", "Cruise Day"],
   ["/st-thomas/nightlife-rhythm", "Nightlife"],
   ["/st-john/ferry-schedule", "Ferry board"],
-  ["/st-thomas/cruise-schedule", "Port radar"],
+  ["/st-thomas/cruise-schedule", "Cruise days"],
   ["/map", "Island map"],
   ["/search", "Discovery search"],
   ["/get-listed", "Get listed on VibeVI"],

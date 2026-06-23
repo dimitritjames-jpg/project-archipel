@@ -123,9 +123,9 @@ export function ExperiencePillarPage({
       <main className="section-shell py-16 sm:py-24">
         <section className="grid gap-10 lg:grid-cols-[1fr_0.45fr]" aria-labelledby="island-aware">
           <div>
-            <p className="eyebrow-label">Island-aware discovery</p>
-            <h2 id="island-aware" className="display-type mt-4 max-w-3xl text-3xl font-semibold text-white sm:text-5xl">
-              Same vibe, different island math.
+              <p className="eyebrow-label">Island-aware discovery</p>
+              <h2 id="island-aware" className="display-type mt-4 max-w-3xl text-3xl font-semibold text-white sm:text-5xl">
+              Same vibe, different island rhythm.
             </h2>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {pillar.islandRelevance.map((item) => (
@@ -149,9 +149,9 @@ export function ExperiencePillarPage({
         </section>
 
         <section className="mt-20 border-t border-white/8 pt-14" aria-labelledby="planning-prompts">
-          <p className="eyebrow-label">Planning calculus</p>
+          <p className="eyebrow-label">Before you go</p>
           <h2 id="planning-prompts" className="display-type mt-4 max-w-3xl text-3xl font-semibold text-white">
-            Ask better questions before you contact anyone.
+            Ask the questions that make the day smoother.
           </h2>
           <div className="mt-8 grid gap-4 lg:grid-cols-3">
             {pillar.planningPrompts.map((prompt, index) => (

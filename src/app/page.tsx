@@ -22,9 +22,9 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-7 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
             <SectionHeader
-              eyebrow="Four islands · one archipelago"
-              title="Choose an island. Enter its rhythm."
-              description="Each portal combines useful planning signals with its own geography, pace, and reasons to cross the water."
+              eyebrow="Four islands · four different days"
+              title="Choose an island. Feel the rhythm."
+              description="Each island portal blends practical planning with its own geography, pace, and reasons to cross the water."
             />
             <p className="max-w-md justify-self-end text-sm leading-relaxed text-archipel-white/42 lg:text-right">
               St. Thomas moves fast. St. John opens into the park. St. Croix
@@ -42,7 +42,7 @@ export default function HomePage() {
       <ExperienceMosaic />
 
       <section className="section-shell py-20 lg:py-28" aria-labelledby="planning-guides-heading">
-        <SectionHeader eyebrow="Plan the next move" title="The island questions people actually ask." description="Useful launch guides connect search intent to island context, schedule utilities, directory categories, and published local businesses." />
+        <SectionHeader eyebrow="Plan the next move" title="The island questions people actually ask." description="Useful launch guides connect search intent to island context, ferry and cruise-day utilities, directory categories, and published local businesses." />
         <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             ["/experiences/adventure", "Adventure in the USVI", "Charters, reefs, trails, ferry-aware routes, and inquiry-ready operators."],
@@ -57,7 +57,7 @@ export default function HomePage() {
             ["/water-island/day-trip", "Water Island day trip", "Build the ferry hop around Honeymoon Beach and the return."],
           ].map(([href, label, detail], index) => (
             <Link key={href} href={href} className="command-surface group rounded-[1.35rem] p-5 transition hover:-translate-y-1 hover:border-aqua/25">
-              <span className="font-mono text-[9px] text-aqua/55">FIELD NOTE {String(index + 1).padStart(2, "0")}</span>
+              <span className="font-mono text-[9px] text-aqua/55">ISLAND NOTE {String(index + 1).padStart(2, "0")}</span>
               <h3 className="mt-8 text-lg font-semibold text-white group-hover:text-aqua">{label}</h3>
               <p className="mt-3 text-sm leading-6 text-white/48">{detail}</p>
             </Link>
@@ -68,9 +68,9 @@ export default function HomePage() {
       <section className="px-4 py-20 sm:px-6 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
-            eyebrow="Mapped discovery"
-            title="See the archipelago as one connected day."
-            description="Move between island portals and published listings. When Mapbox is configured, the radar view becomes interactive."
+            eyebrow="Map the next move"
+            title="Find the beach, boat, bite, or night."
+            description="Move between island portals and published listings. When Mapbox is configured, the island map becomes interactive."
           />
           <div className="mt-8">
             <DirectoryMapSection />

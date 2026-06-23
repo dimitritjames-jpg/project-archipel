@@ -26,7 +26,7 @@ export default async function FerryRoutePage({ params }: Props) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
       <MediaBackdrop media={{ id: routeSlug, label: "Directional ferry route", gradient: "from-cyan-300/40 via-midnight-950 to-teal-600/30", src: null, alt: `Abstract ferry route composition for ${title}` }} overlay="hero" priority className="min-h-[58svh]">
         <div className="section-shell flex min-h-[58svh] flex-col justify-end pb-12 pt-32">
-          <div className="flex flex-wrap items-center gap-3"><p className="eyebrow-label">Ferry signal · AST</p><span className="rounded-full border border-gold/25 bg-gold/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-gold">Schedule preview</span></div>
+          <div className="flex flex-wrap items-center gap-3"><p className="eyebrow-label">Ferry check · AST</p><span className="rounded-full border border-gold/25 bg-gold/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-gold">Schedule preview</span></div>
           <h1 className="display-type mt-5 max-w-5xl text-5xl font-semibold text-white sm:text-7xl">{title}</h1>
           <p className="mt-6 max-w-2xl text-base leading-7 text-white/68">A directional route page for planning the crossing. Published times, fares, and service alerts will appear only when their source data is connected and verified.</p>
         </div>
