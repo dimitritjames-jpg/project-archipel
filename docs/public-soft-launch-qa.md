@@ -58,6 +58,17 @@ Also sample one fictional demo profile and verify:
 - fake contact information is not shown;
 - the visible badge clearly says fictional/demo/preview.
 
+Also sample one promoted public-info profile and verify:
+
+- HTTP 200;
+- page is indexable only if the promotion gate passed;
+- no LocalBusiness schema is emitted;
+- visible badge says `Public info`;
+- visible copy says `Unclaimed listing` or equivalent;
+- disclosure says details are sourced from public business pages and should be confirmed directly;
+- CTAs are limited to official site, contact business, directions, and suggest update/claim interest;
+- no booking, reserve, instant availability, partner, verified partner, official listing, or guarantee language appears.
+
 ## Mobile first-impression checklist
 
 Test at 390 px and 430 px wide:
@@ -76,5 +87,6 @@ Test at 390 px and 430 px wide:
 - Cruise capacity is scheduled capacity, not actual passengers.
 - Experience CTAs do not say instant booking, reserve now, pay deposit, confirmed booking, or guaranteed availability.
 - Owner tools, sponsor placements, and analytics dashboards are labeled preview/coming soon.
+- Public-info listings are clearly labeled and do not imply owner verification, partnership, booking, or paid placement.
 - Analytics remains provider-neutral until privacy and consent review is complete.
 - No page uses unlicensed photos or remote hotlinks.

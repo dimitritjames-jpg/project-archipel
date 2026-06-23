@@ -5,6 +5,11 @@ import {
   findLaunchPreviewBusinesses,
   LAUNCH_PREVIEW_BUSINESSES,
 } from "@/lib/businesses/launch-preview-catalog";
+import {
+  findPublicInfoBusiness,
+  findPublicInfoBusinesses,
+  PUBLIC_INFO_BUSINESSES,
+} from "@/lib/businesses/public-info-catalog";
 
 export type PublishedBusinessRow = {
   id: string;
@@ -25,12 +30,18 @@ export type PublishedBusinessRow = {
   verification_status: "demo" | "unverified" | "submitted" | "verified";
   verification_source: string | null;
   last_verified_at: string | null;
-  contact_permission_status: "unknown" | "not_requested" | "pending" | "granted" | "declined";
+  contact_permission_status: "unknown" | "not_requested" | "pending" | "granted" | "declined" | "public_source_only";
   robots_noindex: boolean;
   is_claimed: boolean;
   claimed_at: string | null;
   premium_tier: string;
   published_at: string | null;
+  public_info_listing?: boolean;
+  public_info_disclosure?: string | null;
+  booking_enabled?: boolean;
+  partner_status?: "none" | string;
+  media_rights_status?: "not_granted" | string;
+  source_urls?: string[];
   category: { slug: string; name: string; schema_type: string } | null;
 };
 
@@ -41,7 +52,7 @@ export type BusinessStaticParam = {
 
 /** Seeded listings — used when Supabase is unreachable at build time. */
 export const SEEDED_BUSINESS_STATIC_PARAMS: BusinessStaticParam[] =
-  LAUNCH_PREVIEW_BUSINESSES.map((business) => ({
+  [...PUBLIC_INFO_BUSINESSES, ...LAUNCH_PREVIEW_BUSINESSES].map((business) => ({
     island: CODE_TO_SLUG[business.island],
     slug: business.slug,
   }));
@@ -110,9 +121,15 @@ export async function fetchPublishedBusiness(
   }
 
   if (!supabase) {
-    return findLaunchPreviewBusiness(
-      islandCode as PublishedBusinessRow["island"],
-      businessSlug,
+    return (
+      findPublicInfoBusiness(
+        islandCode as PublishedBusinessRow["island"],
+        businessSlug,
+      ) ??
+      findLaunchPreviewBusiness(
+        islandCode as PublishedBusinessRow["island"],
+        businessSlug,
+      )
     );
   }
 
@@ -153,9 +170,15 @@ export async function fetchPublishedBusiness(
     .maybeSingle();
 
   if (error || !data) {
-    return findLaunchPreviewBusiness(
-      islandCode as PublishedBusinessRow["island"],
-      businessSlug,
+    return (
+      findPublicInfoBusiness(
+        islandCode as PublishedBusinessRow["island"],
+        businessSlug,
+      ) ??
+      findLaunchPreviewBusiness(
+        islandCode as PublishedBusinessRow["island"],
+        businessSlug,
+      )
     );
   }
 
@@ -184,10 +207,16 @@ export async function fetchPublishedBusinessesByCategory(
   }
 
   const previewFallback = () =>
-    findLaunchPreviewBusinesses(
-      islandCode as PublishedBusinessRow["island"],
-      categorySlug,
-    );
+    [
+      ...findPublicInfoBusinesses(
+        islandCode as PublishedBusinessRow["island"],
+        categorySlug,
+      ),
+      ...findLaunchPreviewBusinesses(
+        islandCode as PublishedBusinessRow["island"],
+        categorySlug,
+      ),
+    ];
 
   if (!supabase) {
     return previewFallback();

@@ -43,6 +43,43 @@ Do not copy these candidates into public, indexable listings until the acceptanc
 
 Use the candidate file as the research queue for outreach, not as a production seed file.
 
+## Public-info listing promotion criteria
+
+Approved promotion file: `data/public-info-businesses-batch-1-approved.json`.
+
+Promotion is intentionally selective. Batch 1 reviewed 30 researched candidates and promoted 15 public-info listings. The remaining 15 stay in human review.
+
+A public-info listing is:
+
+- a real business listing created from public official information;
+- not owner-verified;
+- not claimed;
+- not premium;
+- not a partner;
+- not bookable through VibeVI;
+- not allowed to use unlicensed media.
+
+Promotion requires all of the following:
+
+1. official business website or strong official public source;
+2. `operating_status=active_public_evidence`;
+3. operating-status evidence URL;
+4. last checked date;
+5. original VibeVI description, not copied source copy;
+6. sourced contact info, address/area, and website;
+7. no media unless rights are granted;
+8. `booking_enabled=false`;
+9. `claimed=false`;
+10. `premium=false`;
+11. `partner_status=none`;
+12. visible public-info disclosure;
+13. safe indexing recommendation;
+14. no LocalBusiness schema unless the verified schema gate passes later.
+
+Public-facing language is limited to labels such as `Public info`, `Unclaimed listing`, `Details are sourced from public business pages. Confirm directly with the business before making plans.`, and `Contact the business directly.`
+
+Do not use partner, verified partner, official listing, guaranteed, live availability, reserve instantly, or book-now language for public-info listings.
+
 ## Fields required for each business
 
 - business name;

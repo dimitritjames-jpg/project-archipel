@@ -9,11 +9,37 @@ For soft-launch business collection, start with `docs/real-business-intake-workf
 | State | Intended use | Indexing | LocalBusiness schema | Public phone/email |
 |---|---|---:|---:|---:|
 | `demo` | Fictional layout inventory | No | No | No |
+| `public_info` | Real unclaimed listing promoted from strong official public sources | Yes, only after promotion gate | No | Yes, only if sourced from official/public pages and clearly disclosed |
 | `submitted` | Business or researcher supplied details awaiting review | No | No | No |
 | `unverified` | Incomplete or stale source review | No | No | No |
 | `verified` | Human-reviewed, source-backed real listing | Only when `robots_noindex=false` and schema gate passes | Only when schema gate passes | Only with `contact_permission_status=granted` |
 
 `is_claimed` is independent ownership context. `premium_tier` is independent commercial context. Neither changes verification.
+
+## Public-info listing promotion criteria
+
+Public-info listings are not verified listings. They are a controlled launch bridge for real businesses with strong public-source evidence.
+
+Required gate:
+
+- official business website or strong official public source;
+- active public operating evidence;
+- evidence URL and last checked date;
+- original VibeVI description;
+- sourced website, contact details if shown, and area/address;
+- `public_info_listing=true`;
+- `is_demo=false`;
+- `is_verified=false`;
+- `verification_status=submitted`;
+- `is_claimed=false`;
+- `premium_tier=none`;
+- `booking_enabled=false`;
+- `partner_status=none`;
+- `media_rights_status=not_granted`;
+- visible disclosure copy;
+- no LocalBusiness schema.
+
+Public-info pages may index after this gate passes because they are real public-source listings, but schema remains disabled until the verified schema gate passes. Public-info copy must not say partner, verified partner, official listing, book now, reserve instantly, live availability, guaranteed, or any equivalent claim.
 
 ## Add a real business
 
@@ -84,3 +110,5 @@ The application emits LocalBusiness-derived schema only when all are true:
 - `robots_noindex` is false for indexing.
 
 Run a production HTML check after every schema-affecting change. Paid placement and claimed ownership never bypass this gate.
+
+Public-info listings intentionally fail this schema gate because they are not `verified` and `is_verified=true`. This is expected.

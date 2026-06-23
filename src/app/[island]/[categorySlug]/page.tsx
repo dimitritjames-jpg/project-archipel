@@ -146,7 +146,7 @@ export default async function CategoryPage({ params }: Props) {
             <p className="mt-1 text-sm text-archipel-white/55">
               {demoCount === businesses.length && businesses.length > 0
                 ? "Fictional demo inventory · unverified · no paid ranking"
-                : "Published Supabase listings · no paid ranking in this view"}
+                : "Published directory listings - no paid ranking in this view"}
             </p>
           </div>
           <Link

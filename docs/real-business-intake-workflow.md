@@ -38,6 +38,29 @@ Allowed operating status values:
 
 Public evidence is useful for outreach and duplicate prevention. It is not permission to publish phone/email, use photos, imply endorsement, or mark a business verified.
 
+## Public-info listing promotion criteria
+
+Public-info promotion is a middle state between researched candidate and owner-verified listing. It is reserved for candidates with strong official public evidence and safe copy.
+
+The approved public-info promotion file is `data/public-info-businesses-batch-1-approved.json`.
+
+Public-info listings may be indexable only after the promotion gate passes, but they remain:
+
+- `verification_status=submitted`;
+- `is_verified=false`;
+- `public_info_listing=true`;
+- `is_demo=false`;
+- `claimed=false`;
+- `premium=false`;
+- `booking_enabled=false`;
+- `partner_status=none`;
+- `media_rights_status=not_granted`;
+- `contact_permission_status=public_source_only`.
+
+They must display the disclosure: "Details are sourced from public business pages. Confirm directly with the business before making plans."
+
+Public-info listings do not emit LocalBusiness schema. Schema remains reserved for the verified listing gate.
+
 ## Minimum required fields for a launch candidate
 
 - official business name;
@@ -63,6 +86,8 @@ Phone and email must not appear on a public profile unless:
 5. the rendered profile passes the existing trust gate.
 
 Do not infer permission because a phone number is visible somewhere else.
+
+Exception for public-info listings: phone/email may appear only when sourced from official/public business pages and labeled as public-info/unclaimed. This does not create verified, claimed, premium, partner, booking, or schema eligibility.
 
 ## Intake-to-import handoff
 

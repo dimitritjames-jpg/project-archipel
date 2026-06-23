@@ -7,6 +7,7 @@ import {
   SEEDED_BUSINESS_STATIC_PARAMS,
 } from "@/lib/businesses/queries";
 import { findLaunchPreviewCategorySlug } from "@/lib/businesses/launch-preview-catalog";
+import { findPublicInfoCategorySlug } from "@/lib/businesses/public-info-catalog";
 import { shouldIndexListing } from "@/lib/businesses/listing-trust";
 import { getCategoryBySlug } from "@/lib/categories";
 import { env } from "@/lib/env";
@@ -64,6 +65,9 @@ export async function generateStaticParams() {
 }
 
 function inferCategorySlug(businessSlug: string): string {
+  const publicInfoCategory = findPublicInfoCategorySlug(businessSlug);
+  if (publicInfoCategory) return publicInfoCategory;
+
   const previewCategory = findLaunchPreviewCategorySlug(businessSlug);
   if (previewCategory) return previewCategory;
 

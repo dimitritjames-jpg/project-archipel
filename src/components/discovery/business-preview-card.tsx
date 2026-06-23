@@ -26,6 +26,7 @@ export function BusinessPreviewCard({
 }: BusinessPreviewCardProps) {
   const categorySlug = business.category?.slug ?? "directory";
   const trustState = getListingTrustState(business);
+  const isPublicInfo = trustState === "public_info";
   const schemaEligible = isLocalBusinessSchemaEligible(business);
   const href = `/${islandSlug}/${categorySlug}/${business.slug}`;
   const gradient =
@@ -55,6 +56,11 @@ export function BusinessPreviewCard({
           <div className="flex flex-wrap gap-2">
             <ComingSoonBadge label={LISTING_STATE_LABELS[trustState]} />
             {launchPreview && trustState !== "demo" ? <ComingSoonBadge label="Launch set" /> : null}
+            {isPublicInfo ? (
+              <span className="rounded-full border border-aqua/25 bg-aqua/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-aqua">
+                Unclaimed
+              </span>
+            ) : null}
             {(trustState === "verified" || trustState === "verified_claimed") ? (
               <span className="rounded-full border border-lime/30 bg-lime/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lime">
                 Verified local
@@ -83,7 +89,11 @@ export function BusinessPreviewCard({
         </p>
         <div className="mt-5 flex items-center justify-between border-t border-white/7 pt-4">
           <span className="text-[11px] font-semibold text-aqua/75">
-            {trustState === "demo" ? "View demo profile" : "Open profile"}
+            {trustState === "demo"
+              ? "View demo profile"
+              : isPublicInfo
+                ? "View public-info profile"
+                : "Open profile"}
           </span>
           {schemaEligible && business.price_range ? (
             <span className="text-xs text-archipel-white/38">{business.price_range}</span>
