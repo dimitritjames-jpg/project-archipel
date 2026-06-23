@@ -4,11 +4,12 @@ import { SITE_TIMEZONE } from "@/lib/env";
 import { ISLAND_SLUGS, ISLAND_MAP } from "@/lib/islands";
 
 const utilityLinks = [
-  ["/experiences/adventure", "Adventure"],
+  ["/guides/best-beaches-usvi", "Beach"],
+  ["/experiences/adventure", "Boat"],
+  ["/experiences/culinary", "Bite"],
+  ["/st-thomas/nightlife-rhythm", "Night"],
   ["/experiences/culture", "Culture"],
-  ["/experiences/culinary", "Culinary"],
   ["/experiences/cruise-day", "Cruise Day"],
-  ["/st-thomas/nightlife-rhythm", "Nightlife"],
   ["/st-john/ferry-schedule", "Ferry board"],
   ["/st-thomas/cruise-schedule", "Cruise days"],
   ["/map", "Island map"],
@@ -18,8 +19,10 @@ const utilityLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/8 bg-[#010611]">
+    <footer className="relative overflow-hidden border-t border-sand/12 bg-[#010611]">
       <div className="topographic-field absolute inset-y-0 right-0 w-1/2 opacity-35" aria-hidden />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sand/45 to-transparent" aria-hidden />
+
       <div className="section-shell relative py-14 sm:py-18">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_0.6fr_0.6fr]">
           <div>
@@ -29,16 +32,16 @@ export function SiteFooter() {
                 VibeVI
               </p>
             </div>
-            <p className="text-pretty mt-5 max-w-xl text-base leading-relaxed text-archipel-white/55">
-              Find Your Island Vibe—beaches, boats, bites, ferry checks, cruise-day
-              planning, and local businesses across the U.S. Virgin Islands.
+            <p className="text-pretty mt-5 max-w-xl text-base leading-relaxed text-archipel-white/58">
+              Find Your Island Vibe — beach mornings, boat days, local plates,
+              waterfront nights, ferry checks, cruise-day planning, and local businesses across the U.S. Virgin Islands.
             </p>
             <div className="mt-7 flex flex-wrap gap-2">
               <span className="rounded-full border border-aqua/15 bg-aqua/7 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-aqua/80">
                 Schedule-aware
               </span>
-              <span className="rounded-full border border-white/10 bg-white/4 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-archipel-white/55">
-                Four islands
+              <span className="rounded-full border border-sand/14 bg-sand/7 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-sand/80">
+                Beach / Boat / Bite / Night
               </span>
               <span className="rounded-full border border-coral/15 bg-coral/7 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-coral-sunset/80">
                 Launch preview
@@ -53,7 +56,7 @@ export function SiteFooter() {
                 <li key={slug}>
                   <Link
                     href={`/${slug}`}
-                    className="text-sm text-archipel-white/58 transition hover:translate-x-1 hover:text-aqua"
+                    className="text-sm text-archipel-white/58 transition hover:translate-x-1 hover:text-sand"
                   >
                     {ISLAND_MAP[slug].name}
                   </Link>
@@ -63,31 +66,31 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="eyebrow-label">Utilities</p>
+            <p className="eyebrow-label">Find the move</p>
             <ul className="mt-5 space-y-3">
               {utilityLinks.map(([href, label]) => (
                 <li key={href}>
                   <Link
                     href={href}
-                    className="text-sm text-archipel-white/58 transition hover:text-aqua"
+                    className="text-sm text-archipel-white/58 transition hover:text-sand"
                   >
                     {label}
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href="/get-listed" className="text-sm text-coral-sunset/80 hover:text-coral-sunset">
-                  Get listed on VibeVI
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
 
         <div className="mt-12 flex flex-col gap-5 rounded-[1.4rem] border border-coral/15 bg-coral/6 p-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="flex flex-wrap items-center gap-2"><p className="text-lg font-semibold text-white">Run a USVI business?</p><span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[9px] uppercase tracking-[0.12em] text-white/50">Owner tools preview</span></div>
-            <p className="mt-2 text-sm text-white/50">Get listed on VibeVI now and prepare for richer profiles, sponsor features, and direct discovery.</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-lg font-semibold text-white">Run a USVI business?</p>
+              <span className="rounded-full border border-white/10 bg-white/5 px-2 py-1 text-[9px] uppercase tracking-[0.12em] text-white/50">Owner tools preview</span>
+            </div>
+            <p className="mt-2 text-sm text-white/50">
+              Get listed on VibeVI now so visitors can find the beach bar, boat day, local plate, shop, stay, or night out that fits.
+            </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link href="/get-listed" className="rounded-full bg-coral px-5 py-2.5 text-sm font-bold text-midnight-950">Get listed on VibeVI</Link>
@@ -98,7 +101,7 @@ export function SiteFooter() {
         <div className="mt-12 grid gap-3 border-t border-white/8 pt-6 text-[11px] leading-relaxed text-archipel-white/35 sm:grid-cols-[1fr_auto]">
           <p>
             Ferry information is schedule-based. Confirm with the operator before
-            travel. Scheduled ship capacity is a planning estimate—not an actual
+            travel. Scheduled ship capacity is a planning estimate — not an actual
             passenger count. Times display in {SITE_TIMEZONE} when available.
           </p>
           <p>© {new Date().getFullYear()} VibeVI</p>

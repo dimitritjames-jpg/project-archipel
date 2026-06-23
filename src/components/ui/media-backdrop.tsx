@@ -19,7 +19,7 @@ export function MediaBackdrop({
 }: MediaBackdropProps) {
   const overlayClass =
     overlay === "hero"
-      ? "from-midnight-950/30 via-midnight-950/75 to-midnight-950/95"
+      ? "from-[#02131a]/18 via-[#05202b]/52 to-midnight-950/90"
       : overlay === "subtle"
         ? "from-midnight-950/20 via-midnight-950/50 to-midnight-950/80"
         : "from-midnight-950/40 via-midnight-950/70 to-midnight-950/90";

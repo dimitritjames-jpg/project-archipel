@@ -4,11 +4,11 @@ import { ISLAND_SLUGS, ISLAND_MAP } from "@/lib/islands";
 import { cn } from "@/lib/utils";
 
 const utilityLinks = [
-  { href: "/experiences/adventure", label: "Adventure" },
+  { href: "/guides/best-beaches-usvi", label: "Beach" },
+  { href: "/experiences/adventure", label: "Boat" },
+  { href: "/experiences/culinary", label: "Bite" },
+  { href: "/st-thomas/nightlife-rhythm", label: "Night" },
   { href: "/experiences/culture", label: "Culture" },
-  { href: "/experiences/culinary", label: "Culinary" },
-  { href: "/experiences/cruise-day", label: "Cruise Day" },
-  { href: "/st-thomas/nightlife-rhythm", label: "Nightlife" },
   { href: "/get-listed", label: "Get listed" },
 ] as const;
 
@@ -20,7 +20,7 @@ const planningLinks = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-midnight-950/82 backdrop-blur-2xl">
+    <header className="sticky top-0 z-50 border-b border-sand/12 bg-[#03131b]/84 backdrop-blur-2xl">
       <div className="section-shell flex h-16 items-center justify-between gap-4">
         <Link
           href="/"
@@ -38,7 +38,7 @@ export function SiteHeader() {
             <Link
               key={slug}
               href={`/${slug}`}
-              className="rounded-full px-3 py-2 text-sm font-medium text-archipel-white/62 transition hover:bg-white/7 hover:text-archipel-white"
+              className="rounded-full px-3 py-2 text-sm font-medium text-archipel-white/62 transition hover:bg-sand/10 hover:text-sand"
             >
               {ISLAND_MAP[slug].name}
             </Link>
@@ -47,7 +47,7 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/50 transition hover:text-aqua"
+              className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/52 transition hover:bg-coral/10 hover:text-sand"
             >
               {link.label}
             </Link>
@@ -57,7 +57,7 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/40 transition hover:text-aqua"
+              className="rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-archipel-white/42 transition hover:text-aqua"
             >
               {link.label}
             </Link>
@@ -71,7 +71,7 @@ export function SiteHeader() {
             "shadow-[0_0_32px_rgba(55,234,217,0.18)] transition hover:-translate-y-0.5 hover:bg-[#73f6e9]",
           )}
         >
-          <span className="hidden sm:inline">Open discovery</span>
+          <span className="hidden sm:inline">Find the move</span>
           <span className="sm:hidden">Discover</span>
           <span aria-hidden="true">↗</span>
         </Link>

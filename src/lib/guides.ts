@@ -35,12 +35,12 @@ export const ISLAND_GUIDES: Record<string, LaunchGuide> = {
     introduction: "St. Thomas can turn from harbor city to beach road to ferry launch in one day. Start with where you are, check the port and ferry context, then choose one strong move instead of racing the whole island.",
     essentials: [
       { title: "Pick the day’s anchor", body: "Choose Magens Bay, Charlotte Amalie, Red Hook, or an on-water outing first. Let travel time and the return route shape everything around it." },
-      { title: "Read the port signal", body: "Scheduled cruise capacity can help you anticipate a busier port corridor. It is a planning estimate, not an observed passenger count." },
+      { title: "Read the port picture", body: "Scheduled cruise capacity can help you anticipate a busier port corridor. It is a planning estimate, not an observed passenger count." },
       { title: "Save energy for after dark", body: "Dining and nightlife stretch from Charlotte Amalie to the East End. Confirm current hours and reservations directly with each business." },
     ],
     related: [
       { href: "/st-thomas/magens-bay", label: "Magens Bay guide", description: "Build a beach day with transport and dining connections." },
-      { href: "/st-thomas/cruise-schedule", label: "St. Thomas cruise schedule", description: "Check the scheduled port-load planning signal." },
+      { href: "/st-thomas/cruise-schedule", label: "St. Thomas cruise schedule", description: "Check the scheduled port-load planning note." },
       { href: "/st-thomas/nightlife-rhythm", label: "St. Thomas nightlife", description: "Browse published bars, music, and late-night listings." },
       { href: "/st-thomas/ferry-schedule", label: "St. Thomas ferry schedule", description: "Review directional ferry planning information." },
     ],
@@ -122,7 +122,7 @@ export const ISLAND_GUIDES: Record<string, LaunchGuide> = {
     description: "Plan snorkeling in St. John with practical guidance on access, conditions, ability, park context, and local charter options.",
     introduction: "A useful snorkeling guide starts with conditions and ability, not a fixed top-ten list. Shore access and charter trips solve different days; both require a current safety check.",
     essentials: [
-      { title: "Choose shore or boat", body: "Shore snorkeling can be flexible; a qualified charter can add equipment, local context, and access. Confirm exactly what an operator includes." },
+      { title: "Choose shore or boat", body: "Shore snorkeling can be flexible; a qualified charter can add equipment, local know-how, and access. Confirm exactly what an operator includes." },
       { title: "Read the water first", body: "Wind, swell, current, visibility, and entry conditions change. Never treat a static guide as a current safety report." },
       { title: "Respect protected places", body: "Follow National Park Service guidance, avoid touching coral, and use reef-conscious practices throughout the day." },
     ],
@@ -145,11 +145,11 @@ export const ISLAND_GUIDES: Record<string, LaunchGuide> = {
     introduction: "A strong port day is built backward from the all-aboard time. Pick one anchor experience, understand which port you are using, and leave a generous return margin.",
     essentials: [
       { title: "Know your port", body: "Havensight and Crown Bay create different starting routes. Confirm your ship’s berth and all-aboard time using authoritative cruise information." },
-      { title: "Use capacity as context", body: "VibeVI’s crowd signal sums scheduled ship capacity when known. It does not measure actual passengers ashore or live street traffic." },
+      { title: "Use capacity as a planning note", body: "VibeVI sums scheduled ship capacity when known. It does not measure actual passengers ashore or live street traffic." },
       { title: "Book with a return plan", body: "For beaches, taxis, and tours, confirm duration, pickup point, cancellation terms, and the return buffer directly with the provider." },
     ],
     related: [
-      { href: "/st-thomas/cruise-schedule", label: "St. Thomas cruise schedule", description: "Review the scheduled port-load signal." },
+      { href: "/st-thomas/cruise-schedule", label: "St. Thomas cruise schedule", description: "Review the scheduled port-load note." },
       { href: "/st-thomas/magens-bay", label: "Magens Bay guide", description: "Decide whether the beach fits the port-day clock." },
       { href: "/st-thomas/excursions-charters", label: "St. Thomas tours", description: "Browse published excursion and charter profiles." },
       { href: "/st-thomas/indulgent-dining", label: "St. Thomas dining", description: "Find a local table near the day’s route." },

@@ -5,7 +5,7 @@ import { SectionHeader } from "@/components/ui/section-header";
 
 export const metadata: Metadata = {
   title: "Island Map",
-  description: "A map-oriented view of published VibeVI business listings across the U.S. Virgin Islands.",
+  description: "See VibeVI places across the U.S. Virgin Islands and follow the water, road, or ferry to the next move.",
   robots: { index: false, follow: true },
 };
 
@@ -25,14 +25,14 @@ export default function MapPage() {
           <SectionHeader
             eyebrow="Island map"
             title="Find the beach, boat, bite, or night."
-            description="Use the visual map when Mapbox is configured, or move through the same published directory with island and search routes."
+            description="See the islands as one connected day. Find what is nearby, then follow the water, road, or ferry."
           />
           <div className="grid grid-cols-2 gap-2">
             {mapRoutes.map(([label, href], index) => (
               <Link
                 key={href}
                 href={href}
-                className="rounded-xl border border-white/8 bg-white/[0.035] px-4 py-3 text-sm text-archipel-white/62 transition hover:border-aqua/25 hover:text-aqua"
+                className="rounded-xl border border-sand/12 bg-sand/[0.04] px-4 py-3 text-sm text-archipel-white/68 transition hover:border-sand/30 hover:text-sand"
               >
                 <span className="mr-2 font-mono text-[9px] text-archipel-white/28">
                   {String(index + 1).padStart(2, "0")}

@@ -45,6 +45,7 @@
   --color-coral-sunset: var(--coral-sunset);
   --color-lime: var(--lime-vi);
   --color-sand: var(--sand);
+  --color-mango: var(--mango);
   --color-botanical: var(--archipel-botanical);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -65,10 +66,10 @@ html {
 
 body {
   background:
-    radial-gradient(ellipse 90% 54% at 8% -10%, rgba(125, 232, 220, 0.18), transparent 60%),
-    radial-gradient(ellipse 70% 42% at 94% 8%, rgba(255, 184, 77, 0.14), transparent 55%),
-    radial-gradient(ellipse 60% 42% at 74% 40%, rgba(255, 79, 154, 0.07), transparent 58%),
-    linear-gradient(180deg, #061b2f 0%, var(--midnight-950) 48%, #020711 100%);
+    radial-gradient(ellipse 90% 54% at 8% -10%, rgba(55, 234, 217, 0.24), transparent 60%),
+    radial-gradient(ellipse 70% 42% at 94% 8%, rgba(255, 184, 77, 0.2), transparent 55%),
+    radial-gradient(ellipse 60% 42% at 74% 40%, rgba(255, 79, 154, 0.1), transparent 58%),
+    linear-gradient(180deg, #062838 0%, var(--midnight-950) 48%, #020711 100%);
   color: var(--foreground);
   min-height: 100vh;
   overflow-x: clip;
@@ -135,6 +136,171 @@ body::before {
   position: absolute;
   right: 12%;
   top: 0;
+}
+
+.hero-sun-orb {
+  background:
+    radial-gradient(circle, rgba(255, 244, 214, 0.98) 0 18%, rgba(255, 184, 77, 0.72) 19% 34%, rgba(255, 121, 104, 0.28) 35% 54%, transparent 62%);
+  border-radius: 999px;
+  filter: blur(0.2px);
+  height: clamp(13rem, 28vw, 25rem);
+  left: min(66vw, 58rem);
+  opacity: 0.78;
+  pointer-events: none;
+  position: absolute;
+  top: clamp(5rem, 12vw, 8rem);
+  width: clamp(13rem, 28vw, 25rem);
+  z-index: 1;
+}
+
+.hero-ocean-shelf {
+  background:
+    radial-gradient(ellipse at 18% 18%, rgba(125, 232, 220, 0.38), transparent 34%),
+    repeating-radial-gradient(ellipse at 42% 52%, transparent 0 22px, rgba(255, 244, 214, 0.11) 23px 25px, transparent 26px 48px),
+    linear-gradient(108deg, rgba(7, 151, 166, 0.74), rgba(55, 234, 217, 0.2), rgba(255, 184, 77, 0.12));
+  bottom: -12%;
+  clip-path: polygon(0 20%, 22% 12%, 46% 24%, 73% 10%, 100% 18%, 100% 100%, 0 100%);
+  height: 42%;
+  left: 0;
+  opacity: 0.78;
+  pointer-events: none;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+.hero-island-postcard {
+  aspect-ratio: 1 / 1;
+  background:
+    radial-gradient(circle at 74% 18%, rgba(255, 244, 214, 0.48), transparent 18%),
+    linear-gradient(160deg, rgba(255, 184, 77, 0.22), rgba(55, 234, 217, 0.2) 42%, rgba(2, 8, 21, 0.72) 100%);
+  border: 1px solid rgba(244, 223, 184, 0.24);
+  border-radius: 2.35rem;
+  box-shadow:
+    0 42px 120px rgba(0, 0, 0, 0.44),
+    inset 0 1px 0 rgba(255, 255, 255, 0.13);
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-island-postcard::before {
+  background-image:
+    linear-gradient(120deg, rgba(255, 244, 214, 0.08) 0 1px, transparent 1px),
+    linear-gradient(30deg, rgba(255, 244, 214, 0.05) 0 1px, transparent 1px);
+  background-size: 54px 54px;
+  content: "";
+  inset: 0;
+  opacity: 0.7;
+  position: absolute;
+}
+
+.hero-postcard-sun {
+  background: radial-gradient(circle, #fff4d6 0 18%, #ffb84d 20% 44%, rgba(255, 121, 104, 0.18) 46% 68%, transparent 70%);
+  border-radius: 999px;
+  height: 9.8rem;
+  position: absolute;
+  right: 3.8rem;
+  top: 3.2rem;
+  width: 9.8rem;
+  z-index: 2;
+}
+
+.hero-postcard-sail {
+  background: linear-gradient(145deg, rgba(255, 244, 214, 0.92), rgba(125, 232, 220, 0.42));
+  clip-path: polygon(50% 0, 100% 100%, 0 75%);
+  filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.26));
+  position: absolute;
+  z-index: 4;
+}
+
+.hero-postcard-sail-one {
+  height: 7.4rem;
+  left: 5.8rem;
+  top: 9rem;
+  transform: rotate(-10deg);
+  width: 5.2rem;
+}
+
+.hero-postcard-sail-two {
+  height: 5.2rem;
+  right: 6.4rem;
+  top: 14.8rem;
+  transform: rotate(12deg);
+  width: 3.8rem;
+}
+
+.island-postcard-card::after {
+  background:
+    linear-gradient(145deg, transparent 0 58%, rgba(244, 223, 184, 0.12) 59% 60%, transparent 61%),
+    radial-gradient(circle at 18% 18%, rgba(255, 244, 214, 0.12), transparent 28%);
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+}
+
+.postcard-stamp {
+  align-items: center;
+  background: rgba(255, 244, 214, 0.13);
+  border: 1px dashed rgba(255, 244, 214, 0.38);
+  border-radius: 0.9rem;
+  color: rgba(255, 244, 214, 0.82);
+  display: flex;
+  font-size: 1.15rem;
+  font-weight: 900;
+  height: 3rem;
+  justify-content: center;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  transform: rotate(7deg);
+  width: 3rem;
+  z-index: 22;
+}
+
+.beach-day-card {
+  background: linear-gradient(145deg, rgba(55, 234, 217, 0.34), rgba(7, 151, 166, 0.28), rgba(244, 223, 184, 0.22));
+}
+
+.boat-day-card {
+  background: linear-gradient(145deg, rgba(7, 151, 166, 0.4), rgba(10, 25, 47, 0.52), rgba(125, 232, 220, 0.2));
+}
+
+.bite-day-card {
+  background: linear-gradient(145deg, rgba(255, 184, 77, 0.34), rgba(201, 118, 47, 0.28), rgba(255, 121, 104, 0.18));
+}
+
+.night-day-card {
+  background: linear-gradient(145deg, rgba(255, 79, 154, 0.32), rgba(79, 70, 229, 0.28), rgba(255, 184, 77, 0.16));
+}
+
+.island-portal-postcard {
+  box-shadow: 0 30px 110px rgba(0, 0, 0, 0.34);
+}
+
+.island-portal-coastline {
+  background: rgba(7, 42, 34, 0.62);
+  bottom: 21%;
+  clip-path: polygon(0 45%, 12% 28%, 24% 34%, 38% 16%, 52% 26%, 66% 12%, 76% 26%, 88% 18%, 100% 34%, 100% 100%, 0 100%);
+  height: 44%;
+  left: 0;
+  opacity: 0.72;
+  position: absolute;
+  right: 0;
+  z-index: 2;
+}
+
+.island-portal-waves {
+  background:
+    repeating-radial-gradient(ellipse at 50% 0%, transparent 0 18px, rgba(255, 244, 214, 0.13) 19px 20px, transparent 21px 42px);
+  bottom: -8%;
+  height: 48%;
+  left: -10%;
+  opacity: 0.72;
+  position: absolute;
+  right: -10%;
+  z-index: 3;
 }
 
 .section-shell {

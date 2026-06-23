@@ -26,7 +26,7 @@ const websiteJsonLd = {
   name: "VibeVI",
   alternateName: "Find Your Island Vibe",
   description:
-    "The modern discovery layer for beaches, boats, bites, nightlife, ferry checks, cruise-day planning, and island businesses across the U.S. Virgin Islands.",
+    "Beach mornings, boat days, local plates, waterfront nights, ferry checks, cruise-day moves, and island businesses across the U.S. Virgin Islands.",
   inLanguage: "en-US",
   publisher: { "@id": `${siteUrl}/#organization` },
   potentialAction: {
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     template: "%s | VibeVI",
   },
   description:
-    "Find beaches, boats, bites, nightlife, ferry checks, cruise-day planning, and local businesses across St. Thomas, St. Croix, St. John, and Water Island.",
+    "Find beaches, boats, bites, nightlife, ferry checks, cruise-day moves, and local businesses across St. Thomas, St. Croix, St. John, and Water Island.",
   keywords: [
     "US Virgin Islands",
     "St. Thomas things to do",
@@ -72,13 +72,13 @@ export const metadata: Metadata = {
     siteName: "VibeVI",
     title: "VibeVI — Find Your Island Vibe",
     description:
-      "The modern discovery layer for the U.S. Virgin Islands: beaches, boats, bites, ferry checks, cruise-day planning, and local businesses.",
+      "Beach mornings, boat days, local plates, ferry checks, cruise-day moves, and waterfront nights across the U.S. Virgin Islands.",
   },
   twitter: {
     card: "summary_large_image",
     title: "VibeVI — Find Your Island Vibe",
     description:
-      "Beaches, boats, bites, ferry checks, cruise-day planning, and local businesses across the U.S. Virgin Islands.",
+      "Beaches, boats, bites, ferry checks, cruise-day moves, and local businesses across the U.S. Virgin Islands.",
   },
 };
 

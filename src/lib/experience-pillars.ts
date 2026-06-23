@@ -121,7 +121,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       "Where can your day support local businesses rather than only pass through a place?",
     ],
     faq: [
-      { question: "Does VibeVI publish a live event calendar yet?", answer: "No. Culture pages are planning and discovery layers. Event-specific tools are future roadmap work and should use direct-source verification." },
+      { question: "Does VibeVI publish a live event calendar yet?", answer: "No. Culture pages are planning guides. Event-specific tools are future roadmap work and should use direct-source verification." },
       { question: "Will cultural listings be verified?", answer: "Yes. Real business and organization profiles should move through the verified inventory workflow before rich schema or direct contact fields appear." },
     ],
   },
@@ -133,7 +133,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       "Restaurants, beach bars, brunch, rum rooms, food trucks, private chefs, and dining routes across the USVI.",
     heroTitle: "Eat where the day is already taking you.",
     heroBody:
-      "Culinary discovery should solve the actual island question: what table fits the beach, ferry, cruise port, date night, or late-night route? VibeVI connects dining intent to island categories and verified profile gates.",
+      "Culinary pages should solve the actual island question: what table fits the beach, ferry, cruise port, date night, or late-night route? VibeVI connects dining intent to island categories and verified profile gates.",
     islandRelevance: [
       { island: "st-thomas", angle: "Waterfront dining, Red Hook nights, Charlotte Amalie stops, and cruise-day meals.", href: "/st-thomas/indulgent-dining" },
       { island: "st-croix", angle: "Christiansted, Frederiksted, local plates, seafood, food culture, and a slower dining map.", href: "/st-croix/indulgent-dining" },

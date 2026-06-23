@@ -27,17 +27,29 @@ const MOSAIC_COPY: Record<string, string> = {
   "family-day": "Calmer water, easier routes, and room for everyone.",
 };
 
+const MOSAIC_STAMPS: Record<string, string> = {
+  "beach-day": "☀",
+  "boat-charter": "⛵",
+  "snorkel-dive": "🐠",
+  "sunset-dinner": "🍽",
+  nightlife: "♪",
+  "local-shops": "VI",
+  wellness: "✦",
+  "family-day": "🌊",
+};
+
 export function ExperienceMosaic() {
   return (
-    <section className="border-y border-white/6 bg-midnight-900/35 px-4 py-20 sm:px-6 lg:py-28" aria-labelledby="mosaic-heading">
-      <div className="mx-auto max-w-7xl">
+    <section className="relative overflow-hidden border-y border-sand/12 bg-[#03131b] px-4 py-20 sm:px-6 lg:py-28" aria-labelledby="mosaic-heading">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_8%,rgba(255,184,77,0.14),transparent_28%),radial-gradient(circle_at_84%_30%,rgba(55,234,217,0.14),transparent_32%)]" aria-hidden />
+      <div className="relative mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <SectionHeader
-            eyebrow="Where the day can go"
-            title="Eight ways into island mode."
+            eyebrow="Postcards from the day"
+            title="Beach cards, boat cards, food cards, night cards."
             description="Start with the feeling, then find the place. Each tile routes into published listings or clearly labeled editorial previews."
           />
-          <p className="max-w-md justify-self-end text-sm leading-relaxed text-archipel-white/42 lg:text-right">
+          <p className="max-w-md justify-self-end text-sm leading-relaxed text-archipel-white/46 lg:text-right">
             No generic itinerary required. Mix a ferry hop, a swim, a table, and
             a boardwalk night into a day that actually fits.
           </p>
@@ -56,28 +68,29 @@ export function ExperienceMosaic() {
                 key={tile.id}
                 href={href}
                 className={cn(
-                  "island-card-glow group relative overflow-hidden rounded-[1.35rem] border border-white/8 transition duration-500 hover:-translate-y-1 hover:border-aqua/25 hover:shadow-glow-aqua",
+                  "island-card-glow island-postcard-card group relative overflow-hidden rounded-[1.35rem] border border-white/8 transition duration-500 hover:-translate-y-1 hover:border-sand/30 hover:shadow-glow-aqua",
                   feature && "row-span-2",
                   wide && "sm:col-span-2",
                 )}
               >
                 <MediaBackdrop media={tile} overlay="subtle" className="absolute inset-0 h-full w-full" />
+                <div className="postcard-stamp" aria-hidden>{MOSAIC_STAMPS[tile.id] ?? "VI"}</div>
                 <div className="absolute inset-x-0 top-0 z-20 flex items-center justify-between p-4">
-                  <span className="font-mono text-[9px] tracking-[0.18em] text-archipel-white/45">
-                    {String(index + 1).padStart(2, "0")} / EXPERIENCE
+                  <span className="text-[9px] font-black uppercase tracking-[0.18em] text-sand/75">
+                    {String(index + 1).padStart(2, "0")} / Island postcard
                   </span>
-                  <span className="h-1.5 w-1.5 rounded-full bg-aqua/70 shadow-[0_0_10px_#37ead9]" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-sand/80 shadow-[0_0_10px_rgba(244,223,184,0.85)]" />
                 </div>
                 <div className="absolute inset-x-0 bottom-0 z-20 p-4 sm:p-5">
                   <h3 className="text-base font-semibold tracking-[-0.03em] text-archipel-white sm:text-lg">
                     {tile.label}
                   </h3>
-                  {(feature || wide) ? (
-                    <p className="mt-2 max-w-sm text-xs leading-relaxed text-archipel-white/58 sm:text-sm">
+                  {feature || wide ? (
+                    <p className="mt-2 max-w-sm text-xs leading-relaxed text-archipel-white/62 sm:text-sm">
                       {MOSAIC_COPY[tile.id]}
                     </p>
                   ) : null}
-                  <span className="mt-3 inline-flex text-[11px] font-semibold text-aqua opacity-0 transition group-hover:opacity-100">
+                  <span className="mt-3 inline-flex text-[11px] font-semibold text-sand opacity-0 transition group-hover:opacity-100">
                     Take me there ↗
                   </span>
                 </div>

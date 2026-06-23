@@ -30,16 +30,15 @@ export function DirectoryMapSection({
   bottomOverlay?: ReactNode;
 }) {
   return (
-    <section className="command-surface overflow-hidden rounded-[1.7rem]" aria-label="Island discovery map">
-      <div className="flex flex-col gap-4 border-b border-white/8 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+    <section className="island-postcard-card overflow-hidden rounded-[1.7rem] border border-sand/12 bg-[#05202b]" aria-label="Island map">
+      <div className="flex flex-col gap-4 border-b border-sand/12 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex items-center gap-3">
-          <span className="relative grid h-9 w-9 place-items-center rounded-full border border-aqua/20 bg-aqua/7">
-            <span className="absolute h-5 w-5 animate-radar-pulse rounded-full border border-aqua/30" />
-            <span className="h-1.5 w-1.5 rounded-full bg-aqua shadow-[0_0_12px_#37ead9]" />
+          <span className="relative grid h-9 w-9 place-items-center rounded-full border border-sand/20 bg-sand/7">
+            <span className="text-sm" aria-hidden>🌊</span>
           </span>
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-aqua/65">Island map / VI</p>
-            <p className="mt-0.5 text-xs text-archipel-white/45">St. Thomas to St. Croix</p>
+            <p className="text-[9px] font-black uppercase tracking-[0.2em] text-sand/75">See the islands as one connected day</p>
+            <p className="mt-0.5 text-xs text-archipel-white/50">Find what&apos;s nearby, then follow the water, road, or ferry.</p>
           </div>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -67,8 +66,8 @@ export function DirectoryMapSection({
       </div>
 
       <div className="flex flex-col gap-2 border-t border-white/8 px-5 py-4 text-[11px] text-archipel-white/38 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <p>Map presentation is functional when a Mapbox token is configured.</p>
-        <p>List view remains the accessible discovery source.</p>
+        <p>Map view appears when a Mapbox token is configured.</p>
+        <p>Search and island pages remain available without the map.</p>
       </div>
     </section>
   );

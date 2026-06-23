@@ -55,19 +55,19 @@ export function DirectoryMap({ className, height = 480 }: DirectoryMapProps) {
               <span className="absolute bottom-1.5 right-2 h-1.5 w-1.5 rounded-full bg-coral shadow-[0_0_10px_#ff7968]" />
             </span>
           </span>
-          <p className="eyebrow-label mt-6">Map preview</p>
+          <p className="eyebrow-label mt-6">Island map preview</p>
           <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-archipel-white">
-            The interactive island map is ready when Mapbox is connected.
+            See the islands as one connected day.
           </h3>
           <p className="mt-3 text-sm leading-relaxed text-archipel-white/55">
-            Directory search and island portals remain available while the optional
-            Mapbox token is not configured.
+            Find what&apos;s nearby, then follow the water, road, or ferry. Search
+            and island pages remain available while the optional Mapbox token is not configured.
           </p>
           <Link
             href="/search"
             className="mt-6 inline-flex min-h-11 items-center rounded-full bg-aqua px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#78f7eb]"
           >
-            Browse the directory
+            Find a place
           </Link>
         </div>
       </div>
