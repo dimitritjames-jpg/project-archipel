@@ -14,6 +14,30 @@ This workflow turns a conversation with a USVI business into a safe submitted li
 
 Use `data/business-intake-template.csv` or `data/business-import-template.json` for collection. Do not place private correspondence, personal names, credentials, or internal notes in public import files.
 
+## Public-information candidate intake
+
+`data/public-info-business-candidates-batch-1.json` is a research queue, not a publishing queue. A candidate may be researched from official/public sources and still remain unpublished.
+
+Rules for public-information candidates:
+
+- keep `publish_ready=false` until a human reviewer approves the row;
+- keep `needs_human_review=true` until owner/direct-source confirmation is complete;
+- keep `contact_permission_status=public_source_only` until written permission is received;
+- keep `media_rights_status=not_granted` until the business provides owned/licensed media or written rights;
+- keep `booking_enabled=false`, `claimed=false`, `premium=false`, and `partner_status=none`;
+- keep `robots_noindex=true` if imported before final verification;
+- do not emit LocalBusiness schema until required facts are verified and sourced.
+
+Allowed operating status values:
+
+- `active_public_evidence`
+- `active_owner_confirmed`
+- `uncertain_needs_review`
+- `possibly_closed`
+- `closed_do_not_publish`
+
+Public evidence is useful for outreach and duplicate prevention. It is not permission to publish phone/email, use photos, imply endorsement, or mark a business verified.
+
 ## Minimum required fields for a launch candidate
 
 - official business name;
@@ -50,6 +74,17 @@ Do not infer permission because a phone number is visible somewhere else.
 6. When ready, set `intake_stage=ready_for_admin_import`.
 7. Admin imports the row and runs duplicate, category, coordinate, link, noindex, and schema checks.
 8. Only after QA should the listing become verified and indexable.
+
+## LocalBusiness schema readiness
+
+Before a listing can emit LocalBusiness schema:
+
+1. identity, island, category, address/area, URL, and public contact fields must be sourced;
+2. the business must not be a demo or fictional listing;
+3. contact republication permission must be recorded when phone/email appears;
+4. descriptions must be original VibeVI copy or owner-approved copy;
+5. media must be licensed or omitted;
+6. the rendered profile must pass no fake booking, no fake partnership, and no unsupported live/real-time claim checks.
 
 ## What not to collect in source-controlled files
 

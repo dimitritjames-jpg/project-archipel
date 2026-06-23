@@ -25,6 +25,10 @@ Prioritize businesses that:
 - Best contact for verification.
 - Written confirmation that submitted information may be published.
 
+For businesses first discovered through public information, use this short confirmation note:
+
+> We found your business from public information and want to make sure VibeVI lists it accurately. Can you confirm your preferred contact info, hours, category, description, and whether we may use any photos you provide?
+
 ## Proof and verification needed
 
 Acceptable sources:
@@ -70,15 +74,21 @@ Do not promise:
 
 ## Instagram DM copy
 
-Hi! I’m preparing VibeVI, a new discovery guide for the U.S. Virgin Islands. We’re collecting a first batch of source-verified local business listings for public preview.
+Hi! I'm preparing VibeVI, a new discovery guide for the U.S. Virgin Islands. We're collecting a first batch of source-verified local business listings for public preview.
 
 Would you be open to a complimentary listing? If yes, please send your official business name, island, best category, website/social link, short description, public contact info you approve for display, and any owned/licensed photos with credit requirements.
 
-VibeVI does not promise traffic, bookings, rankings, or paid placement. We’re focused on accurate, useful discovery and source-backed profiles.
+VibeVI does not promise traffic, bookings, rankings, or paid placement. We're focused on accurate, useful discovery and source-backed profiles.
+
+## Public-info confirmation DM
+
+Hi! We found your business from public information while preparing VibeVI, a new USVI discovery guide. We want to make sure any listing is accurate and permission-based.
+
+Could you confirm your preferred contact info, current hours, best category, short description, and whether we may use any photos you provide? VibeVI does not promise traffic, bookings, rankings, or paid placement - this is simply for an accurate source-verified launch profile.
 
 ## Text message copy
 
-Hi, this is [Your Name]. I’m working on VibeVI, a USVI discovery guide for local businesses and island planning. Could I prepare a complimentary listing for [Business Name]? I’d need the official website/social link, short description, public contact info you approve for display, and any owned/licensed photos. No traffic or booking promises—just a source-verified launch profile.
+Hi, this is [Your Name]. I'm working on VibeVI, a USVI discovery guide for local businesses and island planning. Could I prepare a complimentary listing for [Business Name]? I'd need the official website/social link, short description, public contact info you approve for display, and any owned/licensed photos. No traffic or booking promises - just a source-verified launch profile.
 
 ## Email copy
 
@@ -86,9 +96,9 @@ Subject: Complimentary VibeVI listing for [Business Name]
 
 Hello [Name],
 
-I’m preparing VibeVI, a modern discovery guide for the U.S. Virgin Islands. The goal is to help visitors, locals, crews, and cruise guests find source-backed local businesses and plan better island days.
+I'm preparing VibeVI, a modern discovery guide for the U.S. Virgin Islands. The goal is to help visitors, locals, crews, and cruise guests find source-backed local businesses and plan better island days.
 
-I’d like to prepare a complimentary launch listing for [Business Name]. To keep it accurate, could you send or confirm:
+I'd like to prepare a complimentary launch listing for [Business Name]. To keep it accurate, could you send or confirm:
 
 - official business name;
 - island and best category;

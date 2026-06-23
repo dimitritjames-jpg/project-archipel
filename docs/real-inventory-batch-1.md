@@ -1,8 +1,17 @@
 # VibeVI real inventory batch 1 plan
 
-Goal: collect the first 30 verified USVI businesses manually without guessing, scraping, or inventing data.
+Goal: collect the first 30 verified USVI businesses manually without guessing, scraping, inventing data, or publishing unreviewed claims.
 
-Do not fill real businesses in this document unless the user provides verified names/data. Use this as the target list structure for outreach and review.
+The public-information candidate file for this phase lives at `data/public-info-business-candidates-batch-1.json`. It contains 30 research-only candidates sourced from official/public pages:
+
+- St. Thomas: 10
+- St. Croix: 8
+- St. John: 8
+- Water Island: 4
+
+These candidates are not live verified listings. Every candidate remains `publish_ready=false`, `needs_human_review=true`, `booking_enabled=false`, `claimed=false`, `premium=false`, and `partner_status=none` until a human review and permission pass is complete.
+
+Do not copy these candidates into public, indexable listings until the acceptance gate below passes.
 
 ## Category priorities
 
@@ -21,6 +30,18 @@ Do not fill real businesses in this document unless the user provides verified n
 | St. Croix | 8 | Prioritize culinary, Buck Island/adventure, culture, and local shops. |
 | St. John | 8 | Prioritize park-adjacent adventure, charters, dining, stays, and local provisions. |
 | Water Island | 4 | Prioritize day-trip utilities, beach/provisions, stays, and local services if verified. |
+
+## Batch 1 public-information candidate status
+
+- Candidate file: `data/public-info-business-candidates-batch-1.json`
+- Candidate count: 30
+- Current replacement-needed count: 0
+- Water Island swap: Heidi's Honeymoon Grill was removed and replaced with Virgin Islands Campground because the campground has stronger official website evidence, public contact details, and a Water Island address.
+- St. Croix count remains exactly 8.
+- Explicit exclusions remain Hamilton's and Louie & Nacho's for this batch.
+- No candidate has permission to use media, display owner-submitted contact details, claim partnership, enable booking, or emit LocalBusiness schema yet.
+
+Use the candidate file as the research queue for outreach, not as a production seed file.
 
 ## Fields required for each business
 
@@ -86,3 +107,4 @@ Do not fill real businesses in this document unless the user provides verified n
 - [ ] `verification_status=submitted` before review.
 - [ ] `robots_noindex=true` until rendered profile QA passes.
 - [ ] No paid, premium, or claimed state bypasses verification.
+- [ ] `publish_ready=true` is set only after source review, contact permission review, media rights review, and rendered-page QA.
