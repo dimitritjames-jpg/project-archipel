@@ -29,13 +29,13 @@ export function SectionHeader({
           {eyebrow}
         </p>
       ) : null}
-      <h2 id={id} className="text-balance mt-4 text-3xl font-semibold tracking-[-0.045em] text-archipel-white sm:text-4xl lg:text-5xl">
+      <h2 id={id} className="text-balance mt-4 text-3xl font-semibold tracking-[-0.045em] text-[#173941] sm:text-4xl lg:text-5xl">
         {title}
       </h2>
       {description ? (
         <p
           className={cn(
-            "text-pretty mt-4 max-w-2xl text-base leading-relaxed text-archipel-white/62 sm:text-lg",
+            "text-pretty mt-4 max-w-2xl text-base leading-relaxed text-[#45636a] sm:text-lg",
             align === "center" && "mx-auto",
           )}
         >

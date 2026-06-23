@@ -478,6 +478,14 @@ body::before {
   transform: translateY(-4px);
 }
 
+.destination-cover-hero .destination-move-photo-card > .bg-gradient-to-t {
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.14) 58%, transparent) !important;
+}
+
+.destination-cover-hero .destination-move-photo-card :is(.text-white, [class*="text-white/"]) {
+  color: white !important;
+}
+
 @media (min-width: 1024px) {
   .destination-move-photo-card:nth-child(1),
   .destination-move-photo-card:nth-child(4) {
@@ -1130,6 +1138,133 @@ body::before {
   0% { transform: translateY(-10%); opacity: 0; }
   12%, 82% { opacity: 0.65; }
   100% { transform: translateY(460%); opacity: 0; }
+}
+
+/* VibeVI destination unification pass
+   Keep the product trustworthy, but make every non-hero page feel like the
+   same sunny island guide instead of a dark SaaS dashboard. */
+html {
+  background: #fff4d6;
+  color-scheme: light;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 80% 42% at 10% -8%, rgba(125, 232, 220, 0.46), transparent 62%),
+    radial-gradient(ellipse 70% 36% at 92% 4%, rgba(255, 184, 77, 0.28), transparent 58%),
+    radial-gradient(ellipse 58% 34% at 72% 44%, rgba(255, 121, 104, 0.12), transparent 62%),
+    linear-gradient(180deg, #fff4d6 0%, #e9fbf7 36%, #fff4d6 72%, #f7e7c5 100%);
+  color: #173941;
+}
+
+body::before {
+  background-image:
+    radial-gradient(circle at 18% 18%, rgba(7, 151, 166, 0.055) 0 1px, transparent 1.5px),
+    linear-gradient(115deg, rgba(11, 75, 85, 0.024) 0 1px, transparent 1px);
+  opacity: 0.8;
+}
+
+main {
+  color: #173941;
+}
+
+main :is(.text-white, .text-archipel-white) {
+  color: #173941 !important;
+}
+
+main :is([class*="text-white/"], [class*="text-archipel-white/"]) {
+  color: rgba(49, 80, 87, 0.76) !important;
+}
+
+main :is(.text-aqua, [class*="text-aqua/"]) {
+  color: #0797a6 !important;
+}
+
+main :is(.text-sand, [class*="text-sand/"]) {
+  color: #9a5e24 !important;
+}
+
+main :is(.border-white, [class*="border-white/"]) {
+  border-color: rgba(11, 75, 85, 0.12) !important;
+}
+
+main :is(.bg-midnight-950, .bg-midnight-900, .bg-midnight-850, .bg-midnight-800, [class*="bg-midnight"]) {
+  background-color: rgba(255, 255, 255, 0.64) !important;
+}
+
+main :is([class*="bg-white/["], .bg-white\/4, .bg-white\/5, .bg-white\/6, .bg-white\/7, .bg-white\/8, .bg-white\/9, .bg-white\/10) {
+  background-color: rgba(255, 255, 255, 0.66) !important;
+}
+
+.glass-panel,
+.glass-luminous,
+.command-surface,
+main .island-postcard-card {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(125, 232, 220, 0.2), transparent 18rem),
+    radial-gradient(circle at 8% 100%, rgba(255, 184, 77, 0.14), transparent 16rem),
+    rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(18px) saturate(120%);
+  border-color: rgba(11, 75, 85, 0.12) !important;
+  box-shadow: 0 24px 80px rgba(7, 151, 166, 0.12) !important;
+  color: #173941;
+}
+
+.command-surface::after {
+  background: linear-gradient(90deg, transparent, rgba(7, 151, 166, 0.25), rgba(255, 184, 77, 0.24), transparent);
+}
+
+.glass-panel :is(.text-white, .text-archipel-white),
+.glass-luminous :is(.text-white, .text-archipel-white),
+.command-surface :is(.text-white, .text-archipel-white),
+main .island-postcard-card :is(.text-white, .text-archipel-white) {
+  color: #173941 !important;
+}
+
+.glass-panel :is([class*="text-white/"], [class*="text-archipel-white/"]),
+.glass-luminous :is([class*="text-white/"], [class*="text-archipel-white/"]),
+.command-surface :is([class*="text-white/"], [class*="text-archipel-white/"]),
+main .island-postcard-card :is([class*="text-white/"], [class*="text-archipel-white/"]) {
+  color: rgba(49, 80, 87, 0.76) !important;
+}
+
+.glass-panel :is(.border-white, [class*="border-white/"]),
+.glass-luminous :is(.border-white, [class*="border-white/"]),
+.command-surface :is(.border-white, [class*="border-white/"]),
+main .island-postcard-card :is(.border-white, [class*="border-white/"]) {
+  border-color: rgba(11, 75, 85, 0.12) !important;
+}
+
+.glass-panel :is([class*="bg-white/["], [class*="bg-midnight"]),
+.glass-luminous :is([class*="bg-white/["], [class*="bg-midnight"]),
+.command-surface :is([class*="bg-white/["], [class*="bg-midnight"]),
+main .island-postcard-card :is([class*="bg-white/["], [class*="bg-midnight"]) {
+  background-color: rgba(255, 255, 255, 0.66) !important;
+}
+
+main :is(section, article, aside) > .eyebrow-label,
+main .eyebrow-label {
+  color: #0797a6;
+}
+
+main .display-type {
+  color: #173941;
+}
+
+main a:not([class*="bg-coral"]):not([class*="bg-aqua"]):not([class*="bg-[#0b4b55]"]) {
+  text-decoration-color: rgba(7, 151, 166, 0.32);
+}
+
+.topographic-field {
+  background-image:
+    repeating-radial-gradient(ellipse at 68% 44%, transparent 0 28px, rgba(7, 151, 166, 0.045) 29px 30px, transparent 31px 56px),
+    radial-gradient(circle at 68% 44%, rgba(255, 184, 77, 0.08), transparent 38%);
+}
+
+.reef-grid {
+  background-image:
+    radial-gradient(ellipse at center, rgba(7, 151, 166, 0.055) 0 1px, transparent 1.5px),
+    linear-gradient(110deg, rgba(201, 118, 47, 0.04) 1px, transparent 1px);
 }
 
 @media (min-width: 640px) {
