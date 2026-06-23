@@ -20,12 +20,17 @@ export function SiteHeader() {
       <div className="section-shell flex h-20 items-center justify-between gap-4">
         <Link
           href="/"
-          className="group flex items-center gap-2.5 text-base font-semibold tracking-[-0.03em] text-white sm:text-lg"
+          className="group flex items-center gap-3 text-base font-semibold tracking-[-0.03em] text-white sm:text-lg"
           aria-label="VibeVI home"
         >
           <ArchipelMark className="transition duration-300 group-hover:rotate-12 group-hover:border-white/70" />
-          <span>
-            Vibe<span className="text-aqua transition group-hover:text-sand">VI</span>
+          <span className="flex flex-col leading-none">
+            <span>
+              Vibe<span className="text-aqua transition group-hover:text-sand">VI</span>
+            </span>
+            <span className="mt-1 hidden text-[9px] font-black uppercase tracking-[0.18em] text-white/52 sm:block">
+              Find Your Island Vibe
+            </span>
           </span>
         </Link>
 

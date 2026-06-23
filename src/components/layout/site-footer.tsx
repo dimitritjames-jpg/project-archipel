@@ -28,9 +28,14 @@ export function SiteFooter() {
           <div>
             <div className="flex items-center gap-3">
               <ArchipelMark />
-              <p className="text-xl font-semibold tracking-[-0.04em] text-archipel-white">
-                VibeVI
-              </p>
+              <div>
+                <p className="text-xl font-semibold tracking-[-0.04em] text-archipel-white">
+                  VibeVI
+                </p>
+                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.18em] text-aqua/70">
+                  Find Your Island Vibe
+                </p>
+              </div>
             </div>
             <p className="text-pretty mt-5 max-w-xl text-base leading-relaxed text-archipel-white/58">
               Find Your Island Vibe — beach mornings, boat days, local plates,

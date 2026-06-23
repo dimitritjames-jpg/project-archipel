@@ -1,0 +1,35 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VibeVI island route mark">
+  <rect width="512" height="512" rx="128" fill="#062838"/>
+  <circle cx="256" cy="256" r="188" fill="url(#waterGlow)" stroke="rgba(255,255,255,0.34)" stroke-width="10"/>
+  <circle cx="256" cy="256" r="138" stroke="rgba(255,255,255,0.22)" stroke-width="7"/>
+  <path d="M142 330C176 284 228 276 278 296C314 310 352 306 384 282V358H128V348C132 342 136 336 142 330Z" fill="#123F35" fill-opacity="0.9"/>
+  <path d="M142 294C206 238 280 216 370 176" stroke="url(#route)" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="187" cy="256" r="28" fill="#FF7968" filter="url(#glowCoral)"/>
+  <circle cx="286" cy="220" r="34" fill="#37EAD9" filter="url(#glowAqua)"/>
+  <circle cx="352" cy="300" r="22" fill="#F4DFB8" filter="url(#glowSand)"/>
+  <path d="M164 356C224 376 292 378 356 354" stroke="rgba(125,232,220,0.58)" stroke-width="10" stroke-linecap="round"/>
+  <defs>
+    <radialGradient id="waterGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(166 122) rotate(58) scale(348)">
+      <stop stop-color="#7DE8DC"/>
+      <stop offset="0.48" stop-color="#0797A6"/>
+      <stop offset="1" stop-color="#FF7968"/>
+    </radialGradient>
+    <linearGradient id="route" x1="142" y1="294" x2="370" y2="176" gradientUnits="userSpaceOnUse">
+      <stop stop-color="rgba(255,255,255,0)"/>
+      <stop offset="0.5" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <filter id="glowAqua" x="220" y="154" width="132" height="132" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="16"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+    <filter id="glowCoral" x="131" y="200" width="112" height="112" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="14"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+    <filter id="glowSand" x="306" y="254" width="92" height="92" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="12"/>
+      <feComposite in2="SourceGraphic" operator="over"/>
+    </filter>
+  </defs>
+</svg>

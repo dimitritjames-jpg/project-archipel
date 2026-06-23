@@ -11,5 +11,19 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: "#020815",
     theme_color: "#061326",
     lang: "en-US",
+    icons: [
+      {
+        src: "/vibevi-icon.svg",
+        sizes: "512x512",
+        type: "image/svg+xml",
+        purpose: "any",
+      },
+      {
+        src: "/vibevi-icon.svg",
+        sizes: "512x512",
+        type: "image/svg+xml",
+        purpose: "maskable",
+      },
+    ],
   };
 }

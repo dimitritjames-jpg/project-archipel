@@ -65,6 +65,10 @@ export const metadata: Metadata = {
   authors: [{ name: "VibeVI" }],
   creator: "VibeVI",
   publisher: "VibeVI",
+  icons: {
+    icon: [{ url: "/vibevi-icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/vibevi-icon.svg", type: "image/svg+xml" }],
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
