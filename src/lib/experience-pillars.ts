@@ -122,7 +122,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
     ],
     faq: [
       { question: "Does VibeVI publish a live event calendar yet?", answer: "No. Culture pages are planning guides. Event-specific tools are future roadmap work and should use direct-source verification." },
-      { question: "Will cultural listings be verified?", answer: "Yes. Real business and organization profiles should move through the verified inventory workflow before rich schema or direct contact fields appear." },
+      { question: "Will cultural listings be verified?", answer: "Yes. Real business and organization profiles should be reviewed for source quality, permission, and accuracy before rich schema or direct contact fields appear." },
     ],
   },
   culinary: {

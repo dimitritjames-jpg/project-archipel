@@ -83,6 +83,19 @@ const islandStories = [
   ["Market and maker trail", "Local provisions, craft, art, galleries, and small stops that make the day feel rooted.", "/experiences/culture"],
 ] as const;
 
+const thingsToDo = [
+  ["Sea adventures", "Snorkel, sail, dive, kayak, charter, and chase clear water.", "/experiences/adventure", "things-sea"],
+  ["Beaches & coves", "Pick the sand, shade, road, and water that match the day.", "/guides/best-beaches-usvi", "things-beach"],
+  ["Food & flavor", "Local plates, seafood, beach bars, rum cocktails, brunch, and late bites.", "/experiences/culinary", "things-food"],
+  ["Culture & history", "Carnival, forts, music, foodways, galleries, makers, and markets.", "/experiences/culture", "things-culture"],
+  ["Island happenings", "Festival energy, street rhythm, seasonal notes, and local story routes.", "/experiences/culture", "things-happenings"],
+  ["Nightlife & rhythm", "Waterfront nights, live music, rum glow, DJs, and late moves.", "/st-thomas/nightlife-rhythm", "things-night"],
+  ["Cruise-day moves", "A beach, bite, shop, tour, or cultural stop that fits the port clock.", "/experiences/cruise-day", "things-cruise"],
+  ["Ferry hops", "Plan the crossing, make the beach window, and return with margin.", "/st-john/ferry-schedule", "things-ferry"],
+  ["Wellness & slow days", "Spa time, quiet beaches, soft mornings, and low-effort island resets.", "/experiences/wellness", "things-wellness"],
+  ["Local shops", "Provisions, makers, galleries, small stops, and things worth carrying home.", "/experiences/local-shops", "things-shops"],
+] as const;
+
 const planningGuides = [
   ["/experiences/adventure", "Adventure in the USVI", "Charters, reefs, trails, ferry-aware routes, and water-first days."],
   ["/experiences/culture", "Culture in the USVI", "Carnival color, music, forts, markets, foodways, makers, and island stories."],
@@ -133,6 +146,43 @@ export default function HomePage() {
                 </Link>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="homepage-things-section px-4 py-16 sm:px-6 lg:py-24" aria-labelledby="things-heading">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-end">
+            <SectionHeader
+              eyebrow="Things to do in the USVI"
+              title="Start outside, then follow the island."
+              description="Use VibeVI like a local island-day board: pick one strong move, choose the right shore, then confirm the details before you go."
+              id="things-heading"
+            />
+            <p className="max-w-md justify-self-end text-sm leading-7 text-[#45636a] lg:text-right">
+              Beaches, boats, bites, Carnival color, history, markets, rum, music, ferry hops, and cruise-day moves across St. Thomas, St. Croix, St. John, and Water Island.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+            {thingsToDo.map(([title, body, href, className]) => (
+              <Link
+                key={title}
+                href={href}
+                className={`${className} things-to-do-card group relative min-h-[250px] overflow-hidden rounded-[1.7rem] border border-white/60 p-5 shadow-[0_24px_80px_rgba(7,151,166,0.14)] transition hover:-translate-y-1.5 hover:border-white/90`}
+              >
+                <div className="things-card-art" aria-hidden />
+                <div className="relative z-10 flex h-full flex-col justify-end">
+                  <h3 className="text-2xl font-semibold tracking-[-0.055em] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.24)]">
+                    {title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-white/86 drop-shadow">{body}</p>
+                  <span className="mt-5 text-[11px] font-black uppercase tracking-[0.16em] text-white/78">
+                    Open guide &rarr;
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

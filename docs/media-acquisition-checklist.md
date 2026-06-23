@@ -53,6 +53,25 @@ For every asset, record outside the public asset folder:
 - Island portal cards: island-specific image per shot list above.
 - Guide image slots: guide-specific scenic or detail image.
 
+## Exact launch filename targets
+
+- `public/media/hero/vibevi-hero-water-boat.jpg`
+- `public/media/hero/vibevi-hero-sunset-water.mp4`
+- `public/media/islands/st-thomas-harbor-magens.jpg`
+- `public/media/islands/st-croix-boardwalk-buck-island.jpg`
+- `public/media/islands/st-john-cove-national-park.jpg`
+- `public/media/islands/water-island-honeymoon-ferry.jpg`
+- `public/media/categories/beach-day.jpg`
+- `public/media/categories/boat-day.jpg`
+- `public/media/categories/bite-local-plate.jpg`
+- `public/media/categories/night-boardwalk.jpg`
+- `public/media/experiences/culinary-waterfront-table.jpg`
+- `public/media/experiences/culture-carnival-music.jpg`
+- `public/media/experiences/adventure-charter-snorkel.jpg`
+- `public/media/experiences/cruise-day-harbor.jpg`
+
+See `docs/media-drop-in-map.md` for where each file appears and the activation checklist.
+
 ## File readiness rules
 
 - Use lowercase kebab-case.

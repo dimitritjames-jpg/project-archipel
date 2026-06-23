@@ -17,15 +17,28 @@ export type MediaAsset = {
 
 /** Recommended production drop paths; see `/public/media/README.md`. */
 export const PRODUCTION_MEDIA_PATHS = {
-  hero: "/media/hero/vibevi-usvi-hero.webp",
-  islands: {
-    "st-thomas": "/media/islands/st-thomas-harbor.webp",
-    "st-croix": "/media/islands/st-croix-coast.webp",
-    "st-john": "/media/islands/st-john-cove.webp",
-    "water-island": "/media/islands/water-island-honeymoon-beach.webp",
+  hero: {
+    waterBoat: "/media/hero/vibevi-hero-water-boat.jpg",
+    sunsetVideo: "/media/hero/vibevi-hero-sunset-water.mp4",
   },
-  experiences: "/media/experiences/{island-or-usvi}-{experience}.webp",
-  categories: "/media/categories/{category-slug}.webp",
+  islands: {
+    "st-thomas": "/media/islands/st-thomas-harbor-magens.jpg",
+    "st-croix": "/media/islands/st-croix-boardwalk-buck-island.jpg",
+    "st-john": "/media/islands/st-john-cove-national-park.jpg",
+    "water-island": "/media/islands/water-island-honeymoon-ferry.jpg",
+  },
+  categories: {
+    beach: "/media/categories/beach-day.jpg",
+    boat: "/media/categories/boat-day.jpg",
+    bite: "/media/categories/bite-local-plate.jpg",
+    night: "/media/categories/night-boardwalk.jpg",
+  },
+  experiences: {
+    culinary: "/media/experiences/culinary-waterfront-table.jpg",
+    culture: "/media/experiences/culture-carnival-music.jpg",
+    adventure: "/media/experiences/adventure-charter-snorkel.jpg",
+    cruiseDay: "/media/experiences/cruise-day-harbor.jpg",
+  },
   guides: "/media/guides/{guide-slug}.webp",
   businesses: "/media/businesses/{business-slug}/cover.webp",
   openGraph: "/media/og/vibevi-default-1200x630.webp",

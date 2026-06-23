@@ -32,8 +32,8 @@ export function HeroMediaSection() {
               Find Your Island Vibe.
             </h1>
             <p className="text-pretty mt-6 max-w-2xl text-lg leading-relaxed text-white/86 sm:text-xl">
-              Beach first. Boat when the water calls. Local plates by sunset.
-              Music after dark. VibeVI helps you find the move.
+              Beach days, boat trips, local plates, culture, nightlife, and
+              ferry hops across the U.S. Virgin Islands.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
@@ -44,10 +44,10 @@ export function HeroMediaSection() {
                 Start with the vibe
               </Link>
               <Link
-                href="/search"
+                href="/experiences/adventure"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/45 bg-white/14 px-6 text-sm font-bold text-white shadow-[0_18px_50px_rgba(0,0,0,0.12)] backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/24"
               >
-                Find the move
+                Explore things to do
               </Link>
             </div>
           </div>

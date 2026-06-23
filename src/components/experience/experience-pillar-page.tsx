@@ -43,6 +43,17 @@ const CULTURE_FEATURES = [
   ["Respectful visitor notes", "Ask, listen, support local, verify event details, and remember that culture is not a prop."],
 ] as const;
 
+const ADVENTURE_FEATURES = [
+  ["Snorkel & reef mornings", "Start early, match ability to conditions, and leave the reef better than you found it."],
+  ["Sailing & charters", "Catamarans, private boats, beach-hop routes, sunset sails, and direct-source confirmation."],
+  ["Diving & deep water", "Wall dives, reef routes, certification needs, pickup points, and weather-aware planning."],
+  ["Kayak, SUP & quiet coves", "Low-engine water days, mangrove edges, protected coves, and slower island movement."],
+  ["Hiking & park trails", "Virgin Islands National Park, shaded paths, viewpoints, beach exits, and water stops."],
+  ["Cruise-day excursions", "One outdoor move with a conservative return buffer and direct operator confirmation."],
+  ["Buck Island & big reef days", "St. Croix reef energy, full-day pacing, and the details to verify before you go."],
+  ["Sunset cruises", "Golden water, easy rhythm, and a clean handoff from beach day to dinner."],
+] as const;
+
 const DEFAULT_FEATURES = [
   ["Start with the feeling", "Choose the mood before the checklist: water, food, culture, family, slow day, or late night."],
   ["Pick the island", "St. Thomas, St. Croix, St. John, and Water Island solve different kinds of days."],
@@ -65,6 +76,15 @@ function getFeatureGrid(pillar: ExperiencePillar) {
       title: "Go beyond the postcard.",
       intro: "Follow the sound, people, streets, foodways, makers, forts, markets, and night energy that make the Virgin Islands feel alive.",
       items: CULTURE_FEATURES,
+    };
+  }
+
+  if (pillar.slug === "adventure") {
+    return {
+      eyebrow: "Outdoor guide",
+      title: "Get on the water, into the cove, or up the trail.",
+      intro: "Adventure on VibeVI should feel active, salty, and practical: snorkeling, sailing, diving, hiking, kayaking, Buck Island, park trails, and sunset water.",
+      items: ADVENTURE_FEATURES,
     };
   }
 
