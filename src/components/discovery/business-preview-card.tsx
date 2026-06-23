@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
-import { CATEGORY_MEDIA } from "@/lib/media";
+import { getCategoryMediaAsset } from "@/lib/media";
 import type { PublishedBusinessRow } from "@/lib/businesses/queries";
 import {
   getListingTrustState,
@@ -29,8 +29,10 @@ export function BusinessPreviewCard({
   const isPublicInfo = trustState === "public_info";
   const schemaEligible = isLocalBusinessSchemaEligible(business);
   const href = `/${islandSlug}/${categorySlug}/${business.slug}`;
-  const gradient =
-    CATEGORY_MEDIA[categorySlug] ?? "from-cyan-400/40 via-navy-900 to-indigo-600/35";
+  const media = getCategoryMediaAsset(
+    categorySlug,
+    business.category?.name ?? "Island listing",
+  );
 
   return (
     <Link
@@ -43,11 +45,10 @@ export function BusinessPreviewCard({
       <div className="relative h-44 sm:h-52">
         <MediaBackdrop
           media={{
+            ...media,
             id: business.slug,
             label: business.name,
-            gradient,
-            src: null,
-            alt: `Visual identity for ${business.name}`,
+            alt: `${media.alt}; category artwork for ${business.name}`,
           }}
           overlay="subtle"
           className="h-full w-full"

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
+import { getGuideMediaAsset } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
 
 type PillarLink = { href: string; label: string; detail: string; accent?: "aqua" | "coral" | "gold" };
@@ -24,11 +25,18 @@ const accentStyles = {
 };
 
 export function PillarPage({ eyebrow, title, island, introduction, planningNote, highlights, links, gradient, decisions = [], faq = [] }: PillarPageProps) {
+  const heroMedia = getGuideMediaAsset(`${title} ${eyebrow} ${island}`, eyebrow);
+
   return (
     <>
       {faq.length > 0 ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) }) }} /> : null}
       <MediaBackdrop
-        media={{ id: title.toLowerCase().replace(/[^a-z0-9]+/g, "-"), label: eyebrow, gradient, src: null, alt: `Abstract island composition for ${title}` }}
+        media={{
+          ...heroMedia,
+          id: title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+          label: eyebrow,
+          gradient: heroMedia.src ? heroMedia.gradient : gradient,
+        }}
         overlay="hero"
         priority
         className="min-h-[68svh]"

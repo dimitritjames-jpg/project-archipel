@@ -9,7 +9,7 @@ import { fetchPublishedBusinessesByCategory } from "@/lib/businesses/queries";
 import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
 import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
-import { CATEGORY_MEDIA } from "@/lib/media";
+import { getCategoryMediaAsset } from "@/lib/media";
 
 type Props = { params: Promise<{ island: string; categorySlug: string }> };
 
@@ -80,19 +80,17 @@ export default async function CategoryPage({ params }: Props) {
   );
   const demoCount = businesses.filter((business) => business.is_demo).length;
   const realCount = businesses.length - demoCount;
-  const gradient =
-    CATEGORY_MEDIA[categorySlug] ?? "from-cyan-400/40 via-navy-900 to-indigo-600/35";
+  const media = getCategoryMediaAsset(categorySlug, category.name);
   const guidance = CHANNEL_GUIDANCE[`${islandParam}/${categorySlug}`];
 
   return (
     <>
       <MediaBackdrop
         media={{
+          ...media,
           id: categorySlug,
           label: category.name,
-          gradient,
-          src: null,
-          alt: `Abstract visual for ${category.name} in ${islandName}`,
+          alt: `${media.alt} in ${islandName}`,
         }}
         overlay="hero"
         className="min-h-[min(58vh,540px)]"

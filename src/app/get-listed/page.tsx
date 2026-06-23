@@ -4,6 +4,7 @@ import { TrackedAnchor, TrackedLink } from "@/components/analytics/tracked-link"
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { env } from "@/lib/env";
+import { GET_LISTED_MEDIA } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Get Listed on VibeVI",
@@ -50,7 +51,7 @@ export default function GetListedPage() {
 
   return (
     <>
-      <MediaBackdrop media={{ id: "get-listed", label: "VibeVI for business", gradient: "from-coral/35 via-midnight-950 to-aqua/25", src: null, alt: "Abstract VibeVI business discovery composition" }} overlay="hero" priority className="min-h-[62svh]">
+      <MediaBackdrop media={GET_LISTED_MEDIA} overlay="hero" priority className="min-h-[62svh]">
         <div className="section-shell flex min-h-[62svh] flex-col justify-end pb-12 pt-32 sm:pb-16">
           <div className="flex flex-wrap items-center gap-3"><p className="eyebrow-label !text-coral-sunset">For USVI businesses</p><ComingSoonBadge label="Owner dashboard coming soon" /></div>
           <h1 className="display-type mt-5 max-w-5xl text-5xl font-semibold text-white sm:text-7xl lg:text-8xl">Get listed where the island day begins.</h1>

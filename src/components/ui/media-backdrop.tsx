@@ -26,7 +26,11 @@ export function MediaBackdrop({
 
   return (
     <div
-      className={cn("relative overflow-hidden", className)}
+      className={cn(
+        "media-backdrop relative overflow-hidden",
+        overlay === "hero" ? "destination-media-hero" : undefined,
+        className,
+      )}
       role={children ? undefined : "img"}
       aria-label={children ? undefined : media.alt}
     >

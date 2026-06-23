@@ -13,6 +13,7 @@ import type { PublishedBusinessRow } from "@/lib/businesses/queries";
 import type { AnalyticsEventName } from "@/lib/analytics/events";
 import type { ExperiencePillar } from "@/lib/experience-pillars";
 import { CODE_TO_SLUG, ISLAND_MAP } from "@/lib/islands";
+import { getExperienceHeroMedia } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
 
 const PAGE_VIEW_EVENTS: Partial<Record<ExperiencePillar["slug"], AnalyticsEventName>> = {
@@ -118,6 +119,7 @@ export function ExperiencePillarPage({
 }) {
   const pageEvent = PAGE_VIEW_EVENTS[pillar.slug];
   const featureGrid = getFeatureGrid(pillar);
+  const heroMedia = getExperienceHeroMedia(pillar.slug, pillar.name);
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -139,11 +141,9 @@ export function ExperiencePillarPage({
 
       <MediaBackdrop
         media={{
+          ...heroMedia,
           id: `experience-${pillar.slug}`,
           label: pillar.name,
-          gradient: pillar.gradient,
-          src: null,
-          alt: `Abstract VibeVI experience backdrop for ${pillar.name}`,
         }}
         overlay="hero"
         priority

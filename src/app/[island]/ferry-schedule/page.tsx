@@ -6,6 +6,7 @@ import { AnalyticsEvent } from "@/components/analytics/analytics-event";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
+import { FERRY_MEDIA } from "@/lib/media";
 
 type Props = { params: Promise<{ island: string }> };
 
@@ -23,7 +24,7 @@ export default async function IslandFerrySchedulePage({ params }: Props) {
   return (
     <>
       <AnalyticsEvent name="ferry_page_viewed" properties={{ island: slug }} />
-      <MediaBackdrop media={{ id: "ferry-board", label: "Ferry routes", gradient: "from-cyan-300/45 via-midnight-950 to-teal-600/35", src: null, alt: "Abstract ferry route composition" }} overlay="hero" priority className="min-h-[54svh]">
+      <MediaBackdrop media={{ ...FERRY_MEDIA, id: "ferry-board", label: `${name} ferry routes` }} overlay="hero" priority className="min-h-[54svh]">
         <div className="section-shell flex min-h-[54svh] flex-col justify-end pb-12 pt-32"><p className="eyebrow-label">Transit utility · Atlantic Standard Time</p><h1 className="display-type mt-5 text-5xl font-semibold text-white sm:text-7xl">Ferry board — {name}</h1><p className="mt-5 max-w-2xl text-base leading-7 text-white/68">A directional schedule utility built around verified sources. It is not live vessel tracking, a service alert system, or a boarding guarantee.</p></div>
       </MediaBackdrop>
       <main className="section-shell py-16 sm:py-20">

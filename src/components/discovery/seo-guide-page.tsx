@@ -3,6 +3,7 @@ import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { env } from "@/lib/env";
 import type { LaunchGuide } from "@/lib/guides";
+import { getGuideMediaAsset } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
 
 export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
@@ -15,11 +16,12 @@ export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
     { "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, mainEntityOfPage: canonical, author: { "@type": "Organization", name: "VibeVI" }, publisher: { "@type": "Organization", name: "VibeVI" } },
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: guide.faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) },
   ];
+  const guideMedia = getGuideMediaAsset(`${guide.path} ${guide.title}`, guide.eyebrow);
 
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
-      <MediaBackdrop media={{ id: guide.path, label: guide.eyebrow, gradient: "from-cyan-300/40 via-midnight-950 to-coral-500/25", src: null, alt: `Abstract island field guide composition for ${guide.title}` }} overlay="hero" priority className="min-h-[62svh]">
+      <MediaBackdrop media={{ ...guideMedia, id: guide.path, label: guide.eyebrow }} overlay="hero" priority className="min-h-[62svh]">
         <div className="section-shell flex min-h-[62svh] flex-col justify-end pb-12 pt-32 sm:pb-16">
           <div className="flex flex-wrap items-center gap-3"><p className="eyebrow-label">{guide.eyebrow}</p><ComingSoonBadge label="Launch guide" /></div>
           <h1 className="display-type mt-5 max-w-5xl text-5xl font-semibold text-white sm:text-7xl lg:text-8xl">{guide.title}</h1>

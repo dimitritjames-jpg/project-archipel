@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { VibeFilterRail } from "@/components/home/vibe-filter-rail";
 import { HomeSearchBar } from "@/components/search/home-search-bar";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
+import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { ISLAND_MAP, ISLAND_SLUGS } from "@/lib/islands";
+import { HERO_MEDIA, ISLAND_PORTALS } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Find the Move",
@@ -29,10 +32,8 @@ export default async function SearchPage({ searchParams }: Props) {
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-sand/12 px-4 py-20 sm:px-6 lg:py-28">
-        <div className="sun-wash absolute inset-0 opacity-70" aria-hidden />
-        <div className="hero-ocean-shelf !h-[30%] !opacity-50" aria-hidden />
-        <div className="section-shell relative grid gap-10 lg:grid-cols-[1fr_0.48fr] lg:items-end">
+      <MediaBackdrop media={{ ...HERO_MEDIA, id: "search-hero", label: "Island search" }} overlay="hero" priority className="border-b border-sand/12">
+        <section className="section-shell grid gap-10 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_0.48fr] lg:items-end lg:py-28">
           <div>
             <p className="eyebrow-label">Start with the vibe</p>
             <h1 className="text-balance mt-6 max-w-4xl text-5xl font-semibold tracking-[-0.06em] text-archipel-white sm:text-7xl">
@@ -68,8 +69,8 @@ export default async function SearchPage({ searchParams }: Props) {
               ))}
             </div>
           </aside>
-        </div>
-      </section>
+        </section>
+      </MediaBackdrop>
 
       <div className="section-shell py-12 sm:py-16 lg:py-20">
         <VibeFilterRail activeId={vibe} className="!px-0" title="Route by mood" />
@@ -81,21 +82,40 @@ export default async function SearchPage({ searchParams }: Props) {
             description="Island hubs help when you already know which shore the day belongs to."
           />
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {ISLAND_SLUGS.map((slug, index) => (
-              <Link
-                key={slug}
-                href={`/${slug}`}
-                className="island-postcard-card group rounded-[1.25rem] border border-sand/12 bg-[#062532] p-5 transition hover:-translate-y-1 hover:border-sand/30"
-              >
-                <p className="text-[9px] font-black uppercase tracking-[0.18em] text-sand/55">
-                  ISLAND {String(index + 1).padStart(2, "0")}
-                </p>
-                <h2 className="mt-8 text-lg font-semibold tracking-[-0.035em] text-archipel-white group-hover:text-sand">
-                  {ISLAND_MAP[slug].name}
-                </h2>
-                <p className="mt-2 text-xs text-archipel-white/42">Open island guide ↗</p>
-              </Link>
-            ))}
+            {ISLAND_SLUGS.map((slug, index) => {
+              const islandMedia = ISLAND_PORTALS[slug].media;
+
+              return (
+                <Link
+                  key={slug}
+                  href={`/${slug}`}
+                  className="island-search-photo-card group relative min-h-[185px] overflow-hidden rounded-[1.25rem] border border-sand/12 transition hover:-translate-y-1 hover:border-sand/30"
+                >
+                  {islandMedia.src ? (
+                    <Image
+                      src={islandMedia.src}
+                      alt={islandMedia.alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover transition duration-700 group-hover:scale-105"
+                    />
+                  ) : null}
+                  <div className={`absolute inset-0 bg-gradient-to-br opacity-70 ${islandMedia.gradient}`} aria-hidden />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/18 to-black/10" aria-hidden />
+                  <div className="relative z-10 flex min-h-[185px] flex-col justify-between p-5">
+                    <p className="rounded-full bg-white/12 px-3 py-1 text-[9px] font-black uppercase tracking-[0.18em] text-white/72 backdrop-blur">
+                      ISLAND {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <div>
+                      <h2 className="text-xl font-semibold tracking-[-0.035em] text-white group-hover:text-sand">
+                        {ISLAND_MAP[slug].name}
+                      </h2>
+                      <p className="mt-2 text-xs font-medium text-white/68">Open island guide ↗</p>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
 

@@ -11,7 +11,7 @@ import {
   LISTING_STATE_LABELS,
 } from "@/lib/businesses/listing-trust";
 import { getIslandName, type IslandSlug } from "@/lib/islands";
-import { CATEGORY_MEDIA } from "@/lib/media";
+import { getCategoryMediaAsset } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
 
 type BusinessProfileViewProps = {
@@ -40,9 +40,10 @@ export function BusinessProfileView({
         `${business.street_address} ${islandName} USVI`,
       )}`
     : null;
-  const gradient =
-    CATEGORY_MEDIA[categorySlug] ??
-    "from-cyan-400/40 via-midnight-950 to-indigo-600/35";
+  const media = getCategoryMediaAsset(
+    categorySlug,
+    business.category?.name ?? "Island profile",
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -85,11 +86,10 @@ export function BusinessProfileView({
 
       <MediaBackdrop
         media={{
+          ...media,
           id: business.slug,
           label: business.name,
-          gradient,
-          src: null,
-          alt: `Abstract visual identity for ${business.name}`,
+          alt: `${media.alt}; category artwork for ${business.name}`,
         }}
         overlay="hero"
         className="min-h-[min(68vh,620px)]"

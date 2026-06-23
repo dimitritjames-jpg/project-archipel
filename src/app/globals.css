@@ -1251,6 +1251,52 @@ main .display-type {
   color: #173941;
 }
 
+main .destination-media-hero :is(.display-type, h1, h2, h3),
+main .destination-media-hero :is(.text-white, .text-archipel-white),
+main .destination-media-hero :is([class*="text-white/"], [class*="text-archipel-white/"]) {
+  color: rgba(255, 255, 255, 0.94) !important;
+}
+
+main .destination-media-hero :is(p, span, li) {
+  color: inherit;
+}
+
+main .destination-media-hero .eyebrow-label,
+main .destination-media-hero :is(.text-aqua, [class*="text-aqua/"]) {
+  color: #7de8dc !important;
+}
+
+main .destination-media-hero :is(.text-coral-sunset, .text-coral, [class*="text-coral"]) {
+  color: #ffc37d !important;
+}
+
+main .destination-media-hero :is(.command-surface, .island-postcard-card) {
+  background:
+    radial-gradient(circle at 84% 0%, rgba(125, 232, 220, 0.18), transparent 16rem),
+    rgba(4, 20, 25, 0.56) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.22) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+main .destination-media-hero :is(.command-surface, .island-postcard-card) :is(.text-white, .text-archipel-white),
+main .destination-media-hero :is(.command-surface, .island-postcard-card) :is([class*="text-white/"], [class*="text-archipel-white/"]) {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+main :is(.island-category-photo-card, .island-search-photo-card) :is(.text-white, .text-archipel-white),
+main :is(.island-category-photo-card, .island-search-photo-card) :is([class*="text-white/"], [class*="text-archipel-white/"]) {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+main :is(.island-category-photo-card, .island-search-photo-card) :is(.text-aqua, [class*="text-aqua/"]) {
+  color: #7de8dc !important;
+}
+
+main :is(.island-category-photo-card, .island-search-photo-card) :is(.bg-white\/12, [class*="bg-white/"]) {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+}
+
 main a:not([class*="bg-coral"]):not([class*="bg-aqua"]):not([class*="bg-[#0b4b55]"]) {
   text-decoration-color: rgba(7, 151, 166, 0.32);
 }

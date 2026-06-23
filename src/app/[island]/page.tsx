@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { TrackedLink } from "@/components/analytics/tracked-link";
 import { notFound } from "next/navigation";
@@ -11,7 +12,7 @@ import { fetchPublishedBusinessesByCategory } from "@/lib/businesses/queries";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
-import { CATEGORY_MEDIA, ISLAND_PORTALS } from "@/lib/media";
+import { CATEGORY_MEDIA, getCategoryMediaAsset, getGuideMediaAsset, ISLAND_PORTALS } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
 
 type Props = { params: Promise<{ island: string }> };
@@ -167,13 +168,32 @@ export default async function IslandPage({ params }: Props) {
         <section className="mt-18" aria-labelledby="island-guides-heading">
           <SectionHeader eyebrow="Plan with context" title={`Useful guides for ${name}.`} description="Start with a high-intent guide, then move directly into schedules, directory categories, and published business profiles." />
           <div className="mt-8 grid gap-4 lg:grid-cols-3">
-            {guideLinks[islandSlug].map((guide, index) => (
-              <Link key={guide.href} href={guide.href} className="command-surface group rounded-[1.35rem] p-5 transition hover:-translate-y-1 hover:border-aqua/25">
-                <span className="font-mono text-[9px] text-aqua/55">GUIDE 0{index + 1}</span>
-                <h3 className="mt-8 text-lg font-semibold text-white group-hover:text-aqua">{guide.label}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/48">{guide.detail}</p>
-              </Link>
-            ))}
+            {guideLinks[islandSlug].map((guide, index) => {
+              const guideMedia = getGuideMediaAsset(`${guide.href} ${guide.label}`, guide.label);
+
+              return (
+                <Link key={guide.href} href={guide.href} className="island-search-photo-card group relative min-h-[230px] overflow-hidden rounded-[1.35rem] border border-sand/12 transition hover:-translate-y-1 hover:border-aqua/25">
+                  {guideMedia.src ? (
+                    <Image
+                      src={guideMedia.src}
+                      alt={guideMedia.alt}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                      className="object-cover transition duration-700 group-hover:scale-105"
+                    />
+                  ) : null}
+                  <div className={`absolute inset-0 bg-gradient-to-br opacity-70 ${guideMedia.gradient}`} aria-hidden />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/20 to-black/10" aria-hidden />
+                  <div className="relative z-10 flex min-h-[230px] flex-col justify-between p-5">
+                    <span className="w-fit rounded-full bg-white/12 px-3 py-1 font-mono text-[9px] text-white/72 backdrop-blur">GUIDE 0{index + 1}</span>
+                    <div>
+                      <h3 className="text-xl font-semibold tracking-[-0.035em] text-white group-hover:text-aqua">{guide.label}</h3>
+                      <p className="mt-3 text-sm leading-6 text-white/70">{guide.detail}</p>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </section>
 
@@ -184,32 +204,51 @@ export default async function IslandPage({ params }: Props) {
             description="Premium island-day categories shaped around how a beach, boat, bite, or night actually comes together."
           />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {CORE_CATEGORIES.map((category, index) => (
-              <TrackedLink
-                key={category.slug}
-                href={`/${islandParam}/${category.slug}`}
-                eventName="category_clicked"
-                eventProperties={{ island: islandParam, category: category.slug, source: "island_hub" }}
-                className="island-card-glow group command-surface relative min-h-[190px] overflow-hidden rounded-[1.4rem] transition duration-500 hover:-translate-y-1 hover:border-aqua/25"
-              >
-                <div
-                  className={`absolute inset-0 bg-gradient-to-br opacity-75 ${CATEGORY_MEDIA[category.slug] ?? "from-cyan-500/30 to-indigo-950"}`}
-                  aria-hidden
-                />
-                <div className="topographic-field absolute inset-0 opacity-45" aria-hidden />
-                <div className="relative z-10 flex h-full min-h-[190px] flex-col justify-between p-5">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[9px] tracking-[0.18em] text-archipel-white/42">
-                      {String(index + 1).padStart(2, "0")} / CATEGORY
-                    </span>
-                    <span className="text-aqua transition group-hover:rotate-45">↗</span>
+            {CORE_CATEGORIES.map((category, index) => {
+              const categoryMedia = getCategoryMediaAsset(category.slug, category.name);
+
+              return (
+                <TrackedLink
+                  key={category.slug}
+                  href={`/${islandParam}/${category.slug}`}
+                  eventName="category_clicked"
+                  eventProperties={{ island: islandParam, category: category.slug, source: "island_hub" }}
+                  className="island-card-glow island-category-photo-card group command-surface relative min-h-[220px] overflow-hidden rounded-[1.4rem] transition duration-500 hover:-translate-y-1 hover:border-aqua/25"
+                >
+                  {categoryMedia.src ? (
+                    <Image
+                      src={categoryMedia.src}
+                      alt={categoryMedia.alt}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover transition duration-700 group-hover:scale-105"
+                    />
+                  ) : null}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br opacity-70 ${CATEGORY_MEDIA[category.slug] ?? "from-cyan-500/30 to-indigo-950"}`}
+                    aria-hidden
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/78 via-black/22 to-black/12" aria-hidden />
+                  <div className="topographic-field absolute inset-0 opacity-35" aria-hidden />
+                  <div className="relative z-10 flex h-full min-h-[220px] flex-col justify-between p-5">
+                    <div className="flex items-center justify-between">
+                      <span className="rounded-full bg-white/12 px-3 py-1 font-mono text-[9px] tracking-[0.18em] text-white/78 backdrop-blur">
+                        {String(index + 1).padStart(2, "0")} / CATEGORY
+                      </span>
+                      <span className="text-aqua transition group-hover:rotate-45">↗</span>
+                    </div>
+                    <div>
+                      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-white/62">
+                        {categoryMedia.label}
+                      </p>
+                      <h3 className="max-w-[12rem] text-2xl font-semibold tracking-[-0.04em] text-white group-hover:text-aqua">
+                        {category.name}
+                      </h3>
+                    </div>
                   </div>
-                  <h3 className="max-w-[12rem] text-xl font-semibold tracking-[-0.04em] text-archipel-white group-hover:text-aqua">
-                    {category.name}
-                  </h3>
-                </div>
-              </TrackedLink>
-            ))}
+                </TrackedLink>
+              );
+            })}
           </div>
         </section>
 
