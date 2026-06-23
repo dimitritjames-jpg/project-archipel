@@ -53,7 +53,7 @@ export function MediaBackdrop({
             aria-hidden
           />
           <div
-            className="signal-grid sailcloth absolute inset-0 opacity-20 [mask-image:linear-gradient(to_bottom,black,transparent_82%)]"
+            className="reef-grid sailcloth absolute inset-0 opacity-20 [mask-image:linear-gradient(to_bottom,black,transparent_82%)]"
             aria-hidden
           />
         </>

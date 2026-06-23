@@ -2,13 +2,13 @@ import type { IslandSlug } from "@/lib/islands";
 
 /**
  * Legal-first media registry. Keep `src: null` until an owned or licensed asset is
- * dropped into the matching `/public/media` location. Gradient fallbacks are the
- * production-safe default and must remain usable without photography.
+ * dropped into the matching `/public/media` location. Gradient and illustration
+ * fallbacks are the production-safe default and must remain usable without photography.
  */
 export type MediaAsset = {
   id: string;
   label: string;
-  /** Tailwind gradient classes for placeholder backdrop */
+  /** Tailwind gradient classes for the legal fallback artwork */
   gradient: string;
   /** Optional path under /public — null = gradient only */
   src: string | null;
@@ -42,6 +42,7 @@ export const PRODUCTION_MEDIA_PATHS = {
   guides: "/media/guides/{guide-slug}.webp",
   businesses: "/media/businesses/{business-slug}/cover.webp",
   openGraph: "/media/og/vibevi-default-1200x630.webp",
+  generated: "/media/generated/{asset-id}.webp",
   sponsors: "/media/sponsors/{placement-id}.webp",
 } as const;
 

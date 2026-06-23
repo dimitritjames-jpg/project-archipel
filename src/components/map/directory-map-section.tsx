@@ -9,7 +9,7 @@ const DirectoryMap = dynamic(
     ssr: false,
     loading: () => (
       <div
-        className="signal-grid h-[min(64vh,600px)] min-h-[380px] animate-pulse bg-[#0A192F]/80"
+        className="reef-grid h-[min(64vh,600px)] min-h-[380px] animate-pulse bg-[#0A192F]/80"
         aria-label="Loading island map"
       />
     ),

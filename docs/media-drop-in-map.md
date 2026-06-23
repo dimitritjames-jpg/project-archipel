@@ -1,6 +1,6 @@
 # VibeVI media drop-in map
 
-This map keeps production media activation safe. Do not set any `src` in `src/lib/media.ts` until the file exists under `public/media/` and the rights evidence is recorded.
+This map keeps production media activation safe. Do not set any `src` in `src/lib/media.ts` until the file exists under `public/media/`, the rights evidence is recorded in `data/media-manifest.json`, and the asset follows `docs/media-source-policy.md`.
 
 ## Homepage
 
@@ -38,9 +38,10 @@ Use `public/media/businesses/{business-slug}/cover.webp` only for verified or ap
 ## Activation checklist
 
 - [ ] File exists in the target path.
-- [ ] Rights evidence is recorded outside `public/`.
+- [ ] Rights evidence is recorded in `data/media-manifest.json`.
 - [ ] Credit/attribution requirements are documented.
 - [ ] Alt text is written in code/content data.
 - [ ] Mobile crop has been checked.
 - [ ] No remote hotlink is used.
 - [ ] No demo or public-info trust gate is changed by adding media.
+- [ ] Public pages remain free of unfinished media copy.

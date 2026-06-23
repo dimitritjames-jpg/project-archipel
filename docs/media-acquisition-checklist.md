@@ -1,6 +1,6 @@
 # VibeVI media acquisition checklist
 
-VibeVI should look beautiful without risking copyright, privacy, or false representation. The gradient fallback system remains production-safe until approved media is available.
+VibeVI should look beautiful without risking copyright, privacy, or false representation. The CSS/SVG fallback art remains production-safe until approved media is available. Use this checklist with `docs/media-source-policy.md` and `data/media-manifest.json`.
 
 ## Media sources allowed
 
@@ -14,7 +14,7 @@ Do not hotlink remote images. Do not add scraped photos. Do not use social-media
 
 ## Evidence to record before adding a file
 
-For every asset, record outside the public asset folder:
+For every asset, record in `data/media-manifest.json` before activation:
 
 - asset filename;
 - owner/source;
@@ -42,7 +42,7 @@ For every asset, record outside the public asset folder:
 12. Business profiles: verified business cover photo and optional gallery.
 13. Open Graph: `1200x630` brand-safe card.
 
-## Homepage placeholder replacement map
+## Homepage fallback replacement map
 
 - Hero collage main frame: homepage hero water/boat shot.
 - Beach poster card: sand, shade, shallow-water, or towel-down beach image.
@@ -51,7 +51,7 @@ For every asset, record outside the public asset folder:
 - Night poster card: music, amber lights, boardwalk, or waterfront evening image.
 - Editorial cards: one culinary, one culture/music, one water/adventure image.
 - Island portal cards: island-specific image per shot list above.
-- Guide image slots: guide-specific scenic or detail image.
+- Guide media frames: guide-specific scenic or detail image.
 
 ## Exact launch filename targets
 
@@ -86,7 +86,8 @@ See `docs/media-drop-in-map.md` for where each file appears and the activation c
 - [ ] No remote hotlinks.
 - [ ] No unlicensed files.
 - [ ] Every non-null media path exists.
-- [ ] Every approved asset has rights evidence.
+- [ ] Every approved asset has a complete manifest record.
 - [ ] Alt text describes visual content.
 - [ ] Mobile crops preserve focal points.
 - [ ] OG image renders at exactly `1200x630`.
+- [ ] The public site does not expose unfinished media copy such as “image slot” or “shot goes here.”

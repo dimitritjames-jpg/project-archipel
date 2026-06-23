@@ -42,7 +42,7 @@ export function DirectoryMap({ className, height = 480 }: DirectoryMapProps) {
   if (!token) {
     return (
       <div
-        className={`topographic-field signal-grid relative flex min-h-[380px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#07182c] p-8 text-center ${className ?? ""}`}
+        className={`topographic-field reef-grid relative flex min-h-[380px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#07182c] p-8 text-center ${className ?? ""}`}
         style={{ height }}
         role="img"
         aria-label="Island map preview; interactive Mapbox view is not configured"

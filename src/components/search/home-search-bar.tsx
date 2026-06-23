@@ -94,13 +94,12 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search a beach, boat, table, stay…"
             autoComplete="off"
             role="combobox"
             aria-expanded={showResults}
             aria-controls={listboxId}
             aria-autocomplete="list"
-            className="w-full bg-transparent text-sm text-archipel-white placeholder:text-archipel-white/42 focus:outline-none sm:text-base"
+            className="w-full bg-transparent text-sm text-archipel-white focus:outline-none sm:text-base"
           />
           {isPending ? (
             <span className="text-xs text-archipel-white/50" aria-live="polite">

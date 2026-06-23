@@ -385,7 +385,7 @@ body::before {
   opacity: 0.42;
 }
 
-.homepage-sunrise-hero .signal-grid {
+.homepage-sunrise-hero .reef-grid {
   opacity: 0.08;
 }
 
@@ -408,18 +408,18 @@ body::before {
   position: relative;
 }
 
-.hero-collage-photo-slot {
+.hero-collage-media-frame {
   border: 1px solid rgba(255, 255, 255, 0.72);
   box-shadow: 0 32px 90px rgba(7, 151, 166, 0.18);
   overflow: hidden;
   position: relative;
 }
 
-.hero-collage-photo-slot::after,
+.hero-collage-media-frame::after,
 .poster-photo-window::after,
-.editorial-photo-slot::after,
-.homepage-mini-photo-slot::after,
-.guide-photo-slot::after,
+.editorial-media-frame::after,
+.homepage-mini-media::after,
+.guide-media-frame::after,
 .story-photo-strip::after {
   background:
     repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.18) 0 1px, transparent 1px 18px),
@@ -726,16 +726,16 @@ body::before {
   color: rgba(255, 244, 214, 0.68);
 }
 
-.homepage-mini-photo-slot,
+.homepage-mini-media,
 .poster-photo-window,
-.editorial-photo-slot,
-.guide-photo-slot,
+.editorial-media-frame,
+.guide-media-frame,
 .story-photo-strip {
   position: relative;
   overflow: hidden;
 }
 
-.homepage-mini-photo-slot {
+.homepage-mini-media {
   align-items: end;
   aspect-ratio: 1.55 / 1;
   background: linear-gradient(135deg, #7de8dc 0%, #fff4d6 56%, #ffb84d 100%);
@@ -745,8 +745,8 @@ body::before {
   padding: 1rem;
 }
 
-.homepage-mini-photo-slot span,
-.editorial-photo-slot span {
+.homepage-mini-media span,
+.editorial-media-frame span {
   color: rgba(23, 57, 65, 0.62);
   font-size: 0.64rem;
   font-weight: 900;
@@ -796,7 +796,7 @@ body::before {
   background: linear-gradient(155deg, #24133d 0%, #6d3fb9 45%, #ff4f9a 78%, #c9762f 100%);
 }
 
-.editorial-photo-slot {
+.editorial-media-frame {
   align-items: end;
   aspect-ratio: 1.45 / 1;
   background:
@@ -809,7 +809,7 @@ body::before {
 }
 
 .story-photo-strip,
-.guide-photo-slot {
+.guide-media-frame {
   background:
     radial-gradient(circle at 72% 18%, rgba(255, 184, 77, 0.28), transparent 28%),
     linear-gradient(135deg, rgba(125, 232, 220, 0.48), rgba(255, 244, 214, 0.74));
@@ -821,7 +821,7 @@ body::before {
   height: 7.5rem;
 }
 
-.guide-photo-slot {
+.guide-media-frame {
   aspect-ratio: 1.35 / 0.78;
 }
 
@@ -931,7 +931,7 @@ body::before {
     radial-gradient(circle at 68% 44%, rgba(255, 184, 77, 0.09), transparent 38%);
 }
 
-.signal-grid {
+.reef-grid {
   background-image:
     radial-gradient(ellipse at center, rgba(125, 232, 220, 0.07) 0 1px, transparent 1.5px),
     linear-gradient(110deg, rgba(255, 244, 214, 0.045) 1px, transparent 1px);

@@ -117,7 +117,7 @@ export default function HomePage() {
           <div className="grid gap-8 lg:grid-cols-[0.55fr_1.45fr] lg:items-stretch">
             <div className="relative overflow-hidden rounded-[2.2rem] border border-white/70 bg-white/64 p-6 shadow-[0_24px_90px_rgba(201,118,47,0.13)] backdrop-blur-md sm:p-8">
               <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-mango/42 blur-2xl" aria-hidden />
-              <div className="homepage-mini-photo-slot mb-8" aria-hidden />
+              <div className="homepage-mini-media mb-8" aria-hidden />
               <p className="eyebrow-label text-reef-blue">The Virgin Islands, by feeling</p>
               <h2 id="day-moves-heading" className="display-type mt-5 text-4xl text-[#153942] sm:text-5xl">
                 Beach. Boat. Bite. Night.
@@ -219,7 +219,7 @@ export default function HomePage() {
                 href={section.href}
                 className={`island-editorial-card group relative min-h-[430px] overflow-hidden rounded-[2rem] border border-white/55 bg-gradient-to-br ${section.accent} p-5 shadow-[0_26px_86px_rgba(7,151,166,0.14)] transition hover:-translate-y-1 hover:border-white/80`}
               >
-                <div className="editorial-photo-slot" aria-hidden />
+                <div className="editorial-media-frame" aria-hidden />
                 <div className="relative z-10 mt-6 rounded-[1.5rem] border border-white/45 bg-white/62 p-5 backdrop-blur-md">
                   <p className="eyebrow-label text-reef-blue">{section.eyebrow}</p>
                   <h3 className="mt-5 max-w-sm text-3xl font-semibold tracking-[-0.055em] text-[#173941]">{section.title}</h3>
@@ -312,7 +312,7 @@ export default function HomePage() {
           <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {planningGuides.map(([href, label, detail], index) => (
               <Link key={href} href={href} className="guide-image-card group rounded-[1.45rem] border border-white/70 bg-white/66 p-4 shadow-[0_20px_70px_rgba(7,151,166,0.12)] transition hover:-translate-y-1 hover:border-reef-blue/30">
-                <div className="guide-photo-slot" aria-hidden />
+                <div className="guide-media-frame" aria-hidden />
                 <span className="mt-4 block text-[9px] font-black uppercase tracking-[0.18em] text-reef-blue/72">ISLAND NOTE {String(index + 1).padStart(2, "0")}</span>
                 <h3 className="mt-5 text-lg font-semibold text-[#173941] group-hover:text-reef-blue">{label}</h3>
                 <p className="mt-3 text-sm leading-6 text-[#496871]">{detail}</p>
