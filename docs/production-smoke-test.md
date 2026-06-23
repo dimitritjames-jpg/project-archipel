@@ -25,6 +25,7 @@ Date/time: __________
 | `/water-island` |  |  |  |
 | `/sitemap.xml` |  | XML renders |  |
 | `/manifest.webmanifest` |  | JSON renders |  |
+| `/robots.txt` |  | Sitemap reference renders |  |
 
 ## Promoted public-info route samples
 

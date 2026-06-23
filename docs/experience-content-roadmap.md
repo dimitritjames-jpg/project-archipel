@@ -1,6 +1,6 @@
 # VibeVI Experience Engine Content Roadmap
 
-VibeVI’s experience layer should answer one practical question: “What is the move?” The goal is booking-intent discovery without pretending VibeVI has live availability, instant reservations, payments, or a full partner dashboard.
+VibeVI’s experience layer should answer one practical question: “What is the move?” The goal is booking-intent discovery without pretending VibeVI has live availability, instant reservations, payments, or a full owner dashboard.
 
 ## Launch pillars
 
@@ -68,16 +68,16 @@ Editorial rule: menus, hours, prices, reservations, and availability are never g
    - Provider-neutral analytics events only.
    - No personal-data storage.
 
-2. Phase 2: Lead routing
+2. Phase 2: Inquiry routing
    - Backend intake with RLS, rate limiting, consent copy, and spam protection.
    - Intent types: `get_listed`, `sponsor_interest`, `experience_planning`, `request_availability`, `business_contact`.
 
-3. Phase 3: Partner dashboard
-   - Claimed businesses can review incoming leads.
+3. Phase 3: Claimed business tools
+   - Claimed businesses can review permission-based inquiries.
    - Verification/indexing/schema fields remain admin-controlled.
 
 4. Phase 4: Availability/calendar
-   - Direct partner availability integrations or verified manual calendar windows.
+   - Direct availability integrations or verified manual calendar windows.
    - No “live” claims unless the data source is actually live and monitored.
 
 5. Phase 5: Payments/booking marketplace
@@ -92,7 +92,7 @@ Allowed:
 - Contact this business
 - Start with an inquiry
 - Booking tools coming soon
-- Featured partners will be able to receive leads as VibeVI grows
+- Future inquiry routing is permission-based
 
 Forbidden until implemented:
 

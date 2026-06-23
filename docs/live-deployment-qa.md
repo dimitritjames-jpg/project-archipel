@@ -21,7 +21,7 @@ Deployment status: `PENDING DEPLOYED URL`. Local build and route validation can 
 ## Pre-deploy readiness
 
 - [ ] Git status clean.
-- [ ] Commit is `f9f51f7` or newer.
+- [ ] Commit is `20cf7e3` or newer.
 - [ ] Vercel project is connected to the correct repository.
 - [ ] Framework preset is Next.js.
 - [ ] Build command is `npm run build`.
@@ -44,8 +44,13 @@ Deployment status: `PENDING DEPLOYED URL`. Local build and route validation can 
 | `/experiences/culture` | 200 |  |  |
 | `/experiences/culinary` | 200 |  |  |
 | `/experiences/cruise-day` | 200 |  |  |
+| `/st-thomas` | 200, island hub renders |  |  |
+| `/st-croix` | 200, island hub renders |  |  |
+| `/st-john` | 200, island hub renders |  |  |
+| `/water-island` | 200, island hub renders |  |  |
 | `/sitemap.xml` | 200 XML |  |  |
 | `/manifest.webmanifest` | 200 JSON |  |  |
+| `/robots.txt` | 200 text, deployed sitemap referenced |  |  |
 
 ## Public-info listing route smoke test
 

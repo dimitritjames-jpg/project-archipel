@@ -20,7 +20,7 @@ function buildInquiryHref(intent: InquiryIntentType, subject: string) {
   const params = new URLSearchParams({
     subject,
     body:
-      `Hi VibeVI,\n\nIntent: ${intent}\n\nI’m interested in planning or contacting a verified local partner for this experience.\n\nIsland / date / group size:\nPreferred experience:\nQuestions:\n\nThanks!`,
+      `Hi VibeVI,\n\nIntent: ${intent}\n\nI’m interested in planning an experience or contacting a local business listed on VibeVI.\n\nIsland / date / group size:\nPreferred experience:\nQuestions:\n\nThanks!`,
   });
 
   return `mailto:${env.NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL}?${params.toString()}`;
@@ -140,7 +140,7 @@ export function PlanThisExperienceCard({ pillar }: { pillar: ExperiencePillar })
         <RequestAvailabilityCTA pillar={pillar} placement="plan_card" />
       </div>
       <p className="mt-5 text-[11px] leading-5 text-white/35">
-        Featured partners will be able to receive leads as VibeVI grows.
+        Future inquiry routing will stay source-reviewed and permission-based as VibeVI grows.
       </p>
     </aside>
   );
