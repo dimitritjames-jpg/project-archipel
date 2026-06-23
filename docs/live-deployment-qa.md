@@ -10,11 +10,13 @@ Use this document for the actual deployed Vercel preview or production URL. Do n
 | Deployment target | Preview or Production |
 | Date tested | `TBD` |
 | Tester | `TBD` |
-| Commit | `f9f51f7` or newer |
+| Commit | `20cf7e3` or newer |
 | Browser / device | `TBD` |
 | Viewports | Desktop, 430 px mobile, 390 px mobile |
 
 Current local readiness note: this workstation does not have the Vercel CLI installed or a `.vercel/project.json` link, so live deployment creation/inspection must happen through Vercel Git integration, Vercel Dashboard, or a linked CLI session.
+
+Deployment status: `PENDING DEPLOYED URL`. Local build and route validation can pass, but live launch remains no-go until this file is completed against an actual Vercel Preview or Production URL.
 
 ## Pre-deploy readiness
 

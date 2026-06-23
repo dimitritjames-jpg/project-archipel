@@ -64,6 +64,30 @@ Preview environments should use preview/staging Supabase and domain values. Prod
 
 Preview deployments should be validated first. Promote the validated preview to production when possible instead of rebuilding a separate artifact.
 
+## Vercel Dashboard deployment path
+
+Use this path when the Vercel CLI is not installed, not linked, or not authenticated on the local workstation.
+
+1. Open the Vercel Dashboard.
+2. Choose **Add New Project** or open the existing VibeVI project.
+3. Import/connect the Git repository for `project-archipel`.
+4. Confirm the project root is the repository root.
+5. Confirm framework preset is **Next.js**.
+6. Confirm install command is default / `npm install`.
+7. Confirm build command is `npm run build`.
+8. Leave output directory blank/default for Next.js.
+9. Add Preview environment variables first.
+10. Trigger a Preview deployment.
+11. Copy the Preview URL into `docs/live-deployment-qa.md`.
+12. Run the full live QA checklist.
+13. If preview QA passes, add Production environment variables.
+14. Add the final production domain.
+15. Set `NEXT_PUBLIC_SITE_URL` to the final production origin.
+16. Redeploy or promote the validated preview.
+17. Rerun live QA on the final production URL before any public announcement.
+
+Do not enter secrets into source files, screenshots, issues, chat messages, or documentation. Keep secret values only in Vercel environment variables or approved secret stores.
+
 ## Set environment variables
 
 1. Add Production variables from the table above.

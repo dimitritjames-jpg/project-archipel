@@ -36,6 +36,10 @@ If DNS verification is not available, use a URL-prefix property for the exact ca
    - `/water-island`
    - `/guides/best-beaches-usvi`
    - `/guides/usvi-charters`
+6. Inspect promoted public-info listing pages only after confirming they passed the promotion gate:
+   - `/st-thomas/excursions-charters/the-vi-cat`
+   - `/st-croix/excursions-charters/big-beards-adventure-tours`
+   - `/water-island/boutique-stays/virgin-islands-campground`
 
 Do not submit demo/noindex business profiles as priority URLs. Demo profiles should remain excluded by `noindex`.
 
@@ -55,7 +59,7 @@ Check weekly during launch:
 
 - Homepage should emit WebSite/Organization JSON-LD.
 - Verified business profiles may emit LocalBusiness-derived schema only when trust gates pass.
-- Demo, submitted, and unverified profiles must not emit LocalBusiness schema.
+- Public-info, demo, submitted, and unverified profiles must not emit LocalBusiness schema.
 
 ## Search performance notes
 
