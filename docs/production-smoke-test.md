@@ -26,13 +26,32 @@ Date/time: __________
 | `/sitemap.xml` |  | XML renders |  |
 | `/manifest.webmanifest` |  | JSON renders |  |
 
+## Promoted public-info route samples
+
+| Route | HTTP | Badge/disclosure visible | Notes |
+|---|---:|---|---|
+| `/st-thomas/excursions-charters/the-vi-cat` |  | Public info + unclaimed listing |  |
+| `/st-croix/excursions-charters/big-beards-adventure-tours` |  | Public info + unclaimed listing |  |
+| `/water-island/boutique-stays/virgin-islands-campground` |  | Public info + unclaimed listing |  |
+
+## Demo route sample
+
+| Route | HTTP | noindex | No LocalBusiness schema | No contact CTA |
+|---|---:|---|---|---|
+| `/st-thomas/indulgent-dining/demo-stt-waterfront-table` |  |  |  |  |
+
 ## Trust and safety checks
 
 - [ ] Demo profile returns 200.
 - [ ] Demo profile emits `noindex`.
 - [ ] Demo profile does not emit `LocalBusiness` schema.
 - [ ] Demo profile does not show fake direct phone/email CTAs.
-- [ ] No active CTA says “book instantly,” “reserve now,” “pay deposit,” “confirm booking,” or “guaranteed availability.”
+- [ ] Public-info profile badge says `Public info`.
+- [ ] Public-info profile says `Unclaimed listing`.
+- [ ] Public-info disclosure says details are sourced from public business pages and should be confirmed directly.
+- [ ] Public-info profile does not emit `LocalBusiness` schema.
+- [ ] Public-info profile does not say partner, premium, verified partner, official listing, guaranteed, live availability, book now, or reserve instantly.
+- [ ] No active CTA says book instantly, reserve now, pay deposit, confirm booking, or guaranteed availability.
 - [ ] Ferry pages describe schedule-based planning, not live vessel tracking.
 - [ ] Cruise pages describe scheduled capacity, not actual passenger counts.
 - [ ] Experience pages keep booking language to inquiry/planning only.
@@ -62,6 +81,13 @@ Test at 390 px wide and 430 px wide:
 
 - [ ] `/robots.txt` references the production sitemap.
 - [ ] `/sitemap.xml` uses production `NEXT_PUBLIC_SITE_URL`.
+- [ ] `/sitemap.xml` includes promoted public-info listing URLs.
+- [ ] `/sitemap.xml` does not include demo profile URLs.
 - [ ] Homepage canonical uses the production domain.
 - [ ] Experience pages are indexable.
 - [ ] Demo/noindex pages are not submitted as priority URLs.
+- [ ] Public-info listing pages are acceptable for indexing only because they passed the promotion gate.
+
+## Analytics script check
+
+- [ ] No Google Analytics, Google Tag Manager, Plausible, or Vercel Analytics provider scripts are present unless intentionally configured and documented for this deployment.

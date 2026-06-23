@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "VibeVI — Find Your Island Vibe",
+    name: "VibeVI - Find Your Island Vibe",
     short_name: "VibeVI",
     description:
       "US Virgin Islands discovery directory and daily island planning utility",

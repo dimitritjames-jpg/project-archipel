@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { env } from "@/lib/env";
-import { ISLAND_SLUGS } from "@/lib/islands";
+import { CODE_TO_SLUG, ISLAND_SLUGS } from "@/lib/islands";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { FEATURED_EXPERIENCE_PILLARS } from "@/lib/experience-pillars";
+import { PUBLIC_INFO_BUSINESSES } from "@/lib/businesses/public-info-catalog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = env.NEXT_PUBLIC_SITE_URL;
@@ -55,6 +56,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.85,
+    });
+  }
+
+  for (const business of PUBLIC_INFO_BUSINESSES) {
+    if (!business.public_info_listing || business.robots_noindex) continue;
+    const islandSlug = CODE_TO_SLUG[business.island];
+    const categorySlug = business.category?.slug;
+    if (!categorySlug) continue;
+
+    entries.push({
+      url: `${siteUrl}/${islandSlug}/${categorySlug}/${business.slug}`,
+      lastModified: business.last_verified_at
+        ? new Date(business.last_verified_at)
+        : now,
+      changeFrequency: "monthly",
+      priority: 0.65,
     });
   }
 

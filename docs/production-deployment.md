@@ -41,11 +41,28 @@ Preview environments should use preview/staging Supabase and domain values. Prod
 1. Create or select the Vercel project.
 2. Import the Git repository.
 3. Confirm framework preset: Next.js.
-4. Install command: Vercel default `npm install`.
-5. Build command: `npm run build`.
-6. Output directory: leave default for Next.js.
-7. Node version: use the project/Vercel default compatible with Next 15 and React 19.
-8. Confirm `vercel.json` headers are applied in preview.
+4. Root directory: repository root.
+5. Install command: Vercel default `npm install`.
+6. Build command: `npm run build`.
+7. Output directory: leave default for Next.js. Do not set a static export directory.
+8. Output behavior: Vercel should detect Next.js and deploy the `.next` server output, App Router routes, metadata routes, and route handlers.
+9. Node version: use the project/Vercel default compatible with Next 15 and React 19.
+10. Confirm `vercel.json` headers are applied in preview.
+
+## Exact Vercel settings for launch
+
+| Setting | Value |
+|---|---|
+| Framework preset | Next.js |
+| Root directory | Repository root |
+| Install command | Default / `npm install` |
+| Build command | `npm run build` |
+| Output directory | Default for Next.js |
+| Development command | `npm run dev` if needed |
+| Production branch | `main` unless the repo owner chooses another branch |
+| Node.js version | Vercel default compatible with Next.js 15 |
+
+Preview deployments should be validated first. Promote the validated preview to production when possible instead of rebuilding a separate artifact.
 
 ## Set environment variables
 
@@ -55,6 +72,24 @@ Preview environments should use preview/staging Supabase and domain values. Prod
    - Production: canonical domain.
    - Preview: preview deployment origin or accepted staging URL.
 4. Redeploy after changing public environment variables.
+
+Required/recommended launch env checklist:
+
+- [ ] `NEXT_PUBLIC_SITE_URL`
+- [ ] `NEXT_PUBLIC_SUPABASE_URL`
+- [ ] `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- [ ] `SUPABASE_SERVICE_ROLE_KEY`
+- [ ] `NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN`
+- [ ] `NEXT_PUBLIC_MAPBOX_STYLE_URL` if using a custom style
+- [ ] `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL`
+
+Optional/deferred:
+
+- [ ] `SEARCH_SYNC_WEBHOOK_SECRET` only if search sync route is activated
+- [ ] `NEXT_PUBLIC_ALGOLIA_APP_ID` deferred until Algolia search launches
+- [ ] `NEXT_PUBLIC_ALGOLIA_SEARCH_KEY` deferred until Algolia search launches
+- [ ] `ALGOLIA_APP_ID` deferred until indexing launches
+- [ ] `ALGOLIA_ADMIN_KEY` deferred until indexing launches
 
 ## Supabase production confirmation
 
@@ -113,10 +148,22 @@ Minimum live routes:
 - `/sitemap.xml`
 - `/manifest.webmanifest`
 
+Also test promoted public-info routes:
+
+- `/st-thomas/excursions-charters/the-vi-cat`
+- `/st-croix/excursions-charters/big-beards-adventure-tours`
+- `/water-island/boutique-stays/virgin-islands-campground`
+
+And one demo/noindex route:
+
+- `/st-thomas/indulgent-dining/demo-stt-waterfront-table`
+
 ## Rollback procedure
 
 1. Identify last known-good deployment in Vercel.
-2. Promote/rollback to that deployment from the Vercel dashboard.
+2. Promote/rollback to that deployment from the Vercel dashboard, or run `vercel rollback` / `vercel rollback <deployment-url-or-id>` if the Vercel CLI is installed and linked.
 3. Confirm `NEXT_PUBLIC_SITE_URL` and env vars were not changed incorrectly.
 4. Run the smoke test again.
 5. Record the rollback reason, deployment URL, commit hash, and owner in `docs/launch-readiness.md`.
+
+If using Vercel CLI in CI, prefer `vercel build` followed by `vercel deploy --prebuilt` so validation can run between build and deploy. Promotion from a validated preview can use `vercel promote <deployment-url>`.
