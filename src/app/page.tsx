@@ -5,6 +5,7 @@ import { IslandPortalCard } from "@/components/home/island-portal-card";
 import { PartnerClaimCTA } from "@/components/home/partner-claim-cta";
 import { TodayIslandPulse } from "@/components/home/today-island-pulse";
 import { VibeFilterRail } from "@/components/home/vibe-filter-rail";
+import { HomeSearchBar } from "@/components/search/home-search-bar";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ISLAND_SLUGS, type IslandSlug } from "@/lib/islands";
 
@@ -98,16 +99,12 @@ export default function HomePage() {
     <>
       <HeroMediaSection />
 
-      <VibeFilterRail className="bg-[#fff4d6] py-10 text-[#18363d] lg:py-12" title="Choose the feeling" />
-
       <section className="homepage-sand-section px-4 py-14 sm:px-6 lg:py-20" aria-labelledby="day-moves-heading">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[0.55fr_1.45fr] lg:items-stretch">
             <div className="relative overflow-hidden rounded-[2.2rem] border border-white/70 bg-white/64 p-6 shadow-[0_24px_90px_rgba(201,118,47,0.13)] backdrop-blur-md sm:p-8">
               <div className="absolute -right-10 -top-10 h-36 w-36 rounded-full bg-mango/42 blur-2xl" aria-hidden />
-              <div className="homepage-mini-photo-slot mb-8" aria-hidden>
-                <span>Beach-day cover photo slot</span>
-              </div>
+              <div className="homepage-mini-photo-slot mb-8" aria-hidden />
               <p className="eyebrow-label text-reef-blue">The Virgin Islands, by feeling</p>
               <h2 id="day-moves-heading" className="display-type mt-5 text-4xl text-[#153942] sm:text-5xl">
                 Beach. Boat. Bite. Night.
@@ -140,6 +137,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="homepage-postcard-finder px-4 py-14 sm:px-6 lg:py-16" aria-labelledby="finder-heading">
+        <div className="mx-auto grid max-w-7xl gap-8 rounded-[2.4rem] border border-white/70 bg-white/62 p-5 shadow-[0_28px_100px_rgba(7,151,166,0.14)] backdrop-blur-md sm:p-7 lg:grid-cols-[0.75fr_1.25fr] lg:items-center">
+          <div>
+            <p className="eyebrow-label text-reef-blue">Island finder</p>
+            <h2 id="finder-heading" className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-[#173941] sm:text-4xl">
+              Already know the mood? Find the move.
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-[#496871]">
+              Search by beach, boat, bite, island, town, ferry hop, or night out.
+            </p>
+          </div>
+          <div>
+            <HomeSearchBar />
+            <VibeFilterRail className="px-0 pt-5 text-[#18363d]" title="Choose the feeling" />
+          </div>
+        </div>
+      </section>
+
       <section className="homepage-water-section px-4 py-16 sm:px-6 lg:py-24" aria-labelledby="culture-food-water">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
@@ -154,9 +169,7 @@ export default function HomePage() {
                 href={section.href}
                 className={`island-editorial-card group relative min-h-[430px] overflow-hidden rounded-[2rem] border border-white/55 bg-gradient-to-br ${section.accent} p-5 shadow-[0_26px_86px_rgba(7,151,166,0.14)] transition hover:-translate-y-1 hover:border-white/80`}
               >
-                <div className="editorial-photo-slot" aria-hidden>
-                  <span>{section.eyebrow} image slot</span>
-                </div>
+                <div className="editorial-photo-slot" aria-hidden />
                 <div className="relative z-10 mt-6 rounded-[1.5rem] border border-white/45 bg-white/62 p-5 backdrop-blur-md">
                   <p className="eyebrow-label text-reef-blue">{section.eyebrow}</p>
                   <h3 className="mt-5 max-w-sm text-3xl font-semibold tracking-[-0.055em] text-[#173941]">{section.title}</h3>
