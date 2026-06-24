@@ -1,107 +1,112 @@
 # VibeVI live deployment QA
 
-Use this document for the actual deployed Vercel preview or production URL. Do not mark public launch go until a real deployment URL has been tested.
+Use this document for the actual production URL after every launch-significant deploy. Do not use Vercel preview URLs for Search Console submission or public launch collateral.
 
 ## Deployment under test
 
 | Field | Value |
 |---|---|
-| Deployed URL | `TBD` |
-| Deployment target | Preview or Production |
-| Date tested | `TBD` |
-| Tester | `TBD` |
-| Commit | `20cf7e3` or newer |
-| Browser / device | `TBD` |
-| Viewports | Desktop, 430 px mobile, 390 px mobile |
+| Deployed URL | `https://www.myvibevi.com` |
+| Deployment target | Production |
+| Date tested | `2026-06-24` |
+| Tester | Codex |
+| Current production commit verified | `c93bd35` |
+| Canonical host | `https://www.myvibevi.com` |
+| Viewports still requiring formal visual sign-off | Desktop, 430 px mobile, 390 px mobile |
 
-Current local readiness note: this workstation does not have the Vercel CLI installed or a `.vercel/project.json` link, so live deployment creation/inspection must happen through Vercel Git integration, Vercel Dashboard, or a linked CLI session.
+Deployment status: `GO for public soft launch with accepted operational follow-ups`.
 
-Deployment status: `PENDING DEPLOYED URL`. Local build and route validation can pass, but live launch remains no-go until this file is completed against an actual Vercel Preview or Production URL.
+Known follow-ups before a wider public announcement:
 
-## Pre-deploy readiness
+- Configure and test `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL` with a monitored inbox.
+- Let Google Search Console reprocess `https://www.myvibevi.com/sitemap.xml`; direct HTTP/XML checks pass even if the report temporarily says `Couldn't fetch`.
+- Finish a formal mobile overflow/viewport pass at 390 px and 430 px.
+- Confirm Mapbox production token behavior and fallback behavior on the final domain.
+- Continue owner/photo outreach before enabling verified LocalBusiness schema.
+- Redeploy after the launch-tightening commit that adds generated `/opengraph-image` and `/twitter-image` routes.
 
-- [ ] Git status clean.
-- [ ] Commit is `20cf7e3` or newer.
-- [ ] Vercel project is connected to the correct repository.
-- [ ] Framework preset is Next.js.
-- [ ] Build command is `npm run build`.
-- [ ] Output directory is default for Next.js.
-- [ ] `NEXT_PUBLIC_SITE_URL` is set to the deployed canonical origin.
-- [ ] Supabase production/preview env vars are set for the intended environment.
-- [ ] Mapbox token and optional style URL are scoped to the intended environment.
-- [ ] Business inquiry email is a monitored inbox.
-- [ ] No secrets are committed to the repo.
+## Production facts verified
+
+- `https://myvibevi.com/` redirects to `https://www.myvibevi.com/`.
+- Homepage canonical and `og:url` use `https://www.myvibevi.com`.
+- `/robots.txt` points to `https://www.myvibevi.com/sitemap.xml`.
+- `/sitemap.xml` returns 200, parses as XML, and contains only `https://www.myvibevi.com` URLs.
+- Search Console ownership has been verified.
+- Homepage live inspection reported: URL is available to Google; indexing was requested.
 
 ## Required route smoke test
 
-| Route | Expected | Result | Notes |
+| Route | Expected | Latest result | Notes |
 |---|---|---|---|
-| `/` | 200, homepage renders |  |  |
-| `/search` | 200, search page renders |  |  |
-| `/map` | 200, map or fallback renders |  |  |
-| `/get-listed` | 200, inquiry CTA renders |  |  |
-| `/experiences/adventure` | 200 |  |  |
-| `/experiences/culture` | 200 |  |  |
-| `/experiences/culinary` | 200 |  |  |
-| `/experiences/cruise-day` | 200 |  |  |
-| `/st-thomas` | 200, island hub renders |  |  |
-| `/st-croix` | 200, island hub renders |  |  |
-| `/st-john` | 200, island hub renders |  |  |
-| `/water-island` | 200, island hub renders |  |  |
-| `/sitemap.xml` | 200 XML |  |  |
-| `/manifest.webmanifest` | 200 JSON |  |  |
-| `/robots.txt` | 200 text, deployed sitemap referenced |  |  |
+| `/` | 200, homepage renders | Passed | Production domain tested. |
+| `/search` | 200, search page renders | Passed | Intentionally noindex/disallowed; smoke-test only. |
+| `/map` | 200, map or fallback renders | Passed | Intentionally noindex/disallowed; smoke-test only. |
+| `/get-listed` | 200, inquiry section renders | Passed with follow-up | Email CTA depends on `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL`. |
+| `/experiences/adventure` | 200 | Passed |  |
+| `/experiences/culture` | 200 | Passed |  |
+| `/experiences/culinary` | 200 | Passed |  |
+| `/experiences/cruise-day` | 200 | Passed |  |
+| `/st-thomas` | 200, island hub renders | Passed |  |
+| `/st-croix` | 200, island hub renders | Passed |  |
+| `/st-john` | 200, island hub renders | Passed |  |
+| `/water-island` | 200, island hub renders | Passed |  |
+| `/sitemap.xml` | 200 XML | Passed | 110 URLs; all production-domain URLs. |
+| `/manifest.webmanifest` | 200 JSON | Passed |  |
+| `/robots.txt` | 200 text, production sitemap referenced | Passed |  |
 
 ## Public-info listing route smoke test
 
-| Route | Expected | Result | Notes |
+| Route | Expected | Latest result | Notes |
 |---|---|---|---|
-| `/st-thomas/excursions-charters/the-vi-cat` | 200, Public info badge |  |  |
-| `/st-croix/excursions-charters/big-beards-adventure-tours` | 200, Public info badge |  |  |
-| `/water-island/boutique-stays/virgin-islands-campground` | 200, Public info badge |  |  |
+| `/st-thomas/excursions-charters/coral-world-ocean-park` | 200, Public info disclosure | Passed | No LocalBusiness schema. |
+| `/st-thomas/excursions-charters/tree-limin-extreme-zipline` | 200, Public info disclosure | Passed | No LocalBusiness schema. |
+| `/st-thomas/indulgent-dining/the-easterly` | 200, Public info disclosure | Passed | No LocalBusiness schema. |
 
 Public-info trust checks:
 
-- [ ] Badge says `Public info`.
-- [ ] Page says `Unclaimed listing`.
-- [ ] Disclosure says details are sourced from public business pages and should be confirmed directly.
-- [ ] No booking, reserve, instant availability, guaranteed, partner, verified partner, premium, or official-listing claim appears.
-- [ ] No LocalBusiness schema is emitted.
-- [ ] CTAs are limited to official site, contact business, directions, and suggest update/claim interest.
+- [x] Public info disclosure is visible.
+- [x] No booking, reserve-on-VibeVI, live-availability, real-time availability, official partner, premium partner, or paid-placement claim appears.
+- [x] No LocalBusiness schema is emitted for public-info listings.
+- [x] Contact and direction links, where present, are treated as direct public-info links rather than VibeVI booking/partner claims.
 
 ## Demo listing trust test
 
 Route: `/st-thomas/indulgent-dining/demo-stt-waterfront-table`
 
-- [ ] 200 response.
-- [ ] `noindex` is present.
-- [ ] No LocalBusiness schema is emitted.
-- [ ] No phone/email contact CTA appears.
-- [ ] Copy clearly labels the profile as fictional/demo.
+- [x] Demo route responds.
+- [x] `noindex` is present.
+- [x] No LocalBusiness schema is emitted.
+- [x] Restricted contact CTAs are absent.
+- [x] Copy clearly labels the profile as fictional/demo.
 
 ## Search Console readiness
 
-- [ ] `/robots.txt` works and points to the deployed sitemap.
-- [ ] `/sitemap.xml` works.
-- [ ] Canonical URLs use `NEXT_PUBLIC_SITE_URL`.
-- [ ] Promoted public-info listing URLs appear in the sitemap.
-- [ ] Demo/noindex pages are not priority URLs.
-- [ ] Public-info listing pages are acceptable for indexing only because they passed the promotion gate.
-- [ ] Do not submit Search Console sitemap until the final deployed domain is chosen.
+- [x] `/robots.txt` works and points to the production sitemap.
+- [x] `/sitemap.xml` works and uses the production host.
+- [x] Canonical URLs use `NEXT_PUBLIC_SITE_URL`.
+- [x] Promoted public-info listing URLs appear in the sitemap.
+- [x] Demo/noindex pages are not priority URLs.
+- [x] Public-info listing pages are acceptable for indexing only after promotion gate review.
+- [x] Do not request indexing for `/search` or `/map`; they are intentionally noindex/disallowed utility views.
 
 ## Analytics and privacy check
 
-- [ ] No analytics provider scripts are present unless intentionally configured.
-- [ ] If analytics is enabled later, document provider, events, retention, and consent posture before launch.
+- [x] No analytics provider script is intentionally enabled by default.
+- [x] VibeVI currently dispatches provider-neutral browser events only.
+- [ ] If analytics is enabled later, document provider, events, retention, consent posture, and account owner before launch.
 
 ## Issue log
 
 | Issue | Severity | Fix applied | Status |
 |---|---|---|---|
-| Vercel CLI not installed/linked locally | Medium | Use Vercel Dashboard/Git integration or install/link CLI before CLI deploy inspection | Open until live URL exists |
+| Production metadata previously risked falling back to `localhost:3000` if `NEXT_PUBLIC_SITE_URL` was missing | High | Added production-safe env fallback and deployed `c93bd35` | Closed |
+| Search Console initially reported `Couldn't fetch` for the sitemap even though direct checks returned valid XML | Medium | Re-submit sitemap as `sitemap.xml`; monitor GSC refresh | Open / external processing |
+| `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL` is not configured on production | Medium | Configure monitored inbox in Vercel env and redeploy | Open |
+| Default social preview image was missing before this tightening pass | Low | Added generated `/opengraph-image` and `/twitter-image` routes | Pending redeploy |
+| Formal mobile overflow audit is not recorded after the latest visual/media build | Medium | Test 390 px and 430 px viewports and fix only confirmed overflow | Open |
 
 ## Go/no-go recommendation
 
-Current recommendation: `NO-GO for live public announcement until a real Vercel URL is deployed and this checklist is completed.`
+Current recommendation: `GO for controlled public soft launch`.
 
-No code launch blockers are known after local validation. The remaining blocker is live deployment access/URL verification.
+Do not turn on booking, paid sponsor claims, AI concierge, owner dashboard, or LocalBusiness schema for public-info listings. The next practical launch work is operations: inquiry inbox, Search Console monitoring, mobile overflow QA, verified-owner outreach, and real media acquisition.

@@ -8,7 +8,7 @@ Use this document to source real media without guessing rights or representing b
 | --- | --- | --- | --- |
 | Hero water/boat image | `public/media/hero/vibevi-hero-water-boat.jpg` | User-owned photo, commissioned photographer, or licensed stock | Must feel bright, outdoor, turquoise, and USVI-relevant. Do not use a specific charter/business boat unless permission is clear. |
 | Ambient sunset/water loop | `public/media/hero/vibevi-hero-sunset-water.mp4` | User-owned video, commissioned video, or licensed stock | Muted background loop only. Avoid identifiable people unless releases are clear. |
-| Default Open Graph card | `public/media/og/vibevi-default-1200x630.webp` | Generated art or commissioned brand artwork | Atmosphere is fine; do not imply factual listing content. |
+| Default Open Graph card | App route: `/opengraph-image`; optional future static file: `public/media/og/vibevi-default-1200x630.webp` | Generated route is launch-safe; a commissioned/static brand card may replace it later | Atmosphere is fine; do not imply factual listing content. |
 
 ## Island portals
 

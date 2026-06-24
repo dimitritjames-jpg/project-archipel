@@ -6,6 +6,29 @@ Status values: `blocked`, `in progress`, `passed`, `accepted risk`.
 
 Do not count the fictional demo catalog as launch inventory. Public launch requires verified, source-backed businesses and production configuration. Use `docs/public-soft-launch-qa.md` for the required route, mobile, and trust QA pass.
 
+## Current status snapshot — 2026-06-24
+
+Passed / live:
+
+- Final production domain is `https://www.myvibevi.com`.
+- HTTPS, apex-to-www redirect, production canonical URLs, robots sitemap reference, and sitemap host have been verified.
+- Google Search Console ownership has been verified.
+- Homepage live inspection reported the URL is available to Google, and indexing has been requested.
+- Core production routes, sitemap, manifest, and robots smoke-tested successfully.
+- Demo listings remain `noindex` and emit no LocalBusiness schema.
+- Public-info listings show disclosure and emit no LocalBusiness schema.
+- No booking, partner, premium, live-availability, or real-time availability claims were introduced.
+
+Open before broader launch push:
+
+- Configure `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL` to a monitored inbox and test the Get Listed mail flow.
+- Wait for Google Search Console to reprocess the submitted sitemap; direct sitemap checks pass.
+- Complete a recorded 390 px / 430 px mobile overflow audit.
+- Confirm Mapbox valid-token view and no-token fallback on the final production domain.
+- Add the launch-tightening social preview routes to production via one redeploy.
+- Continue owner outreach, photo-rights collection, and verified-inventory conversion before enabling LocalBusiness schema.
+- Pick an analytics provider only after privacy/retention/account ownership are documented.
+
 ## 1. Infrastructure and domain
 
 | Check | Status | Evidence / owner |

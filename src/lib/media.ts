@@ -41,7 +41,7 @@ export const PRODUCTION_MEDIA_PATHS = {
   },
   guides: "/media/guides/{guide-slug}.webp",
   businesses: "/media/businesses/{business-slug}/cover.webp",
-  openGraph: "/media/og/vibevi-default-1200x630.webp",
+  openGraph: "/opengraph-image",
   generated: "/media/generated/{asset-id}.jpg",
   sponsors: "/media/sponsors/{placement-id}.webp",
 } as const;

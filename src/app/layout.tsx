@@ -48,7 +48,7 @@ const organizationJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "VibeVI — Find Your Island Vibe",
+    default: "VibeVI - Find Your Island Vibe",
     template: "%s | VibeVI",
   },
   description:
@@ -74,15 +74,29 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "VibeVI",
-    title: "VibeVI — Find Your Island Vibe",
+    title: "VibeVI - Find Your Island Vibe",
     description:
       "Beach mornings, boat days, local plates, ferry checks, cruise-day moves, and waterfront nights across the U.S. Virgin Islands.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "VibeVI - Find Your Island Vibe",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "VibeVI — Find Your Island Vibe",
+    title: "VibeVI - Find Your Island Vibe",
     description:
       "Beaches, boats, bites, ferry checks, cruise-day moves, and local businesses across the U.S. Virgin Islands.",
+    images: [
+      {
+        url: "/twitter-image",
+        alt: "VibeVI - Find Your Island Vibe",
+      },
+    ],
   },
 };
 
