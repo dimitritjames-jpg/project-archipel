@@ -17,8 +17,20 @@ function normalizeSiteUrl(value: string | undefined): string {
   return candidate.replace(/\/+$/, "");
 }
 
+function isPublicProductionRuntime(): boolean {
+  if (process.env.VERCEL_ENV === "production") {
+    return true;
+  }
+
+  if (typeof window !== "undefined") {
+    return !/^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
+  }
+
+  return normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL) === PRODUCTION_SITE_URL;
+}
+
 function normalizeSupabaseUrl(value: string | undefined): string | undefined {
-  const isProduction = process.env.VERCEL_ENV === "production";
+  const isProduction = isPublicProductionRuntime();
   const candidate = value?.trim();
 
   if (!candidate) {
@@ -38,7 +50,7 @@ function normalizeSupabaseUrl(value: string | undefined): string | undefined {
 function normalizeSupabasePublishableKey(
   value: string | undefined,
 ): string | undefined {
-  const isProduction = process.env.VERCEL_ENV === "production";
+  const isProduction = isPublicProductionRuntime();
   const candidate = value?.trim();
 
   if (
