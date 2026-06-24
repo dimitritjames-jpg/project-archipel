@@ -4,6 +4,7 @@ import { CODE_TO_SLUG, ISLAND_SLUGS } from "@/lib/islands";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { FEATURED_EXPERIENCE_PILLARS } from "@/lib/experience-pillars";
 import { PUBLIC_INFO_BUSINESSES } from "@/lib/businesses/public-info-catalog";
+import { PUBLIC_FERRY_ROUTE_SLUGS } from "@/lib/transit/ferry-routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = env.NEXT_PUBLIC_SITE_URL;
@@ -75,13 +76,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  const ferryRoutes = [
-    "red-hook-to-cruz-bay",
-    "cruz-bay-to-red-hook",
-    "crown-bay-to-water-island",
-    "water-island-to-crown-bay",
-  ];
-  for (const slug of ferryRoutes) {
+  for (const slug of PUBLIC_FERRY_ROUTE_SLUGS) {
     entries.push({
       url: `${siteUrl}/ferry/${slug}`,
       lastModified: now,

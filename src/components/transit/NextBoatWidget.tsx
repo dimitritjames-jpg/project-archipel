@@ -5,9 +5,10 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useNow } from "@/hooks/use-now";
 import {
   formatTime12h,
+  RED_HOOK_CRUZ_BAY_ROUTE_SLUG,
   resolveNextBoatDisplay,
 } from "@/lib/transit/countdown-math";
-import { fetchRedHookCruzBaySchedule } from "@/lib/transit/supabase-transit";
+import { fetchFerryScheduleByRouteSlug } from "@/lib/transit/supabase-transit";
 import type {
   FerryRouteSummary,
   FerryScheduleDTO,
@@ -16,6 +17,9 @@ import type {
 
 type NextBoatWidgetProps = {
   className?: string;
+  routeSlug?: string;
+  eyebrow?: string;
+  emptyLabel?: string;
 };
 
 function CountdownUnit({
@@ -56,7 +60,12 @@ function CountdownUnit({
   );
 }
 
-export function NextBoatWidget({ className }: NextBoatWidgetProps) {
+export function NextBoatWidget({
+  className,
+  routeSlug = RED_HOOK_CRUZ_BAY_ROUTE_SLUG,
+  eyebrow = "Next Boat",
+  emptyLabel = "No upcoming departures found.",
+}: NextBoatWidgetProps) {
   const reduceMotion = useReducedMotion();
   const now = useNow(1000);
   const [hydrated, setHydrated] = useState(false);
@@ -77,11 +86,14 @@ export function NextBoatWidget({ className }: NextBoatWidgetProps) {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchRedHookCruzBaySchedule();
+        setDisplay(null);
+        setRoute(null);
+        setRecords([]);
+        const data = await fetchFerryScheduleByRouteSlug(routeSlug);
         if (cancelled) return;
 
         if (!data) {
-          setError("Red Hook → Cruz Bay route is unavailable.");
+          setError("This ferry route is unavailable.");
           return;
         }
 
@@ -107,7 +119,7 @@ export function NextBoatWidget({ className }: NextBoatWidgetProps) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [routeSlug]);
 
   useEffect(() => {
     if (!hydrated || !now || records.length === 0) {
@@ -140,10 +152,10 @@ export function NextBoatWidget({ className }: NextBoatWidgetProps) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-emerald-400">
-            Next Boat
+            {eyebrow}
           </p>
           <h3 className="mt-1 text-sm font-semibold text-archipel-white sm:text-base">
-            {route?.displayName ?? "Red Hook → Cruz Bay"}
+            {route?.displayName ?? "Ferry route"}
           </h3>
         </div>
         <span className="rounded-full border border-white/15 bg-white/5 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-archipel-white/70">
@@ -199,7 +211,7 @@ export function NextBoatWidget({ className }: NextBoatWidgetProps) {
           </p>
         ) : (
           <p className="text-center text-sm text-archipel-white/70">
-            No upcoming departures found.
+            {emptyLabel}
           </p>
         )}
       </div>

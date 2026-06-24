@@ -21,35 +21,46 @@ export type PortLoadSummary = {
   sourceName: string | null;
 };
 
-export type CrowdTrafficLevel = "low" | "moderate" | "high";
+export type CrowdTrafficLevel = "quiet" | "elevated" | "busy" | "high-impact";
 
 export function classifyCrowdTraffic(load: number): {
   level: CrowdTrafficLevel;
   label: string;
 } {
-  if (load < 4000) {
-    return { level: "low", label: "Low Traffic" };
+  if (load < 5000) {
+    return { level: "quiet", label: "Quiet Port Day" };
   }
 
-  if (load <= 10000) {
-    return { level: "moderate", label: "Moderate Traffic" };
+  if (load < 10000) {
+    return { level: "elevated", label: "Elevated Port Day" };
   }
 
-  return { level: "high", label: "High Traffic - Congestion" };
+  if (load < 15000) {
+    return { level: "busy", label: "Busy Port Day" };
+  }
+
+  return { level: "high-impact", label: "High-Impact Cruise Day" };
 }
 
 export async function fetchPortLoadDaily(
   serviceDate?: string,
+  island?: PortLoadDailyRow["island"],
 ): Promise<PortLoadSummary> {
   const supabase = createClient();
   const date = serviceDate ?? getAstDateString(new Date());
 
-  const { data, error } = await supabase
+  let query = supabase
     .from("port_load_daily")
     .select(
       "island, service_date, scheduled_capacity, ship_count, coverage_ratio, band, last_verified_at, source_name",
     )
     .eq("service_date", date);
+
+  if (island) {
+    query = query.eq("island", island);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     throw new Error(`Failed to load port load daily: ${error.message}`);

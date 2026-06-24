@@ -75,7 +75,9 @@ export type FerryServiceExceptionRow = {
   override_departure_time: string | null;
 };
 
-export type RedHookCruzBaySchedule = {
+export type FerryRouteSchedule = {
   route: FerryRouteSummary;
   records: FerryScheduleDTO[];
 };
+
+export type RedHookCruzBaySchedule = FerryRouteSchedule;

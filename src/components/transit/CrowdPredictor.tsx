@@ -5,32 +5,44 @@ import { motion, useReducedMotion } from "framer-motion";
 import {
   classifyCrowdTraffic,
   fetchPortLoadDaily,
+  type PortLoadDailyRow,
   type PortLoadSummary,
 } from "@/lib/transit/supabase-ports";
 
 type CrowdPredictorProps = {
   className?: string;
+  islandCode?: PortLoadDailyRow["island"];
+  scopeLabel?: string;
 };
 
 const INDICATOR_STYLES = {
-  low: {
+  quiet: {
     ring: "bg-emerald-400/20 border-emerald-400/50",
     dot: "bg-emerald-400",
     text: "text-emerald-300",
   },
-  moderate: {
+  elevated: {
     ring: "bg-amber-400/15 border-amber-400/45",
     dot: "bg-amber-400",
     text: "text-amber-300",
   },
-  high: {
+  busy: {
+    ring: "bg-orange-500/18 border-orange-400/50",
+    dot: "bg-orange-400",
+    text: "text-orange-300",
+  },
+  "high-impact": {
     ring: "bg-rose-900/35 border-rose-500/60",
     dot: "bg-rose-600",
     text: "text-rose-300",
   },
 } as const;
 
-export function CrowdPredictor({ className }: CrowdPredictorProps) {
+export function CrowdPredictor({
+  className,
+  islandCode,
+  scopeLabel,
+}: CrowdPredictorProps) {
   const reduceMotion = useReducedMotion();
   const [hydrated, setHydrated] = useState(false);
   const [summary, setSummary] = useState<PortLoadSummary | null>(null);
@@ -48,7 +60,8 @@ export function CrowdPredictor({ className }: CrowdPredictorProps) {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchPortLoadDaily();
+        setSummary(null);
+        const data = await fetchPortLoadDaily(undefined, islandCode);
         if (!cancelled) {
           setSummary(data);
         }
@@ -72,10 +85,10 @@ export function CrowdPredictor({ className }: CrowdPredictorProps) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [islandCode]);
 
   const traffic = useMemo(() => {
-    if (!summary) {
+    if (!summary || summary.rows.length === 0) {
       return null;
     }
 
@@ -101,7 +114,7 @@ export function CrowdPredictor({ className }: CrowdPredictorProps) {
     }).format(verifiedAt);
   }, [summary?.lastVerifiedAt]);
 
-  const styles = traffic ? INDICATOR_STYLES[traffic.level] : INDICATOR_STYLES.low;
+  const styles = traffic ? INDICATOR_STYLES[traffic.level] : INDICATOR_STYLES.quiet;
 
   return (
     <aside
@@ -115,7 +128,7 @@ export function CrowdPredictor({ className }: CrowdPredictorProps) {
             Crowd Predictor
           </p>
           <h3 className="mt-1 text-sm font-semibold text-archipel-white sm:text-base">
-            Cruise Port Load
+            {scopeLabel ?? "Cruise Port Load"}
           </h3>
         </div>
         <span className="rounded-full border border-white/15 bg-white/5 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-archipel-white/70">
@@ -136,12 +149,12 @@ export function CrowdPredictor({ className }: CrowdPredictorProps) {
             <motion.div
               className={`relative flex h-12 w-12 items-center justify-center rounded-full border ${styles.ring}`}
               animate={
-                traffic.level === "high" && !reduceMotion
+                traffic.level === "high-impact" && !reduceMotion
                   ? { scale: [1, 1.08, 1], opacity: [0.85, 1, 0.85] }
                   : undefined
               }
               transition={
-                traffic.level === "high" && !reduceMotion
+                traffic.level === "high-impact" && !reduceMotion
                   ? { duration: 1.6, repeat: Infinity, ease: "easeInOut" }
                   : undefined
               }
@@ -161,7 +174,7 @@ export function CrowdPredictor({ className }: CrowdPredictorProps) {
           </div>
         ) : (
           <p className="text-sm text-archipel-white/70">
-            No cruise port load data for today.
+            No cruise schedule data for this island today.
           </p>
         )}
       </div>

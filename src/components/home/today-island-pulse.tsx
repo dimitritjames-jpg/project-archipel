@@ -3,6 +3,7 @@ import { CrowdPredictor } from "@/components/transit/CrowdPredictor";
 import { NextBoatWidget } from "@/components/transit/NextBoatWidget";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { SectionHeader } from "@/components/ui/section-header";
+import { RED_HOOK_CRUZ_BAY_ROUTE_SLUG } from "@/lib/transit/countdown-math";
 import { cn } from "@/lib/utils";
 
 type IslandMoveCardProps = {
@@ -94,7 +95,11 @@ export function TodayIslandPulse() {
                 Full ferry board &rarr;
               </Link>
             </div>
-            <NextBoatWidget className="!min-h-0 !border-0 !bg-transparent !p-1 !shadow-none" />
+            <NextBoatWidget
+              className="!min-h-0 !border-0 !bg-transparent !p-1 !shadow-none"
+              routeSlug={RED_HOOK_CRUZ_BAY_ROUTE_SLUG}
+              eyebrow="Red Hook next boat"
+            />
           </div>
 
           <div className="overflow-hidden rounded-[1.8rem] border border-white/70 bg-white/64 p-4 shadow-[0_24px_80px_rgba(255,121,104,0.12)] backdrop-blur-md sm:p-5">
@@ -106,7 +111,11 @@ export function TodayIslandPulse() {
                 Open cruise schedule &rarr;
               </Link>
             </div>
-            <CrowdPredictor className="!min-h-0 !border-0 !bg-transparent !p-1 !shadow-none" />
+            <CrowdPredictor
+              className="!min-h-0 !border-0 !bg-transparent !p-1 !shadow-none"
+              islandCode="STT"
+              scopeLabel="St. Thomas port load"
+            />
           </div>
         </div>
 

@@ -6,14 +6,12 @@ import {
   addAstDays,
 } from "@/lib/transit/countdown-math";
 import type {
+  FerryRouteSchedule,
   FerryRouteSummary,
   FerryServiceExceptionRow,
   FerryServiceRow,
   RedHookCruzBaySchedule,
 } from "@/lib/transit/types";
-
-const RED_HOOK_TERMINAL_SLUG = "red-hook";
-const CRUZ_BAY_TERMINAL_SLUG = "cruz-bay";
 
 type FerryRouteRow = {
   id: string;
@@ -33,40 +31,28 @@ type FerryTerminalRow = {
   slug: string;
 };
 
+function isPlaceholderSource(value: string | null | undefined): boolean {
+  return !value || /(^https?:\/\/example\.com\b|placeholder|sample-only)/i.test(value);
+}
+
 export async function fetchRedHookCruzBaySchedule(
   now: Date = new Date(),
 ): Promise<RedHookCruzBaySchedule | null> {
+  return fetchFerryScheduleByRouteSlug(RED_HOOK_CRUZ_BAY_ROUTE_SLUG, now);
+}
+
+export async function fetchFerryScheduleByRouteSlug(
+  routeSlug: string,
+  now: Date = new Date(),
+): Promise<FerryRouteSchedule | null> {
   const supabase = createClient();
-
-  const { data: terminals, error: terminalsError } = await supabase
-    .from("ferry_terminals")
-    .select("id, name, slug")
-    .in("slug", [RED_HOOK_TERMINAL_SLUG, CRUZ_BAY_TERMINAL_SLUG]);
-
-  if (terminalsError) {
-    throw new Error(`Failed to load ferry terminals: ${terminalsError.message}`);
-  }
-
-  const terminalRows = (terminals ?? []) as FerryTerminalRow[];
-  const redHook = terminalRows.find(
-    (terminal) => terminal.slug === RED_HOOK_TERMINAL_SLUG,
-  );
-  const cruzBay = terminalRows.find(
-    (terminal) => terminal.slug === CRUZ_BAY_TERMINAL_SLUG,
-  );
-
-  if (!redHook || !cruzBay) {
-    return null;
-  }
 
   const { data: route, error: routeError } = await supabase
     .from("ferry_routes")
     .select(
       "id, slug, display_name, operational_status, source_url, source_name, last_verified_at, origin_terminal_id, destination_terminal_id",
     )
-    .eq("slug", RED_HOOK_CRUZ_BAY_ROUTE_SLUG)
-    .eq("origin_terminal_id", redHook.id)
-    .eq("destination_terminal_id", cruzBay.id)
+    .eq("slug", routeSlug)
     .eq("is_public", true)
     .maybeSingle();
 
@@ -80,6 +66,27 @@ export async function fetchRedHookCruzBaySchedule(
 
   const routeRow = route as FerryRouteRow;
 
+  const { data: terminals, error: terminalsError } = await supabase
+    .from("ferry_terminals")
+    .select("id, name, slug")
+    .in("id", [routeRow.origin_terminal_id, routeRow.destination_terminal_id]);
+
+  if (terminalsError) {
+    throw new Error(`Failed to load ferry terminals: ${terminalsError.message}`);
+  }
+
+  const terminalRows = (terminals ?? []) as FerryTerminalRow[];
+  const origin = terminalRows.find(
+    (terminal) => terminal.id === routeRow.origin_terminal_id,
+  );
+  const destination = terminalRows.find(
+    (terminal) => terminal.id === routeRow.destination_terminal_id,
+  );
+
+  if (!origin || !destination) {
+    return null;
+  }
+
   const { data: services, error: servicesError } = await supabase
     .from("ferry_services")
     .select(
@@ -91,7 +98,10 @@ export async function fetchRedHookCruzBaySchedule(
     throw new Error(`Failed to load ferry services: ${servicesError.message}`);
   }
 
-  const serviceRows = (services ?? []) as FerryServiceRow[];
+  const routeUsesPlaceholderSource = isPlaceholderSource(routeRow.source_url);
+  const serviceRows = ((services ?? []) as FerryServiceRow[]).filter(
+    (service) => !routeUsesPlaceholderSource && !isPlaceholderSource(service.source_url),
+  );
   const serviceIds = serviceRows.map((service) => service.id);
 
   let exceptionRows: FerryServiceExceptionRow[] = [];
@@ -125,10 +135,12 @@ export async function fetchRedHookCruzBaySchedule(
       displayName: routeRow.display_name,
       operationalStatus: routeRow.operational_status,
       sourceUrl: routeRow.source_url,
-      sourceName: routeRow.source_name,
-      lastVerifiedAt: routeRow.last_verified_at,
-      originName: redHook.name,
-      destinationName: cruzBay.name,
+      sourceName: routeUsesPlaceholderSource
+        ? "Source pending verification"
+        : routeRow.source_name,
+      lastVerifiedAt: routeUsesPlaceholderSource ? "" : routeRow.last_verified_at,
+      originName: origin.name,
+      destinationName: destination.name,
     },
     records,
   };
