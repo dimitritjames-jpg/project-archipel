@@ -8,6 +8,7 @@ import {
   isLocalBusinessSchemaEligible,
   LISTING_STATE_LABELS,
 } from "@/lib/businesses/listing-trust";
+import { getListingPlanningTags } from "@/lib/businesses/planning-tags";
 import { getIslandName, type IslandSlug } from "@/lib/islands";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +34,7 @@ export function BusinessPreviewCard({
     categorySlug,
     business.category?.name ?? "Island listing",
   );
+  const planningTags = getListingPlanningTags(business);
 
   return (
     <Link
@@ -88,6 +90,18 @@ export function BusinessPreviewCard({
         <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-archipel-white/55">
           {business.description_plain}
         </p>
+        {planningTags.length > 0 ? (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {planningTags.slice(0, 2).map((tag) => (
+              <span
+                key={tag.label}
+                className="rounded-full border border-aqua/16 bg-aqua/7 px-2.5 py-1 text-[10px] font-semibold text-aqua/80"
+              >
+                {tag.label}
+              </span>
+            ))}
+          </div>
+        ) : null}
         <div className="mt-5 flex items-center justify-between border-t border-white/7 pt-4">
           <span className="text-[11px] font-semibold text-aqua/75">
             {trustState === "demo"

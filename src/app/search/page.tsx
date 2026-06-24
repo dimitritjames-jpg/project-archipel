@@ -25,6 +25,33 @@ const searchPrompts = [
   "charter",
   "beach bar",
   "Cruz Bay",
+  "Red Hook ferry",
+  "Havensight cruise day",
+  "Crown Bay",
+  "Water Island ferry",
+] as const;
+
+const utilityShortcuts = [
+  {
+    href: "/ferry",
+    label: "Ferry schedule",
+    detail: "Red Hook, Cruz Bay, Crown Bay, Water Island, and schedule-based route context.",
+  },
+  {
+    href: "/st-thomas/cruise-schedule",
+    label: "St. Thomas cruise schedule",
+    detail: "Scheduled ship calls and capacity context for port-day planning.",
+  },
+  {
+    href: "/cruise-day",
+    label: "Cruise-day guide",
+    detail: "Beach, food, culture, shopping, and return-buffer planning.",
+  },
+  {
+    href: "/water-island/ferry-schedule",
+    label: "Water Island ferry",
+    detail: "Crown Bay ferry hop, Honeymoon Beach, and slow-day planning.",
+  },
 ] as const;
 
 export default async function SearchPage({ searchParams }: Props) {
@@ -132,6 +159,28 @@ export default async function SearchPage({ searchParams }: Props) {
                 className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2.5 text-sm font-medium text-archipel-white/65 transition hover:border-sand/30 hover:bg-sand/7 hover:text-sand"
               >
                 {category.name}
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-16 border-t border-white/8 pt-12" aria-labelledby="utility-search">
+          <SectionHeader
+            eyebrow="Utility shortcuts"
+            title="Searching ferry, cruise, port, or ship schedule?"
+            description="Open the schedule-based planning pages directly. Ferry data is not live vessel tracking; cruise capacity is scheduled capacity, not actual passenger count."
+          />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {utilityShortcuts.map((shortcut) => (
+              <Link
+                key={shortcut.href}
+                href={shortcut.href}
+                className="command-surface rounded-[1.25rem] p-5 transition hover:-translate-y-1 hover:border-aqua/25"
+              >
+                <h2 className="font-semibold text-archipel-white">{shortcut.label}</h2>
+                <p className="mt-3 text-sm leading-6 text-archipel-white/55">
+                  {shortcut.detail}
+                </p>
               </Link>
             ))}
           </div>

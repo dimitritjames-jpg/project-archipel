@@ -4,7 +4,7 @@ import { CODE_TO_SLUG, ISLAND_SLUGS } from "@/lib/islands";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { FEATURED_EXPERIENCE_PILLARS } from "@/lib/experience-pillars";
 import { PUBLIC_INFO_BUSINESSES } from "@/lib/businesses/public-info-catalog";
-import { PUBLIC_FERRY_ROUTE_SLUGS } from "@/lib/transit/ferry-routes";
+import { PUBLIC_FERRY_GUIDE_SLUGS } from "@/lib/transit/ferry-routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = env.NEXT_PUBLIC_SITE_URL;
@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: now, changeFrequency: "daily", priority: 1 },
     { url: `${siteUrl}/get-listed`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${siteUrl}/ferry`, lastModified: now, changeFrequency: "hourly", priority: 0.9 },
+    { url: `${siteUrl}/cruise-day`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
   ];
 
   for (const island of ISLAND_SLUGS) {
@@ -76,7 +78,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   }
 
-  for (const slug of PUBLIC_FERRY_ROUTE_SLUGS) {
+  for (const slug of PUBLIC_FERRY_GUIDE_SLUGS) {
     entries.push({
       url: `${siteUrl}/ferry/${slug}`,
       lastModified: now,
@@ -98,6 +100,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/st-john/beaches",
     "/st-john/best-snorkeling",
     "/st-thomas/cruise-day",
+    "/st-thomas/havensight-cruise-day",
+    "/st-thomas/crown-bay-cruise-day",
     "/water-island/day-trip",
     "/guides/usvi-charters",
     "/guides/best-beaches-usvi",

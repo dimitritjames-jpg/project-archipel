@@ -140,8 +140,8 @@ export const ISLAND_GUIDES: Record<string, LaunchGuide> = {
   "st-thomas/cruise-day": {
     path: "/st-thomas/cruise-day",
     eyebrow: "Port-day planner",
-    title: "Cruise Day in St. Thomas",
-    description: "Plan a St. Thomas cruise day around scheduled port load, beaches, Charlotte Amalie, local tours, transport, and an on-time return.",
+    title: "St. Thomas Cruise Day Guide",
+    description: "Plan a St. Thomas cruise day around Havensight, Crown Bay, scheduled port context, beaches, food, culture, shopping, tours, and a conservative all-aboard buffer.",
     introduction: "A strong port day is built backward from the all-aboard time. Pick one anchor experience, understand which port you are using, and leave a generous return margin.",
     essentials: [
       { title: "Know your port", body: "Havensight and Crown Bay create different starting routes. Confirm your ship’s berth and all-aboard time using authoritative cruise information." },
@@ -149,7 +149,10 @@ export const ISLAND_GUIDES: Record<string, LaunchGuide> = {
       { title: "Book with a return plan", body: "For beaches, taxis, and tours, confirm duration, pickup point, cancellation terms, and the return buffer directly with the provider." },
     ],
     related: [
+      { href: "/cruise-day", label: "USVI cruise-day hub", description: "Start with port, pickup point, route, and return buffer." },
       { href: "/st-thomas/cruise-schedule", label: "St. Thomas cruise schedule", description: "Review the scheduled port-load note." },
+      { href: "/st-thomas/havensight-cruise-day", label: "Havensight cruise-day guide", description: "Plan nearby shopping, food, culture, beach options, and return timing." },
+      { href: "/st-thomas/crown-bay-cruise-day", label: "Crown Bay cruise-day guide", description: "Plan pickup points, Water Island caution, tours, and return margin." },
       { href: "/st-thomas/magens-bay", label: "Magens Bay guide", description: "Decide whether the beach fits the port-day clock." },
       { href: "/st-thomas/excursions-charters", label: "St. Thomas tours", description: "Browse published excursion and charter profiles." },
       { href: "/st-thomas/indulgent-dining", label: "St. Thomas dining", description: "Find a local table near the day’s route." },

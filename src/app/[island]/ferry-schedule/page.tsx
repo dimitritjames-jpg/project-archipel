@@ -24,8 +24,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = getIslandName(slug as IslandSlug);
 
   return {
-    title: `${name} Ferry Schedule`,
-    description: `Check schedule-based ferry planning for ${name}, including directional route context, source information, and verification status.`,
+    title:
+      slug === "st-john"
+        ? "St. John Ferry Day Trip Guide | VibeVI"
+        : slug === "water-island"
+          ? "Water Island Ferry Day Trip Guide | VibeVI"
+          : `${name} Ferry Schedule & Island-Hop Guide | VibeVI`,
+    description: `Check schedule-based ferry planning for ${name}, with directional route context, island-day links, source information, and direct-confirmation reminders.`,
     alternates: {
       canonical: `${env.NEXT_PUBLIC_SITE_URL}/${slug}/ferry-schedule`,
     },
@@ -61,7 +66,7 @@ export default async function IslandFerrySchedulePage({ params }: Props) {
         <div className="section-shell flex min-h-[54svh] flex-col justify-end pb-12 pt-32">
           <p className="eyebrow-label">Ferry check · Atlantic Standard Time</p>
           <h1 className="display-type mt-5 text-5xl font-semibold text-white sm:text-7xl">
-            Ferry board - {name}
+            Ferry board — {name}
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-white/68">
             A directional schedule utility built around verified sources. It is
@@ -163,6 +168,12 @@ export default async function IslandFerrySchedulePage({ params }: Props) {
             ))}
           </div>
           <div className="mt-8 flex flex-wrap gap-2">
+          <Link
+              href="/ferry"
+              className="rounded-full border border-aqua/20 bg-aqua/7 px-4 py-2 text-sm font-semibold text-aqua"
+            >
+              Full ferry guide
+            </Link>
             <Link
               href={`/${slug}`}
               className="rounded-full border border-aqua/20 bg-aqua/7 px-4 py-2 text-sm font-semibold text-aqua"
@@ -189,6 +200,49 @@ export default async function IslandFerrySchedulePage({ params }: Props) {
             >
               Open the map
             </Link>
+          </div>
+        </section>
+
+        <section className="mt-14 border-t border-white/8 pt-12" aria-labelledby="ferry-feeds-discovery">
+          <p className="eyebrow-label">Make the ferry useful</p>
+          <h2
+            id="ferry-feeds-discovery"
+            className="display-type mt-4 max-w-3xl text-3xl font-semibold text-white"
+          >
+            The crossing feeds the beach, boat, bite, and night.
+          </h2>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                href: slug === "water-island" ? "/water-island/day-trip" : "/st-john/beaches",
+                label: "Beach window",
+                body: "Choose the sand with travel time and the return crossing already in mind.",
+              },
+              {
+                href: slug === "st-thomas" ? "/st-thomas/excursions-charters" : "/st-john/excursions-charters",
+                label: "Boat day",
+                body: "Browse published charter and excursion profiles, then confirm pickup and departure details directly.",
+              },
+              {
+                href: slug === "st-john" ? "/st-john/indulgent-dining" : "/st-thomas/indulgent-dining",
+                label: "Ferry-side food",
+                body: "Make lunch, dinner, or the landing bite fit the ferry clock without rushing.",
+              },
+              {
+                href: slug === "st-thomas" ? "/st-thomas/nightlife-rhythm" : "/map",
+                label: "Return plan",
+                body: "Keep the ride back, transfer, or late-night route simple and directly confirmed.",
+              },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="command-surface rounded-[1.25rem] p-5 transition hover:-translate-y-1 hover:border-aqua/25"
+              >
+                <h3 className="font-semibold text-white">{item.label}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/55">{item.body}</p>
+              </Link>
+            ))}
           </div>
         </section>
       </main>

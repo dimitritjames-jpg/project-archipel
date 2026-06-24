@@ -91,7 +91,7 @@ export function TodayIslandPulse() {
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-reef-blue/78">
                 Ferry hop
               </p>
-              <Link href="/st-john/ferry-schedule" className="text-[11px] text-[#496871]/68 hover:text-reef-blue">
+              <Link href="/ferry" className="text-[11px] text-[#496871]/68 hover:text-reef-blue">
                 Full ferry board &rarr;
               </Link>
             </div>
@@ -117,6 +117,24 @@ export function TodayIslandPulse() {
               scopeLabel="St. Thomas port load"
             />
           </div>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {[
+            ["/ferry", "Full ferry board"],
+            ["/cruise-day", "Cruise-day moves"],
+            ["/st-thomas/cruise-schedule", "St. Thomas cruise schedule"],
+            ["/st-john/ferry-schedule", "St. John ferry day"],
+            ["/water-island/ferry-schedule", "Water Island ferry hop"],
+          ].map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-full border border-reef-blue/15 bg-white/60 px-3 py-2 text-xs font-semibold text-[#173941]/75 transition hover:border-reef-blue/35 hover:text-reef-blue"
+            >
+              {label}
+            </Link>
+          ))}
         </div>
 
         <div className="mt-4 grid gap-4 md:grid-cols-3">

@@ -23,8 +23,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = getIslandName(slug as IslandSlug);
 
   return {
-    title: `${name} Cruise Schedule & Port Load`,
-    description: `Review scheduled cruise arrivals and capacity context for ${name} ports - planning estimates, not actual passenger counts.`,
+    title:
+      slug === "st-thomas"
+        ? "St. Thomas Cruise Schedule & Port Planning | VibeVI"
+        : "St. Croix Cruise Schedule & Port Planning | VibeVI",
+    description: `Review scheduled cruise arrivals and capacity context for ${name} ports — planning estimates, not actual passenger counts or live crowd data.`,
     alternates: {
       canonical: `${env.NEXT_PUBLIC_SITE_URL}/${slug}/cruise-schedule`,
     },
@@ -67,7 +70,7 @@ export default async function IslandCruiseSchedulePage({ params }: Props) {
             Cruise days · Scheduled capacity
           </p>
           <h1 className="display-type mt-5 text-5xl font-semibold text-white sm:text-7xl">
-            Cruise day flow - {name}
+            Cruise day flow — {name}
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-white/68">
             Read the shape of a port day using scheduled ship capacity. This is
@@ -174,6 +177,12 @@ export default async function IslandCruiseSchedulePage({ params }: Props) {
               </Link>
             ) : null}
             <Link
+              href="/cruise-day"
+              className="rounded-full border border-coral/20 bg-coral/7 px-4 py-2 text-sm font-semibold text-coral"
+            >
+              Open cruise-day hub
+            </Link>
+            <Link
               href={`/${slug}/excursions-charters`}
               className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-sm text-white/62"
             >
@@ -185,6 +194,51 @@ export default async function IslandCruiseSchedulePage({ params }: Props) {
             >
               Open the map
             </Link>
+          </div>
+        </section>
+
+        <section className="mt-14 border-t border-white/8 pt-12" aria-labelledby="cruise-day-links">
+          <p className="eyebrow-label">Make the port day useful</p>
+          <h2
+            id="cruise-day-links"
+            className="display-type mt-4 max-w-3xl text-3xl font-semibold text-white"
+          >
+            Turn scheduled context into one realistic island move.
+          </h2>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                href: slug === "st-thomas" ? "/st-thomas/magens-bay" : "/st-croix/buck-island",
+                label: slug === "st-thomas" ? "Beach option" : "Big water option",
+                body: slug === "st-thomas"
+                  ? "Check whether Magens Bay fits the port clock, transport, and return margin."
+                  : "Buck Island is a bigger commitment; confirm authorization, timing, and return details directly.",
+              },
+              {
+                href: `/${slug}/indulgent-dining`,
+                label: "Food route",
+                body: "Browse published dining profiles and confirm hours, location, and timing directly.",
+              },
+              {
+                href: "/experiences/culture",
+                label: "Culture stop",
+                body: "Use history, town walks, makers, and local context as a port-safe alternative to a rushed tour.",
+              },
+              {
+                href: `/${slug}/local-provisions`,
+                label: "Shopping and provisions",
+                body: "Find useful published stops without assuming live inventory or official cruise partnerships.",
+              },
+            ].map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="command-surface rounded-[1.25rem] p-5 transition hover:-translate-y-1 hover:border-coral/25"
+              >
+                <h3 className="font-semibold text-white">{item.label}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/55">{item.body}</p>
+              </Link>
+            ))}
           </div>
         </section>
       </main>

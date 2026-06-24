@@ -10,6 +10,7 @@ import {
   isLocalBusinessSchemaEligible,
   LISTING_STATE_LABELS,
 } from "@/lib/businesses/listing-trust";
+import { getListingPlanningTags } from "@/lib/businesses/planning-tags";
 import { getIslandName, type IslandSlug } from "@/lib/islands";
 import { getCategoryMediaAsset } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
@@ -44,6 +45,7 @@ export function BusinessProfileView({
     categorySlug,
     business.category?.name ?? "Island profile",
   );
+  const planningTags = getListingPlanningTags(business);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -273,6 +275,28 @@ export function BusinessProfileView({
                     >
                       {sourceUrl}
                     </a>
+                  ))}
+                </dd>
+              </div>
+            ) : null}
+            {planningTags.length > 0 ? (
+              <div className="mt-5 border-t border-white/8 pt-4">
+                <dt className="text-[10px] uppercase tracking-[0.14em] text-archipel-white/35">
+                  Planning fit
+                </dt>
+                <dd className="mt-3 space-y-2">
+                  {planningTags.map((tag) => (
+                    <div
+                      key={tag.label}
+                      className="rounded-xl border border-aqua/12 bg-aqua/5 p-3"
+                    >
+                      <p className="text-xs font-semibold text-aqua/85">
+                        {tag.label}
+                      </p>
+                      <p className="mt-1 text-[11px] leading-5 text-archipel-white/42">
+                        {tag.description}
+                      </p>
+                    </div>
                   ))}
                 </dd>
               </div>
