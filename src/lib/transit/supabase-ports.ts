@@ -16,6 +16,7 @@ export type PortLoadSummary = {
   serviceDate: string;
   totalScheduledCapacity: number;
   shipCount: number;
+  capacityCoverageRatio: number | null;
   rows: PortLoadDailyRow[];
   lastVerifiedAt: string | null;
   sourceName: string | null;
@@ -72,6 +73,14 @@ export async function fetchPortLoadDaily(
     0,
   );
   const shipCount = rows.reduce((sum, row) => sum + row.ship_count, 0);
+  const capacityKnownShipCount = rows.reduce(
+    (sum, row) => sum + row.ship_count * (row.coverage_ratio ?? 0),
+    0,
+  );
+  const capacityCoverageRatio =
+    shipCount > 0
+      ? capacityKnownShipCount / shipCount
+      : null;
 
   const lastVerifiedAt = rows.reduce<string | null>((latest, row) => {
     if (!row.last_verified_at) return latest;
@@ -86,6 +95,7 @@ export async function fetchPortLoadDaily(
     serviceDate: date,
     totalScheduledCapacity,
     shipCount,
+    capacityCoverageRatio,
     rows,
     lastVerifiedAt,
     sourceName,

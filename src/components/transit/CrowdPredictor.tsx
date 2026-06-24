@@ -92,6 +92,13 @@ export function CrowdPredictor({
       return null;
     }
 
+    if (summary.shipCount > 0 && (summary.capacityCoverageRatio ?? 0) <= 0) {
+      return {
+        level: "elevated" as const,
+        label: "Calls Listed - Capacity Pending",
+      };
+    }
+
     return classifyCrowdTraffic(summary.totalScheduledCapacity);
   }, [summary]);
 
@@ -113,6 +120,23 @@ export function CrowdPredictor({
       minute: "2-digit",
     }).format(verifiedAt);
   }, [summary?.lastVerifiedAt]);
+
+  const capacityCoverageRatio = summary?.capacityCoverageRatio ?? 0;
+  const capacityLine = useMemo(() => {
+    if (!summary) return null;
+
+    const shipLabel = `${summary.shipCount} ship${summary.shipCount === 1 ? "" : "s"}`;
+
+    if (capacityCoverageRatio <= 0) {
+      return `Capacity pending · ${shipLabel}`;
+    }
+
+    if (capacityCoverageRatio < 1) {
+      return `${summary.totalScheduledCapacity.toLocaleString()} known scheduled capacity · ${shipLabel}`;
+    }
+
+    return `${summary.totalScheduledCapacity.toLocaleString()} scheduled capacity · ${shipLabel}`;
+  }, [capacityCoverageRatio, summary]);
 
   const styles = traffic ? INDICATOR_STYLES[traffic.level] : INDICATOR_STYLES.quiet;
 
@@ -167,8 +191,7 @@ export function CrowdPredictor({
                 {traffic.label}
               </p>
               <p className="mt-1 text-xs text-archipel-white/65">
-                {summary.totalScheduledCapacity.toLocaleString()} scheduled capacity
-                · {summary.shipCount} ship{summary.shipCount === 1 ? "" : "s"}
+                {capacityLine}
               </p>
             </div>
           </div>
@@ -180,8 +203,9 @@ export function CrowdPredictor({
       </div>
 
       <p className="mt-4 border-t border-white/10 pt-3 text-[11px] leading-relaxed text-archipel-white/50">
-        Scheduled ship capacity is a planning estimate, not an actual passenger
-        count.
+        {summary && summary.shipCount > 0 && capacityCoverageRatio <= 0
+          ? "Scheduled ship calls are listed from source schedules; capacity is pending approved passenger-capacity sourcing."
+          : "Scheduled ship capacity is a planning estimate, not an actual passenger count."}
         {summary?.sourceName ? ` Source: ${summary.sourceName}.` : null}
         {verifiedLabel ? ` Verified ${verifiedLabel} AST.` : null}
       </p>
