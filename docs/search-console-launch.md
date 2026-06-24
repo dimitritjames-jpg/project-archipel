@@ -9,17 +9,17 @@ For the full launch runbook, see `docs/launch-operations.md`. For the first insp
 1. Open Google Search Console.
 2. Choose **Add property**.
 3. Select **Domain** property when possible.
-4. Enter the root domain, for example `vibevi.com`.
+4. Enter the root domain: `myvibevi.com`.
 5. Add the DNS TXT verification record with the domain DNS provider.
 6. Wait for DNS propagation and click **Verify**.
 
-If DNS verification is not available, use a URL-prefix property for the exact canonical origin, such as `https://www.vibevi.com`.
+If DNS verification is not available, use a URL-prefix property for the exact canonical origin: `https://www.myvibevi.com`.
 
 ## Submit sitemap
 
 1. Open the verified property.
 2. Go to **Sitemaps**.
-3. Submit `https://your-production-domain/sitemap.xml`.
+3. Submit `https://www.myvibevi.com/sitemap.xml`.
 4. Confirm the submitted sitemap returns 200 and contains production URLs.
 5. Re-submit after major routing or inventory expansions.
 
@@ -33,7 +33,7 @@ Official Google references:
 
 1. Inspect `/robots.txt`.
 2. Confirm the sitemap URL points to the production host.
-3. Inspect the homepage URL.
+3. Inspect the homepage URL: `https://www.myvibevi.com/`.
 4. Request indexing for the homepage only after the page is production-ready.
 5. Inspect priority indexable pages:
    - `/experiences/adventure`

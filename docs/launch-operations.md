@@ -4,19 +4,23 @@ This is the launch-day operating checklist for VibeVI after the real public-info
 
 Current public baseline:
 
-- Live URL: `https://project-archipel-zwhn.vercel.app/`
-- Current baseline commit: `f58e482`
+- Official production domain: `https://www.myvibevi.com`
+- Domain display name: `MyVibeVI.com`
+- Product brand: `VibeVI`
+- Tagline: `Find Your Island Vibe`
+- Vercel project: `project-archipel-zwhn`
 - Public-info inventory: 52 promoted listings
 - Demo listings: still noindex and schema-safe
 
 ## 1. Final domain setup checklist
 
-Pick one canonical production domain before public promotion. Use either apex or `www`, then redirect the other to the canonical version.
+The canonical production origin is `https://www.myvibevi.com`. Keep the product name as VibeVI; use MyVibeVI.com only when referring to the domain.
 
-- [ ] Choose canonical origin, for example `https://vibevi.com` or `https://www.vibevi.com`.
-- [ ] Buy/confirm the domain in the registrar account.
-- [ ] Add the canonical domain to the Vercel project `project-archipel-zwhn`.
-- [ ] Add the alternate domain, if used, and configure it to redirect to the canonical origin.
+- [ ] Buy/confirm `MyVibeVI.com` in the registrar account.
+- [ ] Add `www.myvibevi.com` to the Vercel project `project-archipel-zwhn`.
+- [ ] Add apex `myvibevi.com` to Vercel.
+- [ ] Set `www.myvibevi.com` as the primary production domain if that is the chosen public URL.
+- [ ] Configure apex `myvibevi.com` to redirect to `https://www.myvibevi.com`.
 - [ ] Confirm Vercel domain status is valid/ready.
 - [ ] Confirm HTTPS certificate is active.
 - [ ] Confirm the canonical domain loads `/`.
@@ -37,7 +41,7 @@ Pick one canonical production domain before public promotion. Use either apex or
 Recommended value format:
 
 ```txt
-NEXT_PUBLIC_SITE_URL=https://vibevi.com
+NEXT_PUBLIC_SITE_URL=https://www.myvibevi.com
 ```
 
 Rules:
@@ -60,16 +64,16 @@ Vercel Dashboard path:
 7. Save the change.
 8. Trigger a new Production deployment from the latest `main` commit.
 9. After deploy, open:
-   - `https://[final-domain]/`
-   - `https://[final-domain]/sitemap.xml`
-   - `https://[final-domain]/robots.txt`
+   - `https://www.myvibevi.com/`
+   - `https://www.myvibevi.com/sitemap.xml`
+   - `https://www.myvibevi.com/robots.txt`
 10. Confirm the rendered sitemap and robots file use the final canonical domain, not the old Vercel URL.
 
 CLI path, if the Vercel CLI is installed and linked to the correct project:
 
 ```powershell
 vercel env ls production
-echo "https://vibevi.com" | vercel env add NEXT_PUBLIC_SITE_URL production
+echo "https://www.myvibevi.com" | vercel env add NEXT_PUBLIC_SITE_URL production
 vercel --prod --force
 ```
 
@@ -78,7 +82,7 @@ If the variable already exists, remove and re-add it or update it in the dashboa
 Local QA path:
 
 ```powershell
-$env:NEXT_PUBLIC_SITE_URL="https://vibevi.com"
+$env:NEXT_PUBLIC_SITE_URL="https://www.myvibevi.com"
 npm run build
 ```
 
@@ -99,10 +103,10 @@ Use `docs/search-console-launch.md` plus `docs/top-seo-url-inspection.md`.
 - [ ] `NEXT_PUBLIC_SITE_URL` matches the final canonical domain.
 - [ ] `/sitemap.xml` returns 200 and contains the final domain.
 - [ ] `/robots.txt` returns 200 and references the final sitemap.
-- [ ] Add a Google Search Console Domain property where possible.
+- [ ] Add a Google Search Console Domain property for `myvibevi.com` where possible.
 - [ ] Verify ownership with DNS TXT.
-- [ ] If DNS verification is not available, add a URL-prefix property for the exact canonical origin.
-- [ ] Submit `https://[final-domain]/sitemap.xml` in the Sitemaps report.
+- [ ] If DNS verification is not available, add a URL-prefix property for `https://www.myvibevi.com`.
+- [ ] Submit `https://www.myvibevi.com/sitemap.xml` in the Sitemaps report.
 - [ ] Inspect the top 20 URLs in `docs/top-seo-url-inspection.md`.
 - [ ] Request indexing only for production-ready, indexable URLs.
 - [ ] Do not prioritize demo/noindex URLs.
@@ -114,7 +118,37 @@ Official Google references:
 - Build and submit a sitemap: https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
 - Sitemaps report: https://support.google.com/webmasters/answer/7451001
 
-## 4. Post-launch tracking rhythm
+## 4. Live QA checklist for MyVibeVI.com
+
+After `www.myvibevi.com` is connected, `NEXT_PUBLIC_SITE_URL=https://www.myvibevi.com` is set in Vercel Production, and production is redeployed, test these exact URLs:
+
+- [ ] `https://www.myvibevi.com/`
+- [ ] `https://www.myvibevi.com/search`
+- [ ] `https://www.myvibevi.com/map`
+- [ ] `https://www.myvibevi.com/get-listed`
+- [ ] `https://www.myvibevi.com/experiences/adventure`
+- [ ] `https://www.myvibevi.com/experiences/culture`
+- [ ] `https://www.myvibevi.com/experiences/culinary`
+- [ ] `https://www.myvibevi.com/experiences/cruise-day`
+- [ ] `https://www.myvibevi.com/st-thomas`
+- [ ] `https://www.myvibevi.com/st-croix`
+- [ ] `https://www.myvibevi.com/st-john`
+- [ ] `https://www.myvibevi.com/water-island`
+- [ ] `https://www.myvibevi.com/sitemap.xml`
+- [ ] `https://www.myvibevi.com/manifest.webmanifest`
+- [ ] `https://www.myvibevi.com/robots.txt`
+
+Trust QA on the final domain:
+
+- [ ] Public-info disclosure is visible on at least 3 public-info listings.
+- [ ] Public-info listings emit no LocalBusiness schema under the current trust gate.
+- [ ] No booking, partner, premium, live-availability, or real-time claims appear.
+- [ ] Demo listing remains noindex.
+- [ ] Demo listing emits no LocalBusiness schema.
+- [ ] Demo listing has no restricted contact CTA.
+- [ ] No visible placeholder copy appears.
+
+## 5. Post-launch tracking rhythm
 
 Daily for first 7 days:
 
@@ -135,7 +169,7 @@ Weekly for first 4 weeks:
 - [ ] Promote only listings that pass source, permission, and trust checks.
 - [ ] Keep a short issue log in `docs/live-deployment-qa.md` if anything breaks.
 
-## 5. Trust rules that stay locked
+## 6. Trust rules that stay locked
 
 - Public-info listings remain unclaimed unless the business confirms ownership/authority.
 - Public-info listings must show the public-info disclosure.
@@ -146,4 +180,3 @@ Weekly for first 4 weeks:
 - No booking, partner, premium, sponsor, live-availability, real-time availability, or traffic promises.
 - No business photos unless rights are granted.
 - Corrections from businesses should be recorded before publishing changes.
-

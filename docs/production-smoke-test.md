@@ -7,6 +7,8 @@ Commit: __________
 Tester: __________  
 Date/time: __________
 
+Canonical production URL: `https://www.myvibevi.com`
+
 ## Route availability
 
 | Route | HTTP | Heading/primary CTA visible | Notes |

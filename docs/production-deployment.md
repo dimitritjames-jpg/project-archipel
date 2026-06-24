@@ -21,7 +21,7 @@ Set these in Vercel Production before public preview:
 
 | Variable | Required? | Scope | Notes |
 |---|---:|---|---|
-| `NEXT_PUBLIC_SITE_URL` | Yes | Public | Canonical production origin, e.g. `https://vibevi.com`. Drives metadata, sitemap, robots, redirects, canonicals. |
+| `NEXT_PUBLIC_SITE_URL` | Yes | Public | Canonical production origin: `https://www.myvibevi.com`. Drives metadata, sitemap, robots, redirects, canonicals. |
 | `NEXT_PUBLIC_SUPABASE_URL` | Yes for real inventory | Public | Supabase Cloud project URL. Use production project, not local Docker. |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes for real inventory | Public | Supabase anon key with RLS-safe public read behavior. |
 | `SUPABASE_SERVICE_ROLE_KEY` | Required for build-time/admin server reads and protected server operations | Secret | Server-only. Never expose as `NEXT_PUBLIC_*`. |
@@ -81,8 +81,8 @@ Use this path when the Vercel CLI is not installed, not linked, or not authentic
 11. Copy the Preview URL into `docs/live-deployment-qa.md`.
 12. Run the full live QA checklist.
 13. If preview QA passes, add Production environment variables.
-14. Add the final production domain.
-15. Set `NEXT_PUBLIC_SITE_URL` to the final production origin.
+14. Add the final production domain `www.myvibevi.com`.
+15. Set `NEXT_PUBLIC_SITE_URL` to `https://www.myvibevi.com`.
 16. Redeploy or promote the validated preview.
 17. Rerun live QA on the final production URL before any public announcement.
 
@@ -99,7 +99,7 @@ If a Vercel URL serves the old Project Archipel build, first confirm the current
    - Preview: preview deployment origin or accepted staging URL.
 4. Redeploy after changing public environment variables.
 
-For launch-day domain operations, use `docs/launch-operations.md`. It contains the exact final-domain checklist and `NEXT_PUBLIC_SITE_URL` update sequence. The short version: pick one canonical HTTPS origin, set `NEXT_PUBLIC_SITE_URL` to that origin with no trailing slash, redeploy production, then confirm `/sitemap.xml`, `/robots.txt`, canonical metadata, and Open Graph URLs use the final domain.
+For launch-day domain operations, use `docs/launch-operations.md`. It contains the exact final-domain checklist and `NEXT_PUBLIC_SITE_URL` update sequence. The short version: add `www.myvibevi.com` in Vercel, redirect apex `myvibevi.com` to `https://www.myvibevi.com`, set `NEXT_PUBLIC_SITE_URL=https://www.myvibevi.com` with no trailing slash, redeploy production, then confirm `/sitemap.xml`, `/robots.txt`, canonical metadata, and Open Graph URLs use the final domain.
 
 Required/recommended launch env checklist:
 

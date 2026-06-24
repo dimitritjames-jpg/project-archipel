@@ -2,7 +2,7 @@
 
 ## Incident
 
-The tested Vercel URL `https://project-archipel-zwhn-i3oqbc60r-dimitritjames-3053s-projects.vercel.app` served an older Project Archipel build instead of the current VibeVI build.
+An earlier Vercel preview URL served an older pre-VibeVI build instead of the current VibeVI build. This is historical recovery guidance only; the official production domain is `https://www.myvibevi.com`.
 
 Observed symptoms:
 
@@ -44,9 +44,9 @@ For the first corrected preview, the app can render with static/fallback data. A
 
 - `NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL`
 
-After the correct preview URL exists, set:
+After the correct preview URL exists, set Preview to the preview URL. For Production, set:
 
-- `NEXT_PUBLIC_SITE_URL=<correct preview URL or final domain>`
+- `NEXT_PUBLIC_SITE_URL=https://www.myvibevi.com`
 
 Do not require Supabase, Mapbox, or Algolia to validate the first corrected preview. They may be added for production readiness later.
 
@@ -55,7 +55,7 @@ Do not require Supabase, Mapbox, or Algolia to validate the first corrected prev
 Use these because the local workstation does not currently have the Vercel CLI installed or a `.vercel/project.json` link.
 
 1. Open the Vercel Dashboard.
-2. Select the VibeVI / Project Archipel project.
+2. Select the VibeVI / `project-archipel-zwhn` Vercel project.
 3. Go to **Settings → Git**.
 4. Confirm the connected GitHub repo is `dimitritjames-jpg/project-archipel`.
 5. Confirm the production branch is `main`.

@@ -21,10 +21,11 @@ Use this after code validation passes and before announcing VibeVI publicly.
 3. Deploy a Vercel Preview from the current commit.
 4. Run `docs/live-deployment-qa.md` against the Preview URL.
 5. Fix only launch blockers: broken route, metadata, sitemap, robots, manifest, trust leak, bad docs, or obvious mobile blocker.
-6. Add the final production domain in Vercel.
-7. Set `NEXT_PUBLIC_SITE_URL` to the final production origin.
-8. Redeploy or promote the validated Preview.
-9. Rerun live QA on the final production URL.
+6. Add `www.myvibevi.com` and apex `myvibevi.com` in Vercel.
+7. Set `www.myvibevi.com` as the primary domain and redirect apex `myvibevi.com` to `https://www.myvibevi.com`.
+8. Set `NEXT_PUBLIC_SITE_URL` to `https://www.myvibevi.com`.
+9. Redeploy or promote the validated Preview.
+10. Rerun live QA on the final production URL.
 
 ## Search and metadata
 
@@ -50,12 +51,12 @@ Use this after code validation passes and before announcing VibeVI publicly.
 
 ## Business outreach
 
-1. Start outreach to the 15 promoted public-info businesses.
+1. Start outreach to the 52 promoted public-info listings.
 2. Use `docs/outreach-workflow.md` public-info confirmation copy.
 3. Ask for corrections, preferred contact details, hours, category, description, and photo permission.
 4. Request approved/licensed photos only.
 5. Track corrections and claim interest manually.
-6. Keep the remaining 15 candidates in human review.
+6. Keep unresolved candidates in human review until source, permission, and trust checks pass.
 
 ## Trust gates to preserve
 
