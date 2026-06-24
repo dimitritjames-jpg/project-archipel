@@ -2,6 +2,8 @@
 
 Use this after the production domain is live and `NEXT_PUBLIC_SITE_URL` is set to the canonical production origin.
 
+For the full launch runbook, see `docs/launch-operations.md`. For the first inspection queue, see `docs/top-seo-url-inspection.md`.
+
 ## Add domain property
 
 1. Open Google Search Console.
@@ -20,6 +22,12 @@ If DNS verification is not available, use a URL-prefix property for the exact ca
 3. Submit `https://your-production-domain/sitemap.xml`.
 4. Confirm the submitted sitemap returns 200 and contains production URLs.
 5. Re-submit after major routing or inventory expansions.
+
+Official Google references:
+
+- Ownership verification: https://support.google.com/webmasters/answer/9008080
+- Build and submit a sitemap: https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+- Sitemaps report: https://support.google.com/webmasters/answer/7451001
 
 ## Robots and URL inspection
 
@@ -40,6 +48,8 @@ If DNS verification is not available, use a URL-prefix property for the exact ca
    - `/st-thomas/excursions-charters/the-vi-cat`
    - `/st-croix/excursions-charters/big-beards-adventure-tours`
    - `/water-island/boutique-stays/virgin-islands-campground`
+
+The first 20 production URLs to inspect are tracked in `docs/top-seo-url-inspection.md`. Do not request indexing for demo/noindex profiles.
 
 Do not submit demo/noindex business profiles as priority URLs. Demo profiles should remain excluded by `noindex`.
 

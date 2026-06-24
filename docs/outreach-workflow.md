@@ -1,5 +1,11 @@
 # VibeVI outreach workflow
 
+Launch operations companion docs:
+
+- `docs/business-outreach-priority-list.md`
+- `docs/business-confirmation-copy.md`
+- `docs/outreach-tracking-template.md`
+
 Use this workflow to collect Batch 1 real inventory without making promises VibeVI cannot yet support.
 
 ## Who to contact first

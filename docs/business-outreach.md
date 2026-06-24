@@ -1,5 +1,7 @@
 # VibeVI business outreach package
 
+For the post-inventory launch queue, use `docs/business-outreach-priority-list.md`. For ready-to-send confirmation, claim-interest, correction, and photo-rights copy, use `docs/business-confirmation-copy.md`. Track status in `docs/outreach-tracking-template.md`.
+
 ## Short pitch
 
 VibeVI helps people in the U.S. Virgin Islands decide what to do next—where to eat, sail, stay, shop, unwind, and explore across St. Thomas, St. Croix, St. John, and Water Island. We are building a locally useful directory and planning layer, and we would like to prepare an accurate listing for your business.

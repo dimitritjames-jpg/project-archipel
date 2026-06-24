@@ -99,6 +99,8 @@ If a Vercel URL serves the old Project Archipel build, first confirm the current
    - Preview: preview deployment origin or accepted staging URL.
 4. Redeploy after changing public environment variables.
 
+For launch-day domain operations, use `docs/launch-operations.md`. It contains the exact final-domain checklist and `NEXT_PUBLIC_SITE_URL` update sequence. The short version: pick one canonical HTTPS origin, set `NEXT_PUBLIC_SITE_URL` to that origin with no trailing slash, redeploy production, then confirm `/sitemap.xml`, `/robots.txt`, canonical metadata, and Open Graph URLs use the final domain.
+
 Required/recommended launch env checklist:
 
 - [ ] `NEXT_PUBLIC_SITE_URL`
