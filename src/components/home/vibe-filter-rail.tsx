@@ -16,8 +16,8 @@ export function VibeFilterRail({
   activeId,
 }: VibeFilterRailProps) {
   return (
-    <section className={cn("px-4 sm:px-6", className)} aria-label={title}>
-      <div className="mx-auto max-w-7xl">
+    <section className={cn("min-w-0 max-w-full px-4 sm:px-6", className)} aria-label={title}>
+      <div className="mx-auto min-w-0 max-w-7xl">
         <div className="flex items-end justify-between gap-4 border-t border-current/10 pt-6">
           <div>
             <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-current/45">
@@ -29,7 +29,7 @@ export function VibeFilterRail({
           </div>
           <p className="hidden text-xs text-current/48 sm:block">Swipe the rail &rarr;</p>
         </div>
-        <div className="mt-5 flex gap-2 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-5 flex max-w-full gap-2 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {VIBE_FILTERS.map((vibe, index) => (
             <Link
               key={vibe.id}

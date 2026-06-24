@@ -64,6 +64,8 @@
 html {
   background: var(--midnight-950);
   color-scheme: dark;
+  max-width: 100%;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -74,8 +76,9 @@ body {
     radial-gradient(ellipse 60% 42% at 74% 40%, rgba(255, 79, 154, 0.1), transparent 58%),
     linear-gradient(180deg, #062838 0%, var(--midnight-950) 48%, #020711 100%);
   color: var(--foreground);
+  max-width: 100%;
   min-height: 100vh;
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 body::before {

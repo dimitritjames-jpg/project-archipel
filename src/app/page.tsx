@@ -221,7 +221,7 @@ export default function HomePage() {
               Search by beach, boat, bite, island, town, ferry hop, or night out.
             </p>
           </div>
-          <div>
+          <div className="min-w-0">
             <HomeSearchBar />
             <VibeFilterRail className="px-0 pt-5 text-[#18363d]" title="Choose the feeling" />
           </div>
