@@ -2,6 +2,9 @@ import { z } from "zod";
 
 const PRODUCTION_SITE_URL = "https://www.myvibevi.com";
 const DEVELOPMENT_SITE_URL = "http://localhost:3000";
+const PRODUCTION_SUPABASE_URL = "https://qjkhcxrtktmglpkslqyf.supabase.co";
+const PRODUCTION_SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_fJLNThgPDwb6sR6_E71AHw_0PCTJFCc";
 
 function normalizeSiteUrl(value: string | undefined): string {
   const isProduction = process.env.VERCEL_ENV === "production";
@@ -12,6 +15,41 @@ function normalizeSiteUrl(value: string | undefined): string {
   }
 
   return candidate.replace(/\/+$/, "");
+}
+
+function normalizeSupabaseUrl(value: string | undefined): string | undefined {
+  const isProduction = process.env.VERCEL_ENV === "production";
+  const candidate = value?.trim();
+
+  if (!candidate) {
+    return isProduction ? PRODUCTION_SUPABASE_URL : undefined;
+  }
+
+  if (
+    isProduction &&
+    /^https?:\/\/(?:localhost|127\.0\.0\.1)(?::\d+)?$/i.test(candidate)
+  ) {
+    return PRODUCTION_SUPABASE_URL;
+  }
+
+  return candidate.replace(/\/+$/, "");
+}
+
+function normalizeSupabasePublishableKey(
+  value: string | undefined,
+): string | undefined {
+  const isProduction = process.env.VERCEL_ENV === "production";
+  const candidate = value?.trim();
+
+  if (
+    isProduction &&
+    (!candidate ||
+      /^(anon-key-placeholder|placeholder|changeme|your[-_ ])/i.test(candidate))
+  ) {
+    return PRODUCTION_SUPABASE_PUBLISHABLE_KEY;
+  }
+
+  return candidate;
 }
 
 const envSchema = z.object({
@@ -34,8 +72,12 @@ const envSchema = z.object({
 
 export const env = envSchema.parse({
   NEXT_PUBLIC_SITE_URL: normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
-  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  NEXT_PUBLIC_SUPABASE_URL: normalizeSupabaseUrl(
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+  ),
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: normalizeSupabasePublishableKey(
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  ),
   SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
   NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN,
   NEXT_PUBLIC_MAPBOX_TOKEN: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
