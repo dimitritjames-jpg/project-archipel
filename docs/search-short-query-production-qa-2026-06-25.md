@@ -368,3 +368,73 @@ P0a and P0b are met. Recommended P1 order (search-only, no UI redesign):
 | `scripts/qa-search-p1-local.mjs` | Local 24-query matrix against catalog search |
 | `scripts/_qa-search-p1-local.json` | Raw local P1 output |
 
+---
+
+## Production Re-Test After P1 Search Intelligence
+
+**Re-test date:** 2026-06-25  
+**Deployed commit:** `9f741e4` (merge of PR #4; includes `bac5325`)  
+**Vercel:** Production — **Success** on `project-archipel` and `project-archipel-zwhn`  
+**Endpoint:** `https://www.myvibevi.com/search`
+
+### Executive summary
+
+| Metric | P0 fallback (`2c8b774`) | P1 (`9f741e4`) |
+|--------|--------------------------|----------------|
+| **HTTP 200** | 24 / 24 | **24 / 24** |
+| **Useful / guide-supported** | 18 / 24 | **24 / 24** |
+| **Empty** | 6 / 24 | **0 / 24** |
+| **HTTP 500** | 0 | **0** |
+
+All success targets met. No UI/design changes. Guide shortcuts render in existing search card shape (`Guide` / `Experience` / `Category` labels).
+
+### Per-query production results
+
+| Query | HTTP | Count | Top results | Notes |
+|-------|------|-------|-------------|-------|
+| beach | 200 | 12 | Dinghy's Beach Bar; Lovango Resort; Sapphire Beach Bar; The Beach Bar; 1864 | P0b pass; some dining tangential |
+| beaches | 200 | 12 | AMA at Cane Bay; Dinghy's; Lovango; Magens Bay; Sapphire Beach Bar | Was 1 — fixed |
+| boat | 200 | 8 | Caribbean Blue Boat Charters; Ocean Runner; Saint John Boat Charters | Good |
+| charter | 200 | 12 | Caribbean Blue; Kekoa Sailing; On The Sea; Saint John Boat Charters | P0b pass |
+| snorkel | 200 | 5 | BushTribe; Ocean Runner; On The Sea; The VI Cat; VI Ecotours | P0b pass |
+| food | 200 | 8 | Flavors of St. Thomas Food Tours; VI Food Tours; 1864; Gladys' Cafe | Some brewery noise |
+| restaurant | 200 | 5 | 1864; Too.Chez; AMA at Cane Bay; Brew STX; Island Time Pub | P0b pass |
+| bite | 200 | 12 | 1864; Dinghy's; Flavors Food Tours; Sapphire Beach Bar; The Beach Bar | Was 1 — fixed |
+| bar | 200 | 10 | Dinghy's; Sapphire Beach Bar; The Beach Bar; The Mill; Too.Chez | Good |
+| night | 200 | 12 | Brew STX; Dinghy's; Sapphire Beach Bar; Duffy's; Island Time Pub | Nightlife bars first |
+| nightlife | 200 | 12 | Brew STX; Dinghy's; Duffy's; Island Time Pub; Leatherback Brewing | Good |
+| family | 200 | 12 | Best beaches guide; Cruise-day experience; Water Island day trip; listings | Was empty — fixed |
+| cruise | 200 | 3 | Big Beard's; Coral World; Pirates Treasure Museum | Partial (not schedules) |
+| ferry | 200 | 12 | **Water Island Ferry** first; 81C Arts; Christiansted NHS | P0b pass; less restaurant noise |
+| st thomas | 200 | 12 | Flavors Food Tours; VI Ecotours; 81C Arts; Caribbean Blue; Coral World | Island match works |
+| st john | 200 | 12 | Saint John Boat Charters; Tap Room; 1864; Kekoa; Lime Out VI | Island match works |
+| st croix | 200 | 12 | Brew STX; 1756 Grotto; AMA; Big Beard's; Buck Island | Island match works |
+| water island | 200 | 12 | Water Island Ferry; Leatherback Brewing; Dinghy's; Rachael's Rentals | P0b pass |
+| romantic | 200 | 12 | Best beaches guide; Culinary/Stays experiences; waterfront listings | Was empty — fixed |
+| rainy day | 200 | 12 | Culinary/Culture/Wellness experiences; local-provisions category | Was empty — fixed |
+| wellness | 200 | 3 | Magens Bay Authority; St. George Botanical Garden; Tap Room | Low count (catalog-limited) |
+| shops | 200 | 12 | Local provisions categories; local shops experience; 81C Arts | Was empty — fixed |
+| local shops | 200 | 12 | Local provisions categories; local shops experience; listings | Was empty — fixed |
+| things to do | 200 | 12 | Adventure experience; island things-to-do guides; adventure listings | Was empty — fixed |
+
+### Noisy / weak queries (non-blocking)
+
+- `beach` / `food` — occasional restaurant/brewery tangential matches
+- `ferry` — provisions/museum listings after Water Island Ferry (description mentions)
+- `water island` — Leatherback Brewing appears (off-island description mention)
+- `wellness` — only 3 results; Tap Room is weak/tangential; catalog has 2 wellness-spas listings
+- `cruise` — listings only, not cruise schedule utility
+
+### Recommended P2 refinements (search-only)
+
+1. **Negative scoring** — demote description-only ferry/beach mentions when name doesn't match
+2. **Ferry utility shortcut** — `/ferry` when query is `ferry` and top hit is already ferry operator
+3. **Supabase seed path** — apply P1 expansion when `public.businesses` is migrated
+4. **Catalog growth** — more `wellness-spas` and `local-provisions` listings improve weak-term depth
+
+### Artifacts
+
+| File | Purpose |
+|------|---------|
+| `scripts/_qa-catalog-fallback-retest.json` | Raw Playwright output (`9f741e4` P1 re-test) |
+
