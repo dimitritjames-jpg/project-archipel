@@ -192,3 +192,53 @@ Catalog ILIKE simulation (52 public-info listings) unchanged from baseline — *
 | `scripts/_qa-search-retest-4e37207.json` | Raw Playwright re-test output |
 | `scripts/_test-prod-supabase-search.mjs` | Direct Supabase API verification |
 
+---
+
+## P0 Catalog Fallback Patch
+
+**Branch:** `fix/vibevi-search-catalog-fallback`  
+**File:** `src/lib/search/local-search.ts`
+
+### Why Supabase-only search failed
+
+Production Supabase (`qjkhcxrtktmglpkslqyf`) does not expose `public.businesses` in the PostgREST schema cache. The `4e37207` ILIKE filter fix was correct but insufficient: every query still threw `Local search failed: Could not find the table 'public.businesses' in the schema cache` → HTTP **500** on the search server action.
+
+Business profiles already avoided this via `fetchPublishedBusiness` → `findPublicInfoBusiness` fallback. Directory search had no equivalent path.
+
+### Why catalog fallback is appropriate
+
+- **52 approved public-info listings** are the current launch inventory (`PUBLIC_INFO_BUSINESSES`).
+- Same trust rules: public-info only, no invented ratings/verification/availability.
+- Profiles, static params, and category pages already rely on this catalog when Supabase is empty or errors.
+- Search can return useful discovery results immediately without waiting for Supabase migration/seed.
+
+### Implementation summary
+
+`searchLocalBusinesses` now:
+
+1. Tries Supabase when URL + anon key are configured (non-localhost placeholder).
+2. Returns Supabase rows on success.
+3. On PostgREST errors (missing table, schema cache, query failure) or thrown exceptions: logs a safe `console.warn` and falls back to `PUBLIC_INFO_BUSINESSES`.
+4. Catalog matching (P0, no synonyms): lowercase, trim, collapse spaces; match against name, slug, island code/slug/name, category slug/name, description, address, source URLs.
+5. Maps catalog rows into existing `LocalSearchResult` shape (same card href pattern as before).
+6. Never throws — always returns `[]` or results → HTTP **200**.
+
+### Post-deploy verification targets
+
+| Target | Goal |
+|--------|------|
+| **P0a** | **24 / 24** queries return HTTP **200** (zero results OK) |
+| **P0b** | Core queries (`charter`, `beach`, `restaurant`, `snorkel`, `ferry`, `water island`) return catalog hits |
+| **P1** | Synonym/category/island expansion (`bite`, `night`, `shops`, `st thomas`, etc.) — **after** P0a passes |
+
+### What still needs P1 synonym/category/island expansion
+
+Catalog ILIKE baseline (~14 / 24 simulated hits) still leaves weak/empty terms:
+
+- **Synonyms:** `bite`, `beaches`, `night`, `shops`, `local shops`
+- **Category slug match:** `nightlife`, `wellness`, `family`
+- **Island name match:** `st thomas`, `st john`, `st croix`
+- **Guide/mood shortcuts:** `things to do`, `romantic`, `rainy day`
+
+Do not implement P1 until production re-test confirms HTTP 200 on all 24 queries.
+
