@@ -1,0 +1,17 @@
+{
+  "package": "vibevi_media_package_v1",
+  "status": "interim-bootstrap",
+  "note": "Interim JPG copies from generated editorial assets. Replace with official WebP package from vibevi_media_package_v1.zip when installed.",
+  "format": "jpg",
+  "targetFormat": "webp",
+  "roots": [
+    "home",
+    "home/cards",
+    "home/moods",
+    "islands",
+    "experiences",
+    "search",
+    "get-listed",
+    "listings/placeholders"
+  ]
+}
