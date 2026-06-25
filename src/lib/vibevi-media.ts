@@ -1,6 +1,6 @@
 /**
- * Central VibeVI facelift media registry.
- * Paths match vibevi_media_package_v1 layout. Interim bootstrap uses .jpg until WebP package is installed.
+ * Official VibeVI media registry (vibevi_media_package_v1).
+ * Paths and alt text sourced from manifest.json and cursor-route-media-map.json.
  */
 
 const V = "/media/vibevi";
@@ -17,224 +17,321 @@ export type CardMedia = ResponsiveMedia & {
   href: string;
 };
 
-function pair(
-  basePath: string,
+function responsive(
+  desktop: string,
+  mobile: string,
   alt: string,
   objectPosition = "center",
 ): ResponsiveMedia {
-  const ext = basePath.endsWith(".jpg") ? "" : "";
-  const stem = ext ? basePath : basePath;
-  return {
-    desktop: `${stem}-desktop.jpg`,
-    mobile: `${stem}-mobile.jpg`,
-    alt,
-    objectPosition,
-  };
+  return { desktop, mobile, alt, objectPosition };
 }
 
 export const VIBEVI_HOME = {
-  hero: pair(
-    `${V}/home/home-hero`,
-    "Sunlit U.S. Virgin Islands shoreline with turquoise water, green hills, and warm morning light",
+  hero: responsive(
+    `${V}/home/home-hero-desktop.webp`,
+    `${V}/home/home-hero-mobile.webp`,
+    "Sunlit U.S. Virgin Islands shoreline with turquoise water and warm island morning light",
     "center 42%",
   ),
 } as const;
 
 export const VIBEVI_HOME_CARDS: CardMedia[] = [
   {
-    ...pair(`${V}/home/cards/beach`, "Calm Caribbean beach with cream sand and clear water"),
+    ...responsive(
+      `${V}/home/cards/card-beach-local-day-desktop.webp`,
+      `${V}/home/cards/card-beach-local-day-mobile.webp`,
+      "Local beach day scene with cream sand and clear Caribbean water",
+    ),
     label: "Beaches",
     href: "/guides/best-beaches-usvi",
   },
   {
-    ...pair(`${V}/home/cards/boat`, "Charter boat on turquoise water with island hills in the distance"),
+    ...responsive(
+      `${V}/home/cards/card-boat-local-captain-desktop.webp`,
+      `${V}/home/cards/card-boat-local-captain-mobile.webp`,
+      "Local boat captain and crew preparing a charter on turquoise water",
+    ),
     label: "Boat Day",
     href: "/experiences/adventure",
   },
   {
-    ...pair(`${V}/home/cards/bite`, "Waterfront table with local island plates and golden-hour light"),
+    ...responsive(
+      `${V}/home/cards/card-bite-sunset-dining-desktop.webp`,
+      `${V}/home/cards/card-bite-sunset-dining-mobile.webp`,
+      "Waterfront sunset dining with local island plates",
+    ),
     label: "Bites",
     href: "/experiences/culinary",
   },
   {
-    ...pair(`${V}/home/cards/night`, "Harbor boardwalk at night with warm lights and island rhythm"),
+    ...responsive(
+      `${V}/home/cards/card-night-local-music-desktop.webp`,
+      `${V}/home/cards/card-night-local-music-mobile.webp`,
+      "Local musicians and harbor nightlife energy after sunset",
+    ),
     label: "Nightlife",
     href: "/experiences/nightlife",
   },
   {
-    ...pair(`${V}/home/cards/beach`, "Island trail and cove scene for things to do"),
+    ...responsive(
+      `${V}/home/cards/card-beach-local-day-desktop.webp`,
+      `${V}/home/cards/card-beach-local-day-mobile.webp`,
+      "Island day planning scene with beach and trail energy",
+    ),
     label: "Things To Do",
     href: "/st-thomas/things-to-do",
   },
   {
-    ...pair(`${V}/home/cards/beach`, "Boutique stay terrace overlooking island water"),
+    ...responsive(
+      `${V}/experiences/experience-stays-thumbnail.webp`,
+      `${V}/experiences/experience-stays-thumbnail.webp`,
+      "Island stay terrace overlooking water and hills",
+    ),
     label: "Stays",
     href: "/experiences/stays",
   },
   {
-    ...pair(`${V}/home/cards/beach`, "Quiet wellness morning by the water"),
+    ...responsive(
+      `${V}/experiences/experience-wellness-thumbnail.webp`,
+      `${V}/experiences/experience-wellness-thumbnail.webp`,
+      "Quiet wellness morning by the shore",
+    ),
     label: "Wellness",
     href: "/experiences/wellness",
   },
   {
-    ...pair(`${V}/home/cards/culture`, "Local maker market with island color and community energy"),
+    ...responsive(
+      `${V}/experiences/experience-local-shops-thumbnail.webp`,
+      `${V}/experiences/experience-local-shops-thumbnail.webp`,
+      "Local makers, provisions, and market stops",
+    ),
     label: "Shops",
     href: "/experiences/local-shops",
   },
 ];
 
+const MOOD_PATHS = {
+  adventure: "mood-adventure",
+  relax: "mood-relax",
+  romance: "mood-romance",
+  culture: "mood-culture",
+  foodie: "mood-foodie",
+  party: "mood-party",
+  family: "mood-family",
+  wellness: "mood-wellness",
+} as const;
+
 export const VIBEVI_MOODS: (CardMedia & { id: string })[] = [
   {
     id: "adventure",
-    ...pair(`${V}/home/moods/adventure`, "Boat captain and deckhands preparing a charter on turquoise water"),
     label: "Adventure",
     href: "/experiences/adventure",
+    ...responsive(
+      `${V}/home/moods/mood-adventure-horizontal.webp`,
+      `${V}/home/moods/mood-adventure-vertical.webp`,
+      "Boat captain and deckhands preparing a charter on turquoise water",
+    ),
   },
   {
     id: "relax",
-    ...pair(`${V}/home/moods/relax`, "Quiet beach cove with shade and calm water"),
     label: "Relax",
     href: "/guides/best-beaches-usvi",
+    ...responsive(
+      `${V}/home/moods/mood-relax-horizontal.webp`,
+      `${V}/home/moods/mood-relax-vertical.webp`,
+      "Quiet beach cove with shade and calm water",
+    ),
   },
   {
     id: "romance",
-    ...pair(`${V}/home/moods/romance`, "Waterfront dinner table at sunset"),
     label: "Romance",
     href: "/experiences/culinary",
+    ...responsive(
+      `${V}/home/moods/mood-romance-horizontal.webp`,
+      `${V}/home/moods/mood-romance-vertical.webp`,
+      "Waterfront dinner table at sunset",
+    ),
   },
   {
     id: "culture",
-    ...pair(`${V}/home/moods/culture`, "Local musicians and community rhythm on an island street"),
     label: "Culture",
     href: "/experiences/culture",
+    ...responsive(
+      `${V}/home/moods/mood-culture-horizontal.webp`,
+      `${V}/home/moods/mood-culture-vertical.webp`,
+      "Local musicians and community rhythm on an island street",
+    ),
   },
   {
     id: "foodie",
-    ...pair(`${V}/home/moods/foodie`, "Chef plating fresh island seafood at a waterfront kitchen"),
     label: "Foodie",
     href: "/experiences/culinary",
+    ...responsive(
+      `${V}/home/moods/mood-foodie-horizontal.webp`,
+      `${V}/home/moods/mood-foodie-vertical.webp`,
+      "Chef plating fresh island seafood at a waterfront kitchen",
+    ),
   },
   {
     id: "party",
-    ...pair(`${V}/home/moods/party`, "Live music and harbor nightlife energy"),
     label: "Party",
     href: "/experiences/nightlife",
+    ...responsive(
+      `${V}/home/moods/mood-party-horizontal.webp`,
+      `${V}/home/moods/mood-party-vertical.webp`,
+      "Live music and harbor nightlife energy",
+    ),
   },
   {
     id: "family",
-    ...pair(`${V}/home/moods/family`, "Family enjoying a calm beach day together"),
     label: "Family",
     href: "/st-thomas/things-to-do",
+    ...responsive(
+      `${V}/home/moods/mood-family-horizontal.webp`,
+      `${V}/home/moods/mood-family-vertical.webp`,
+      "Family enjoying a calm beach day together",
+    ),
   },
   {
     id: "wellness",
-    ...pair(`${V}/home/moods/wellness`, "Slow morning wellness reset by the shore"),
     label: "Wellness",
     href: "/experiences/wellness",
+    ...responsive(
+      `${V}/home/moods/mood-wellness-horizontal.webp`,
+      `${V}/home/moods/mood-wellness-vertical.webp`,
+      "Slow morning wellness reset by the shore",
+    ),
   },
 ];
 
+export { MOOD_PATHS };
+
 export const VIBEVI_ISLANDS: Record<
   string,
-  ResponsiveMedia & { tagline: string; statement: string }
+  ResponsiveMedia & { tagline: string; statement: string; thumbnail: string }
 > = {
   "st-thomas": {
-    ...pair(
-      `${V}/islands/st-thomas`,
+    ...responsive(
+      `${V}/islands/island-st-thomas-hero-desktop.webp`,
+      `${V}/islands/island-st-thomas-hero-mobile.webp`,
       "St. Thomas harbor, hills, and boat activity around Charlotte Amalie and Red Hook",
     ),
+    thumbnail: `${V}/islands/island-st-thomas-thumbnail.webp`,
     tagline: "Harbor movement, beaches, dining, and boat days",
     statement:
       "Hills, harbors, Magens mornings, Red Hook ferries, waterfront bites, and late-night rhythm.",
   },
   "st-john": {
-    ...pair(
-      `${V}/islands/st-john`,
+    ...responsive(
+      `${V}/islands/island-st-john-hero-desktop.webp`,
+      `${V}/islands/island-st-john-hero-mobile.webp`,
       "St. John cove with national park greens and calm turquoise water",
     ),
+    thumbnail: `${V}/islands/island-st-john-thumbnail.webp`,
     tagline: "Park trails, calm coves, and slower island rhythm",
     statement:
       "Ferry-aware days around Cruz Bay, reef coves, park trails, and eco-forward water routes.",
   },
   "st-croix": {
-    ...pair(
-      `${V}/islands/st-croix`,
+    ...responsive(
+      `${V}/islands/island-st-croix-hero-desktop.webp`,
+      `${V}/islands/island-st-croix-hero-mobile.webp`,
       "St. Croix boardwalk, heritage architecture, and reef-day energy",
     ),
+    thumbnail: `${V}/islands/island-st-croix-thumbnail.webp`,
     tagline: "Culture, food, history, and reef depth",
     statement:
       "Christiansted and Frederiksted rhythm, Buck Island routes, rum culture, and local community.",
   },
   "water-island": {
-    ...pair(
-      `${V}/islands/water-island`,
+    ...responsive(
+      `${V}/islands/island-water-island-hero-desktop.webp`,
+      `${V}/islands/island-water-island-hero-mobile.webp`,
       "Small-island cove with ferry-day pace and quiet beach escape",
     ),
+    thumbnail: `${V}/islands/island-water-island-thumbnail.webp`,
     tagline: "Small-island pace and simple beach escape",
     statement:
       "A ferry hop, golf-cart scale, Honeymoon Beach calm, and an easy return window.",
   },
 };
 
-export const VIBEVI_EXPERIENCES: Record<string, ResponsiveMedia & { title: string }> = {
-  adventure: {
-    title: "Adventure",
-    ...pair(`${V}/experiences/adventure`, "Charter crew and guests heading out on turquoise water"),
-  },
-  culture: {
-    title: "Culture",
-    ...pair(`${V}/experiences/culture`, "Island culture, music, and community gathering energy"),
-  },
-  culinary: {
-    title: "Culinary",
-    ...pair(`${V}/experiences/culinary`, "Local plates and waterfront dining in the USVI"),
-  },
-  "cruise-day": {
-    title: "Cruise Day",
-    ...pair(`${V}/experiences/cruise-day`, "Harbor and port-day planning scene with island backdrop"),
-  },
-  nightlife: {
-    title: "Nightlife",
-    ...pair(`${V}/experiences/nightlife`, "Harbor nightlife with live music and boardwalk lights"),
-  },
-  wellness: {
-    title: "Wellness",
-    ...pair(`${V}/experiences/wellness`, "Calm beach wellness reset with soft morning light"),
-  },
-  stays: {
-    title: "Stays",
-    ...pair(`${V}/experiences/stays`, "Island stay terrace overlooking water and hills"),
-  },
-  "local-shops": {
-    title: "Local Shops",
-    ...pair(`${V}/experiences/local-shops`, "Local makers, provisions, and market stops"),
-  },
+const EXPERIENCE_SLUGS = [
+  "adventure",
+  "culture",
+  "culinary",
+  "cruise-day",
+  "nightlife",
+  "wellness",
+  "stays",
+  "local-shops",
+] as const;
+
+const EXPERIENCE_TITLES: Record<string, string> = {
+  adventure: "Adventure",
+  culture: "Culture",
+  culinary: "Culinary",
+  "cruise-day": "Cruise Day",
+  nightlife: "Nightlife",
+  wellness: "Wellness",
+  stays: "Stays",
+  "local-shops": "Local Shops",
 };
 
+export const VIBEVI_EXPERIENCES: Record<
+  string,
+  ResponsiveMedia & { title: string; thumbnail: string }
+> = Object.fromEntries(
+  EXPERIENCE_SLUGS.map((slug) => [
+    slug,
+    {
+      title: EXPERIENCE_TITLES[slug] ?? slug,
+      ...responsive(
+        `${V}/experiences/experience-${slug}-hero-desktop.webp`,
+        `${V}/experiences/experience-${slug}-hero-mobile.webp`,
+        `Editorial ${EXPERIENCE_TITLES[slug]?.toLowerCase() ?? slug} discovery scene in the U.S. Virgin Islands`,
+      ),
+      thumbnail: `${V}/experiences/experience-${slug}-thumbnail.webp`,
+    },
+  ]),
+);
+
 export const VIBEVI_SEARCH = {
-  hero: pair(
-    `${V}/search/search-hero`,
+  hero: responsive(
+    `${V}/search/find-the-move-aerial-hero-desktop.webp`,
+    `${V}/search/find-the-move-aerial-hero-mobile.webp`,
     "Aerial view of turquoise USVI water for planning the day",
     "center 40%",
   ),
 } as const;
 
 export const VIBEVI_GET_LISTED = {
-  hero: pair(
-    `${V}/get-listed/get-listed-hero`,
-    "Local business owner on a USVI waterfront ready to welcome visitors",
+  hero: responsive(
+    `${V}/get-listed/local-business-owner-hero-desktop.webp`,
+    `${V}/get-listed/local-business-owner-hero-mobile.webp`,
+    "Local business owner on a U.S. Virgin Islands waterfront",
     "center 35%",
   ),
 } as const;
 
+const PLACEHOLDER_BY_CATEGORY: Record<string, string> = {
+  "excursions-charters": `${V}/experiences/experience-adventure-thumbnail.webp`,
+  "indulgent-dining": `${V}/experiences/experience-culinary-thumbnail.webp`,
+  "boutique-stays": `${V}/experiences/experience-stays-thumbnail.webp`,
+  "nightlife-rhythm": `${V}/experiences/experience-nightlife-thumbnail.webp`,
+  "wellness-spas": `${V}/experiences/experience-wellness-thumbnail.webp`,
+  "local-provisions": `${V}/experiences/experience-local-shops-thumbnail.webp`,
+};
+
 export function getListingPlaceholder(categorySlug: string): string {
-  const map: Record<string, string> = {
-    "excursions-charters": `${V}/listings/placeholders/boat-charters-card.jpg`,
-    "indulgent-dining": `${V}/listings/placeholders/dining-card.jpg`,
-    "boutique-stays": `${V}/listings/placeholders/stays-card.jpg`,
-    "nightlife-rhythm": `${V}/listings/placeholders/nightlife-card.jpg`,
-    "wellness-spas": `${V}/listings/placeholders/wellness-card.jpg`,
-    "local-provisions": `${V}/listings/placeholders/local-provisions-card.jpg`,
-  };
-  return map[categorySlug] ?? `${V}/listings/placeholders/beaches-card.jpg`;
+  return (
+    PLACEHOLDER_BY_CATEGORY[categorySlug] ??
+    `${V}/listings/placeholders/placeholder-beach-landscape.webp`
+  );
 }
+
+export const VIBEVI_LISTING_PLACEHOLDERS = {
+  landscape: `${V}/listings/placeholders/placeholder-beach-landscape.webp`,
+  square: `${V}/listings/placeholders/placeholder-beach-square.webp`,
+  vertical: `${V}/listings/placeholders/placeholder-beach-vertical.webp`,
+} as const;

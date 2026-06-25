@@ -13,13 +13,11 @@
 
 ## Media package status
 
-**Official `vibevi_media_package_v1.zip`:** Not installable in this environment (Google Drive permissions + local SSL).  
+**Official `vibevi_media_package_v1.zip`:** Installed from owner Downloads (69 WebP assets + manifest/route map).
 
-**Interim bootstrap:** `scripts/bootstrap-vibevi-media.mjs` copies existing `/public/media/generated/` editorial JPGs into the expected `/public/media/vibevi/` tree (66 files). Replace with the official WebP package when available.
+**Reference renders:** `docs/facelift-renders/` from `vibevi_redesign_renders_package.zip` (design QA contact sheet + page mocks).
 
-**Registry:** `src/lib/vibevi-media.ts` — typed responsive media for home, moods, islands, experiences, search, get-listed, listing placeholders.
-
-**Bridge:** `src/lib/media.ts` helpers now resolve island, hero, experience, category placeholder, and get-listed paths through the vibevi registry.
+**Registry:** `src/lib/vibevi-media.ts` — paths match `cursor-route-media-map.json` and `manifest.json`.
 
 ## Design system
 
@@ -68,7 +66,7 @@ npm run build — pass (189 pages)
 
 ## Remaining limitations
 
-1. Install official WebP media package from Drive when permissions allow
+1. ~~Install official WebP media package~~ Done
 2. Add Fraunces or licensed serif via local font files (Google Fonts blocked in build env)
 3. Island portal interior template (category rail, editorial promo band)
 4. Experience page closing editorial bands

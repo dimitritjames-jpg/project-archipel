@@ -1,17 +1,554 @@
-{
-  "package": "vibevi_media_package_v1",
-  "status": "interim-bootstrap",
-  "note": "Interim JPG copies from generated editorial assets. Replace with official WebP package from vibevi_media_package_v1.zip when installed.",
-  "format": "jpg",
-  "targetFormat": "webp",
-  "roots": [
-    "home",
-    "home/cards",
-    "home/moods",
-    "islands",
-    "experiences",
-    "search",
-    "get-listed",
-    "listings/placeholders"
-  ]
-}
+[
+  {
+    "path": "/media/vibevi/experiences/experience-adventure-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for adventure.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-adventure-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for adventure.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-adventure-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for adventure.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-cruise-day-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for cruise day.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-cruise-day-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for cruise day.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-cruise-day-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for cruise day.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-culinary-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for culinary.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-culinary-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for culinary.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-culinary-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for culinary.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-culture-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for culture.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-culture-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for culture.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-culture-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for culture.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-local-shops-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for local shops.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-local-shops-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for local shops.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-local-shops-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for local shops.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-nightlife-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for nightlife.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-nightlife-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for nightlife.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-nightlife-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for nightlife.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-stays-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for stays.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-stays-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for stays.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-stays-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for stays.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-wellness-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for wellness.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-wellness-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for wellness.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/experiences/experience-wellness-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for wellness.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/get-listed/local-business-owner-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for local business owner.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/get-listed/local-business-owner-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for local business owner.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/cards/card-beach-local-day-desktop.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for beach local day.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/cards/card-beach-local-day-mobile.webp",
+    "width": 800,
+    "height": 1000,
+    "alt": "VibeVI editorial image for beach local day.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/cards/card-bite-sunset-dining-desktop.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for bite sunset dining.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/cards/card-bite-sunset-dining-mobile.webp",
+    "width": 800,
+    "height": 1000,
+    "alt": "VibeVI editorial image for bite sunset dining.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/cards/card-boat-local-captain-desktop.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for boat local captain.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/cards/card-boat-local-captain-mobile.webp",
+    "width": 800,
+    "height": 1000,
+    "alt": "VibeVI editorial image for boat local captain.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/cards/card-night-local-music-desktop.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for night local music.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/cards/card-night-local-music-mobile.webp",
+    "width": 800,
+    "height": 1000,
+    "alt": "VibeVI editorial image for night local music.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/home-hero-desktop.webp",
+    "width": 2400,
+    "height": 1400,
+    "alt": "VibeVI editorial image for home.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/home-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for home.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-adventure-horizontal.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for adventure.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-adventure-vertical.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for adventure.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-culture-horizontal.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for culture.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-culture-vertical.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for culture.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-family-horizontal.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for family.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-family-vertical.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for family.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-foodie-horizontal.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for foodie.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-foodie-vertical.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for foodie.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-party-horizontal.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for party.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-party-vertical.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for party.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-relax-horizontal.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for relax.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-relax-vertical.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for relax.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-romance-horizontal.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for romance.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-romance-vertical.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for romance.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-wellness-horizontal.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for wellness.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/home/moods/mood-wellness-vertical.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for wellness.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-croix-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for st croix.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-croix-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for st croix.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-croix-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for st croix.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-john-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for st john.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-john-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for st john.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-john-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for st john.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-thomas-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for st thomas.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-thomas-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for st thomas.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-st-thomas-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for st thomas.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-water-island-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for water.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-water-island-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for water.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/islands/island-water-island-thumbnail.webp",
+    "width": 1200,
+    "height": 900,
+    "alt": "VibeVI editorial image for water island.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/listings/placeholders/placeholder-beach-landscape.webp",
+    "width": 1600,
+    "height": 1200,
+    "alt": "VibeVI editorial image for beach landscape.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/listings/placeholders/placeholder-beach-square.webp",
+    "width": 1200,
+    "height": 1200,
+    "alt": "VibeVI editorial image for beach square.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/listings/placeholders/placeholder-beach-vertical.webp",
+    "width": 800,
+    "height": 1000,
+    "alt": "VibeVI editorial image for beach.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/search/find-the-move-aerial-hero-desktop.webp",
+    "width": 2400,
+    "height": 1200,
+    "alt": "VibeVI editorial image for find the move aerial.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  },
+  {
+    "path": "/media/vibevi/search/find-the-move-aerial-hero-mobile.webp",
+    "width": 1200,
+    "height": 1600,
+    "alt": "VibeVI editorial image for find the move aerial.",
+    "sourceType": "AI-generated editorial artwork",
+    "trustNote": "Not documentary media for a named business or exact location."
+  }
+]

@@ -19,6 +19,7 @@
 
 # production
 /build
+/_media_extract
 
 # misc
 .DS_Store

@@ -1,0 +1,36 @@
+{
+  "/": {
+    "heroDesktop": "/media/vibevi/home/home-hero-desktop.webp",
+    "heroMobile": "/media/vibevi/home/home-hero-mobile.webp",
+    "cards": {
+      "beach": "/media/vibevi/home/cards/card-beach-local-day-desktop.webp",
+      "boat": "/media/vibevi/home/cards/card-boat-local-captain-desktop.webp",
+      "bite": "/media/vibevi/home/cards/card-bite-sunset-dining-desktop.webp",
+      "night": "/media/vibevi/home/cards/card-night-local-music-desktop.webp"
+    }
+  },
+  "/find-the-move": {
+    "heroDesktop": "/media/vibevi/search/find-the-move-aerial-hero-desktop.webp",
+    "heroMobile": "/media/vibevi/search/find-the-move-aerial-hero-mobile.webp"
+  },
+  "/get-listed": {
+    "heroDesktop": "/media/vibevi/get-listed/local-business-owner-hero-desktop.webp",
+    "heroMobile": "/media/vibevi/get-listed/local-business-owner-hero-mobile.webp"
+  },
+  "/st-thomas": {
+    "heroDesktop": "/media/vibevi/islands/island-st-thomas-hero-desktop.webp",
+    "heroMobile": "/media/vibevi/islands/island-st-thomas-hero-mobile.webp"
+  },
+  "/st-john": {
+    "heroDesktop": "/media/vibevi/islands/island-st-john-hero-desktop.webp",
+    "heroMobile": "/media/vibevi/islands/island-st-john-hero-mobile.webp"
+  },
+  "/st-croix": {
+    "heroDesktop": "/media/vibevi/islands/island-st-croix-hero-desktop.webp",
+    "heroMobile": "/media/vibevi/islands/island-st-croix-hero-mobile.webp"
+  },
+  "/water-island": {
+    "heroDesktop": "/media/vibevi/islands/island-water-island-hero-desktop.webp",
+    "heroMobile": "/media/vibevi/islands/island-water-island-hero-mobile.webp"
+  }
+}

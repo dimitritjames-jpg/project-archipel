@@ -1,18 +1,20 @@
 # VibeVI media package
 
-## Official install
+Official `vibevi_media_package_v1` WebP assets installed from the project owner package.
 
-1. Download `vibevi_media_package_v1.zip` from the project handoff.
-2. Copy the package `public/media/vibevi/` directory here, replacing interim files.
-3. Keep filenames unchanged.
-4. Run `npm run build` to verify image paths.
+## Files in this directory
 
-## Interim bootstrap
-
-Until the official WebP package is installed, `scripts/bootstrap-vibevi-media.mjs` copies
-existing `/public/media/generated/` editorial JPGs into this tree using the expected route layout.
+- `manifest.json` — asset inventory with dimensions, alt text, trust notes
+- `cursor-route-media-map.json` — route-to-media mapping for Cursor implementation
+- `alt-text-and-placement.csv` — alt text and placement reference
+- `README.md` — package install notes
 
 ## Trust
 
 All assets are AI-generated editorial artwork. Do not present them as documentary photos of
 named businesses, employees, menus, or verified locations.
+
+## Interim bootstrap
+
+`scripts/bootstrap-vibevi-media.mjs` remains for environments without the official zip.
+Production and facelift work should use the WebP files in this directory.

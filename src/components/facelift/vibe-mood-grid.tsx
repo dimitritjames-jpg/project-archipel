@@ -32,11 +32,19 @@ export function VibeMoodGrid({ items, className }: VibeMoodGridProps) {
           className="group relative isolate min-h-[220px] overflow-hidden rounded-[1.35rem] border border-[#0b4b55]/10 bg-white shadow-[0_16px_48px_rgba(11,75,85,0.08)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_56px_rgba(11,75,85,0.12)] sm:min-h-[260px]"
         >
           <Image
+            src={item.mobile}
+            alt={item.alt}
+            fill
+            sizes="(max-width: 768px) 100vw, 25vw"
+            className="object-cover transition duration-500 group-hover:scale-[1.03] md:hidden"
+            style={{ objectPosition: item.objectPosition ?? "center" }}
+          />
+          <Image
             src={item.desktop}
             alt={item.alt}
             fill
             sizes="(max-width: 768px) 100vw, 25vw"
-            className="object-cover transition duration-500 group-hover:scale-[1.03]"
+            className="hidden object-cover transition duration-500 group-hover:scale-[1.03] md:block"
             style={{ objectPosition: item.objectPosition ?? "center" }}
           />
           <div
