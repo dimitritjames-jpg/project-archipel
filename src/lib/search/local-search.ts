@@ -1,23 +1,11 @@
 "use server";
 
-import { PUBLIC_INFO_BUSINESSES } from "@/lib/businesses/public-info-catalog";
-import type { PublishedBusinessRow } from "@/lib/businesses/queries";
+import { searchPublicInfoCatalog } from "@/lib/search/catalog-search";
 import { env } from "@/lib/env";
 import { CODE_TO_SLUG, ISLAND_MAP, type IslandCode } from "@/lib/islands";
 import { createClient } from "@/lib/supabase/server";
 
-export type LocalSearchResult = {
-  id: string;
-  name: string;
-  slug: string;
-  island: IslandCode;
-  islandSlug: string;
-  islandName: string;
-  descriptionPlain: string;
-  categorySlug: string | null;
-  categoryName: string | null;
-  href: string;
-};
+export type { LocalSearchResult } from "@/lib/search/catalog-search";
 
 type BusinessSearchRow = {
   id: string;
@@ -34,14 +22,6 @@ function getIslandLabel(code: IslandCode): string {
 
 function escapeIlikePattern(value: string): string {
   return value.replace(/[%_\\]/g, "\\$&");
-}
-
-function normalizeSearchText(value: string): string {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/\./g, "")
-    .replace(/\s+/g, " ");
 }
 
 function normalizeCategory(
@@ -66,25 +46,11 @@ function isSupabaseConfigured(): boolean {
   );
 }
 
-function toSearchResult(
-  row: {
-    id: string;
-    name: string;
-    slug: string;
-    island: IslandCode;
-    description_plain: string;
-    category?: PublishedBusinessRow["category"];
-    categorySlug?: string | null;
-    categoryName?: string | null;
-  },
-): LocalSearchResult {
-  const categorySlug =
-    row.categorySlug ?? row.category?.slug ?? null;
-  const categoryName =
-    row.categoryName ?? row.category?.name ?? null;
+function toSupabaseSearchResult(row: BusinessSearchRow) {
+  const category = normalizeCategory(row.category);
   const islandSlug = CODE_TO_SLUG[row.island];
-  const href = categorySlug
-    ? `/${islandSlug}/${categorySlug}/${row.slug}`
+  const href = category
+    ? `/${islandSlug}/${category.slug}/${row.slug}`
     : `/${islandSlug}`;
 
   return {
@@ -95,55 +61,10 @@ function toSearchResult(
     islandSlug,
     islandName: getIslandLabel(row.island),
     descriptionPlain: row.description_plain,
-    categorySlug,
-    categoryName,
+    categorySlug: category?.slug ?? null,
+    categoryName: category?.name ?? null,
     href,
   };
-}
-
-function catalogSearchFields(business: PublishedBusinessRow): string[] {
-  const islandSlug = CODE_TO_SLUG[business.island];
-  const islandName = getIslandLabel(business.island);
-
-  return [
-    business.name,
-    business.slug,
-    business.island,
-    islandSlug,
-    islandName,
-    business.description_plain,
-    business.street_address ?? "",
-    business.category?.slug ?? "",
-    business.category?.name ?? "",
-    ...(business.source_urls ?? []),
-  ];
-}
-
-function searchPublicInfoCatalog(query: string): LocalSearchResult[] {
-  const normalizedQuery = normalizeSearchText(query);
-  if (normalizedQuery.length < 2) {
-    return [];
-  }
-
-  const hits = PUBLIC_INFO_BUSINESSES.filter((business) =>
-    catalogSearchFields(business).some((field) =>
-      normalizeSearchText(field).includes(normalizedQuery),
-    ),
-  );
-
-  return hits
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .slice(0, 12)
-    .map((business) =>
-      toSearchResult({
-        id: business.id,
-        name: business.name,
-        slug: business.slug,
-        island: business.island,
-        description_plain: business.description_plain,
-        category: business.category,
-      }),
-    );
 }
 
 const BUSINESS_SEARCH_SELECT = `
@@ -157,7 +78,7 @@ const BUSINESS_SEARCH_SELECT = `
 
 async function searchSupabaseBusinesses(
   query: string,
-): Promise<LocalSearchResult[] | null> {
+): Promise<ReturnType<typeof toSupabaseSearchResult>[] | null> {
   const supabase = await createClient();
   const pattern = `%${escapeIlikePattern(query)}%`;
 
@@ -192,23 +113,10 @@ async function searchSupabaseBusinesses(
     .sort((a, b) => a.name.localeCompare(b.name))
     .slice(0, 12);
 
-  return rows.map((row) => {
-    const category = normalizeCategory(row.category);
-    return toSearchResult({
-      id: row.id,
-      name: row.name,
-      slug: row.slug,
-      island: row.island,
-      description_plain: row.description_plain,
-      categorySlug: category?.slug ?? null,
-      categoryName: category?.name ?? null,
-    });
-  });
+  return rows.map(toSupabaseSearchResult);
 }
 
-export async function searchLocalBusinesses(
-  query: string,
-): Promise<LocalSearchResult[]> {
+export async function searchLocalBusinesses(query: string) {
   const trimmed = query.trim().replace(/\s+/g, " ");
   if (trimmed.length < 2) {
     return [];

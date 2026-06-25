@@ -308,3 +308,63 @@ P0a and P0b are met. Recommended P1 order (search-only, no UI redesign):
 | `scripts/_qa-catalog-fallback-retest.json` | Raw Playwright re-test output (`2c8b774`) |
 | `scripts/qa-catalog-fallback-retest.mjs` | Reusable 24-query production matrix |
 
+---
+
+## P1 Synonym + Category Expansion Plan / Results
+
+**Branch:** `feat/vibevi-search-synonyms-p1`  
+**Files:** `src/lib/search/query-expansion.ts`, `src/lib/search/catalog-search.ts`, `src/lib/search/local-search.ts`
+
+### What changed (search-only)
+
+1. **Query expansion layer** — deterministic synonym/alias maps for weak visitor terms (`bite`, `beaches`, `shops`, `family`, `romantic`, `rainy day`, `things to do`, `night`, `wellness`, island names).
+2. **Scored catalog matching** — name exact → name → category → island → description; category boosts for `nightlife-rhythm`, `wellness-spas`, `local-provisions`.
+3. **Guide/experience shortcuts** — mapped into existing `LocalSearchResult` shape (no UI change): `categoryName` = Guide / Experience / Category; real VibeVI hrefs only.
+4. **Supabase-first preserved** — production still tries Supabase; catalog fallback with P1 intelligence when table missing/errors.
+
+### Guide shortcut support
+
+`LocalSearchResult` already supports guide-style rows via `categoryName` + `href`. No search UI redesign required. Guide shortcuts prepend for guide-style queries (`things to do`, `family`, `romantic`, `rainy day`, `shops`, `local shops`), then listing matches fill remaining slots.
+
+### Local QA results (catalog path, 24 queries)
+
+| Metric | Before P1 (prod `2c8b774`) | After P1 (local) |
+|--------|---------------------------|------------------|
+| Useful results | 18 / 24 | **24 / 24** |
+| Empty results | 6 / 24 | **0 / 24** |
+| Previously empty fixed | — | **6 / 6** |
+
+| Query | Count | Top results | Notes |
+|-------|-------|-------------|-------|
+| family | 12 | Best beaches guide; Cruise-day experience; beach listings | Guide-first |
+| romantic | 12 | Best beaches guide; Culinary/Stays experiences; waterfront listings | Guide-first |
+| rainy day | 12 | Culture/Culinary/Wellness experiences; local-provisions category | Guide-first |
+| shops | 12 | Local shops experience; local-provisions categories; 81C Arts, museums | Fixed |
+| local shops | 12 | Local provisions categories; local shops experience; provisions listings | Fixed |
+| things to do | 12 | Adventure experience; island things-to-do guides; adventure listings | Fixed |
+| beaches | 12 | Beach bars, bays, Magens Bay (was 1) | Improved |
+| bite | 12 | Restaurants, beach bars, food tours (was 1) | Improved |
+| wellness | 3 | Magens Bay Authority; St. George Botanical Garden | Improved ranking |
+| ferry | 12 | **Water Island Ferry** first (was noisy restaurants) | Improved |
+| night | 12 | Nightlife & Rhythm bars first | Improved |
+
+### Remaining weak queries (non-blocking)
+
+- `beach` / `food` — some brewery/museum tangential matches remain
+- `water island` — Leatherback Brewing still appears (description mention) after Water Island Ferry
+- `wellness` — only 2 true wellness-spas listings in catalog; low count is data-limited
+- `cruise` — partial utility (not cruise schedules)
+
+### P2 follow-ups (optional, search-only)
+
+- Negative scoring for description-only ferry/beach noise
+- Supabase path expansion when `public.businesses` is seeded
+- Ferry utility shortcut (`/ferry`) in guide-style empty states
+
+### Artifacts
+
+| File | Purpose |
+|------|---------|
+| `scripts/qa-search-p1-local.mjs` | Local 24-query matrix against catalog search |
+| `scripts/_qa-search-p1-local.json` | Raw local P1 output |
+
