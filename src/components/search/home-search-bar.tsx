@@ -11,9 +11,10 @@ import { trackEvent } from "@/lib/analytics/events";
 
 type HomeSearchBarProps = {
   className?: string;
+  variant?: "default" | "hero";
 };
 
-export function HomeSearchBar({ className }: HomeSearchBarProps) {
+export function HomeSearchBar({ className, variant = "default" }: HomeSearchBarProps) {
   const inputId = useId();
   const listboxId = useId();
   const [hydrated, setHydrated] = useState(false);
@@ -68,16 +69,32 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
 
   const showResults = hydrated && query.trim().length >= 2;
 
+  const isHero = variant === "hero";
+
   return (
     <div className={cn("relative z-30", className)}>
       <label htmlFor={inputId} className="sr-only">
         Search VibeVI
       </label>
-      <div className="island-postcard-card rounded-2xl border border-sand/12 bg-[#061b22]/88 p-1.5 shadow-2xl backdrop-blur-xl">
-        <div className="flex min-h-[3.5rem] items-center gap-3 rounded-xl border border-white/6 bg-midnight-950/50 px-4 py-2">
+      <div
+        className={cn(
+          "rounded-2xl border p-1.5 shadow-[0_16px_48px_rgba(11,75,85,0.12)] backdrop-blur-xl",
+          isHero
+            ? "border-white/25 bg-white/95"
+            : "border-[#0b4b55]/10 bg-white/90",
+        )}
+      >
+        <div
+          className={cn(
+            "flex min-h-[3.5rem] items-center gap-3 rounded-xl border px-4 py-2",
+            isHero
+              ? "border-[#0b4b55]/8 bg-[#fffaf3]"
+              : "border-[#0b4b55]/10 bg-white",
+          )}
+        >
           <svg
             aria-hidden
-            className="h-5 w-5 shrink-0 text-sand/75"
+            className="h-5 w-5 shrink-0 text-[#0797a6]"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -99,15 +116,16 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
             aria-expanded={showResults}
             aria-controls={listboxId}
             aria-autocomplete="list"
-            className="w-full bg-transparent text-sm text-archipel-white focus:outline-none sm:text-base"
+            placeholder="Beaches, charters, bites, islands..."
+            className="w-full bg-transparent text-sm text-[#173941] placeholder:text-[#496871]/70 focus:outline-none sm:text-base"
           />
           {isPending ? (
-            <span className="text-xs text-archipel-white/50" aria-live="polite">
+            <span className="text-xs text-[#496871]" aria-live="polite">
               Searching…
             </span>
           ) : null}
-          <span className="hidden rounded-md border border-sand/15 bg-sand/8 px-2 py-1 text-[9px] font-black uppercase tracking-[0.08em] text-sand/66 sm:inline">
-            Island search
+          <span className="hidden rounded-md border border-[#0b4b55]/10 bg-[#e9fbf7] px-2 py-1 text-[9px] font-black uppercase tracking-[0.08em] text-[#0797a6] sm:inline">
+            Search
           </span>
         </div>
 
@@ -116,12 +134,14 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
             id={listboxId}
             role="listbox"
             aria-label="Search results"
-            className="absolute left-0 right-0 top-[calc(100%+0.6rem)] z-40 max-h-80 overflow-y-auto rounded-2xl border border-sand/15 bg-[#041022]/98 p-1.5 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
+            className="absolute left-0 right-0 top-[calc(100%+0.6rem)] z-40 max-h-80 overflow-y-auto rounded-2xl border border-[#0b4b55]/12 bg-white p-1.5 shadow-[0_24px_64px_rgba(11,75,85,0.16)]"
           >
             {error ? (
-              <p className="rounded-xl border border-coral/15 bg-coral/8 px-4 py-3 text-sm text-coral">{error}</p>
+              <p className="rounded-xl border border-coral/20 bg-coral/8 px-4 py-3 text-sm text-[#b44a3d]">
+                {error}
+              </p>
             ) : results.length === 0 && !isPending ? (
-              <p className="px-4 py-4 text-sm text-archipel-white/60">
+              <p className="px-4 py-4 text-sm text-[#496871]">
                 Nothing published matches &ldquo;{query.trim()}&rdquo; yet. Try an
                 island, category, or mood.
               </p>
@@ -132,18 +152,16 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
                     <Link
                       href={result.href}
                       role="option"
-                      className="block rounded-xl border border-transparent px-4 py-3 transition hover:border-sand/12 hover:bg-sand/6"
+                      className="block rounded-xl border border-transparent px-4 py-3 transition hover:border-[#0797a6]/15 hover:bg-[#e9fbf7]/50"
                     >
-                      <p className="font-medium text-archipel-white">
-                        {result.name}
-                      </p>
-                      <p className="mt-1 text-xs text-archipel-white/55">
+                      <p className="font-medium text-[#173941]">{result.name}</p>
+                      <p className="mt-1 text-xs text-[#496871]">
                         {result.categoryName ?? "Business"}
                         {" · "}
                         {result.islandName}
                       </p>
                       {result.descriptionPlain ? (
-                        <p className="mt-1 line-clamp-2 text-xs text-archipel-white/45">
+                        <p className="mt-1 line-clamp-2 text-xs text-[#496871]/80">
                           {result.descriptionPlain}
                         </p>
                       ) : null}
