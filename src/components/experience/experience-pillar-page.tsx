@@ -1,19 +1,22 @@
 import Link from "next/link";
 import { AnalyticsEvent } from "@/components/analytics/analytics-event";
 import { TrackedLink } from "@/components/analytics/tracked-link";
-import { BusinessPreviewCard } from "@/components/discovery/business-preview-card";
+import { ListingCard } from "@/components/facelift/listing-card";
+import { EditorialBand } from "@/components/facelift/editorial-band";
+import { FilterChipRail } from "@/components/facelift/filter-chip-rail";
+import { ResponsiveHero } from "@/components/facelift/responsive-hero";
+import { VvButtonSecondary, VvCard, VvEyebrow, VvHeading, VvPage } from "@/components/facelift/vv-ui";
 import {
   BookingIntentPanel,
   ExperienceCTA,
   PlanThisExperienceCard,
 } from "@/components/experience/booking-intent";
-import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
 import type { PublishedBusinessRow } from "@/lib/businesses/queries";
 import type { AnalyticsEventName } from "@/lib/analytics/events";
 import type { ExperiencePillar } from "@/lib/experience-pillars";
 import { CODE_TO_SLUG, ISLAND_MAP } from "@/lib/islands";
-import { getExperienceHeroMedia } from "@/lib/media";
+import { VIBEVI_EXPERIENCES, VIBEVI_GET_LISTED } from "@/lib/vibevi-media";
 import { serializeJsonLd } from "@/lib/utils";
 
 const PAGE_VIEW_EVENTS: Partial<Record<ExperiencePillar["slug"], AnalyticsEventName>> = {
@@ -66,11 +69,10 @@ function getFeatureGrid(pillar: ExperiencePillar) {
     return {
       eyebrow: "Bite guide",
       title: "Eat where the island takes you.",
-      intro: "This is the food-magazine layer of VibeVI: hungry, waterfront, local, and honest about what still needs direct confirmation.",
+      intro: "Hungry, waterfront, local, and honest about what still needs direct confirmation.",
       items: BITE_FEATURES,
     };
   }
-
   if (pillar.slug === "culture") {
     return {
       eyebrow: "Culture guide",
@@ -79,34 +81,32 @@ function getFeatureGrid(pillar: ExperiencePillar) {
       items: CULTURE_FEATURES,
     };
   }
-
   if (pillar.slug === "adventure") {
     return {
       eyebrow: "Outdoor guide",
       title: "Get on the water, into the cove, or up the trail.",
-      intro: "Adventure on VibeVI should feel active, salty, and practical: snorkeling, sailing, diving, hiking, kayaking, Buck Island, park trails, and sunset water.",
+      intro: "Active, salty, and practical: snorkeling, sailing, diving, hiking, kayaking, Buck Island, park trails, and sunset water.",
       items: ADVENTURE_FEATURES,
     };
   }
-
   return {
     eyebrow: "Island guide",
     title: "Make the day feel like the place.",
-    intro: "A simple route into the experience: choose the feeling, choose the island, then confirm the details directly before you go.",
+    intro: "Choose the feeling, choose the island, then confirm the details directly before you go.",
     items: DEFAULT_FEATURES,
   };
 }
 
 function TrustFooterNotice({ pillar }: { pillar: ExperiencePillar }) {
   return (
-    <aside className="mt-20 rounded-[1.5rem] border border-white/10 bg-white/[0.035] p-6 text-sm leading-7 text-white/54">
-      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-sand/70">Trust note</p>
+    <VvCard className="mt-16 border-[#0797a6]/15 bg-[#e9fbf7] p-6 text-sm leading-7 text-[#315057]">
+      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#0b4b55]">Trust note</p>
       <p className="mt-3">
         VibeVI does not sell bookings, show live availability, invent reviews, or publish fake contact details.
         Demo and public-info protections remain active at profile level. For {pillar.name.toLowerCase()}, confirm
         current hours, prices, safety details, availability, event timing, and booking directly with the source or business.
       </p>
-    </aside>
+    </VvCard>
   );
 }
 
@@ -119,7 +119,14 @@ export function ExperiencePillarPage({
 }) {
   const pageEvent = PAGE_VIEW_EVENTS[pillar.slug];
   const featureGrid = getFeatureGrid(pillar);
-  const heroMedia = getExperienceHeroMedia(pillar.slug, pillar.name);
+  const vibeviExp = VIBEVI_EXPERIENCES[pillar.slug];
+  const heroResponsive = vibeviExp ?? {
+    desktop: "/media/vibevi/home/home-hero-desktop.webp",
+    mobile: "/media/vibevi/home/home-hero-mobile.webp",
+    alt: `Editorial ${pillar.name} discovery scene in the U.S. Virgin Islands`,
+    objectPosition: "center",
+  };
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -130,225 +137,211 @@ export function ExperiencePillarPage({
     })),
   };
 
+  const categoryChips = pillar.relatedCategories
+    .map((slug) => {
+      const category = getCategoryBySlug(slug);
+      if (!category) return null;
+      return { label: category.name, href: `/st-thomas/${slug}` };
+    })
+    .filter(Boolean) as { label: string; href: string }[];
+
   return (
     <>
       {pageEvent ? <AnalyticsEvent name={pageEvent} properties={{ pillar: pillar.slug }} /> : null}
       <AnalyticsEvent name="experience_pillar_viewed" properties={{ pillar: pillar.slug }} />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqJsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqJsonLd) }} />
 
-      <MediaBackdrop
-        media={{
-          ...heroMedia,
-          id: `experience-${pillar.slug}`,
-          label: pillar.name,
-        }}
-        overlay="hero"
-        priority
-        className="min-h-[min(76vh,780px)]"
-      >
-        <div className="hero-sun-orb !left-auto !right-[8%] !top-[10%] !opacity-40" aria-hidden />
-        <div className="section-shell flex min-h-[min(76vh,780px)] flex-col justify-end pb-12 pt-28 sm:pb-16">
-          <Link href="/" className="w-fit text-xs font-semibold text-white/48 transition hover:text-sand">
-            ← Back to VibeVI
-          </Link>
-          <div className="mt-8 max-w-5xl">
-            <p className="eyebrow-label">{pillar.eyebrow}</p>
-            <h1 className="display-type mt-5 max-w-5xl text-5xl font-semibold text-white sm:text-7xl lg:text-8xl">
-              {pillar.heroTitle}
-            </h1>
-            <p className="mt-6 max-w-3xl text-base leading-8 text-white/72 sm:text-lg">
-              {pillar.heroBody}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <ExperienceCTA pillar={pillar} placement="hero" />
-              <TrackedLink
-                href="/map"
-                eventName="plan_experience_clicked"
-                eventProperties={{ pillar: pillar.slug, placement: "hero_map" }}
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-sand/20 bg-sand/8 px-6 text-sm font-semibold text-sand backdrop-blur-md transition hover:border-coral/35 hover:bg-coral/10 hover:text-white"
-              >
-                See the island map
-              </TrackedLink>
-            </div>
-          </div>
-        </div>
-      </MediaBackdrop>
-
-      <main className="section-shell py-16 sm:py-24">
-        <section aria-labelledby="feature-grid">
-          <div className="max-w-3xl">
-            <p className="eyebrow-label">{featureGrid.eyebrow}</p>
-            <h2 id="feature-grid" className="display-type mt-4 text-3xl font-semibold text-white sm:text-5xl">
-              {featureGrid.title}
-            </h2>
-            <p className="mt-5 text-sm leading-7 text-white/58">{featureGrid.intro}</p>
-          </div>
-          <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {featureGrid.items.map(([title, body], index) => (
-              <article key={title} className="island-postcard-card rounded-[1.35rem] border border-sand/12 bg-[#062532] p-5">
-                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-sand/60">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <h3 className="mt-8 text-xl font-semibold tracking-[-0.04em] text-white">{title}</h3>
-                <p className="mt-3 text-sm leading-6 text-white/58">{body}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-20 grid gap-10 border-t border-white/8 pt-14 lg:grid-cols-[1fr_0.45fr]" aria-labelledby="island-aware">
-          <div>
-            <p className="eyebrow-label">Food, water, music — island by island</p>
-            <h2 id="island-aware" className="display-type mt-4 max-w-3xl text-3xl font-semibold text-white sm:text-5xl">
-              Same feeling, different shore.
-            </h2>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {pillar.islandRelevance.map((item) => (
-                <Link
-                  key={`${pillar.slug}-${item.island}`}
-                  href={item.href}
-                  className="island-postcard-card group rounded-[1.35rem] border border-white/9 bg-white/[0.035] p-5 transition hover:-translate-y-1 hover:border-sand/30"
+      <VvPage>
+        <ResponsiveHero media={heroResponsive} priority minHeight="min-h-[min(68vh,640px)]">
+          <div className="section-shell flex min-h-[inherit] flex-col justify-end pb-10 pt-24 sm:pb-14">
+            <Link href="/" className="w-fit text-xs font-semibold text-white/70 transition hover:text-white">
+              ← Back to VibeVI
+            </Link>
+            <div className="mt-6 max-w-4xl">
+              <VvEyebrow className="!text-[#7ee8df]">{pillar.eyebrow}</VvEyebrow>
+              <h1 className="font-display mt-4 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
+                {pillar.heroTitle}
+              </h1>
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg">
+                {pillar.heroBody}
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <ExperienceCTA
+                  pillar={pillar}
+                  placement="hero"
+                  className="!bg-white !text-[#0b4b55] hover:!bg-[#fff4d6]"
+                />
+                <TrackedLink
+                  href="/map"
+                  eventName="plan_experience_clicked"
+                  eventProperties={{ pillar: pillar.slug, placement: "hero_map" }}
+                  className="inline-flex min-h-11 items-center rounded-full border border-white/25 bg-white/12 px-5 text-sm font-semibold text-white backdrop-blur-sm"
                 >
-                  <p className="text-[10px] font-black uppercase tracking-[0.16em] text-sand/65">
-                    {ISLAND_MAP[item.island].name}
-                  </p>
-                  <p className="mt-5 text-sm leading-7 text-white/58">{item.angle}</p>
-                  <span className="mt-5 inline-flex text-sm font-semibold text-sand opacity-85">
-                    Open island route <span className="ml-2 transition group-hover:translate-x-1" aria-hidden>→</span>
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-          <PlanThisExperienceCard pillar={pillar} />
-        </section>
-
-        <section className="mt-20 border-t border-white/8 pt-14" aria-labelledby="related-guides">
-          <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
-            <div>
-              <p className="eyebrow-label">Keep exploring</p>
-              <h2 id="related-guides" className="display-type mt-4 text-3xl font-semibold text-white">
-                Follow the next island thread.
-              </h2>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {pillar.relatedCategories.map((categorySlug) => {
-                  const category = getCategoryBySlug(categorySlug);
-                  if (!category) return null;
-
-                  return (
-                    <Link
-                      key={categorySlug}
-                      href={`/st-thomas/${categorySlug}`}
-                      className="rounded-full border border-sand/18 bg-sand/7 px-3 py-1.5 text-xs font-semibold text-sand"
-                    >
-                      {category.name}
-                    </Link>
-                  );
-                })}
+                  See the island map
+                </TrackedLink>
               </div>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2">
+          </div>
+        </ResponsiveHero>
+
+        <main className="section-shell py-14 sm:py-20">
+          <section aria-labelledby="feature-grid">
+            <VvEyebrow>{featureGrid.eyebrow}</VvEyebrow>
+            <VvHeading id="feature-grid" className="mt-3 max-w-2xl text-3xl sm:text-4xl">
+              {featureGrid.title}
+            </VvHeading>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-[#496871]">{featureGrid.intro}</p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {featureGrid.items.map(([title, body], index) => (
+                <VvCard key={title} className="p-5">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#0797a6]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-6 text-lg font-semibold tracking-[-0.03em] text-[#173941]">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#496871]">{body}</p>
+                </VvCard>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-16 grid gap-8 lg:grid-cols-[1fr_0.42fr]" aria-labelledby="island-aware">
+            <div>
+              <VvEyebrow>Island relevance</VvEyebrow>
+              <VvHeading id="island-aware" className="mt-3 text-2xl sm:text-3xl">
+                Same feeling, different shore.
+              </VvHeading>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {pillar.islandRelevance.map((item) => (
+                  <Link
+                    key={`${pillar.slug}-${item.island}`}
+                    href={item.href}
+                    className="group rounded-[1.2rem] border border-[#0b4b55]/10 bg-white p-5 shadow-[0_8px_24px_rgba(11,75,85,0.06)] transition hover:-translate-y-0.5"
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#0797a6]">
+                      {ISLAND_MAP[item.island].name}
+                    </p>
+                    <p className="mt-4 text-sm leading-7 text-[#496871]">{item.angle}</p>
+                    <span className="mt-4 inline-flex text-sm font-semibold text-[#0b4b55]">
+                      Open island route <span className="ml-2 transition group-hover:translate-x-1" aria-hidden>→</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+            <PlanThisExperienceCard pillar={pillar} />
+          </section>
+
+          <section className="mt-16" aria-labelledby="planning-prompts">
+            <VvEyebrow>Before you go</VvEyebrow>
+            <VvHeading id="planning-prompts" className="mt-3 max-w-2xl text-2xl sm:text-3xl">
+              Ask the questions that make the day smoother.
+            </VvHeading>
+            <div className="mt-6 grid gap-4 lg:grid-cols-3">
+              {pillar.planningPrompts.map((prompt, index) => (
+                <VvCard key={prompt} className="p-6">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#0797a6]">
+                    0{index + 1}
+                  </span>
+                  <p className="mt-6 text-sm leading-7 text-[#496871]">{prompt}</p>
+                </VvCard>
+              ))}
+            </div>
+          </section>
+
+          <section className="mt-16" aria-labelledby="related-guides">
+            <VvEyebrow>Related categories</VvEyebrow>
+            <VvHeading id="related-guides" className="mt-3 text-2xl sm:text-3xl">
+              Follow the next island thread.
+            </VvHeading>
+            {categoryChips.length > 0 ? (
+              <FilterChipRail className="mt-4" chips={categoryChips} ariaLabel="Related categories" />
+            ) : null}
+            <div className="mt-6 grid gap-3 sm:grid-cols-2">
               {pillar.relatedGuides.map((guide) => (
                 <Link
                   key={guide.href}
                   href={guide.href}
-                  className="group rounded-[1.25rem] border border-white/10 bg-white/[0.035] p-5 transition hover:-translate-y-1 hover:border-sand/30"
+                  className="group rounded-[1.2rem] border border-[#0b4b55]/10 bg-white p-5 shadow-[0_8px_24px_rgba(11,75,85,0.06)] transition hover:-translate-y-0.5"
                 >
-                  <h3 className="font-semibold text-white group-hover:text-sand">{guide.label}</h3>
-                  <p className="mt-3 text-sm leading-6 text-white/52">{guide.description}</p>
+                  <h3 className="font-semibold text-[#173941] group-hover:text-[#0b4b55]">{guide.label}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#496871]">{guide.description}</p>
                 </Link>
               ))}
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section className="mt-20 border-t border-white/8 pt-14" aria-labelledby="experience-listings">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="eyebrow-label">Places to start</p>
-              <h2 id="experience-listings" className="display-type mt-4 text-3xl font-semibold text-white">
-                Browse published profiles for this vibe.
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-7 text-white/52">
-                Use these as starting points, then confirm details directly before you go.
-              </p>
+          <section className="mt-16" aria-labelledby="experience-listings">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <VvEyebrow>Places to start</VvEyebrow>
+                <VvHeading id="experience-listings" className="mt-3 text-2xl sm:text-3xl">
+                  Browse published profiles for this vibe.
+                </VvHeading>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-[#496871]">
+                  Use these as starting points, then confirm details directly before you go.
+                </p>
+              </div>
+              <VvButtonSecondary href={`/search?vibe=${pillar.slug}`}>Search this vibe ↗</VvButtonSecondary>
             </div>
-            <Link
-              href={`/search?vibe=${pillar.slug}`}
-              className="w-fit rounded-full border border-sand/20 bg-sand/7 px-4 py-2 text-sm font-semibold text-sand"
-            >
-              Search this vibe ↗
-            </Link>
-          </div>
-          {businesses.length > 0 ? (
-            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {businesses.slice(0, 6).map((business) => (
-                <BusinessPreviewCard
-                  key={business.id}
-                  business={business}
-                  islandSlug={CODE_TO_SLUG[business.island]}
-                  launchPreview
-                />
+            {businesses.length > 0 ? (
+              <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {businesses.slice(0, 6).map((business) => (
+                  <ListingCard
+                    key={business.id}
+                    business={business}
+                    islandSlug={CODE_TO_SLUG[business.island]}
+                  />
+                ))}
+              </div>
+            ) : (
+              <VvCard className="mt-8 p-8 text-sm text-[#496871]">
+                Real inventory for this experience is being assembled. No real businesses are invented to fill the gap.
+              </VvCard>
+            )}
+          </section>
+
+          <section className="mt-16">
+            <BookingIntentPanel pillar={pillar} />
+          </section>
+
+          <section className="mt-16" aria-labelledby="experience-faq">
+            <VvEyebrow>Straight answers</VvEyebrow>
+            <VvHeading id="experience-faq" className="mt-3 text-2xl sm:text-3xl">
+              Plan with clear expectations.
+            </VvHeading>
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+              {pillar.faq.map((item) => (
+                <VvCard key={item.question} className="p-6">
+                  <h3 className="font-semibold text-[#173941]">{item.question}</h3>
+                  <p className="mt-3 text-sm leading-7 text-[#496871]">{item.answer}</p>
+                </VvCard>
               ))}
             </div>
-          ) : (
-            <div className="mt-8 rounded-[1.4rem] border border-white/9 bg-white/[0.03] p-8 text-sm text-white/52">
-              Real inventory for this experience is being assembled. No real businesses are invented to fill the gap.
-            </div>
-          )}
-        </section>
+          </section>
 
-        <section className="mt-20 border-t border-white/8 pt-14" aria-labelledby="planning-prompts">
-          <p className="eyebrow-label">Before you go</p>
-          <h2 id="planning-prompts" className="display-type mt-4 max-w-3xl text-3xl font-semibold text-white">
-            Ask the questions that make the day smoother.
-          </h2>
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
-            {pillar.planningPrompts.map((prompt, index) => (
-              <article key={prompt} className="island-postcard-card rounded-[1.3rem] border border-sand/12 bg-[#062532] p-6">
-                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-sand/60">0{index + 1}</span>
-                <p className="mt-8 text-sm leading-7 text-white/60">{prompt}</p>
-              </article>
+          <TrustFooterNotice pillar={pillar} />
+
+          <EditorialBand
+            media={VIBEVI_GET_LISTED.hero}
+            title="Local operators belong on the board."
+            body="Captains, chefs, bartenders, makers, and wellness providers can register interest in a VibeVI listing."
+            ctaLabel="Get listed"
+            ctaHref="/get-listed"
+          />
+
+          <nav className="mt-10 flex flex-wrap gap-2" aria-label="Continue experience discovery">
+            {CORE_CATEGORIES.map((category) => (
+              <Link
+                key={category.slug}
+                href={`/st-thomas/${category.slug}`}
+                className="rounded-full border border-[#0b4b55]/12 bg-white px-4 py-2 text-sm text-[#496871] transition hover:border-[#0797a6]/30 hover:bg-[#e9fbf7]"
+              >
+                {category.name}
+              </Link>
             ))}
-          </div>
-        </section>
-
-        <section className="mt-20 border-t border-white/8 pt-14">
-          <BookingIntentPanel pillar={pillar} />
-        </section>
-
-        <section className="mt-20 border-t border-white/8 pt-14" aria-labelledby="experience-faq">
-          <p className="eyebrow-label">Straight answers</p>
-          <h2 id="experience-faq" className="display-type mt-4 text-3xl font-semibold text-white">
-            Plan with clear expectations.
-          </h2>
-          <div className="mt-8 grid gap-4 lg:grid-cols-2">
-            {pillar.faq.map((item) => (
-              <article key={item.question} className="glass-luminous rounded-[1.3rem] p-6">
-                <h3 className="font-semibold text-white">{item.question}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/56">{item.answer}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <TrustFooterNotice pillar={pillar} />
-
-        <nav className="mt-16 flex flex-wrap gap-2 border-t border-white/8 pt-8" aria-label="Continue experience discovery">
-          {CORE_CATEGORIES.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/st-thomas/${category.slug}`}
-              className="rounded-full border border-white/9 bg-white/[0.03] px-4 py-2 text-sm text-white/58 transition hover:border-sand/25 hover:text-sand"
-            >
-              {category.name}
-            </Link>
-          ))}
-        </nav>
-      </main>
+          </nav>
+        </main>
+      </VvPage>
     </>
   );
 }

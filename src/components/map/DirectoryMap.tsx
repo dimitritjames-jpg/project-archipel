@@ -42,30 +42,29 @@ export function DirectoryMap({ className, height = 480 }: DirectoryMapProps) {
   if (!token) {
     return (
       <div
-        className={`topographic-field reef-grid relative flex min-h-[380px] items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-[#07182c] p-8 text-center ${className ?? ""}`}
+        className={`relative flex min-h-[380px] items-center justify-center overflow-hidden rounded-2xl border border-[#0b4b55]/10 bg-[#e9fbf7] p-8 text-center ${className ?? ""}`}
         style={{ height }}
         role="img"
         aria-label="Island map preview; interactive Mapbox view is not configured"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(55,234,217,0.14),transparent_42%)]" />
         <div className="relative max-w-md">
-          <span className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-aqua/20 bg-aqua/7">
-            <span className="relative h-8 w-8 rounded-full border border-aqua/25">
-              <span className="absolute left-2 top-2 h-2 w-2 rounded-full bg-aqua shadow-[0_0_12px_#37ead9]" />
-              <span className="absolute bottom-1.5 right-2 h-1.5 w-1.5 rounded-full bg-coral shadow-[0_0_10px_#ff7968]" />
+          <span className="mx-auto grid h-16 w-16 place-items-center rounded-full border border-[#0797a6]/25 bg-white">
+            <span className="relative h-8 w-8 rounded-full border border-[#0797a6]/30">
+              <span className="absolute left-2 top-2 h-2 w-2 rounded-full bg-[#0797a6]" />
+              <span className="absolute bottom-1.5 right-2 h-1.5 w-1.5 rounded-full bg-[#ff7968]" />
             </span>
           </span>
-          <p className="eyebrow-label mt-6">Island map preview</p>
-          <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-archipel-white">
+          <p className="mt-6 text-xs font-semibold uppercase tracking-[0.16em] text-[#0797a6]">Island map preview</p>
+          <h3 className="mt-3 text-2xl font-semibold tracking-[-0.04em] text-[#173941]">
             See the islands as one connected day.
           </h3>
-          <p className="mt-3 text-sm leading-relaxed text-archipel-white/55">
+          <p className="mt-3 text-sm leading-relaxed text-[#496871]">
             Find what&apos;s nearby, then follow the water, road, or ferry. Search
             and island pages are available while the full interactive view is prepared.
           </p>
           <Link
             href="/search"
-            className="mt-6 inline-flex min-h-11 items-center rounded-full bg-aqua px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#78f7eb]"
+            className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#0b4b55] px-5 text-sm font-bold text-white"
           >
             Find a place
           </Link>
@@ -76,7 +75,7 @@ export function DirectoryMap({ className, height = 480 }: DirectoryMapProps) {
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border border-white/10 ${className ?? ""}`}
+      className={`overflow-hidden rounded-2xl border border-[#0b4b55]/10 ${className ?? ""}`}
       style={{ height, width: "100%" }}
     >
       <Map
