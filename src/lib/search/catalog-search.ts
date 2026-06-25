@@ -5,8 +5,8 @@ import {
   getExpandedSearchTerms,
   getGuideShortcuts,
   guideShortcutToSearchFields,
-  isGuideStyleQuery,
   normalizeSearchText,
+  shouldPrependGuideShortcuts,
   type GuideShortcut,
 } from "@/lib/search/query-expansion";
 
@@ -28,7 +28,9 @@ const SCORE_NAME = 80;
 const SCORE_CATEGORY = 60;
 const SCORE_ISLAND = 40;
 const SCORE_DESCRIPTION = 20;
-const SCORE_GUIDE = 15;
+const SCORE_DESCRIPTION_WEAK = 6;
+const SCORE_UTILITY = 110;
+const SCORE_GUIDE = 95;
 
 const CATEGORY_BOOSTS: Record<string, string[]> = {
   night: ["nightlife-rhythm"],
@@ -36,7 +38,26 @@ const CATEGORY_BOOSTS: Record<string, string[]> = {
   wellness: ["wellness-spas"],
   shops: ["local-provisions"],
   "local shops": ["local-provisions"],
-  ferry: ["local-provisions"],
+};
+
+const BEACH_FRIENDLY_CATEGORIES = new Set([
+  "excursions-charters",
+  "indulgent-dining",
+  "nightlife-rhythm",
+  "boutique-stays",
+]);
+
+const FOOD_FRIENDLY_CATEGORIES = new Set([
+  "indulgent-dining",
+  "excursions-charters",
+]);
+
+type MatchTiers = {
+  name: number;
+  slug: number;
+  category: number;
+  island: number;
+  description: number;
 };
 
 function getIslandLabel(code: IslandCode): string {
@@ -121,54 +142,156 @@ function businessSearchFields(business: PublishedBusinessRow): {
   };
 }
 
-function scoreBusinessMatch(
+function termMatchesText(term: string, text: string): boolean {
+  if (term.length <= 2) {
+    return false;
+  }
+
+  return text.includes(term);
+}
+
+function termMatchesIsland(
+  term: string,
+  fields: ReturnType<typeof businessSearchFields>,
+): boolean {
+  if (term.length <= 2) {
+    return fields.islandCode === term;
+  }
+
+  return (
+    fields.islandCode.includes(term) ||
+    fields.islandSlug.includes(term) ||
+    fields.islandName.includes(term)
+  );
+}
+
+function computeMatchTiers(
   business: PublishedBusinessRow,
   normalizedQuery: string,
   terms: string[],
-): number {
+): MatchTiers {
   const fields = businessSearchFields(business);
-  let score = 0;
+  const tiers: MatchTiers = {
+    name: 0,
+    slug: 0,
+    category: 0,
+    island: 0,
+    description: 0,
+  };
 
   if (fields.name === normalizedQuery) {
-    score = Math.max(score, SCORE_NAME_EXACT);
-  }
-
-  if (fields.name.includes(normalizedQuery)) {
-    score = Math.max(score, SCORE_NAME);
+    tiers.name = SCORE_NAME_EXACT;
+  } else if (fields.name.includes(normalizedQuery)) {
+    tiers.name = SCORE_NAME;
   }
 
   for (const term of terms) {
     if (term.length < 2) continue;
 
-    if (fields.name.includes(term)) {
-      score = Math.max(score, SCORE_NAME);
+    if (
+      (term === normalizedQuery || term.length >= 3) &&
+      fields.name.includes(term)
+    ) {
+      tiers.name = Math.max(tiers.name, SCORE_NAME);
     }
 
-    if (fields.slug.includes(term)) {
-      score = Math.max(score, SCORE_NAME - 5);
-    }
-
-    if (fields.categorySlug.includes(term) || fields.categoryName.includes(term)) {
-      score = Math.max(score, SCORE_CATEGORY);
+    if (term.length >= 3 && fields.slug.includes(term)) {
+      tiers.slug = Math.max(tiers.slug, SCORE_NAME - 5);
     }
 
     if (
-      fields.islandCode.includes(term) ||
-      fields.islandSlug.includes(term) ||
-      fields.islandName.includes(term)
+      term.length >= 3 &&
+      (fields.categorySlug.includes(term) || fields.categoryName.includes(term))
     ) {
-      score = Math.max(score, SCORE_ISLAND);
+      tiers.category = Math.max(tiers.category, SCORE_CATEGORY);
+    }
+
+    if (termMatchesIsland(term, fields)) {
+      tiers.island = Math.max(tiers.island, SCORE_ISLAND);
     }
 
     if (
-      fields.description.includes(term) ||
-      fields.address.includes(term) ||
-      fields.sourceUrls.includes(term)
+      termMatchesText(term, fields.description) ||
+      termMatchesText(term, fields.address) ||
+      termMatchesText(term, fields.sourceUrls)
     ) {
-      score = Math.max(score, SCORE_DESCRIPTION);
+      tiers.description = Math.max(tiers.description, SCORE_DESCRIPTION);
     }
   }
 
+  return tiers;
+}
+
+function hasStrongMatch(tiers: MatchTiers): boolean {
+  return tiers.name > 0 || tiers.slug > 0 || tiers.category > 0 || tiers.island > 0;
+}
+
+function applyDescriptionNoisePenalty(
+  business: PublishedBusinessRow,
+  normalizedQuery: string,
+  tiers: MatchTiers,
+): number {
+  if (hasStrongMatch(tiers) || tiers.description === 0) {
+    return Math.max(tiers.name, tiers.slug, tiers.category, tiers.island, tiers.description);
+  }
+
+  const fields = businessSearchFields(business);
+  const categorySlug = business.category?.slug ?? "";
+
+  if (normalizedQuery === "ferry") {
+    if (fields.name.includes("ferry") || fields.slug.includes("ferry")) {
+      return Math.max(tiers.description, SCORE_NAME);
+    }
+    return 0;
+  }
+
+  if (normalizedQuery === "water island") {
+    if (
+      business.island === "WI" ||
+      fields.slug.includes("ferry") ||
+      fields.slug.includes("day-trip") ||
+      fields.name.includes("water island")
+    ) {
+      return Math.max(tiers.description, SCORE_ISLAND);
+    }
+    return 0;
+  }
+
+  if (normalizedQuery === "beach" || normalizedQuery === "beaches") {
+    if (fields.name.includes("beach") || fields.name.includes("bay")) {
+      return Math.max(tiers.description, SCORE_NAME);
+    }
+    if (BEACH_FRIENDLY_CATEGORIES.has(categorySlug)) {
+      return Math.max(tiers.description, SCORE_CATEGORY - 10);
+    }
+    return SCORE_DESCRIPTION_WEAK;
+  }
+
+  if (normalizedQuery === "food") {
+    if (FOOD_FRIENDLY_CATEGORIES.has(categorySlug)) {
+      return Math.max(tiers.description, SCORE_CATEGORY);
+    }
+    if (categorySlug === "nightlife-rhythm" || categorySlug === "local-provisions") {
+      return SCORE_DESCRIPTION_WEAK;
+    }
+  }
+
+  return tiers.description;
+}
+
+function scoreBusinessMatch(
+  business: PublishedBusinessRow,
+  normalizedQuery: string,
+  terms: string[],
+): number {
+  const tiers = computeMatchTiers(business, normalizedQuery, terms);
+  let score = applyDescriptionNoisePenalty(business, normalizedQuery, tiers);
+
+  if (score <= 0) {
+    return 0;
+  }
+
+  const fields = businessSearchFields(business);
   const categoryBoosts = CATEGORY_BOOSTS[normalizedQuery] ?? [];
   if (
     business.category?.slug &&
@@ -181,8 +304,17 @@ function scoreBusinessMatch(
     score += 25;
   }
 
-  if (normalizedQuery === "wellness" && business.category?.slug === "wellness-spas") {
-    score = Math.max(score, 90);
+  if (normalizedQuery === "wellness") {
+    if (business.category?.slug === "wellness-spas") {
+      score = Math.max(score, 90);
+    } else if (
+      !fields.name.includes("wellness") &&
+      !fields.name.includes("spa") &&
+      !fields.name.includes("garden") &&
+      !fields.name.includes("botanical")
+    ) {
+      return 0;
+    }
   }
 
   if (normalizedQuery === "water island" && business.island === "WI") {
@@ -193,6 +325,29 @@ function scoreBusinessMatch(
     score = Math.max(score, 85);
   }
 
+  if (normalizedQuery === "food" && business.category?.slug === "indulgent-dining") {
+    score = Math.max(score, 75);
+  }
+
+  if (
+    (normalizedQuery === "beach" || normalizedQuery === "beaches") &&
+    (fields.name.includes("beach") || fields.name.includes("bay"))
+  ) {
+    score = Math.max(score, 88);
+  }
+
+  if (normalizedQuery === "cruise") {
+    if (
+      fields.description.includes("cruise") ||
+      fields.name.includes("cruise") ||
+      business.category?.slug === "excursions-charters"
+    ) {
+      score = Math.max(score, hasStrongMatch(tiers) ? score : SCORE_CATEGORY);
+    } else if (!hasStrongMatch(tiers)) {
+      return 0;
+    }
+  }
+
   return score;
 }
 
@@ -201,6 +356,10 @@ function scoreGuideMatch(
   normalizedQuery: string,
   terms: string[],
 ): number {
+  if (shortcut.categoryName === "Utility") {
+    return SCORE_UTILITY;
+  }
+
   const fields = guideShortcutToSearchFields(shortcut).map(normalizeSearchText);
   let score = 0;
 
@@ -210,8 +369,8 @@ function scoreGuideMatch(
     }
   }
 
-  if (isGuideStyleQuery(normalizedQuery)) {
-    score = Math.max(score, SCORE_GUIDE + 10);
+  if (shouldPrependGuideShortcuts(normalizedQuery)) {
+    score = Math.max(score, SCORE_GUIDE);
   }
 
   return score;
@@ -233,12 +392,14 @@ export function searchPublicInfoCatalog(query: string): LocalSearchResult[] {
     }
   }
 
-  const guideScores = getGuideShortcuts(query)
+  const guideResults = getGuideShortcuts(query)
     .map((shortcut) => ({
       shortcut,
       score: scoreGuideMatch(shortcut, normalizedQuery, terms),
     }))
-    .filter((entry) => entry.score > 0);
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score || a.shortcut.name.localeCompare(b.shortcut.name))
+    .map(({ shortcut }) => guideToSearchResult(shortcut));
 
   const listingResults = Array.from(listingScores.values())
     .sort((a, b) => b.score - a.score || a.business.name.localeCompare(b.business.name))
@@ -253,11 +414,7 @@ export function searchPublicInfoCatalog(query: string): LocalSearchResult[] {
       }),
     );
 
-  const guideResults = guideScores
-    .sort((a, b) => b.score - a.score || a.shortcut.name.localeCompare(b.shortcut.name))
-    .map(({ shortcut }) => guideToSearchResult(shortcut));
-
-  if (isGuideStyleQuery(normalizedQuery) && guideResults.length > 0) {
+  if (shouldPrependGuideShortcuts(normalizedQuery) && guideResults.length > 0) {
     const merged = [...guideResults];
     const seen = new Set(merged.map((result) => result.id));
 

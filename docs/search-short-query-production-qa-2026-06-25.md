@@ -438,3 +438,62 @@ All success targets met. No UI/design changes. Guide shortcuts render in existin
 |------|---------|
 | `scripts/_qa-catalog-fallback-retest.json` | Raw Playwright output (`9f741e4` P1 re-test) |
 
+---
+
+## P2 Search Refinement Plan / Results
+
+**Branch:** `feat/vibevi-search-refinements-p2`  
+**Files:** `src/lib/search/catalog-search.ts`, `src/lib/search/query-expansion.ts`
+
+### Scoring changes
+
+| Change | Detail |
+|--------|--------|
+| **Tiered matching** | Separate name / slug / category / island / description scores before final rank |
+| **Description-only penalty** | Weak or zero score when query only hits description/source for ferry, water island, beach, food |
+| **Short-term guard** | Terms ≤2 chars (e.g. `wi`) no longer match inside unrelated words like `usvi` or `brewing` |
+| **Name match guard** | Name substring matches require term length ≥3 unless term equals full normalized query |
+| **Ferry noise cut** | Removed `local-provisions` category boost on `ferry`; description-only ferry mentions excluded |
+| **Food noise cut** | Breweries/museums capped when `food` intent only matches description |
+| **Wellness honesty** | Non-`wellness-spas` listings excluded unless name contains spa/garden/wellness |
+| **Water island focus** | Off-island description-only mentions excluded; WI listings boosted |
+
+### Utility shortcut changes
+
+| Query | New / improved shortcuts (prepended) |
+|-------|----------------------------------------|
+| `ferry` | `/ferry`, `/st-thomas/ferry-schedule`, `/st-john/ferry-schedule`, `/water-island/day-trip` |
+| `cruise` | `/cruise-day`, `/experiences/cruise-day`, `/st-thomas/cruise-schedule`, Havensight + Crown Bay port guides |
+| `things to do` | Added `/water-island/day-trip` to existing island guides + adventure experience |
+
+Shortcuts use existing `LocalSearchResult` shape with `categoryName: Utility` — no UI change.
+
+### Local QA before/after (noisy queries)
+
+| Query | P1 top results | P2 top results |
+|-------|----------------|----------------|
+| `ferry` | Water Island Ferry; 81C Arts; museums | **USVI ferry board**; St. Thomas/St. John schedules; day trip; Water Island Ferry |
+| `cruise` | Big Beard's; Coral World; museum | **USVI cruise-day guide**; cruise schedule; port guides; cruise-day experience |
+| `water island` | Water Island Ferry; **Leatherback**; Dinghy's | Water Island Ferry; Dinghy's; Rachael's; VI Campground (**no Leatherback**) |
+| `food` | …; **Leatherback Brewing**; … | Food tours + indulgent dining only (**no brewery**) |
+| `wellness` | Magens Bay; Botanical Garden; **Tap Room** | Magens Bay; Botanical Garden only (**2 honest hits**) |
+
+### Local success targets
+
+| Metric | Result |
+|--------|--------|
+| HTTP 200 (catalog path) | Maintained — server action unchanged |
+| Useful / guide-supported | **24 / 24** |
+| Empty | **0 / 24** |
+
+### Remaining known limitations
+
+- `beach` — Magens Bay (wellness category) can appear for beach intent
+- `cruise` — utility paths first; live cruise schedules still not in search index
+- `wellness` — catalog has only 2 wellness-spas listings
+- `ferry` — 5 results after noise cut (utilities + Water Island Ferry); fewer but cleaner
+
+### Recommended next build (post-P2)
+
+**Stop search work.** Shift to **Get Listed / claim flow / business-owner conversion** — the repeatable destination business engine.
+
