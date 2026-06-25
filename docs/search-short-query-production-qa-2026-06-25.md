@@ -92,3 +92,103 @@ Playwright on `https://www.myvibevi.com/search` — all 24 queries returned **co
 - No invented listings, reviews, hours, or availability
 - Search returns **published** businesses only
 - Demo/noindex preview rows must stay out of public search
+
+---
+
+## Production Re-Test After 4e37207
+
+**Re-test date:** 2026-06-25  
+**Expected deploy:** `main` @ `4e37207` — *Fix directory search PostgREST filter by merging parallel ILIKE queries.*
+
+### 1. Vercel production deploy confirmation
+
+| Check | Result |
+|-------|--------|
+| GitHub `main` | `4e37207` |
+| Vercel – project-archipel | **Success** — deployment completed for `4e37207` |
+| Vercel – project-archipel-zwhn | **Success** — deployment completed for `4e37207` |
+| Production URL | `https://www.myvibevi.com` |
+
+**Conclusion:** Production is running commit `4e37207`. The PostgREST `.or()` code fix is deployed.
+
+### 2. Re-test method
+
+- Playwright on `https://www.myvibevi.com/search` — 24 visitor queries
+- Network capture on `charter`: server-action POST to `/search` → **HTTP 500** (digest `1213001334`, was `945124031` pre-fix)
+- Direct Supabase anon API test against production project `qjkhcxrtktmglpkslqyf.supabase.co`
+
+### 3. Root cause (post-deploy) — **not synonym-related**
+
+The ILIKE filter fix is deployed, but search **still fails** because production Supabase returns:
+
+```text
+Could not find the table 'public.businesses' in the schema cache
+```
+
+| Observation | Detail |
+|-------------|--------|
+| Business profiles | Load via **public-info catalog fallback** when Supabase row missing |
+| Directory search | **Supabase-only** — throws on missing table → HTTP 500 |
+| Published row count (prod Supabase) | **0 / table missing** |
+| Catalog in repo | 52 approved public-info listings available for fallback |
+
+**Stop condition met:** Production still returns **500**. Do **not** proceed with synonym expansion until search returns valid responses.
+
+### 4. 24-query re-test results (production)
+
+| Metric | Result |
+|--------|--------|
+| **HTTP 500 on search action** | **24 / 24** (empty-state UI shown; no listings) |
+| **Useful results** | **0 / 24** |
+| **Pass (success criteria)** | **0 / 24** |
+
+| Query | HTTP | Count | Top 5 | Sense | Notes |
+|-------|------|-------|-------|-------|-------|
+| beach | 500 | 0 | — | — | Empty state |
+| beaches | 500 | 0 | — | — | Empty state |
+| boat | 500 | 0 | — | — | Empty state |
+| charter | 500 | 0 | — | — | Empty state |
+| snorkel | 500 | 0 | — | — | Empty state |
+| food | 500 | 0 | — | — | Empty state |
+| restaurant | 500 | 0 | — | — | Empty state |
+| bite | 500 | 0 | — | — | Empty state |
+| bar | 500 | 0 | — | — | Empty state |
+| night | 500 | 0 | — | — | Empty state |
+| nightlife | 500 | 0 | — | — | Empty state |
+| family | 500 | 0 | — | — | Empty state |
+| cruise | 500 | 0 | — | — | Empty state |
+| ferry | 500 | 0 | — | — | Empty state |
+| st thomas | 500 | 0 | — | — | Empty state |
+| st john | 500 | 0 | — | — | Empty state |
+| st croix | 500 | 0 | — | — | Empty state |
+| water island | 500 | 0 | — | — | Empty state |
+| romantic | 500 | 0 | — | — | Empty state |
+| rainy day | 500 | 0 | — | — | Empty state |
+| wellness | 500 | 0 | — | — | Empty state |
+| shops | 500 | 0 | — | — | Empty state |
+| local shops | 500 | 0 | — | — | Empty state |
+| things to do | 500 | 0 | — | — | Empty state |
+
+### 5. Simulated results (if data were searchable)
+
+Catalog ILIKE simulation (52 public-info listings) unchanged from baseline — **14 / 24** would return hits once search has a data source. See per-query table above.
+
+### 6. Recommended next patch (search-only, **not** synonyms)
+
+**Priority order:**
+
+1. **P0 — Production data path** (choose one):
+   - Run Supabase migrations + seed `public.businesses` on `qjkhcxrtktmglpkslqyf`, **or**
+   - Add **catalog fallback** in `searchLocalBusinesses` (mirror `fetchPublishedBusiness` pattern) when Supabase errors or returns empty
+2. **P0 — Verify** re-run this 24-query matrix; target HTTP 200 and non-zero hits for `charter`, `beach`, `restaurant`
+3. **P1 — Synonym/category/island expansion** — only after P0 passes
+
+**Do not:** UI redesign, synonym map, or design-branch work until search action returns 200.
+
+### 7. Artifacts
+
+| File | Purpose |
+|------|---------|
+| `scripts/_qa-search-retest-4e37207.json` | Raw Playwright re-test output |
+| `scripts/_test-prod-supabase-search.mjs` | Direct Supabase API verification |
+
