@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { env } from "@/lib/env";
 import { CODE_TO_SLUG, ISLAND_SLUGS } from "@/lib/islands";
 import { CORE_CATEGORIES } from "@/lib/categories";
-import { FEATURED_EXPERIENCE_PILLARS } from "@/lib/experience-pillars";
+import { PUBLIC_EXPERIENCE_PILLAR_SLUGS } from "@/lib/experience-pillars";
 import { PUBLIC_INFO_BUSINESSES } from "@/lib/businesses/public-info-catalog";
 import { PUBLIC_FERRY_GUIDE_SLUGS } from "@/lib/transit/ferry-routes";
 
@@ -53,7 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  for (const slug of FEATURED_EXPERIENCE_PILLARS) {
+  for (const slug of PUBLIC_EXPERIENCE_PILLAR_SLUGS) {
     entries.push({
       url: `${siteUrl}/experiences/${slug}`,
       lastModified: now,

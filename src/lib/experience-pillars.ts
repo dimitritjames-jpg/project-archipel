@@ -209,77 +209,152 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
     slug: "nightlife",
     name: "Nightlife",
     eyebrow: "Music · bars · harbor nights",
-    shortDescription: "Late-night music, beach bars, harbor nights, and safe return planning.",
+    shortDescription:
+      "Late-night music, beach bars, harbor nights, rum rooms, and safe return planning across the USVI.",
     heroTitle: "Find the after-dark current.",
-    heroBody: "Nightlife pages will grow from verified bars, music rooms, and late-night food.",
-    islandRelevance: [{ island: "st-thomas", angle: "The strongest launch nightlife path.", href: "/st-thomas/nightlife-rhythm" }],
+    heroBody:
+      "Steel pan, soca, reggae, DJs, live bands, waterfront tables, and the slow walk back under harbor lights. VibeVI routes you to verified nightlife and dining profiles when available—never live event feeds or instant reservations.",
+    islandRelevance: [
+      { island: "st-thomas", angle: "Red Hook, Charlotte Amalie harbor, and cruise-adjacent evening routes.", href: "/st-thomas/nightlife-rhythm" },
+      { island: "st-croix", angle: "Christiansted and Frederiksted evenings with food, music, and boardwalk rhythm.", href: "/st-croix/nightlife-rhythm" },
+      { island: "st-john", angle: "Cruz Bay compact nights tied to ferry returns and beach-day endings.", href: "/st-john/indulgent-dining" },
+      { island: "water-island", angle: "Day-trip visitors should plan the return ferry before late-night options on St. Thomas.", href: "/water-island/day-trip" },
+    ],
     relatedCategories: ["nightlife-rhythm", "indulgent-dining"],
-    relatedGuides: [{ href: "/st-thomas/things-to-do", label: "St. Thomas field guide", description: "Place nightlife inside a full island day." }],
+    relatedGuides: [
+      { href: "/st-thomas/things-to-do", label: "St. Thomas field guide", description: "Place nightlife inside a full island day." },
+      { href: "/experiences/culinary", label: "Culinary routes", description: "Connect dinner, beach bars, and late bites." },
+      { href: "/experiences/culture", label: "Culture & rhythm", description: "Music roots, Carnival energy, and maker culture." },
+    ],
     suggestedCta: { label: "Browse nightlife", href: "/st-thomas/nightlife-rhythm", intent: "experience_planning" },
     bookingReadinessLevel: "discovery",
     trustStatus: "launch-preview",
     gradient: "from-fuchsia-500/45 via-indigo-950 to-violet-500/40",
-    planningPrompts: ["Confirm hours, music, cover, dress expectations, and return transport directly."],
-    faq: [{ question: "Is nightlife availability live?", answer: "No. Confirm current hours and events directly." }],
+    planningPrompts: [
+      "Which island are you on, and how are you getting home after midnight?",
+      "Confirm hours, music, cover, dress expectations, and ID requirements directly.",
+      "Pair dinner, drinks, and music into one route instead of chasing three separate guesses.",
+    ],
+    faq: [
+      { question: "Is nightlife availability live on VibeVI?", answer: "No. Confirm current hours, events, and cover details directly with venues." },
+      { question: "Can I reserve tables through VibeVI?", answer: "No. Booking tools are coming later; contact verified businesses directly when contact paths are published." },
+    ],
   },
   wellness: {
     slug: "wellness",
     name: "Wellness",
     eyebrow: "Spa · reset · slow hours",
-    shortDescription: "Recovery, spa time, beach calm, and slower island days.",
+    shortDescription:
+      "Recovery, spa time, beach calm, and slower island days between bigger adventures.",
     heroTitle: "Reset between the bigger moves.",
-    heroBody: "Wellness will route visitors to verified spa, recovery, and calm-day listings as inventory grows.",
-    islandRelevance: [{ island: "st-thomas", angle: "Launch category path for wellness profiles.", href: "/st-thomas/wellness-spas" }],
+    heroBody:
+      "Wellness on VibeVI means spa appointments, calm beaches, soft mornings, and low-effort resets—not live class schedules or instant booking. Browse verified providers when published and confirm services directly.",
+    islandRelevance: [
+      { island: "st-thomas", angle: "Spa pavilions, Magens-adjacent calm, and resort-adjacent recovery routes.", href: "/st-thomas/wellness-spas" },
+      { island: "st-croix", angle: "Slower island pacing with reef-adjacent calm and town-based spa options.", href: "/st-croix/wellness-spas" },
+      { island: "st-john", angle: "Park-adjacent quiet days with ferry timing and Cruz Bay services.", href: "/st-john/wellness-spas" },
+      { island: "water-island", angle: "Compact beach-day resets with limited on-island services.", href: "/water-island/day-trip" },
+    ],
     relatedCategories: ["wellness-spas", "boutique-stays"],
-    relatedGuides: [{ href: "/guides/best-beaches-usvi", label: "Best beaches in the USVI", description: "Choose a softer beach day." }],
+    relatedGuides: [
+      { href: "/guides/best-beaches-usvi", label: "Best beaches in the USVI", description: "Choose a softer beach day." },
+      { href: "/experiences/adventure", label: "Adventure routes", description: "Balance active water days with recovery time." },
+    ],
     suggestedCta: { label: "Browse wellness", href: "/st-thomas/wellness-spas", intent: "business_contact" },
     bookingReadinessLevel: "discovery",
     trustStatus: "launch-preview",
     gradient: "from-emerald-300/45 via-teal-950 to-cyan-300/35",
-    planningPrompts: ["Confirm service menus, provider availability, location, and cancellation terms directly."],
-    faq: [{ question: "Can I book spa services on VibeVI?", answer: "No. Booking tools are coming later; contact verified providers directly." }],
+    planningPrompts: [
+      "Is this a spa appointment, beach calm day, or full digital detox?",
+      "Confirm service menus, provider credentials, location, and cancellation terms directly.",
+      "Build ferry or cruise return buffers around slower wellness days.",
+    ],
+    faq: [
+      { question: "Can I book spa services on VibeVI?", answer: "No. Booking tools are coming later; contact verified providers directly when contact paths are published." },
+      { question: "Are class schedules or spa availability live?", answer: "No. VibeVI does not show live wellness inventory." },
+    ],
   },
   stays: {
     slug: "stays",
     name: "Stays",
     eyebrow: "Hotels · villas · boutique bases",
-    shortDescription: "Stay ideas that help visitors choose a base by island rhythm.",
+    shortDescription:
+      "Boutique hotels, villas, and island bases chosen by rhythm—not a fake OTA checkout.",
     heroTitle: "Choose the base that matches the trip.",
-    heroBody: "Stay pages help frame the kind of base that fits the trip while lodging inventory and direct booking relationships mature.",
-    islandRelevance: [{ island: "st-thomas", angle: "Boutique-stay launch category path.", href: "/st-thomas/boutique-stays" }],
+    heroBody:
+      "Stays help visitors understand which island base fits ferry hops, reef days, food routes, and nightlife without pretending VibeVI books rooms or holds live availability.",
+    islandRelevance: [
+      { island: "st-thomas", angle: "Harbor access, Magens proximity, and cruise-adjacent convenience.", href: "/st-thomas/boutique-stays" },
+      { island: "st-croix", angle: "Wider island geography with town bases and reef-day pacing.", href: "/st-croix/boutique-stays" },
+      { island: "st-john", angle: "Cruz Bay convenience with national park and ferry-aware planning.", href: "/st-john/boutique-stays" },
+      { island: "water-island", angle: "Usually a day trip—not a lodging hub unless a verified stay is published.", href: "/water-island/day-trip" },
+    ],
     relatedCategories: ["boutique-stays"],
-    relatedGuides: [{ href: "/st-thomas/things-to-do", label: "Things to do in St. Thomas", description: "Understand the day routes around a potential base." }],
+    relatedGuides: [
+      { href: "/st-thomas/things-to-do", label: "Things to do in St. Thomas", description: "Understand day routes around a potential base." },
+      { href: "/ferry", label: "Ferry board", description: "Factor crossings into where you sleep." },
+    ],
     suggestedCta: { label: "Browse stays", href: "/st-thomas/boutique-stays", intent: "business_contact" },
     bookingReadinessLevel: "partner-leads-later",
     trustStatus: "launch-preview",
     gradient: "from-amber-300/40 via-indigo-950 to-sky-400/30",
-    planningPrompts: ["Confirm availability, terms, taxes, fees, and direct booking policies with the lodging provider."],
-    faq: [{ question: "Can I book lodging on VibeVI?", answer: "No. VibeVI is not a lodging booking engine in this phase." }],
+    planningPrompts: [
+      "Which island rhythm fits the trip: ferry hops, reef days, food nights, or slow reset?",
+      "Confirm availability, taxes, fees, minimum stays, and cancellation directly with the provider.",
+      "Do not assume Water Island or St. John logistics match a St. Thomas hotel mindset.",
+    ],
+    faq: [
+      { question: "Can I book lodging on VibeVI?", answer: "No. VibeVI is not a lodging booking engine in this phase." },
+      { question: "Are room rates and availability live?", answer: "No. Rates, inventory, and policies must be confirmed directly with lodging providers." },
+    ],
   },
   "local-shops": {
     slug: "local-shops",
     name: "Local Shops",
     eyebrow: "Makers · markets · provisions",
-    shortDescription: "Local provisions, makers, markets, and useful island stops.",
+    shortDescription:
+      "Local provisions, makers, markets, galleries, and useful island stops worth carrying home.",
     heroTitle: "Find the useful local stop.",
-    heroBody: "Local shops connect visitors to provisions, makers, gifts, and services without inventing inventory.",
-    islandRelevance: [{ island: "st-thomas", angle: "Launch path for local provision profiles.", href: "/st-thomas/local-provisions" }],
+    heroBody:
+      "Local shops are where visitors meet makers, provisions, art, and island services—without VibeVI inventing stock, hours, or prices.",
+    islandRelevance: [
+      { island: "st-thomas", angle: "Charlotte Amalie corridors, Red Hook stops, and cruise-day shopping context.", href: "/st-thomas/local-provisions" },
+      { island: "st-croix", angle: "Christiansted makers, Frederiksted provisions, and slower town browsing.", href: "/st-croix/local-provisions" },
+      { island: "st-john", angle: "Cruz Bay compact shopping tied to ferry arrivals.", href: "/st-john/local-provisions" },
+      { island: "water-island", angle: "Provision before the hop—services on-island are limited.", href: "/water-island/day-trip" },
+    ],
     relatedCategories: ["local-provisions"],
-    relatedGuides: [{ href: "/water-island/day-trip", label: "Water Island day trip", description: "Plan provisions before a smaller island hop." }],
+    relatedGuides: [
+      { href: "/experiences/culture", label: "Culture routes", description: "Markets, makers, and local rhythm." },
+      { href: "/water-island/day-trip", label: "Water Island day trip", description: "Plan provisions before a smaller island hop." },
+    ],
     suggestedCta: { label: "Browse local shops", href: "/st-thomas/local-provisions", intent: "business_contact" },
     bookingReadinessLevel: "discovery",
     trustStatus: "launch-preview",
     gradient: "from-lime-300/40 via-emerald-950 to-yellow-300/30",
-    planningPrompts: ["Confirm hours, stock, location, and contact details directly with the shop."],
-    faq: [{ question: "Are shop inventories live?", answer: "No. VibeVI does not show live retail inventory." }],
+    planningPrompts: [
+      "Are you shopping for provisions, gifts, art, or a practical island need?",
+      "Confirm hours, stock, location, and contact details directly with the shop.",
+      "Support local makers when you can—do not treat culture as a souvenir checklist.",
+    ],
+    faq: [
+      { question: "Are shop inventories live on VibeVI?", answer: "No. VibeVI does not show live retail inventory." },
+      { question: "Can I order or reserve products through VibeVI?", answer: "No. Contact businesses directly when verified contact paths are available." },
+    ],
   },
 };
 
+/** Priority pillars for homepage, sitemap emphasis, and launch marketing. */
 export const FEATURED_EXPERIENCE_PILLARS: ExperiencePillarSlug[] = [
   "adventure",
   "culture",
   "culinary",
   "cruise-day",
+];
+
+/** All routable experience pillars (featured + discovery-first secondary pillars). */
+export const PUBLIC_EXPERIENCE_PILLAR_SLUGS: ExperiencePillarSlug[] = [
+  ...EXPERIENCE_PILLAR_SLUGS,
 ];
 
 export function getExperiencePillar(slug: string) {

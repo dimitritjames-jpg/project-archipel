@@ -4,12 +4,11 @@ import { cn } from "@/lib/utils";
 
 const utilityLinks = [
   { href: "/guides/best-beaches-usvi", label: "Beach" },
-  { href: "/experiences/adventure", label: "Boat" },
-  { href: "/experiences/culinary", label: "Bite" },
-  { href: "/st-thomas/nightlife-rhythm", label: "Night" },
+  { href: "/experiences/adventure", label: "Adventure" },
+  { href: "/experiences/culinary", label: "Culinary" },
   { href: "/experiences/culture", label: "Culture" },
-  { href: "/#today-pulse", label: "Today" },
-  { href: "/#islands-heading", label: "Islands" },
+  { href: "/experiences/cruise-day", label: "Cruise" },
+  { href: "/experiences/nightlife", label: "Night" },
   { href: "/map", label: "Map" },
   { href: "/get-listed", label: "Get listed" },
 ] as const;

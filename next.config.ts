@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
     ],
   },
   transpilePackages: ["react-map-gl"],
+  async redirects() {
+    return [
+      { source: "/adventure", destination: "/experiences/adventure", permanent: true },
+      { source: "/culture", destination: "/experiences/culture", permanent: true },
+      { source: "/culinary", destination: "/experiences/culinary", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

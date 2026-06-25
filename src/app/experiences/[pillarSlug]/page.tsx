@@ -4,7 +4,7 @@ import { ExperiencePillarPage } from "@/components/experience/experience-pillar-
 import { fetchPublishedBusinessesByCategory } from "@/lib/businesses/queries";
 import {
   EXPERIENCE_PILLARS,
-  FEATURED_EXPERIENCE_PILLARS,
+  PUBLIC_EXPERIENCE_PILLAR_SLUGS,
   experiencePillarMetadata,
   getExperiencePillar,
   type ExperiencePillarSlug,
@@ -14,7 +14,7 @@ import { ISLAND_SLUGS, type IslandSlug } from "@/lib/islands";
 type Props = { params: Promise<{ pillarSlug: string }> };
 
 export function generateStaticParams() {
-  return FEATURED_EXPERIENCE_PILLARS.map((pillarSlug) => ({ pillarSlug }));
+  return PUBLIC_EXPERIENCE_PILLAR_SLUGS.map((pillarSlug) => ({ pillarSlug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ExperienceRoutePage({ params }: Props) {
   const { pillarSlug } = await params;
   const pillar = EXPERIENCE_PILLARS[pillarSlug as ExperiencePillarSlug];
-  if (!pillar || !FEATURED_EXPERIENCE_PILLARS.includes(pillar.slug)) notFound();
+  if (!pillar) notFound();
 
   const nestedBusinesses = await Promise.all(
     pillar.relatedCategories.flatMap((categorySlug) =>
