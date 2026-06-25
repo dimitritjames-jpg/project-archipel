@@ -242,3 +242,69 @@ Catalog ILIKE baseline (~14 / 24 simulated hits) still leaves weak/empty terms:
 
 Do not implement P1 until production re-test confirms HTTP 200 on all 24 queries.
 
+---
+
+## Production Re-Test After Catalog Fallback
+
+**Re-test date:** 2026-06-25  
+**Deployed commit:** `2c8b774` (merge of PR #3; includes `b4ca76d`)  
+**Vercel:** Production — **Success** on `project-archipel` and `project-archipel-zwhn`  
+**Endpoint:** `https://www.myvibevi.com/search`
+
+### Executive summary
+
+| Metric | Result |
+|--------|--------|
+| **P0a — HTTP 200** | **24 / 24** pass |
+| **P0b — core useful hits** | **6 / 6** pass (`beach`, `charter`, `restaurant`, `snorkel`, `ferry`, `water island`) |
+| **Useful results (any hits)** | **18 / 24** |
+| **Empty (valid 200)** | **6 / 24** |
+| **HTTP 500** | **0** |
+
+Catalog fallback is live. Supabase `public.businesses` remains missing on production; search falls back to the 52 approved public-info listings without throwing.
+
+### Per-query results (production, post-fallback)
+
+| Query | HTTP | Count | Top 5 | Sense | Notes |
+|-------|------|-------|-------|-------|-------|
+| beach | 200 | 12 | 1864 The Restaurant; Dinghy's Beach Bar & Grill; Estate Whim Museum; Leatherback Brewing; Lovango Resort & Beach Club | Partial | Some tangential (museum, brewery) |
+| beaches | 200 | 1 | Virgin Islands National Park | Weak | Only 1 hit — P1 synonym `beaches` → `beach` |
+| boat | 200 | 8 | Buck Island Reef NM; Caribbean Blue Boat Charters; Lime Out VI; Lovango Resort; Ocean Runner | Mostly | Good charter/discovery |
+| charter | 200 | 12 | Big Beard's; Buck Island Reef NM; BushTribe; Caribbean Blue Boat Charters; Caribbean Sea Adventures | Yes | P0b pass |
+| snorkel | 200 | 5 | BushTribe; Ocean Runner; On The Sea Charters; The VI Cat; VI Ecotours | Yes | P0b pass |
+| food | 200 | 8 | 1864; Flavors of St. Thomas Food Tours; Gladys' Cafe; Leatherback Brewing; Morgan's Mango | Mostly | Brewery noise |
+| restaurant | 200 | 5 | 1864; AMA at Cane Bay; Brew STX; Island Time Pub; Too.Chez | Yes | P0b pass |
+| bite | 200 | 1 | Duffy's Love Shack | Weak | P1 synonym `bite` → dining |
+| bar | 200 | 10 | Brew STX; Dinghy's Beach Bar; Lime Out VI; Maho Crossroads; On The Sea Charters | Mostly | Some charter noise |
+| night | 200 | 12 | 1864; Brew STX; Dinghy's; Duffy's; Island Time Pub | Broad | Mixed dining/nightlife — P1 boost nightlife category |
+| nightlife | 200 | 12 | Brew STX; Dinghy's; Duffy's; Island Time Pub; Leatherback Brewing | Mostly | Category slug `nightlife-rhythm` helps; still broad |
+| family | 200 | 0 | — | — | Empty — P1 vibe shortcut or category |
+| cruise | 200 | 3 | Big Beard's; Coral World; Pirates Treasure Museum | Partial | Not cruise schedules — utility link candidate |
+| ferry | 200 | 8 | 1864; Dinghy's; Island Time Pub; Lovango; Rachael's Rentals | Mixed | Restaurants mention ferry; Water Island Ferry in set — P0b pass |
+| st thomas | 200 | 12 | 81C Arts; Caribbean Blue Boat Charters; Coral World; Duffy's; Flavors of St. Thomas | Yes | Island field match works |
+| st john | 200 | 12 | 1864; Caribbean Blue Boat Charters; Kekoa Sailing; Lime Out VI; Lovango | Yes | Island field match works |
+| st croix | 200 | 12 | 1756 Grotto; AMA at Cane Bay; Big Beard's; Brew STX; Buck Island | Yes | Island field match works |
+| water island | 200 | 4 | Dinghy's; Rachael's Rentals; VI Campground; Water Island Ferry | Yes | P0b pass |
+| romantic | 200 | 0 | — | — | Empty — P1 mood/vibe shortcut |
+| rainy day | 200 | 0 | — | — | Empty — P1 guide shortcut |
+| wellness | 200 | 2 | Magens Bay Authority; St. George Village Botanical Garden | Weak | Tangential — P1 category `wellness-spas` |
+| shops | 200 | 0 | — | — | Empty — P1 category `local-provisions` |
+| local shops | 200 | 0 | — | — | Empty — P1 synonym → `local-provisions` |
+| things to do | 200 | 0 | — | — | Empty — P1 guide/island hub shortcuts |
+
+### P1 synonym/category/island expansion — now unblocked
+
+P0a and P0b are met. Recommended P1 order (search-only, no UI redesign):
+
+1. **Synonym map:** `bite` → culinary/dining; `beaches` → `beach`; `shops` / `local shops` → `local-provisions`
+2. **Category slug match:** `wellness`, `family`, refine `night` → `nightlife-rhythm`
+3. **No-results shortcuts:** `things to do`, `romantic`, `rainy day` → existing guides/vibe chips
+4. **Ranking cleanup:** reduce brewery/ferry noise on `beach`, `food`, `ferry`
+
+### Artifacts
+
+| File | Purpose |
+|------|---------|
+| `scripts/_qa-catalog-fallback-retest.json` | Raw Playwright re-test output (`2c8b774`) |
+| `scripts/qa-catalog-fallback-retest.mjs` | Reusable 24-query production matrix |
+
