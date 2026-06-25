@@ -25,14 +25,14 @@ export const USVI_MAP = {
 } as const;
 
 export const ARCHIPEL_MAP_PALETTE = {
-  water: "#0A192F",
-  land: "#1C252C",
-  topography: "#26343D",
-  roads: "#475569",
-  markerActive: "#10B981",
-  markerPremium: "#F59E0B",
-  markerInactive: "#64748B",
-  markerSelectedStroke: "#FFFFFF",
+  water: "#9ed4e8",
+  land: "#e8dcc8",
+  topography: "#c4b8a0",
+  roads: "#8a9a94",
+  markerActive: "#0797a6",
+  markerPremium: "#ff7968",
+  markerInactive: "#94a8ad",
+  markerSelectedStroke: "#0b4b55",
 } as const;
 
 export const ARCHIPEL_MAP_LAYERS = {

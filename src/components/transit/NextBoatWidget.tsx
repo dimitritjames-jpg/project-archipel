@@ -22,6 +22,9 @@ type NextBoatWidgetProps = {
   emptyLabel?: string;
 };
 
+const BRIGHT_WIDGET =
+  "pointer-events-auto min-h-[13.5rem] rounded-[1.25rem] border border-[#0b4b55]/10 bg-white p-4 shadow-[0_12px_40px_rgba(11,75,85,0.08)] sm:min-h-[14rem] sm:p-5";
+
 function CountdownUnit({
   value,
   label,
@@ -47,13 +50,13 @@ function CountdownUnit({
                 ? { duration: 0 }
                 : { type: "spring", stiffness: 420, damping: 32 }
             }
-            className="text-2xl font-semibold tabular-nums text-archipel-white"
+            className="text-2xl font-semibold tabular-nums text-[#173941]"
           >
             {padded}
           </motion.span>
         </AnimatePresence>
       </div>
-      <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-archipel-white/50">
+      <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-[#496871]">
         {label}
       </span>
     </div>
@@ -145,20 +148,20 @@ export function NextBoatWidget({
 
   return (
     <aside
-      className={`pointer-events-auto min-h-[13.5rem] rounded-2xl border border-white/20 bg-white/10 p-4 shadow-xl backdrop-blur-md sm:min-h-[14rem] sm:p-5 ${className ?? ""}`}
+      className={`${BRIGHT_WIDGET} ${className ?? ""}`}
       aria-live="polite"
       aria-label="Next boat countdown"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-emerald-400">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0797a6]">
             {eyebrow}
           </p>
-          <h3 className="mt-1 text-sm font-semibold text-archipel-white sm:text-base">
+          <h3 className="mt-1 text-sm font-semibold text-[#173941] sm:text-base">
             {route?.displayName ?? "Ferry route"}
           </h3>
         </div>
-        <span className="rounded-full border border-white/15 bg-white/5 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-archipel-white/70">
+        <span className="rounded-full border border-[#0b4b55]/10 bg-[#fffaf3] px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-[#496871]">
           AST
         </span>
       </div>
@@ -166,11 +169,11 @@ export function NextBoatWidget({
       <div className="mt-4 min-h-[4.5rem]">
         {!hydrated || loading ? (
           <div className="space-y-3" aria-hidden>
-            <div className="h-10 animate-pulse rounded-lg bg-white/10" />
-            <div className="h-3 w-2/3 animate-pulse rounded bg-white/10" />
+            <div className="h-10 animate-pulse rounded-lg bg-[#e9fbf7]" />
+            <div className="h-3 w-2/3 animate-pulse rounded bg-[#e9fbf7]" />
           </div>
         ) : error ? (
-          <p className="text-sm text-coral">{error}</p>
+          <p className="text-sm text-[#c45a4a]">{error}</p>
         ) : display?.type === "countdown" ? (
           <>
             <div className="flex items-end justify-center gap-2 sm:gap-3">
@@ -179,7 +182,7 @@ export function NextBoatWidget({
                 label="Hrs"
                 reduceMotion={reduceMotion ?? false}
               />
-              <span className="pb-5 text-xl font-semibold text-archipel-white/40">
+              <span className="pb-5 text-xl font-semibold text-[#94a8ad]">
                 :
               </span>
               <CountdownUnit
@@ -187,7 +190,7 @@ export function NextBoatWidget({
                 label="Min"
                 reduceMotion={reduceMotion ?? false}
               />
-              <span className="pb-5 text-xl font-semibold text-archipel-white/40">
+              <span className="pb-5 text-xl font-semibold text-[#94a8ad]">
                 :
               </span>
               <CountdownUnit
@@ -196,7 +199,7 @@ export function NextBoatWidget({
                 reduceMotion={reduceMotion ?? false}
               />
             </div>
-            <p className="mt-3 text-center text-xs text-archipel-white/65">
+            <p className="mt-3 text-center text-xs text-[#496871]">
               Departs{" "}
               {formatTime12h(
                 display.departure.overrideDepartureTime ??
@@ -206,18 +209,18 @@ export function NextBoatWidget({
             </p>
           </>
         ) : display?.type === "tomorrow" ? (
-          <p className="text-center text-sm font-medium text-archipel-white sm:text-base">
+          <p className="text-center text-sm font-medium text-[#173941] sm:text-base">
             {display.label}
           </p>
         ) : (
-          <p className="text-center text-sm text-archipel-white/70">
+          <p className="text-center text-sm text-[#496871]">
             {emptyLabel}
           </p>
         )}
       </div>
 
       {route && !loading && !error ? (
-        <p className="mt-4 border-t border-white/10 pt-3 text-[11px] leading-relaxed text-archipel-white/50">
+        <p className="mt-4 border-t border-[#0b4b55]/8 pt-3 text-[11px] leading-relaxed text-[#496871]">
           Source: {route.sourceName}
           {verifiedLabel ? ` · Verified ${verifiedLabel} AST` : null}
         </p>

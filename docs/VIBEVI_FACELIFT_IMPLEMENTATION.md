@@ -2,151 +2,171 @@
 
 **Branch:** `codex/vibevi-warm-caribbean-facelift`  
 **Rollback:** `checkpoint/pre-facelift-2026-06-25` (do not modify)  
-**Status:** Phase 2 complete — island portals, experiences, directories, profiles, map, get-listed
+**Status:** Final polish pass complete — ready for preview deployment review (not merged to `main`)
 
 ## Audit summary
 
 - **Stack:** Next.js 15 App Router, Tailwind v4, Supabase, Mapbox, provider-neutral analytics
 - **Facelift direction:** Bright cream/sand surfaces, editorial serif headlines, photo-led heroes, white cards, warm Caribbean tone
-- **Design reference:** `docs/facelift-renders/` (structural/layout reference; live site uses approved **bright** warm palette per design brief, not the dark mock backgrounds in early renders)
+- **Design reference:** `docs/facelift-renders/` (structural/layout reference; live site uses approved **bright** warm palette per design brief)
 
-## Media package status
+## Final polish pass summary
 
-**Official `vibevi_media_package_v1.zip`:** Installed at `public/media/vibevi/` (69 WebP assets + manifest).
+Completed a site-wide consistency sweep so public discovery pages share one cohesive VibeVI experience:
 
-**Reference renders:** `docs/facelift-renders/` — visual QA contact sheet + page mocks.
+1. **Legacy dark components** — `BookingIntentPanel`, `PlanThisExperienceCard`, `ExperienceCTA`, and availability CTAs now use `VvCard`, sea-glass/coral accents, and bright trust language.
+2. **Utility page shell** — New `utility-page-shell.tsx` powers ferry, cruise, guide, and island utility pages with `UtilityHero`, white info cards, chip links, and trust notes.
+3. **Transit widgets** — `NextBoatWidget` and `CrowdPredictor` use white card surfaces readable on cream backgrounds.
+4. **Map warmth** — `ARCHIPEL_MAP_PALETTE` updated to turquoise water / sand land; default Mapbox fallback switched to `light-v11`; markers use sea-glass (`#0797a6`) and coral (`#ff7968`).
+5. **Typography** — Documented decision below (no external font download).
 
-**Registry:** `src/lib/vibevi-media.ts` — islands, experiences, search, get-listed, listing placeholders.
-
-## Design system (Phase 2 additions)
+## Design system
 
 | Component | Path |
 |-----------|------|
 | `VvPage`, `VvCard`, `VvEyebrow`, `VvHeading`, buttons | `src/components/facelift/vv-ui.tsx` |
+| `UtilityPage`, `UtilityHero`, `UtilityLinkCard`, etc. | `src/components/facelift/utility-page-shell.tsx` |
 | `FilterChipRail` | `src/components/facelift/filter-chip-rail.tsx` |
 | `EditorialBand` | `src/components/facelift/editorial-band.tsx` |
 | `ListingCard` | `src/components/facelift/listing-card.tsx` |
 | `DirectoryHero` | `src/components/facelift/directory-hero.tsx` |
 | `IslandPortalLayout` | `src/components/facelift/island-portal-layout.tsx` |
 | `BusinessProfileTabs` | `src/components/facelift/business-profile-tabs.tsx` |
-| `BusinessProfileMapPreview` | `src/components/facelift/business-profile-map-preview.tsx` |
 | `MapRouteBoard` | `src/components/facelift/map-route-board.tsx` |
 | Phase 1 components | `responsive-hero`, `category-icon-rail`, `vibe-mood-grid`, `editorial-media-card`, `trust-badge` |
 
 ## Route completion checklist
 
-| Route | Status | Render reference |
-|-------|--------|------------------|
-| Homepage `/` | Done (Phase 1) | `01_homepage_redesign.png` |
-| Search `/search` | Done (Phase 1) | `02_find_move_search_redesign.png` |
-| St. Thomas `/st-thomas` | Done | `03_island_portal_redesign.png` |
-| St. John `/st-john` | Done | `03_island_portal_redesign.png` |
-| St. Croix `/st-croix` | Done | `03_island_portal_redesign.png` |
-| Water Island `/water-island` | Done | `03_island_portal_redesign.png` |
-| Experience pillars `/experiences/*` (8) | Done | `04_experience_guide_redesign.png` |
-| Category directories `/{island}/{category}` | Done | `05_category_directory_redesign.png` |
-| Business profiles | Done | `06_business_profile_redesign.png` |
-| Map `/map` | Done | `07_map_route_board_redesign.png` |
-| Get Listed `/get-listed` | Done | `08_get_listed_redesign.png` |
-| Ferry / cruise utility pages | Unchanged | Functional; visual pass deferred |
+| Route | Status |
+|-------|--------|
+| Homepage `/` | Done |
+| Search `/search` | Done |
+| Island portals (4) | Done |
+| Experience pillars (8) | Done |
+| Category directories | Done |
+| Business profiles | Done |
+| Map `/map` | Done |
+| Get Listed `/get-listed` | Done |
+| Ferry hub `/ferry` + route pages | Done (polish pass) |
+| Island ferry boards `/{island}/ferry-schedule` | Done (polish pass) |
+| Cruise hub `/cruise-day` + `/{island}/cruise-schedule` | Done (polish pass) |
+| Cruise port guides (Havensight, Crown Bay) | Done (polish pass) |
+| SEO guides `/guides/*` | Done (polish pass) |
+| Island utility guides (beaches, things-to-do, day-trip, etc.) | Done (polish pass) |
+| Pillar utility pages (Magens Bay, Buck Island, etc.) | Done (polish pass) |
+| Dashboard / sign-in | Unchanged (owner tools; out of public facelift scope) |
+
+## Typography decision
+
+**Chosen approach:** System editorial serif stack — no external font loading.
+
+- **Display / headlines:** `Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif` via `.font-display` in `globals.css` and Tailwind `--font-display`
+- **UI / body:** Geist Sans (already loaded via `next/font/google` in `layout.tsx`)
+- **Fraunces:** Not installed — Google Fonts fetch failed in build environment; no local `.woff2` files exist in repo. Adding remote Fraunces would reintroduce privacy/performance/build-stability risk without bundled files.
+- **Rationale:** Palatino/Georgia gives refined editorial headline feel on Windows/macOS without new dependencies.
+
+## Map marker / Mapbox decision
+
+| Layer | Current behavior | Config |
+|-------|------------------|--------|
+| Base style | `NEXT_PUBLIC_MAPBOX_STYLE_URL` if set; else `mapbox://styles/mapbox/light-v11` | Env |
+| Water / land override | `applyArchipelStyle()` paints warm turquoise water (`#9ed4e8`) and sand land (`#e8dcc8`) when studio layers exist; fallback palette scan on standard Mapbox layers | `src/lib/map/apply-archipel-style.ts` |
+| Business markers | GeoJSON circles — active `#0797a6`, premium `#ff7968`, inactive `#94a8ad`, selected stroke `#0b4b55` | `ARCHIPEL_MAP_PALETTE` in `usvi-map.ts` |
+| Clusters | Sea-glass fill, turquoise stroke | Same palette |
+| Custom PNG/SVG markers | Not implemented — would need sprite sheet or symbol layer + design assets |
+| Full custom Mapbox Studio style | Possible via `NEXT_PUBLIC_MAPBOX_STYLE_URL` pointing to a VibeVI-branded style | Ops / design follow-up |
+
+Map list/map mobile toggle preserved in `MapRouteBoard`.
 
 ## Media registry usage
 
-- **Island heroes:** `VIBEVI_ISLANDS` per slug (desktop/mobile WebP)
-- **Experience heroes:** `VIBEVI_EXPERIENCES` per pillar slug
-- **Search / map CTA band:** `VIBEVI_SEARCH.hero`
-- **Get Listed hero:** `VIBEVI_GET_LISTED.hero`
-- **Listing cards / missing listing media:** `getListingPlaceholder(categorySlug)` — never shown as real business photography
-- **Category rail / directory art:** `getCategoryMediaAsset()` bridged through `src/lib/media.ts`
+Unchanged from Phase 2 — all heroes and placeholders route through `src/lib/vibevi-media.ts` and `src/lib/media.ts`. Category placeholders never represent real business photography.
 
 ## Trust rules preserved
 
-- No invented businesses, reviews, ratings, hours, or booking claims
-- Category placeholder art labeled in alt text; not used as named business storefront/team/dish photos
-- Demo / public-info / verified gating unchanged (`listing-trust.ts`)
-- Profile tabs: honest empty states for photos and reviews
-- Analytics remain provider-neutral
+- No invented businesses, reviews, ratings, hours, live availability, or booking claims
+- Ferry/cruise widgets remain schedule-based with explicit trust copy
+- Local-first island framing preserved in utility and experience copy
+- Demo / public-info / verified gating unchanged
 
-## Validation
+## Validation (final polish)
 
 ```
 npm run typecheck — pass
-npm run lint — pass
+npm run lint — pass (clean)
 npm run build — pass (189 pages)
 ```
 
-**Visual QA:** Screenshots captured from production build (`next start`) at `docs/facelift-screenshots/`.
+**Visual QA:** Screenshots at `docs/facelift-screenshots/` (capture against production `next start`).
 
 | Screenshot | Path |
 |------------|------|
-| Homepage 1440 | `docs/facelift-screenshots/homepage-1440.png` |
-| Homepage 375 | `docs/facelift-screenshots/homepage-375.png` |
-| Search 1440 / 375 | `docs/facelift-screenshots/search-1440.png`, `search-375.png` |
-| Island portal 1440 / 375 | `docs/facelift-screenshots/island-st-thomas-1440.png`, `island-st-thomas-375.png` |
-| Experience 1440 / 375 | `docs/facelift-screenshots/experience-adventure-1440.png`, `experience-adventure-375.png` |
-| Category directory 1440 | `docs/facelift-screenshots/category-nightlife-1440.png` |
-| Business profile 1440 | `docs/facelift-screenshots/business-profile-1440.png` |
-| Map 1440 | `docs/facelift-screenshots/map-1440.png` |
-| Get Listed 1440 / 375 | `docs/facelift-screenshots/get-listed-1440.png`, `get-listed-375.png` |
+| Homepage 1440 / 375 | `homepage-1440.png`, `homepage-375.png` |
+| Search 1440 / 375 | `search-1440.png`, `search-375.png` |
+| Island portal 1440 / 375 | `island-st-thomas-1440.png`, `island-st-thomas-375.png` |
+| Experience 1440 / 375 | `experience-adventure-1440.png`, `experience-adventure-375.png` |
+| Category directory 1440 | `category-nightlife-1440.png` |
+| Business profile 1440 | `business-profile-1440.png` |
+| Map 1440 | `map-1440.png` |
+| Get Listed 1440 / 375 | `get-listed-1440.png`, `get-listed-375.png` |
+| Ferry hub 1440 | `ferry-1440.png` (polish pass) |
+| Experience + booking panel 1440 | `experiences-adventure-booking-1440.png` (polish pass) |
 
-Capture script: `node scripts/capture-facelift-screenshots.mjs http://localhost:PORT` (requires Playwright + Edge channel).
+Capture: `node scripts/capture-facelift-screenshots.mjs http://localhost:PORT` (Playwright + system Edge).
 
 ## Visual check vs renders
 
 | Area | Match | Notes |
 |------|-------|-------|
-| Overall brightness / cream surfaces | Yes | Live site uses bright `#fffaf3` system per design brief |
-| Serif headlines + sans UI | Yes | `.font-display` stack |
-| White cards + soft shadows | Yes | `VvCard`, `ListingCard`, `EditorialMediaCard` |
-| Photo-led heroes | Yes | Official WebP via registry |
-| Category icon rail position | Yes | Below hero on island + search patterns |
-| Map split panel + mobile toggle | Yes | List/map switch at `lg` breakpoint |
-| Business profile tabs | Yes | Overview / Services / Photos / Reviews / Details |
-| Get Listed local-business focus | Yes | Owner hero + role cards |
-| Render mock dark backgrounds | Intentional diff | Approved **implementation** brief specifies bright Caribbean; renders used for layout hierarchy |
+| Bright cream surfaces site-wide | Yes | `UtilityPage`, `VvPage`, globals warm body override |
+| White cards + soft shadows | Yes | Utility + discovery components |
+| Experience booking panels | Yes | No remaining dark `command-surface` on experience flow |
+| Ferry / cruise utilities | Yes | Bright shell; widgets on white cards |
+| Map warmth | Improved | Light base + warm palette overrides |
+| Render dark mock backgrounds | Intentional diff | Implementation brief specifies bright Caribbean |
 
 ## Known limitations
 
-1. Fraunces / licensed serif — local font files still needed (Google Fonts SSL in build env)
-2. Mapbox warm custom markers — depends on `NEXT_PUBLIC_MAPBOX_STYLE_URL` / `applyArchipelStyle`
-3. Saved routes — not in data model; map shows static route cards only
-4. `PlanThisExperienceCard` / `BookingIntentPanel` — still use some legacy dark-surface classes inside experience page sidebar
-5. Ferry / cruise / guide interior pages — not yet migrated to bright shell
-6. Legacy `globals.css` dark `:root` block remains for unmigrated surfaces
+1. **Fraunces** — requires self-hosted font files if brand mandates exact serif; current stack is system serif
+2. **Custom map marker icons** — circle markers only until sprite assets + symbol layers are added
+3. **Saved routes** — static route cards; no persisted user routes in data model
+4. **Dashboard / sign-in** — still dark owner-tool surfaces (out of public facelift scope)
+5. **Legacy dark `:root` tokens** — retained for unmigrated internal pages; public routes use bright shells
+6. **Mapbox Studio custom style** — optional via env; not bundled in repo
 
-## Changed files (Phase 2)
+## Changed files (final polish)
 
-**New components**
-- `src/components/facelift/vv-ui.tsx`
-- `src/components/facelift/filter-chip-rail.tsx`
-- `src/components/facelift/editorial-band.tsx`
-- `src/components/facelift/listing-card.tsx`
-- `src/components/facelift/directory-hero.tsx`
-- `src/components/facelift/island-portal-layout.tsx`
-- `src/components/facelift/business-profile-tabs.tsx`
-- `src/components/facelift/business-profile-map-preview.tsx`
-- `src/components/facelift/map-route-board.tsx`
-
-**Updated routes / views**
-- `src/app/[island]/page.tsx`
-- `src/app/[island]/[categorySlug]/page.tsx`
-- `src/components/experience/experience-pillar-page.tsx`
-- `src/components/business/business-profile-view.tsx`
-- `src/components/discovery/business-preview-card.tsx`
-- `src/app/map/page.tsx`
-- `src/app/get-listed/page.tsx`
+- `src/components/facelift/utility-page-shell.tsx` (new)
+- `src/components/experience/booking-intent.tsx`
+- `src/components/discovery/pillar-page.tsx`
+- `src/components/discovery/seo-guide-page.tsx`
+- `src/components/transit/CruisePortGuidePage.tsx`
+- `src/components/transit/NextBoatWidget.tsx`
+- `src/components/transit/CrowdPredictor.tsx`
+- `src/app/ferry/page.tsx`
+- `src/app/ferry/[routeSlug]/page.tsx`
+- `src/app/cruise-day/page.tsx`
+- `src/app/[island]/ferry-schedule/page.tsx`
+- `src/app/[island]/cruise-schedule/page.tsx`
+- `src/lib/map/usvi-map.ts`
 - `src/components/map/DirectoryMap.tsx`
-
-**QA / docs**
 - `scripts/capture-facelift-screenshots.mjs`
-- `docs/facelift-screenshots/*.png`
+- `docs/facelift-screenshots/` (updated captures)
 - `docs/VIBEVI_FACELIFT_IMPLEMENTATION.md`
 
-## Next recommended pass
+## Preview deployment readiness
 
-1. Brighten `booking-intent.tsx` panels to match `VvCard` system
-2. Migrate ferry/cruise/guide utility pages off `MediaBackdrop` dark shell
-3. Add `DirectoryFilterBar` sort controls when backend sort is available
-4. Local Fraunces font files + remove dark CSS override block in `globals.css`
-5. Mapbox style pass for warmer water/land tones
-6. Owner dashboard / claim flow UI when backend is ready
+**Ready for human review and Vercel preview deployment** on `codex/vibevi-warm-caribbean-facelift`.
+
+- All public discovery routes use bright facelift shells
+- QA passes (typecheck, lint, build, 189 pages)
+- Trust gates and SEO metadata preserved
+- **Not merged to `main`**
+
+## Next recommended pass (post-preview)
+
+1. Self-host Fraunces `.woff2` if brand requires exact serif match
+2. Mapbox Studio VibeVI style URL in production env
+3. Custom marker sprites (category-colored pins)
+4. Owner dashboard bright shell when owner tools launch
+5. Directory sort controls when backend supports sort

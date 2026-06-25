@@ -26,7 +26,7 @@ export function DirectoryMap({ className, height = 480 }: DirectoryMapProps) {
   const mapStyle = useMemo(() => {
     return (
       process.env.NEXT_PUBLIC_MAPBOX_STYLE_URL ??
-      "mapbox://styles/mapbox/dark-v11"
+      "mapbox://styles/mapbox/light-v11"
     );
   }, []);
 

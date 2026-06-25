@@ -23,6 +23,8 @@ const captures = [
   { name: "map-1440", path: "/map", width: 1440, height: 900 },
   { name: "get-listed-1440", path: "/get-listed", width: 1440, height: 900 },
   { name: "get-listed-375", path: "/get-listed", width: 375, height: 812 },
+  { name: "ferry-1440", path: "/ferry", width: 1440, height: 900 },
+  { name: "experiences-adventure-booking-1440", path: "/experiences/adventure", width: 1440, height: 900 },
 ];
 
 await mkdir(outDir, { recursive: true });

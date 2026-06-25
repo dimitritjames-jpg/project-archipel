@@ -17,26 +17,29 @@ type CrowdPredictorProps = {
 
 const INDICATOR_STYLES = {
   quiet: {
-    ring: "bg-emerald-400/20 border-emerald-400/50",
-    dot: "bg-emerald-400",
-    text: "text-emerald-300",
+    ring: "bg-emerald-50 border-emerald-200",
+    dot: "bg-emerald-500",
+    text: "text-emerald-800",
   },
   elevated: {
-    ring: "bg-amber-400/15 border-amber-400/45",
-    dot: "bg-amber-400",
-    text: "text-amber-300",
+    ring: "bg-amber-50 border-amber-200",
+    dot: "bg-amber-500",
+    text: "text-amber-900",
   },
   busy: {
-    ring: "bg-orange-500/18 border-orange-400/50",
-    dot: "bg-orange-400",
-    text: "text-orange-300",
+    ring: "bg-orange-50 border-orange-200",
+    dot: "bg-orange-500",
+    text: "text-orange-900",
   },
   "high-impact": {
-    ring: "bg-rose-900/35 border-rose-500/60",
+    ring: "bg-rose-50 border-rose-300",
     dot: "bg-rose-600",
-    text: "text-rose-300",
+    text: "text-rose-900",
   },
 } as const;
+
+const BRIGHT_WIDGET =
+  "pointer-events-auto min-h-[14.5rem] rounded-[1.25rem] border border-[#0b4b55]/10 bg-white p-4 shadow-[0_12px_40px_rgba(11,75,85,0.08)] sm:min-h-[15rem] sm:p-5";
 
 export function CrowdPredictor({
   className,
@@ -142,20 +145,20 @@ export function CrowdPredictor({
 
   return (
     <aside
-      className={`pointer-events-auto min-h-[14.5rem] rounded-2xl border border-white/20 bg-white/10 p-4 shadow-xl backdrop-blur-md sm:min-h-[15rem] sm:p-5 ${className ?? ""}`}
+      className={`${BRIGHT_WIDGET} ${className ?? ""}`}
       aria-live="polite"
       aria-label="Crowd predictor"
     >
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-archipel-white/60">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#0797a6]">
             Crowd Predictor
           </p>
-          <h3 className="mt-1 text-sm font-semibold text-archipel-white sm:text-base">
+          <h3 className="mt-1 text-sm font-semibold text-[#173941] sm:text-base">
             {scopeLabel ?? "Cruise Port Load"}
           </h3>
         </div>
-        <span className="rounded-full border border-white/15 bg-white/5 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-archipel-white/70">
+        <span className="rounded-full border border-[#0b4b55]/10 bg-[#fffaf3] px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-[#496871]">
           Today
         </span>
       </div>
@@ -163,11 +166,11 @@ export function CrowdPredictor({
       <div className="mt-4 min-h-[5.5rem]">
         {!hydrated || loading ? (
           <div className="space-y-3" aria-hidden>
-            <div className="h-12 animate-pulse rounded-xl bg-white/10" />
-            <div className="h-3 w-2/3 animate-pulse rounded bg-white/10" />
+            <div className="h-12 animate-pulse rounded-xl bg-[#e9fbf7]" />
+            <div className="h-3 w-2/3 animate-pulse rounded bg-[#e9fbf7]" />
           </div>
         ) : error ? (
-          <p className="text-sm text-coral">{error}</p>
+          <p className="text-sm text-[#c45a4a]">{error}</p>
         ) : summary && traffic ? (
           <div className="flex items-center gap-4">
             <motion.div
@@ -190,19 +193,19 @@ export function CrowdPredictor({
               <p className={`text-sm font-semibold sm:text-base ${styles.text}`}>
                 {traffic.label}
               </p>
-              <p className="mt-1 text-xs text-archipel-white/65">
+              <p className="mt-1 text-xs text-[#496871]">
                 {capacityLine}
               </p>
             </div>
           </div>
         ) : (
-          <p className="text-sm text-archipel-white/70">
+          <p className="text-sm text-[#496871]">
             No cruise schedule data for this island today.
           </p>
         )}
       </div>
 
-      <p className="mt-4 border-t border-white/10 pt-3 text-[11px] leading-relaxed text-archipel-white/50">
+      <p className="mt-4 border-t border-[#0b4b55]/8 pt-3 text-[11px] leading-relaxed text-[#496871]">
         {summary && summary.shipCount > 0 && capacityCoverageRatio <= 0
           ? "Scheduled ship calls are listed from source schedules; capacity is pending approved passenger-capacity sourcing."
           : "Scheduled ship capacity is a planning estimate, not an actual passenger count."}

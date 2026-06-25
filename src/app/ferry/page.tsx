@@ -1,7 +1,18 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { NextBoatWidget } from "@/components/transit/NextBoatWidget";
-import { MediaBackdrop } from "@/components/ui/media-backdrop";
+import {
+  UtilityChipLink,
+  UtilityHero,
+  UtilityLinkCard,
+  UtilityMain,
+  UtilityPage,
+  UtilityPrimaryButton,
+  UtilitySecondaryButton,
+  UtilitySection,
+  UtilityWidgetShell,
+  toResponsiveMedia,
+} from "@/components/facelift/utility-page-shell";
+import { VvCard } from "@/components/facelift/vv-ui";
 import { env } from "@/lib/env";
 import { FERRY_MEDIA } from "@/lib/media";
 import { FERRY_ROUTE_GUIDES } from "@/lib/transit/ferry-routes";
@@ -55,139 +66,93 @@ const jsonLd = [
   },
 ];
 
+const dayLinks = [
+  { href: "/st-john/beaches", label: "St. John beach day", body: "Choose the sand by ferry timing, transport, facilities, and return margin." },
+  { href: "/st-john/excursions-charters", label: "Cruz Bay charters", body: "Compare published operator profiles and confirm departure details directly." },
+  { href: "/st-john/indulgent-dining", label: "Cruz Bay food", body: "Make the table fit the crossing instead of rushing the return." },
+  { href: "/water-island/day-trip", label: "Water Island day trip", body: "Plan Crown Bay, Honeymoon Beach, golf-cart movement, and the return." },
+  { href: "/st-thomas/nightlife-rhythm", label: "Red Hook after dark", body: "Keep dinner and late-night moves close to the St. Thomas landing." },
+  { href: "/map", label: "Map the ferry day", body: "Place ferry, beach, food, culture, and published listings on one island map." },
+];
+
 export default function FerryHubPage() {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
-      />
-      <MediaBackdrop
-        media={{ ...FERRY_MEDIA, id: "ferry-hub", label: "USVI ferry planning" }}
-        overlay="hero"
-        priority
-        className="min-h-[62svh]"
-      >
-        <div className="section-shell flex min-h-[62svh] flex-col justify-end pb-12 pt-32">
-          <p className="eyebrow-label">Ferry hop · schedule-based</p>
-          <h1 className="display-type mt-5 max-w-5xl text-5xl font-semibold text-white sm:text-7xl">
-            USVI ferry schedule and island-hop guide
-          </h1>
-          <p className="mt-6 max-w-3xl text-base leading-7 text-white/70">
-            Plan the crossing, then make the day: St. John beaches, Cruz Bay
-            food, Water Island slow days, Red Hook nights, charters, and return
-            margins. VibeVI uses schedule-based context, not live vessel tracking.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/st-thomas/ferry-schedule" className="rounded-full bg-aqua px-5 py-3 text-sm font-semibold text-midnight-950">
-              Full ferry board
-            </Link>
-            <Link href="/water-island/ferry-schedule" className="rounded-full border border-white/18 bg-white/8 px-5 py-3 text-sm font-semibold text-white">
-              Water Island ferry hop
-            </Link>
-          </div>
-        </div>
-      </MediaBackdrop>
+    <UtilityPage>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }} />
 
-      <main className="section-shell py-16 sm:py-20">
-        <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]" aria-labelledby="next-crossing">
-          <div className="glass-luminous rounded-[2rem] p-2 sm:p-4">
+      <UtilityHero
+        media={toResponsiveMedia({ src: FERRY_MEDIA.src, alt: FERRY_MEDIA.alt })}
+        eyebrow="Ferry hop · schedule-based"
+        title="USVI ferry schedule and island-hop guide"
+        description="Plan the crossing, then make the day: St. John beaches, Cruz Bay food, Water Island slow days, Red Hook nights, charters, and return margins. VibeVI uses schedule-based context, not live vessel tracking."
+        actions={
+          <>
+            <UtilityPrimaryButton href="/st-thomas/ferry-schedule">Full ferry board</UtilityPrimaryButton>
+            <UtilitySecondaryButton href="/water-island/ferry-schedule">Water Island ferry hop</UtilitySecondaryButton>
+          </>
+        }
+      />
+
+      <UtilityMain>
+        <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <UtilityWidgetShell>
             <NextBoatWidget
-              className="border-0 bg-transparent shadow-none"
+              className="border-0 bg-transparent p-0 shadow-none"
               routeSlug={RED_HOOK_CRUZ_BAY_ROUTE_SLUG}
               eyebrow="Red Hook next boat"
               emptyLabel="No upcoming departures found for this route."
             />
-          </div>
-          <div className="command-surface rounded-[2rem] p-7 sm:p-9">
-            <p className="eyebrow-label">Use it like a local utility</p>
-            <h2 id="next-crossing" className="display-type mt-4 text-3xl font-semibold text-white">
+          </UtilityWidgetShell>
+
+          <VvCard className="p-6 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#0797a6]">
+              Use it like a local utility
+            </p>
+            <h2 className="font-display mt-3 text-2xl font-semibold text-[#173941] sm:text-3xl">
               The ferry is the first domino.
             </h2>
-            <p className="mt-4 text-sm leading-7 text-white/60">
-              Ferry timing shapes the beach window, charter departure, lunch
-              spot, dinner reservation, and the ride back. Build the day around
-              a confirmed crossing and keep margin for queues, taxis, weather,
-              baggage, and the last thing you cannot miss.
+            <p className="mt-4 text-sm leading-relaxed text-[#496871]">
+              Ferry timing shapes the beach window, charter departure, lunch spot, dinner reservation, and the ride back. Build the day around a confirmed crossing and keep margin for queues, taxis, weather, baggage, and the last thing you cannot miss.
             </p>
-            <p className="mt-5 text-xs leading-6 text-white/45">
-              Confirm directly with the operator before travel. VibeVI does not
-              guarantee boarding, service status, or return timing.
+            <p className="mt-4 text-xs leading-relaxed text-[#496871]">
+              Confirm directly with the operator before travel. VibeVI does not guarantee boarding, service status, or return timing.
             </p>
-          </div>
-        </section>
+          </VvCard>
+        </div>
 
-        <section className="mt-16 border-t border-white/8 pt-12" aria-labelledby="ferry-route-list">
-          <p className="eyebrow-label">Active ferry routes</p>
-          <h2 id="ferry-route-list" className="display-type mt-4 text-3xl font-semibold text-white sm:text-5xl">
-            Choose the crossing, then choose the move.
-          </h2>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <UtilitySection eyebrow="Active ferry routes" title="Choose the crossing, then choose the move." id="ferry-route-list" className="mt-14">
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {FERRY_ROUTE_GUIDES.map((route) => (
-              <Link
+              <UtilityLinkCard
                 key={route.slug}
                 href={`/ferry/${route.slug}`}
-                className="group rounded-[1.35rem] border border-white/10 bg-white/[0.035] p-5 transition hover:-translate-y-1 hover:border-aqua/30"
-              >
-                <span className="text-[10px] font-black uppercase tracking-[0.18em] text-aqua/65">
-                  {route.sourceStatus === "source-backed" ? "Schedule-backed" : "Guide-only"}
-                </span>
-                <h3 className="mt-6 text-xl font-semibold tracking-[-0.04em] text-white group-hover:text-aqua">
-                  {route.label}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-white/55">{route.note}</p>
-                <span className="mt-5 inline-flex text-sm font-semibold text-aqua/85">
-                  Open route <span className="ml-2 transition group-hover:translate-x-1" aria-hidden>→</span>
-                </span>
-              </Link>
+                title={route.label}
+                body={route.note}
+                cta={route.sourceStatus === "source-backed" ? "Schedule-backed" : "Guide-only"}
+              />
             ))}
           </div>
-        </section>
+        </UtilitySection>
 
-        <section className="mt-16 border-t border-white/8 pt-12" aria-labelledby="ferry-day-links">
-          <p className="eyebrow-label">Ferry feeds discovery</p>
-          <h2 id="ferry-day-links" className="display-type mt-4 text-3xl font-semibold text-white">
-            Beach, boat, bite, night — with the crossing in view.
-          </h2>
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
-            {[
-              { href: "/st-john/beaches", label: "St. John beach day", body: "Choose the sand by ferry timing, transport, facilities, and return margin." },
-              { href: "/st-john/excursions-charters", label: "Cruz Bay charters", body: "Compare published operator profiles and confirm departure details directly." },
-              { href: "/st-john/indulgent-dining", label: "Cruz Bay food", body: "Make the table fit the crossing instead of rushing the return." },
-              { href: "/water-island/day-trip", label: "Water Island day trip", body: "Plan Crown Bay, Honeymoon Beach, golf-cart movement, and the return." },
-              { href: "/st-thomas/nightlife-rhythm", label: "Red Hook after dark", body: "Keep dinner and late-night moves close to the St. Thomas landing." },
-              { href: "/map", label: "Map the ferry day", body: "Place ferry, beach, food, culture, and published listings on one island map." },
-            ].map((link) => (
-              <Link key={link.href} href={link.href} className="command-surface rounded-[1.35rem] p-5 transition hover:-translate-y-1 hover:border-sand/25">
-                <h3 className="font-semibold text-white">{link.label}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/55">{link.body}</p>
-              </Link>
+        <UtilitySection eyebrow="Ferry feeds discovery" title="Beach, boat, bite, night — with the crossing in view." id="ferry-day-links" className="mt-14">
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            {dayLinks.map((link) => (
+              <UtilityLinkCard key={link.href} href={link.href} title={link.label} body={link.body} />
             ))}
           </div>
-        </section>
+        </UtilitySection>
 
-        <section className="mt-16 border-t border-white/8 pt-12" aria-labelledby="ferry-boards">
-          <p className="eyebrow-label">Island ferry boards</p>
-          <h2 id="ferry-boards" className="display-type mt-4 text-3xl font-semibold text-white">
-            Open the board for your starting island.
-          </h2>
-          <div className="mt-8 flex flex-wrap gap-3">
-            {[
-              ["/st-thomas/ferry-schedule", "St. Thomas ferry schedule"],
-              ["/st-john/ferry-schedule", "St. John ferry schedule"],
-              ["/water-island/ferry-schedule", "Water Island ferry schedule"],
-            ].map(([href, label]) => (
-              <Link key={href} href={href} className="rounded-full border border-aqua/20 bg-aqua/7 px-4 py-2 text-sm font-semibold text-aqua">
-                {label}
-              </Link>
-            ))}
+        <UtilitySection eyebrow="Island ferry boards" title="Open the board for your starting island." id="ferry-boards" className="mt-14">
+          <div className="mt-5 flex flex-wrap gap-2">
+            <UtilityChipLink href="/st-thomas/ferry-schedule">St. Thomas ferry schedule</UtilityChipLink>
+            <UtilityChipLink href="/st-john/ferry-schedule">St. John ferry schedule</UtilityChipLink>
+            <UtilityChipLink href="/water-island/ferry-schedule">Water Island ferry schedule</UtilityChipLink>
           </div>
-          <p className="mt-6 max-w-3xl text-sm leading-7 text-white/52">
-            Source-backed route pages use imported timetable records where available.
-            Guide-only pages are clearly labeled and should not be treated as timetable data.
+          <p className="mt-5 max-w-3xl text-sm leading-relaxed text-[#496871]">
+            Source-backed route pages use imported timetable records where available. Guide-only pages are clearly labeled and should not be treated as timetable data.
           </p>
-        </section>
-      </main>
-    </>
+        </UtilitySection>
+      </UtilityMain>
+    </UtilityPage>
   );
 }
