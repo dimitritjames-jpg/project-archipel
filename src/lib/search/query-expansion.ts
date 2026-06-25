@@ -110,6 +110,14 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "Buck Island, reef days, historic towns, and slower full-day routes.",
       "/st-croix/things-to-do",
     ),
+    guideShortcut(
+      "guide-things-water-island",
+      "Water Island day trip",
+      "day-trip",
+      "WI",
+      "Compact ferry-hop beach day with a protected return plan.",
+      "/water-island/day-trip",
+    ),
     experienceShortcut(
       "experience-adventure",
       "Adventure experiences",
@@ -117,6 +125,82 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "STT",
       "Charters, snorkeling, trails, and water days across the USVI.",
       "/experiences/adventure",
+    ),
+  ],
+  ferry: [
+    utilityShortcut(
+      "utility-ferry-board",
+      "USVI ferry board",
+      "ferry",
+      "STT",
+      "Official AST-linked ferry routes, schedules context, and island-hop planning.",
+      "/ferry",
+    ),
+    utilityShortcut(
+      "utility-ferry-st-thomas",
+      "St. Thomas ferry schedule",
+      "ferry-schedule",
+      "STT",
+      "Red Hook, Crown Bay, and Charlotte Amalie ferry departure context.",
+      "/st-thomas/ferry-schedule",
+    ),
+    utilityShortcut(
+      "utility-ferry-st-john",
+      "St. John ferry schedule",
+      "ferry-schedule",
+      "STJ",
+      "Cruz Bay ferry crossings and return-timing notes for day trips.",
+      "/st-john/ferry-schedule",
+    ),
+    guideShortcut(
+      "utility-water-island-day-trip",
+      "Water Island day trip",
+      "day-trip",
+      "WI",
+      "Ferry-linked beach day with Dinghy's, rentals, and return buffer.",
+      "/water-island/day-trip",
+    ),
+  ],
+  cruise: [
+    utilityShortcut(
+      "utility-cruise-day-hub",
+      "USVI cruise-day guide",
+      "cruise-day",
+      "STT",
+      "Port-aware planning for St. Thomas and St. Croix with honest return buffers.",
+      "/cruise-day",
+    ),
+    experienceShortcut(
+      "utility-cruise-day-experience",
+      "Cruise-day experiences",
+      "cruise-day",
+      "STT",
+      "Shore-excursion planning paths across beaches, food, tours, and culture.",
+      "/experiences/cruise-day",
+    ),
+    utilityShortcut(
+      "utility-cruise-schedule-st-thomas",
+      "St. Thomas cruise schedule",
+      "cruise-schedule",
+      "STT",
+      "Scheduled port capacity context before picking a cruise-day move.",
+      "/st-thomas/cruise-schedule",
+    ),
+    guideShortcut(
+      "utility-havensight-cruise-day",
+      "Havensight cruise-day guide",
+      "havensight-cruise-day",
+      "STT",
+      "Walkable shopping, culture stops, beach routes, and ship-return timing.",
+      "/st-thomas/havensight-cruise-day",
+    ),
+    guideShortcut(
+      "utility-crown-bay-cruise-day",
+      "Crown Bay cruise-day guide",
+      "crown-bay-cruise-day",
+      "STT",
+      "Pickup points, Water Island caution, beach routes, and conservative returns.",
+      "/st-thomas/crown-bay-cruise-day",
     ),
   ],
   "rainy day": [
@@ -259,6 +343,17 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
   ],
 };
 
+function utilityShortcut(
+  id: string,
+  name: string,
+  slug: string,
+  island: IslandCode,
+  descriptionPlain: string,
+  href: string,
+): GuideShortcut {
+  return { id, name, slug, island, descriptionPlain, href, categoryName: "Utility" };
+}
+
 function guideShortcut(
   id: string,
   name: string,
@@ -323,6 +418,15 @@ export function getExpandedSearchTerms(query: string): string[] {
 export function isGuideStyleQuery(query: string): boolean {
   const normalized = normalizeSearchText(query);
   return GUIDE_STYLE_QUERIES.has(normalized);
+}
+
+export function shouldPrependGuideShortcuts(query: string): boolean {
+  const normalized = normalizeSearchText(query);
+  return (
+    GUIDE_STYLE_QUERIES.has(normalized) ||
+    normalized === "ferry" ||
+    normalized === "cruise"
+  );
 }
 
 export function getGuideShortcuts(query: string): GuideShortcut[] {
