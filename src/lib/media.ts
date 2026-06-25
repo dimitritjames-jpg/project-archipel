@@ -1,4 +1,11 @@
 import type { IslandSlug } from "@/lib/islands";
+import {
+  VIBEVI_EXPERIENCES,
+  VIBEVI_GET_LISTED,
+  VIBEVI_HOME,
+  VIBEVI_ISLANDS,
+  getListingPlaceholder,
+} from "@/lib/vibevi-media";
 
 /**
  * Legal-first media registry. Production-owned/licensed media should replace
@@ -72,8 +79,8 @@ export const ISLAND_PORTALS: Record<
       id: "island-stt",
       label: "St. Thomas",
       gradient: "from-cyan-200/65 via-sky-950/95 to-orange-400/45",
-      src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-      alt: "Generated atmospheric St. Thomas-style harbor and green hillside scene with turquoise water",
+      src: VIBEVI_ISLANDS["st-thomas"].desktop,
+      alt: VIBEVI_ISLANDS["st-thomas"].alt,
     },
   },
   "st-john": {
@@ -84,8 +91,8 @@ export const ISLAND_PORTALS: Record<
       id: "island-stj",
       label: "St. John",
       gradient: "from-emerald-300/50 via-teal-950/95 to-cyan-500/35",
-      src: GENERATED_MEDIA_PATHS.beachDay,
-      alt: "Generated atmospheric St. John-style cove scene with cream sand, palms, and turquoise water",
+      src: VIBEVI_ISLANDS["st-john"].desktop,
+      alt: VIBEVI_ISLANDS["st-john"].alt,
     },
   },
   "st-croix": {
@@ -96,8 +103,8 @@ export const ISLAND_PORTALS: Record<
       id: "island-stx",
       label: "St. Croix",
       gradient: "from-amber-300/45 via-indigo-950/95 to-rose-500/35",
-      src: GENERATED_MEDIA_PATHS.cultureStreet,
-      alt: "Generated atmospheric St. Croix-style island culture street scene with warm color and waterfront light",
+      src: VIBEVI_ISLANDS["st-croix"].desktop,
+      alt: VIBEVI_ISLANDS["st-croix"].alt,
     },
   },
   "water-island": {
@@ -108,8 +115,8 @@ export const ISLAND_PORTALS: Record<
       id: "island-wi",
       label: "Water Island",
       gradient: "from-sky-200/55 via-blue-950/95 to-lime-400/30",
-      src: GENERATED_MEDIA_PATHS.beachDay,
-      alt: "Generated atmospheric Water Island-style slow beach day scene with soft sand and turquoise water",
+      src: VIBEVI_ISLANDS["water-island"].desktop,
+      alt: VIBEVI_ISLANDS["water-island"].alt,
     },
   },
 };
@@ -174,19 +181,19 @@ export const EXPERIENCE_MOSAIC: MediaAsset[] = [
 ];
 
 export const HERO_MEDIA: MediaAsset = {
-  id: "generated-hero-island-sunrise",
+  id: "vibevi-home-hero",
   label: "US Virgin Islands",
   gradient: "from-cyan-200/45 via-midnight-950 to-orange-400/35",
-  src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-  alt: "Generated atmospheric island sunrise scene with turquoise water, green hills, beach shoreline, and a distant unbranded sailboat",
+  src: VIBEVI_HOME.hero.desktop,
+  alt: VIBEVI_HOME.hero.alt,
 };
 
 export const GET_LISTED_MEDIA: MediaAsset = {
-  id: "generated-get-listed-culture",
+  id: "vibevi-get-listed",
   label: "VibeVI for business",
   gradient: "from-coral/35 via-midnight-950 to-aqua/25",
-  src: GENERATED_MEDIA_PATHS.cultureStreet,
-  alt: "Generated atmospheric island business district scene with colorful local storefront energy and waterfront light",
+  src: VIBEVI_GET_LISTED.hero.desktop,
+  alt: VIBEVI_GET_LISTED.hero.alt,
 };
 
 export const FERRY_MEDIA: MediaAsset = {
@@ -325,14 +332,27 @@ export const CATEGORY_MEDIA_ASSETS: Record<string, MediaAsset> = {
 };
 
 export function getCategoryMediaAsset(categorySlug: string, label?: string): MediaAsset {
-  const fallback = CATEGORY_MEDIA_ASSETS["local-provisions"];
-  const asset = CATEGORY_MEDIA_ASSETS[categorySlug] ?? fallback;
+  const placeholder = getListingPlaceholder(categorySlug);
+  const fallback = CATEGORY_MEDIA_ASSETS[categorySlug] ?? CATEGORY_MEDIA_ASSETS["local-provisions"];
+  const asset: MediaAsset = {
+    ...fallback,
+    src: placeholder,
+  };
 
   return label ? { ...asset, label } : asset;
 }
 
 export function getExperienceHeroMedia(slug: string, label?: string): MediaAsset {
-  const asset = EXPERIENCE_HERO_MEDIA[slug] ?? HERO_MEDIA;
+  const vibevi = VIBEVI_EXPERIENCES[slug];
+  const asset: MediaAsset = vibevi
+    ? {
+        id: `vibevi-experience-${slug}`,
+        label: label ?? vibevi.title,
+        gradient: EXPERIENCE_HERO_MEDIA[slug]?.gradient ?? HERO_MEDIA.gradient,
+        src: vibevi.desktop,
+        alt: vibevi.alt,
+      }
+    : (EXPERIENCE_HERO_MEDIA[slug] ?? HERO_MEDIA);
 
   return label ? { ...asset, label } : asset;
 }
