@@ -43,6 +43,15 @@ function normalizeCategory(
   return Array.isArray(category) ? (category[0] ?? null) : category;
 }
 
+const BUSINESS_SEARCH_SELECT = `
+  id,
+  name,
+  slug,
+  island,
+  description_plain,
+  category:categories!primary_category_id ( slug, name )
+`;
+
 export async function searchLocalBusinesses(
   query: string,
 ): Promise<LocalSearchResult[]> {
@@ -54,28 +63,36 @@ export async function searchLocalBusinesses(
   const supabase = await createClient();
   const pattern = `%${escapeIlikePattern(trimmed)}%`;
 
-  const { data, error } = await supabase
-    .from("businesses")
-    .select(
-      `
-      id,
-      name,
-      slug,
-      island,
-      description_plain,
-      category:categories!primary_category_id ( slug, name )
-    `,
-    )
-    .eq("status", "published")
-    .or(`name.ilike.${pattern},description_plain.ilike.${pattern}`)
-    .order("name")
-    .limit(12);
+  const [nameResult, descriptionResult] = await Promise.all([
+    supabase
+      .from("businesses")
+      .select(BUSINESS_SEARCH_SELECT)
+      .eq("status", "published")
+      .ilike("name", pattern)
+      .order("name")
+      .limit(12),
+    supabase
+      .from("businesses")
+      .select(BUSINESS_SEARCH_SELECT)
+      .eq("status", "published")
+      .ilike("description_plain", pattern)
+      .order("name")
+      .limit(12),
+  ]);
 
+  const error = nameResult.error ?? descriptionResult.error;
   if (error) {
     throw new Error(`Local search failed: ${error.message}`);
   }
 
-  const rows = (data ?? []) as BusinessSearchRow[];
+  const merged = new Map<string, BusinessSearchRow>();
+  for (const row of [...(nameResult.data ?? []), ...(descriptionResult.data ?? [])]) {
+    merged.set(row.id, row as BusinessSearchRow);
+  }
+
+  const rows = Array.from(merged.values())
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(0, 12);
 
   return rows.map((row) => {
     const category = normalizeCategory(row.category);
