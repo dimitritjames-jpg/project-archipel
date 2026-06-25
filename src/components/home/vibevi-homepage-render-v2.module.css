@@ -1,0 +1,758 @@
+.page {
+  min-height: 100vh;
+  overflow-x: clip;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255, 190, 120, 0.26), transparent 32rem),
+    radial-gradient(circle at 90% 18%, rgba(74, 191, 184, 0.18), transparent 35rem),
+    linear-gradient(180deg, #fff8ec 0%, #fffaf3 46%, #f8efe2 100%);
+  color: #153d3b;
+}
+
+.hero {
+  position: relative;
+  min-height: 760px;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.heroImage {
+  object-fit: cover;
+  object-position: 55% 50%;
+  transform: scale(1.02);
+}
+
+.heroWash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(10, 43, 42, 0.82) 0%, rgba(10, 43, 42, 0.58) 38%, rgba(10, 43, 42, 0.12) 76%),
+    linear-gradient(180deg, rgba(4, 30, 31, 0.08) 0%, rgba(5, 35, 34, 0.16) 62%, #fff8ec 100%);
+}
+
+.nav {
+  position: relative;
+  z-index: 4;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 25px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+  color: #fffdf6;
+  text-decoration: none;
+}
+
+.brandMark {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.74);
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: 950;
+  font-size: 1.16rem;
+  backdrop-filter: blur(16px);
+}
+
+.brandText strong {
+  display: block;
+  font-size: 1.2rem;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.brandText small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.66rem;
+  font-weight: 950;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  box-shadow: 0 16px 55px rgba(4, 25, 24, 0.14);
+  backdrop-filter: blur(18px);
+}
+
+.navLinks a {
+  min-width: 92px;
+  text-align: center;
+  border-radius: 999px;
+  padding: 14px 18px;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.9rem;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.navLinks .navCta {
+  background: #fffaf1;
+  color: #163c3a;
+  box-shadow: 0 12px 35px rgba(255, 255, 255, 0.18);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 3;
+  width: min(1180px, calc(100% - 40px));
+  margin: 95px auto 0;
+  display: grid;
+  grid-template-columns: minmax(0, 720px) 285px;
+  gap: 70px;
+  align-items: end;
+}
+
+.heroCopy h1 {
+  max-width: 690px;
+  margin: 14px 0 0;
+  color: #fffdf8;
+  font-family: Georgia, Palatino, "Palatino Linotype", serif;
+  font-size: clamp(4.8rem, 9vw, 8.5rem);
+  font-weight: 500;
+  letter-spacing: -0.095em;
+  line-height: 0.92;
+  text-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+}
+
+.heroEyebrow,
+.eyebrow {
+  margin: 0;
+  color: #0b918c;
+  font-size: 0.78rem;
+  font-weight: 950;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.heroEyebrow {
+  color: #35e0d4;
+}
+
+.lede {
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.08rem;
+  font-weight: 650;
+  line-height: 1.6;
+  text-shadow: 0 14px 38px rgba(0, 0, 0, 0.22);
+}
+
+.searchCard {
+  width: min(610px, 100%);
+  margin-top: 31px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 24px 90px rgba(0, 54, 52, 0.28);
+  overflow: hidden;
+}
+
+.searchCell {
+  padding: 17px 22px;
+  border-right: 1px solid rgba(19, 63, 60, 0.1);
+}
+
+.searchCell span {
+  display: block;
+  color: #23aaa3;
+  font-size: 0.68rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.searchCell strong {
+  display: block;
+  margin-top: 7px;
+  color: #163b3a;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.searchButton {
+  min-width: 150px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #ff7b5f, #ff9c63);
+  color: white;
+  font-size: 0.93rem;
+  font-weight: 950;
+  text-decoration: none;
+  box-shadow: 0 16px 42px rgba(255, 118, 82, 0.34);
+}
+
+.heroChips {
+  margin-top: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.heroChips a {
+  border: 1px solid rgba(105, 233, 220, 0.38);
+  border-radius: 999px;
+  padding: 8px 13px;
+  background: rgba(8, 71, 69, 0.5);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 0.76rem;
+  font-weight: 850;
+  text-decoration: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px);
+}
+
+.floatPanel {
+  margin-bottom: 29px;
+  padding: 27px 25px;
+  border-radius: 24px;
+  color: #fffaf0;
+  border: 1px solid rgba(255, 231, 179, 0.3);
+  background: rgba(72, 67, 31, 0.34);
+  box-shadow: 0 25px 80px rgba(4, 21, 20, 0.24);
+  backdrop-filter: blur(18px);
+}
+
+.floatPanel p {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffe8b8;
+}
+
+.floatPanel strong {
+  display: block;
+  margin-top: 12px;
+  font-family: Georgia, Palatino, "Palatino Linotype", serif;
+  font-size: 2.45rem;
+  font-weight: 500;
+  letter-spacing: -0.08em;
+  line-height: 0.98;
+}
+
+.floatPanel span {
+  display: block;
+  margin-top: 15px;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.railWrap {
+  position: relative;
+  z-index: 5;
+  width: min(1180px, calc(100% - 40px));
+  margin: -54px auto 0;
+}
+
+.quickRail {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 10px;
+  padding: 23px 25px;
+  border-radius: 18px;
+  background: rgba(255, 253, 247, 0.96);
+  border: 1px solid rgba(236, 220, 193, 0.92);
+  box-shadow: 0 28px 90px rgba(45, 99, 94, 0.15);
+}
+
+.quickRail a {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  color: #173e3c;
+  text-decoration: none;
+}
+
+.quickRail span {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #e7fff9, #ffe4c9);
+  font-size: 1.18rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.88);
+}
+
+.quickRail strong {
+  font-size: 0.78rem;
+  font-weight: 950;
+}
+
+.section,
+.vibeSection,
+.islandSection {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.section {
+  padding-top: 66px;
+}
+
+.vibeSection,
+.islandSection {
+  padding-top: 76px;
+}
+
+.splitHeader {
+  margin-bottom: 26px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 40px;
+  align-items: end;
+}
+
+.splitHeader h2,
+.vibeIntro h2,
+.islandIntro h2,
+.businessBand h2 {
+  margin: 10px 0 0;
+  color: #163d3b;
+  font-family: Georgia, Palatino, "Palatino Linotype", serif;
+  font-size: clamp(2.35rem, 4.4vw, 4.15rem);
+  font-weight: 500;
+  letter-spacing: -0.085em;
+  line-height: 0.96;
+}
+
+.splitHeader p:not(.eyebrow),
+.vibeIntro p,
+.businessBand p {
+  margin: 0;
+  color: #5f756f;
+  font-size: 1rem;
+  line-height: 1.68;
+}
+
+.moveGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.moveCard {
+  position: relative;
+  min-height: 325px;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #cfeee8;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 22px 70px rgba(27, 76, 72, 0.16);
+}
+
+.cardImage {
+  object-fit: cover;
+  transition: transform 600ms ease;
+}
+
+.moveCard:hover .cardImage,
+.vibeCard:hover .cardImage {
+  transform: scale(1.055);
+}
+
+.cardShade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(12, 53, 49, 0.74) 100%),
+    linear-gradient(45deg, rgba(255, 137, 92, 0.16), transparent 42%);
+}
+
+.moveContent {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 24px 22px;
+}
+
+.moveContent span {
+  color: #b8eee7;
+  font-size: 0.65rem;
+  font-weight: 950;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.moveContent h3 {
+  margin: 8px 0 0;
+  font-family: Georgia, Palatino, "Palatino Linotype", serif;
+  font-size: 2.75rem;
+  font-weight: 500;
+  letter-spacing: -0.08em;
+}
+
+.moveContent p {
+  max-width: 180px;
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.moveContent b {
+  position: absolute;
+  right: 19px;
+  bottom: 21px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  border-radius: 999px;
+  color: white;
+  font-size: 1.35rem;
+}
+
+.vibeSection {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+}
+
+.vibeIntro p:not(.eyebrow) {
+  margin-top: 18px;
+}
+
+.vibeGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.vibeCard {
+  position: relative;
+  min-height: 230px;
+  overflow: hidden;
+  display: flex;
+  align-items: end;
+  border-radius: 16px;
+  background: #cfeee8;
+  color: white;
+  text-decoration: none;
+  box-shadow: 0 20px 55px rgba(27, 76, 72, 0.13);
+}
+
+.vibeShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, rgba(14, 54, 50, 0.84) 100%);
+}
+
+.vibeText {
+  position: relative;
+  z-index: 2;
+  padding: 18px;
+}
+
+.vibeText h3 {
+  margin: 0;
+  font-family: Georgia, Palatino, "Palatino Linotype", serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+  letter-spacing: -0.07em;
+}
+
+.vibeText p {
+  margin: 7px 0 0;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 0.8rem;
+  line-height: 1.36;
+}
+
+.islandSection {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+}
+
+.islandGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.islandCard {
+  overflow: hidden;
+  border-radius: 18px;
+  border: 1px solid rgba(231, 216, 190, 0.95);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 23px 70px rgba(45, 99, 94, 0.13);
+  color: #163d3b;
+  text-decoration: none;
+}
+
+.islandImage {
+  width: 100%;
+  height: 185px;
+  object-fit: cover;
+}
+
+.islandCard div {
+  padding: 20px;
+}
+
+.islandCard h3 {
+  margin: 0;
+  font-family: Georgia, Palatino, "Palatino Linotype", serif;
+  font-size: 1.62rem;
+  font-weight: 500;
+  letter-spacing: -0.07em;
+}
+
+.islandCard p {
+  min-height: 92px;
+  margin: 9px 0 16px;
+  color: #5f756f;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.islandCard span {
+  color: #0b827c;
+  font-size: 0.76rem;
+  font-weight: 950;
+}
+
+.businessBand {
+  width: min(1180px, calc(100% - 40px));
+  margin: 78px auto 58px;
+  padding: 34px 42px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: center;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 170, 99, 0.5);
+  background:
+    radial-gradient(circle at 88% 50%, rgba(255, 171, 97, 0.26), transparent 22rem),
+    linear-gradient(135deg, #fffaf0, #ffe5c9);
+  box-shadow: 0 24px 75px rgba(126, 82, 42, 0.12);
+}
+
+.businessBand h2 {
+  font-size: clamp(2.2rem, 4vw, 3.35rem);
+}
+
+.businessBand p:not(.eyebrow) {
+  max-width: 720px;
+  margin-top: 10px;
+}
+
+.businessBand a {
+  min-height: 54px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0 25px;
+  background: #073f3c;
+  color: #fffaf0;
+  font-size: 0.9rem;
+  font-weight: 950;
+  text-decoration: none;
+  box-shadow: 0 18px 48px rgba(7, 63, 60, 0.22);
+  white-space: nowrap;
+}
+
+@media (max-width: 1050px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    margin-top: 76px;
+  }
+
+  .floatPanel {
+    display: none;
+  }
+
+  .quickRail {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .moveGrid,
+  .islandGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .vibeSection,
+  .islandSection,
+  .splitHeader {
+    grid-template-columns: 1fr;
+  }
+
+  .vibeGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    min-height: 735px;
+  }
+
+  .heroImage {
+    object-position: 58% 50%;
+  }
+
+  .heroWash {
+    background:
+      linear-gradient(180deg, rgba(10, 43, 42, 0.8) 0%, rgba(10, 43, 42, 0.54) 48%, #fff8ec 100%),
+      linear-gradient(90deg, rgba(10, 43, 42, 0.68), rgba(10, 43, 42, 0.08));
+  }
+
+  .nav {
+    width: min(100% - 24px, 1180px);
+    padding-top: 18px;
+  }
+
+  .brandMark {
+    width: 46px;
+    height: 46px;
+  }
+
+  .navLinks {
+    display: none;
+  }
+
+  .heroInner {
+    width: min(100% - 24px, 1180px);
+    margin-top: 72px;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(4.05rem, 18vw, 5.7rem);
+  }
+
+  .lede {
+    max-width: 96%;
+    font-size: 1rem;
+  }
+
+  .searchCard {
+    grid-template-columns: 1fr;
+    width: 100%;
+    border-radius: 20px;
+  }
+
+  .searchCell {
+    border-right: 0;
+    border-bottom: 1px solid rgba(19, 63, 60, 0.1);
+  }
+
+  .searchButton {
+    min-height: 55px;
+  }
+
+  .heroChips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+
+  .heroChips a {
+    flex: 0 0 auto;
+  }
+
+  .railWrap,
+  .section,
+  .vibeSection,
+  .islandSection,
+  .businessBand {
+    width: min(100% - 24px, 1180px);
+  }
+
+  .railWrap {
+    margin-top: -34px;
+  }
+
+  .quickRail {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .quickRail span {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+  }
+
+  .quickRail strong {
+    font-size: 0.66rem;
+  }
+
+  .section {
+    padding-top: 52px;
+  }
+
+  .vibeSection,
+  .islandSection {
+    padding-top: 60px;
+  }
+
+  .splitHeader h2,
+  .vibeIntro h2,
+  .islandIntro h2,
+  .businessBand h2 {
+    font-size: clamp(2.45rem, 12vw, 3.7rem);
+  }
+
+  .moveGrid,
+  .islandGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .moveCard {
+    min-height: 350px;
+  }
+
+  .vibeGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .vibeCard {
+    min-height: 210px;
+  }
+
+  .islandCard p {
+    min-height: auto;
+  }
+
+  .businessBand {
+    grid-template-columns: 1fr;
+    margin-top: 68px;
+    padding: 28px;
+  }
+
+  .businessBand a {
+    width: 100%;
+  }
+}
