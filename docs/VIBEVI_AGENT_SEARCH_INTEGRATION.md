@@ -1,8 +1,10 @@
 # VibeVI Agent Search Integration
 
-Branch: `design/live-vibevi-agent-search-integration`  
-Baseline: `main` @ `9015e58` (current production search + live homepage)  
-Status: Integration complete — **not merged**, **not deployed to production**
+Branch: `design/live-vibevi-agent-search-integration` (merged)  
+Baseline: `main` @ `9015e58`  
+Status: **Merged to main** via PR #6 — **live on production** (`7a7db60`)
+
+Production deployment notes: `docs/agent-search-production-deploy-2026-06-26.md`
 
 ## Why the full agent template was pulled back
 
