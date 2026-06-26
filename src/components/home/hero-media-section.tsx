@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
+import { IslandAskBar } from "@/components/search/island-ask-bar";
 import { GENERATED_MEDIA_PATHS, HERO_MEDIA } from "@/lib/media";
 
 const heroMoves = [
@@ -59,6 +60,11 @@ export function HeroMediaSection() {
                 Beach days, boat trips, local plates, culture, nightlife, and
                 ferry hops across the U.S. Virgin Islands.
               </p>
+
+              <div className="mt-7 max-w-xl">
+                <IslandAskBar variant="hero" />
+              </div>
+
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link
                   href="#day-moves-heading"

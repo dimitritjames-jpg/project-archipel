@@ -5,8 +5,6 @@ import { env } from "@/lib/env";
 import { CODE_TO_SLUG, ISLAND_MAP, type IslandCode } from "@/lib/islands";
 import { createClient } from "@/lib/supabase/server";
 
-export type { LocalSearchResult } from "@/lib/search/catalog-search";
-
 type BusinessSearchRow = {
   id: string;
   name: string;

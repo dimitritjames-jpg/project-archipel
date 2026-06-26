@@ -4,20 +4,24 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState, useTransition } from "react";
 import {
   searchLocalBusinesses,
-  type LocalSearchResult,
 } from "@/lib/search/local-search";
+import type { LocalSearchResult } from "@/lib/search/catalog-search";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics/events";
 
 type HomeSearchBarProps = {
   className?: string;
+  initialQuery?: string;
 };
 
-export function HomeSearchBar({ className }: HomeSearchBarProps) {
+export function HomeSearchBar({
+  className,
+  initialQuery = "",
+}: HomeSearchBarProps) {
   const inputId = useId();
   const listboxId = useId();
   const [hydrated, setHydrated] = useState(false);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState<LocalSearchResult[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -26,6 +30,10 @@ export function HomeSearchBar({ className }: HomeSearchBarProps) {
   useEffect(() => {
     setHydrated(true);
   }, []);
+
+  useEffect(() => {
+    setQuery(initialQuery);
+  }, [initialQuery]);
 
   useEffect(() => {
     if (!hydrated) return;
