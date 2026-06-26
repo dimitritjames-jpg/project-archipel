@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { env } from "@/lib/env";
 import { serializeJsonLd } from "@/lib/utils";
-import { SiteHeader } from "@/components/layout/site-header";
+import { SiteHeaderSwitch } from "@/components/layout/site-header-switch";
 import { SiteFooter } from "@/components/layout/site-footer";
 import "./globals.css";
 
@@ -119,7 +119,7 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-full flex-col font-sans">
-        <SiteHeader />
+        <SiteHeaderSwitch />
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>
