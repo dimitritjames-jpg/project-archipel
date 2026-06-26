@@ -1,0 +1,50 @@
+{
+  "name": "VibeVI Agent Template v1",
+  "colors": {
+    "canvas": "#FAF9F6",
+    "surface": "#FFFFFF",
+    "surfaceWarm": "#F7F4EE",
+    "ink": "#0B1F2E",
+    "muted": "#5D6872",
+    "teal": "#0796A5",
+    "tealHover": "#087F8B",
+    "aquaSoft": "#DDF5F7",
+    "aquaLine": "#BFE8EC",
+    "line": "#E6E2DB",
+    "sand": "#F2ECE2",
+    "coral": "#F27B5F",
+    "success": "#277E68"
+  },
+  "radii": {
+    "control": "14px",
+    "card": "18px",
+    "composer": "24px",
+    "panel": "26px",
+    "pill": "999px"
+  },
+  "shadows": {
+    "control": "0 6px 20px rgba(11,31,46,0.06)",
+    "card": "0 12px 34px rgba(11,31,46,0.08)",
+    "composer": "0 20px 60px rgba(11,31,46,0.12)"
+  },
+  "layout": {
+    "contentMax": "1200px",
+    "headerHeight": "74px",
+    "desktopGutter": "32px",
+    "mobileGutter": "20px",
+    "sectionGap": "56px",
+    "composerMax": "780px"
+  },
+  "typography": {
+    "fontSans": "var(--font-geist-sans), Geist, Inter, system-ui, sans-serif",
+    "heroDesktop": "clamp(3.25rem, 5vw, 4rem)",
+    "heroMobile": "clamp(2.35rem, 10vw, 2.75rem)",
+    "sectionTitle": "clamp(1.5rem, 2.5vw, 1.9rem)",
+    "body": "1rem"
+  },
+  "motion": {
+    "fast": "150ms",
+    "normal": "200ms",
+    "ease": "cubic-bezier(.2,.8,.2,1)"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "phase1": {
+    "/": {
+      "header": "AgentSiteHeader",
+      "agentVariant": "hero",
+      "sections": [
+        "IntentChipRow",
+        "PopularSearchLinks",
+        "IslandDiscoveryRail",
+        "RecommendationRail"
+      ]
+    },
+    "/search": {
+      "header": "AgentSiteHeader",
+      "agentVariant": "search",
+      "preserve": [
+        "existing filters",
+        "existing results",
+        "P0/P1/P2 search behavior"
+      ]
+    }
+  },
+  "phase2AfterApproval": {
+    "islandPortal": "compact",
+    "experience": "compact",
+    "categoryDirectory": "compact",
+    "businessProfile": "compact-or-none",
+    "map": "search-in-list-pane",
+    "ferryCruise": "compact",
+    "guide": "compact",
+    "getListed": "none-in-hero"
+  }
+}
