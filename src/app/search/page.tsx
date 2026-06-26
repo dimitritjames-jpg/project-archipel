@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { VibeFilterRail } from "@/components/home/vibe-filter-rail";
 import { HomeSearchBar } from "@/components/search/home-search-bar";
+import { IslandAskBar } from "@/components/search/island-ask-bar";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  searchParams: Promise<{ vibe?: string; island?: string; category?: string }>;
+  searchParams: Promise<{ vibe?: string; island?: string; category?: string; q?: string }>;
 };
 
 const searchPrompts = [
@@ -55,7 +56,8 @@ const utilityShortcuts = [
 ] as const;
 
 export default async function SearchPage({ searchParams }: Props) {
-  const { vibe } = await searchParams;
+  const { vibe, q = "" } = await searchParams;
+  const query = q.trim();
 
   return (
     <>
@@ -71,7 +73,25 @@ export default async function SearchPage({ searchParams }: Props) {
               chase the sunset, or keep the whole island day open.
             </p>
             <div className="mt-8 max-w-2xl">
-              <HomeSearchBar />
+              <IslandAskBar
+                key={query}
+                variant="compact"
+                defaultQuery={query}
+                placeholder="What kind of island day are you looking for?"
+                showPrompts={!query}
+              />
+            </div>
+            <div className="mt-6 max-w-2xl">
+              {query ? (
+                <p className="mb-3 text-sm text-archipel-white/62">
+                  Live results for &ldquo;{query}&rdquo;
+                </p>
+              ) : (
+                <p className="mb-3 text-sm text-archipel-white/62">
+                  Or start typing for live published-listing matches.
+                </p>
+              )}
+              <HomeSearchBar initialQuery={query} />
             </div>
           </div>
 
