@@ -258,6 +258,52 @@ Verification result:
 
 Remaining SEO items:
 
+## Filtered Island Hub Indexing Policy
+
+Status: completed on `fix/seo-island-filter-index-policy`
+
+Policy chosen:
+
+- base island hubs remain indexable:
+  - `/islands/st-thomas`
+  - `/islands/st-john`
+  - `/islands/st-croix`
+  - `/islands/water-island`
+- filtered island hub query URLs canonicalize to the base island hub
+- filtered island hub query URLs use `noindex, follow`
+- filtered query URLs remain user-accessible and are not added to sitemap
+
+Canonical behavior:
+
+- base hub canonical:
+  - `https://www.myvibevi.com/islands/{island}`
+- filtered hub canonical:
+  - `https://www.myvibevi.com/islands/{island}`
+
+Robots behavior:
+
+- base hub routes: `index, follow`
+- filtered query routes: `noindex, follow`
+
+Routes checked:
+
+- base hubs:
+  - `/islands/st-thomas`
+  - `/islands/st-john`
+  - `/islands/st-croix`
+  - `/islands/water-island`
+- filtered hubs:
+  - `/islands/st-thomas?category=beaches`
+  - `/islands/st-john?category=excursions-charters`
+  - `/islands/st-croix?category=food`
+  - `/islands/water-island?category=things-to-do`
+  - `/islands/water-island?category=wellness-spas`
+- `/sitemap.xml`
+
+Future option:
+
+- if an island/category combination becomes a deliberate SEO landing page, it should move off query params onto a stable clean URL with unique copy, unique metadata, sufficient listing depth, and explicit sitemap inclusion.
+
 - P1 items remain open, especially `/[island]/biz/[slug]` alias handling, thin-directory indexing policy, and St. Thomas-biased experience linking
 - P2 metadata/schema polish remains open
 
