@@ -134,3 +134,50 @@ Listings after: 127
 | Fort Segarra | local-provisions | Water Island | https://www.saj.usace.army.mil/FortSegarra/ https://www.vinow.com/water-island/fort-segarra/ | 2026-06-29 | high | website, area | Adds badly needed Water Island depth beyond the ferry and Honeymoon Beach. |
 | The Fred | boutique-stays | St. Croix | https://www.sleepwithfred.com/ | 2026-06-29 | high | website, address | Adds another real stay and strengthens romantic west-end St. Croix planning. |
 | Island View Guesthouse | boutique-stays | St. Thomas | https://islandviewstthomas.com/ https://islandviewstthomas.com/steakhouse/ | 2026-06-29 | high | website, address | Improves stay coverage on St. Thomas and supports romantic planning. |
+
+## Production Deployment Verification
+
+- Verified on 2026-06-29 after merge of PR #7 into `main`
+- Production merge commit: `d65f86d3a6998b1fc64aa4b3d1104498442c5a1a`
+- Catalog sweep commit included in production: `3455cb40568ccd45613d6fc1339d7409ca80de98`
+- Vercel status: production domain `https://www.myvibevi.com` serving the merged catalog successfully with HTTP 200 responses on homepage, search, sitemap, island hubs, category hubs, and sampled profile routes
+
+### Final production counts
+
+- Public-info listings: 127
+- Net new listings in this sweep: 64
+- Sitemap URLs: 194
+- Count by island:
+  - St. Thomas (`STT`): 46
+  - St. John (`STJ`): 37
+  - St. Croix (`STX`): 38
+  - Water Island (`WI`): 6
+- Count by category:
+  - Beaches: 26
+  - Excursions/charters: 32
+  - Dining: 21
+  - Nightlife: 22
+  - Local provisions: 19
+  - Wellness: 2
+  - Stays: 5
+
+### Production route QA
+
+- Homepage: pass (`/`)
+- Search shell: pass (`/search`)
+- Search queries: pass (`beach`, `boat`, `food`, `nightlife`, `local shops`, `things to do`, `water island`)
+- Island paths: pass for `st-thomas`, `st-john`, `st-croix`, `water-island`
+- Category paths: pass for all shipped island/category hubs in sitemap
+- Dynamic profiles: pass on sampled new routes with no 500s
+  - 10 new beach profiles verified live, including Brewer's Bay, Dorsch Beach, Francis Bay, Hawksnest Beach, Honeymoon Beach - St. John, Hull Bay Beach, Jumbie Beach, Leinster Bay, Lindbergh Bay Beach, and Lindquist Beach
+  - 5 new dining/nightlife profiles verified live, including Caribbean Fish Market, Duggan's Reef, Extra Virgin Bistro, Taphus Beer House, and The Windmill Bar
+  - 5 new boating/activity profiles verified live, including American Yacht Harbor, Cane Bay Dive Shop, Compass Point Marina, Night Kayak St. John, and Ocean Surfari
+  - Additional spot checks passed for Fort Segarra and Virgin Islands Children's Museum
+- Sitemap delta: pass (`130 -> 194`, `+64`)
+
+### Remaining gaps
+
+- Wellness remains thin at 2 total listings
+- Water Island remains shallow outside ferry, beach, bar, fort, rentals, and campground coverage
+- Beach category hubs are still not island-wide; beaches currently have strong profile depth but only partial dedicated category-hub coverage
+- Preview-route verification was limited by Vercel preview auth, so the complete smoke pass was completed on production instead

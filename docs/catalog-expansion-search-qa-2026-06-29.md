@@ -26,3 +26,34 @@
 | shops | 12 | 12 | 1. Local provisions on St. Croix (Category) // 2. Local provisions on St. Thomas (Category) // 3. Local shops experiences (Experience) // 4. Bajo el Sol Gallery Art Bar Cafe Rum Shop (Local Provisions) // 5. Caribbean Fish Market (Indulgent Dining) // 6. 81C Arts (Local Provisions) // 7. A.H. Riise Mall (Local Provisions) // 8. Christiansted National Historic Site (Local Provisions) // 9. Crucian Gold (Local Provisions) // 10. Estate Whim Museum (Local Provisions) | 1. Local provisions on St. Croix (Category) // 2. Local provisions on St. Thomas (Category) // 3. Local shops experiences (Experience) // 4. 81C Arts (Local Provisions) // 5. Christiansted National Historic Site (Local Provisions) // 6. Estate Whim Museum (Local Provisions) // 7. Mountain Top (Local Provisions) // 8. Pirates Treasure Museum (Local Provisions) // 9. Rachael's Rentals (Local Provisions) // 10. Water Island Ferry (Local Provisions) | useful |
 | local shops | 12 | 12 | 1. Local provisions on St. John (Category) // 2. Local provisions on Water Island (Category) // 3. Local shops experiences (Experience) // 4. Bajo el Sol Gallery Art Bar Cafe Rum Shop (Local Provisions) // 5. Caribbean Fish Market (Indulgent Dining) // 6. 81C Arts (Local Provisions) // 7. A.H. Riise Mall (Local Provisions) // 8. Christiansted National Historic Site (Local Provisions) // 9. Crucian Gold (Local Provisions) // 10. Estate Whim Museum (Local Provisions) | 1. Local provisions on St. John (Category) // 2. Local provisions on Water Island (Category) // 3. Local shops experiences (Experience) // 4. 81C Arts (Local Provisions) // 5. Christiansted National Historic Site (Local Provisions) // 6. Estate Whim Museum (Local Provisions) // 7. Mountain Top (Local Provisions) // 8. Pirates Treasure Museum (Local Provisions) // 9. Rachael's Rentals (Local Provisions) // 10. Water Island Ferry (Local Provisions) | useful |
 | things to do | 12 | 12 | 1. Adventure experiences (Experience) // 2. Things to do on St. Croix (Guide) // 3. Things to do on St. John (Guide) // 4. Things to do on St. Thomas (Guide) // 5. Water Island day trip (Guide) // 6. Beach Side Cafe at Sand Castle on the Beach (Indulgent Dining) // 7. Big Beard's Adventure Tours (Excursions & Charters) // 8. BushTribe Eco Adventures (Excursions & Charters) // 9. Caribbean Blue Boat Charters (Excursions & Charters) // 10. Caribbean Sea Adventures (Excursions & Charters) | 1. Adventure experiences (Experience) // 2. Things to do on St. Croix (Guide) // 3. Things to do on St. John (Guide) // 4. Things to do on St. Thomas (Guide) // 5. Water Island day trip (Guide) // 6. Big Beard's Adventure Tours (Excursions & Charters) // 7. BushTribe Eco Adventures (Excursions & Charters) // 8. Caribbean Blue Boat Charters (Excursions & Charters) // 9. Caribbean Sea Adventures (Excursions & Charters) // 10. Cinnamon Bay Beach & Campground (Boutique Stays) | useful |
+
+## Production Deployment Verification
+
+- Verified on production `https://www.myvibevi.com` on 2026-06-29 after merge commit `d65f86d3a6998b1fc64aa4b3d1104498442c5a1a`
+- All required smoke-search routes returned HTTP 200 and rendered result cards:
+  - `/search`
+  - `/search?q=beach`
+  - `/search?q=boat`
+  - `/search?q=food`
+  - `/search?q=nightlife`
+  - `/search?q=local%20shops`
+  - `/search?q=things%20to%20do`
+  - `/search?q=water%20island`
+
+### Production query snapshots
+
+- `beach`: rendered new beach-heavy results including Brewer's Bay alongside Dorsch Beach, Francis Bay, Hawksnest Beach, Honeymoon Beach - St. John, and Hull Bay Beach
+- `boat`: rendered boating results including new additions such as American Yacht Harbor, with charter and monument results still leading
+- `food`: rendered expanded dining depth including Caribbean Fish Market and Duggan's Reef in the top result set
+- `nightlife`: rendered nightlife results including Rhythms at Rainbow Beach, with legacy nightlife anchors still present
+- `local shops`: rendered expanded shop depth including Bajo el Sol Gallery Art Bar Cafe Rum Shop and A.H. Riise Mall
+- `things to do`: continued to mix guides and activity listings; strong utility, but still broad
+- `water island`: rendered the expanded Water Island set, now including Fort Segarra in addition to Honeymoon Beach, Water Island Ferry, Dinghy's Beach Bar & Grill, and Rachael's Rentals
+
+### Production search summary
+
+- Search result pages are loading normally with no observed profile 500s from the search surface
+- The strongest visible gains remain `beach`, `boat`, `food`, `nightlife`, `local shops`, and `water island`
+- `things to do`, `family`, `romantic`, and `rainy day` improved through supporting listings and guides, but remain broader-intent queries rather than sharply filtered verticals
+- `wellness` remains shallow because the catalog still only contains two wellness listings
+- Preview search-route QA could not be completed end-to-end because protected Vercel previews redirected to login; production smoke QA was completed instead

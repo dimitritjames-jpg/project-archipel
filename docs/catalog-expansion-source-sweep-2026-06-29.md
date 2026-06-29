@@ -124,3 +124,27 @@ Catalog additions researched for the 2026-06-29 sweep: 64
 - www.vinow.com
 - www.viport.com
 - www.visitusvi.com
+
+## Production Deployment Verification
+
+- PR merged: `https://github.com/dimitritjames-jpg/project-archipel/pull/7`
+- Production merge commit: `d65f86d3a6998b1fc64aa4b3d1104498442c5a1a`
+- Catalog sweep commit deployed within production: `3455cb40568ccd45613d6fc1339d7409ca80de98`
+- Vercel status: live on `https://www.myvibevi.com`
+
+### Live verification summary
+
+- Production sitemap count confirmed at 194 URLs
+- Production public-info listing count confirmed from deployed catalog data at 127
+- Sampled newly added profiles from all major sweep buckets rendered successfully on production:
+  - Beaches: Brewer's Bay, Dorsch Beach, Francis Bay, Hawksnest Beach, Honeymoon Beach - St. John, Hull Bay Beach, Jumbie Beach, Leinster Bay, Lindbergh Bay Beach, Lindquist Beach
+  - Dining/nightlife: Caribbean Fish Market, Duggan's Reef, Extra Virgin Bistro, Taphus Beer House, The Windmill Bar
+  - Boating/activities: American Yacht Harbor, Cane Bay Dive Shop, Compass Point Marina, Night Kayak St. John, Ocean Surfari
+  - Family/rainy-day/local depth: Fort Segarra, Virgin Islands Children's Museum
+
+### Remaining gaps after deployment
+
+- Wellness inventory is still thin and needs another source-backed pass
+- Water Island remains a shallow catalog compared with the three main islands
+- Beaches now have profile depth, but island-wide dedicated beach-hub coverage is still partial
+- Preview verification remained constrained by Vercel auth; production verification is the authoritative deployment check recorded here
