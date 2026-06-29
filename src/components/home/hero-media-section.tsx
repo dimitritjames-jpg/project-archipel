@@ -38,7 +38,7 @@ const heroMoves = [
 
 export function HeroMediaSection() {
   return (
-    <section className="destination-cover-hero relative -mt-20 overflow-hidden">
+    <section className="destination-cover-hero relative -mt-20 overflow-visible">
       <MediaBackdrop
         media={HERO_MEDIA}
         overlay="subtle"

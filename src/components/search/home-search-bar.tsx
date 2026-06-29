@@ -2,12 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useTransition } from "react";
-import {
-  searchLocalBusinesses,
-} from "@/lib/search/local-search";
-import type { LocalSearchResult } from "@/lib/search/catalog-search";
-import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics/events";
+import type { LocalSearchResult } from "@/lib/search/catalog-search";
+import { searchLocalBusinesses } from "@/lib/search/local-search";
+import { cn } from "@/lib/utils";
 
 type HomeSearchBarProps = {
   className?: string;
@@ -51,6 +49,7 @@ export function HomeSearchBar({
         query_length: trimmed.length,
         source: "directory_search",
       });
+
       startTransition(async () => {
         try {
           setError(null);
@@ -111,7 +110,7 @@ export function HomeSearchBar({
           />
           {isPending ? (
             <span className="text-xs text-archipel-white/50" aria-live="polite">
-              Searching…
+              Searching...
             </span>
           ) : null}
           <span className="hidden rounded-md border border-sand/15 bg-sand/8 px-2 py-1 text-[9px] font-black uppercase tracking-[0.08em] text-sand/66 sm:inline">
@@ -127,7 +126,13 @@ export function HomeSearchBar({
             className="absolute left-0 right-0 top-[calc(100%+0.6rem)] z-40 max-h-80 overflow-y-auto rounded-2xl border border-sand/15 bg-[#041022]/98 p-1.5 shadow-[0_30px_90px_rgba(0,0,0,0.5)] backdrop-blur-2xl"
           >
             {error ? (
-              <p className="rounded-xl border border-coral/15 bg-coral/8 px-4 py-3 text-sm text-coral">{error}</p>
+              <p className="rounded-xl border border-coral/15 bg-coral/8 px-4 py-3 text-sm text-coral">
+                {error}
+              </p>
+            ) : isPending && results.length === 0 ? (
+              <p className="px-4 py-4 text-sm text-archipel-white/60">
+                Searching published listings...
+              </p>
             ) : results.length === 0 && !isPending ? (
               <p className="px-4 py-4 text-sm text-archipel-white/60">
                 Nothing published matches &ldquo;{query.trim()}&rdquo; yet. Try an
@@ -147,7 +152,7 @@ export function HomeSearchBar({
                       </p>
                       <p className="mt-1 text-xs text-archipel-white/55">
                         {result.categoryName ?? "Business"}
-                        {" · "}
+                        {" / "}
                         {result.islandName}
                       </p>
                       {result.descriptionPlain ? (
