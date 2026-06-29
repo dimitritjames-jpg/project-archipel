@@ -8,14 +8,20 @@ type Props = {
   searchParams: Promise<{ category?: string }>;
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: Props): Promise<Metadata> {
   const { island } = await params;
+  const resolvedSearchParams = await searchParams;
   const islandData = getIslandBySlug(island);
   if (!islandData) {
     return { robots: { index: false, follow: false } };
   }
 
-  return getIslandHubMetadata(island as IslandSlug);
+  return getIslandHubMetadata(island as IslandSlug, {
+    isFiltered: typeof resolvedSearchParams.category === "string",
+  });
 }
 
 export default async function IslandHubRoute({ params, searchParams }: Props) {

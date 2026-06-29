@@ -11,6 +11,10 @@ type IslandHubSearchParams = {
   category?: string;
 };
 
+type IslandHubMetadataOptions = {
+  isFiltered?: boolean;
+};
+
 type IslandHubPageProps = {
   islandSlug: IslandSlug;
   searchParams?: IslandHubSearchParams;
@@ -197,12 +201,16 @@ function uniqueBusinesses(businesses: PublishedBusinessRow[]) {
   });
 }
 
-function buildIslandHubMetadata(islandSlug: IslandSlug): Metadata {
+function buildIslandHubMetadata(
+  islandSlug: IslandSlug,
+  options?: IslandHubMetadataOptions,
+): Metadata {
   const islandName = getIslandName(islandSlug);
   const canonical = absoluteUrl(`/islands/${islandSlug}`);
   const portal = ISLAND_PORTALS[islandSlug];
   const copy = ISLAND_MICROCOPY[islandSlug];
   const meta = ISLAND_METADATA_COPY[islandSlug];
+  const isFiltered = options?.isFiltered ?? false;
 
   return {
     title: `${islandName} Guide`,
@@ -214,7 +222,7 @@ function buildIslandHubMetadata(islandSlug: IslandSlug): Metadata {
       url: canonical,
       images: portal.media.src ? [{ url: portal.media.src, alt: portal.media.alt }] : undefined,
     },
-    robots: { index: true, follow: true },
+    robots: { index: !isFiltered, follow: true },
   };
 }
 
@@ -228,8 +236,11 @@ function liveListingsOnly(listings: PublishedBusinessRow[]) {
   return listings.filter((listing) => !listing.is_demo);
 }
 
-export function getIslandHubMetadata(islandSlug: IslandSlug) {
-  return buildIslandHubMetadata(islandSlug);
+export function getIslandHubMetadata(
+  islandSlug: IslandSlug,
+  options?: IslandHubMetadataOptions,
+) {
+  return buildIslandHubMetadata(islandSlug, options);
 }
 
 export async function IslandHubPage({
