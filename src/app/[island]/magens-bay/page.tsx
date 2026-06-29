@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PillarPage } from "@/components/discovery/pillar-page";
-import { env } from "@/lib/env";
+import { absoluteUrl } from "@/lib/site-url";
 
 type Props = { params: Promise<{ island: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { island } = await params;
   if (island !== "st-thomas") return { robots: { index: false, follow: false } };
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/st-thomas/magens-bay`;
+  const canonical = absoluteUrl("/st-thomas/magens-bay");
   return {
     title: "Magens Bay Guide — St. Thomas",
     description: "Plan a Magens Bay day around transportation, current beach operations, cruise-day context, nearby dining, and the return route across St. Thomas.",

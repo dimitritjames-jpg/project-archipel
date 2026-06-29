@@ -4,12 +4,12 @@ import {
   fetchPublishedBusiness,
   fetchPublishedBusinessStaticParams,
 } from "@/lib/businesses/queries";
-import { env } from "@/lib/env";
 import {
   getIslandBySlug,
   getIslandName,
   type IslandSlug,
 } from "@/lib/islands";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const islandName = getIslandName(islandParam as IslandSlug);
   const categoryName = business.category?.name ?? "Business";
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${categorySlug}/${slug}`;
+  const canonical = absoluteUrl(`/${islandParam}/${categorySlug}/${slug}`);
   const description =
     business.description_plain.slice(0, 160) ||
     `${business.name} in ${islandName}.`;

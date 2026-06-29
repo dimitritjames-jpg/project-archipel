@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import { AnalyticsEvent } from "@/components/analytics/analytics-event";
 import { NextBoatWidget } from "@/components/transit/NextBoatWidget";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
-import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
+import { absoluteUrl } from "@/lib/site-url";
 import { FERRY_MEDIA } from "@/lib/media";
 import {
   FERRY_ROUTES_BY_ISLAND,
@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           : `${name} Ferry Schedule & Island-Hop Guide | VibeVI`,
     description: `Check schedule-based ferry planning for ${name}, with directional route context, island-day links, source information, and direct-confirmation reminders.`,
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_SITE_URL}/${slug}/ferry-schedule`,
+      canonical: absoluteUrl(`/${slug}/ferry-schedule`),
     },
     openGraph: {
       title: `${name} Ferry Schedule | VibeVI`,

@@ -10,7 +10,6 @@ import { findLaunchPreviewCategorySlug } from "@/lib/businesses/launch-preview-c
 import { findPublicInfoCategorySlug } from "@/lib/businesses/public-info-catalog";
 import { shouldIndexListing } from "@/lib/businesses/listing-trust";
 import { getCategoryBySlug } from "@/lib/categories";
-import { env } from "@/lib/env";
 import {
   CODE_TO_SLUG,
   getIslandBySlug,
@@ -18,6 +17,7 @@ import {
   type IslandSlug,
 } from "@/lib/islands";
 import { getCategoryMediaAsset } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
@@ -139,7 +139,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalCategorySlug = getCanonicalCategorySlugForBusiness(business);
   const canonicalCategory =
     resolveCategoryForProfileRoute(canonicalCategorySlug) ?? requestedCategory;
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${canonicalCategorySlug}/${businessSlug}`;
+  const canonical = absoluteUrl(`/${islandParam}/${canonicalCategorySlug}/${businessSlug}`);
   const title = business.is_demo
     ? `${business.name} — Demo Profile`
     : `${business.name} — ${canonicalCategory.name} in ${islandName}`;
@@ -151,8 +151,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     canonicalCategory.name,
   );
   const ogImage = media.src
-    ? `${env.NEXT_PUBLIC_SITE_URL}${media.src}`
-    : `${env.NEXT_PUBLIC_SITE_URL}/opengraph-image`;
+    ? absoluteUrl(media.src)
+    : absoluteUrl("/opengraph-image");
 
   return {
     title,
@@ -197,7 +197,7 @@ export default async function CanonicalBusinessPage({ params }: Props) {
     permanentRedirect(`/${islandParam}/${canonicalCategorySlug}/${businessSlug}`);
   }
 
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${canonicalCategorySlug}/${businessSlug}`;
+  const canonical = absoluteUrl(`/${islandParam}/${canonicalCategorySlug}/${businessSlug}`);
 
   return (
     <BusinessProfileView

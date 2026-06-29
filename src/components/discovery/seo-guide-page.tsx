@@ -1,15 +1,15 @@
 import Link from "next/link";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
-import { env } from "@/lib/env";
 import type { LaunchGuide } from "@/lib/guides";
 import { getGuideMediaAsset } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 import { serializeJsonLd } from "@/lib/utils";
 
 const GUIDE_SCHEMA_LAST_MODIFIED = "2026-06-29";
 
 export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}${guide.path}`;
+  const canonical = absoluteUrl(guide.path);
   const islandSegment = guide.path.split("/")[1];
   const islandHub = ["st-thomas", "st-croix", "st-john", "water-island"].includes(islandSegment)
     ? `/${islandSegment}`
@@ -29,7 +29,7 @@ export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
         name: "VibeVI",
         logo: {
           "@type": "ImageObject",
-          url: `${env.NEXT_PUBLIC_SITE_URL}/vibevi-icon.svg`,
+          url: absoluteUrl("/vibevi-icon.svg"),
         },
       },
     },

@@ -7,23 +7,23 @@ import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CORE_CATEGORIES } from "@/lib/categories";
-import { env } from "@/lib/env";
 import { ISLAND_MAP, ISLAND_SLUGS } from "@/lib/islands";
 import { HERO_MEDIA, ISLAND_PORTALS } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Search the USVI",
   description:
     "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
-  alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/search` },
+  alternates: { canonical: absoluteUrl("/search") },
   openGraph: {
     title: "Search the USVI | VibeVI",
     description:
       "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
-    url: `${env.NEXT_PUBLIC_SITE_URL}/search`,
+    url: absoluteUrl("/search"),
     images: [
       {
-        url: `${env.NEXT_PUBLIC_SITE_URL}/opengraph-image`,
+        url: absoluteUrl("/opengraph-image"),
         alt: "Search VibeVI for island moves",
       },
     ],
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     title: "Search the USVI | VibeVI",
     description:
       "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
-    images: [`${env.NEXT_PUBLIC_SITE_URL}/twitter-image`],
+    images: [absoluteUrl("/twitter-image")],
   },
   robots: { index: false, follow: true },
 };

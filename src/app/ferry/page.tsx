@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { NextBoatWidget } from "@/components/transit/NextBoatWidget";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
-import { env } from "@/lib/env";
 import { FERRY_MEDIA } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 import { FERRY_ROUTE_GUIDES } from "@/lib/transit/ferry-routes";
 import { RED_HOOK_CRUZ_BAY_ROUTE_SLUG } from "@/lib/transit/countdown-math";
 import { serializeJsonLd } from "@/lib/utils";
@@ -12,12 +12,12 @@ export const metadata: Metadata = {
   title: "USVI Ferry Schedule & Island-Hop Guide | VibeVI",
   description:
     "Plan USVI ferry hops around St. Thomas, St. John, and Water Island with schedule-based context, route links, beach-day ideas, and direct-confirmation reminders.",
-  alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/ferry` },
+  alternates: { canonical: absoluteUrl("/ferry") },
   openGraph: {
     title: "USVI Ferry Schedule & Island-Hop Guide | VibeVI",
     description:
       "Schedule-based ferry planning for Red Hook, Cruz Bay, Crown Bay, Water Island, beach days, boat days, and island dining.",
-    url: `${env.NEXT_PUBLIC_SITE_URL}/ferry`,
+    url: absoluteUrl("/ferry"),
   },
   robots: { index: true, follow: true },
 };
@@ -27,7 +27,7 @@ const jsonLd = [
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: "USVI Ferry Schedule & Island-Hop Guide",
-    url: `${env.NEXT_PUBLIC_SITE_URL}/ferry`,
+    url: absoluteUrl("/ferry"),
     description:
       "Schedule-based ferry planning hub for St. Thomas, St. John, and Water Island. Confirm current operations directly with ferry providers.",
   },

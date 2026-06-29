@@ -9,11 +9,11 @@ import { TodayIslandPulse } from "@/components/home/today-island-pulse";
 import { VibeFilterRail } from "@/components/home/vibe-filter-rail";
 import { HomeSearchBar } from "@/components/search/home-search-bar";
 import { SectionHeader } from "@/components/ui/section-header";
-import { env } from "@/lib/env";
 import { ISLAND_SLUGS, type IslandSlug } from "@/lib/islands";
 import { GENERATED_MEDIA_PATHS } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 
-const homepageCanonical = `${env.NEXT_PUBLIC_SITE_URL}/`;
+const homepageCanonical = absoluteUrl("/");
 
 export const metadata: Metadata = {
   title: { absolute: "VibeVI - Find Your Island Vibe" },
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     url: homepageCanonical,
     images: [
       {
-        url: `${env.NEXT_PUBLIC_SITE_URL}/opengraph-image`,
+        url: absoluteUrl("/opengraph-image"),
         alt: "VibeVI - Find Your Island Vibe",
       },
     ],
