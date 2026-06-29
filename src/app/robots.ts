@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { env } from "@/lib/env";
+import { absoluteUrl, getCanonicalSiteUrl } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = env.NEXT_PUBLIC_SITE_URL;
+  const siteUrl = getCanonicalSiteUrl();
 
   return {
     rules: {
@@ -10,7 +10,7 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/dashboard/", "/auth/", "/search", "/map", "/preview/"],
     },
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: absoluteUrl("/sitemap.xml"),
     host: siteUrl,
   };
 }

@@ -1,23 +1,16 @@
 import { z } from "zod";
+import { getCanonicalSiteUrl } from "@/lib/site-url";
 
 const PRODUCTION_SITE_URL = "https://www.myvibevi.com";
-const DEVELOPMENT_SITE_URL = "http://localhost:3000";
 const PRODUCTION_SUPABASE_URL = "https://qjkhcxrtktmglpkslqyf.supabase.co";
 const PRODUCTION_SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_fJLNThgPDwb6sR6_E71AHw_0PCTJFCc";
 
-function normalizeSiteUrl(value: string | undefined): string {
-  const isProduction = process.env.VERCEL_ENV === "production";
-  const candidate = value?.trim() || (isProduction ? PRODUCTION_SITE_URL : DEVELOPMENT_SITE_URL);
-
-  if (isProduction && /^https?:\/\/localhost(?::\d+)?$/i.test(candidate)) {
-    return PRODUCTION_SITE_URL;
+function isPublicProductionRuntime(): boolean {
+  if (process.env.VERCEL) {
+    return true;
   }
 
-  return candidate.replace(/\/+$/, "");
-}
-
-function isPublicProductionRuntime(): boolean {
   if (process.env.VERCEL_ENV === "production") {
     return true;
   }
@@ -26,7 +19,7 @@ function isPublicProductionRuntime(): boolean {
     return !/^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
   }
 
-  return normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL) === PRODUCTION_SITE_URL;
+  return getCanonicalSiteUrl() === PRODUCTION_SITE_URL;
 }
 
 function normalizeSupabaseUrl(value: string | undefined): string | undefined {
@@ -83,7 +76,7 @@ const envSchema = z.object({
 });
 
 export const env = envSchema.parse({
-  NEXT_PUBLIC_SITE_URL: normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
+  NEXT_PUBLIC_SITE_URL: getCanonicalSiteUrl(),
   NEXT_PUBLIC_SUPABASE_URL: normalizeSupabaseUrl(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
   ),
