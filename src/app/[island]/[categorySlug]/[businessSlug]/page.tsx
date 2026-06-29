@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { BusinessProfileView } from "@/components/business/business-profile-view";
 import {
   fetchPublishedBusiness,
@@ -11,13 +11,22 @@ import { findPublicInfoCategorySlug } from "@/lib/businesses/public-info-catalog
 import { shouldIndexListing } from "@/lib/businesses/listing-trust";
 import { getCategoryBySlug } from "@/lib/categories";
 import { env } from "@/lib/env";
-import { CODE_TO_SLUG, getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
+import {
+  CODE_TO_SLUG,
+  getIslandBySlug,
+  getIslandName,
+  type IslandSlug,
+} from "@/lib/islands";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
 
 type Props = {
-  params: Promise<{ island: string; categorySlug: string; businessSlug: string }>;
+  params: Promise<{
+    island: string;
+    categorySlug: string;
+    businessSlug: string;
+  }>;
 };
 
 const PROFILE_ROUTE_FALLBACK_CATEGORIES: Record<
@@ -71,6 +80,7 @@ export async function generateStaticParams() {
   return data.map((row) => {
     const category = Array.isArray(row.category) ? row.category[0] : row.category;
     const islandSlug = CODE_TO_SLUG[row.island as keyof typeof CODE_TO_SLUG];
+
     return {
       island: islandSlug,
       categorySlug: (category as { slug: string } | null)?.slug ?? "directory",
@@ -96,31 +106,53 @@ function inferCategorySlug(businessSlug: string): string {
     "ember-and-tide-rooftop": "nightlife-rhythm",
     "solstice-spa-at-magens": "wellness-spas",
   };
+
   return map[businessSlug] ?? "directory";
+}
+
+function getCanonicalCategorySlugForBusiness(
+  business: Awaited<ReturnType<typeof fetchPublishedBusiness>>,
+): string {
+  if (!business) return "directory";
+  return business.category?.slug ?? inferCategorySlug(business.slug);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { island: islandParam, categorySlug, businessSlug } = await params;
   const island = getIslandBySlug(islandParam);
-  const category = resolveCategoryForProfileRoute(categorySlug);
-  if (!island || !category) return { robots: { index: false, follow: false } };
+  const requestedCategory = resolveCategoryForProfileRoute(categorySlug);
+
+  if (!island || !requestedCategory) {
+    return { robots: { index: false, follow: false } };
+  }
 
   const business = await fetchPublishedBusiness(
     islandParam as IslandSlug,
     businessSlug,
   );
-  if (!business) return { robots: { index: false, follow: false } };
+  if (!business) {
+    return { robots: { index: false, follow: false } };
+  }
 
   const islandName = getIslandName(islandParam as IslandSlug);
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${categorySlug}/${businessSlug}`;
+  const canonicalCategorySlug = getCanonicalCategorySlugForBusiness(business);
+  const canonicalCategory =
+    resolveCategoryForProfileRoute(canonicalCategorySlug) ?? requestedCategory;
+  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${canonicalCategorySlug}/${businessSlug}`;
+  const title = business.is_demo
+    ? `${business.name} — Demo Profile`
+    : `${business.name} — ${canonicalCategory.name} in ${islandName}`;
+  const description = business.description_plain.slice(0, 160);
 
   return {
-    title: business.is_demo
-      ? `${business.name} — Demo Profile`
-      : `${business.name} — ${category.name} in ${islandName}`,
-    description: business.description_plain.slice(0, 160),
+    title,
+    description,
     alternates: { canonical },
-    openGraph: { url: canonical },
+    openGraph: {
+      url: canonical,
+      title,
+      description,
+    },
     robots: { index: shouldIndexListing(business), follow: true },
   };
 }
@@ -128,8 +160,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CanonicalBusinessPage({ params }: Props) {
   const { island: islandParam, categorySlug, businessSlug } = await params;
   const island = getIslandBySlug(islandParam);
-  const category = resolveCategoryForProfileRoute(categorySlug);
-  if (!island || !category) notFound();
+  const requestedCategory = resolveCategoryForProfileRoute(categorySlug);
+
+  if (!island || !requestedCategory) notFound();
 
   const business = await fetchPublishedBusiness(
     islandParam as IslandSlug,
@@ -137,7 +170,12 @@ export default async function CanonicalBusinessPage({ params }: Props) {
   );
   if (!business) notFound();
 
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${categorySlug}/${businessSlug}`;
+  const canonicalCategorySlug = getCanonicalCategorySlugForBusiness(business);
+  if (categorySlug !== canonicalCategorySlug) {
+    permanentRedirect(`/${islandParam}/${canonicalCategorySlug}/${businessSlug}`);
+  }
+
+  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${canonicalCategorySlug}/${businessSlug}`;
 
   return (
     <BusinessProfileView

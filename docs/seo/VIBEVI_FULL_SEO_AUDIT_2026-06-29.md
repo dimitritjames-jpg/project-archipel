@@ -211,3 +211,52 @@ Yes. There are current P0 blockers:
 
 - wrong-category profile URLs are indexable duplicates
 - three island hub beach links lead to 404
+
+## P0 Route-Integrity Fix Status
+
+Status: completed on `fix/seo-canonical-route-integrity`
+
+Files changed:
+
+- [src/app/[island]/[categorySlug]/[businessSlug]/page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/app/[island]/[categorySlug]/[businessSlug]/page.tsx)
+- [src/components/islands/island-hub-page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/components/islands/island-hub-page.tsx)
+- [docs/seo/VIBEVI_FULL_SEO_AUDIT_2026-06-29.md](/C:/Users/dimit/.cursor/projects/project-archipel/docs/seo/VIBEVI_FULL_SEO_AUDIT_2026-06-29.md)
+
+What changed:
+
+- wrong-category profile URLs now `308` redirect to the canonical category path
+- profile metadata canonicals now always point at the canonical category path
+- island-hub beach section links now use `/islands/{island}?category=beaches`
+- island hubs no longer emit the broken `/{island}/beaches` directory link
+
+Routes verified:
+
+- `/islands/st-thomas`
+- `/islands/st-john`
+- `/islands/st-croix`
+- `/islands/water-island`
+- `/islands/st-thomas?category=beaches`
+- `/st-thomas/local-provisions/81c-arts`
+- `/st-croix/indulgent-dining/1756-grotto`
+- `/st-john/indulgent-dining/1864-the-restaurant`
+- `/st-thomas/beaches/brewers-bay`
+- `/st-thomas/beaches/coki-point-beach`
+- wrong-path checks:
+  - `/st-thomas/indulgent-dining/81c-arts`
+  - `/st-thomas/nightlife-rhythm/81c-arts`
+  - `/st-thomas/local-provisions/brewers-bay`
+- `/sitemap.xml`
+
+Verification result:
+
+- sampled canonical profile URLs return `200`
+- sampled wrong-category profile URLs return `308` redirects to the canonical path
+- sitemap count remains `194`
+- sampled wrong-category URLs are not present in sitemap output
+- no sampled `500` responses were found
+- no visible source/code artifacts were found on sampled hub/profile routes
+
+Remaining SEO items:
+
+- P1 items remain open, especially `/[island]/biz/[slug]` alias handling, thin-directory indexing policy, and St. Thomas-biased experience linking
+- P2 metadata/schema polish remains open

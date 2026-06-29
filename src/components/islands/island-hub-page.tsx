@@ -286,7 +286,7 @@ export async function IslandHubPage({
       title: "Beaches",
       description: "Public beach profiles and beach-first island planning for this island only.",
       categorySlug: "beaches",
-      href: `/${islandSlug}/beaches`,
+      href: buildFilterHref(islandSlug, "beaches"),
       items: beaches,
     },
     {
