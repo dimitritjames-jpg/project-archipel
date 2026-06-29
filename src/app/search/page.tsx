@@ -135,7 +135,7 @@ export default async function SearchPage({ searchParams }: Props) {
               return (
                 <Link
                   key={slug}
-                  href={`/${slug}`}
+                  href={`/islands/${slug}`}
                   className="island-search-photo-card group relative min-h-[185px] overflow-hidden rounded-[1.25rem] border border-sand/12 transition hover:-translate-y-1 hover:border-sand/30"
                 >
                   {islandMedia.src ? (

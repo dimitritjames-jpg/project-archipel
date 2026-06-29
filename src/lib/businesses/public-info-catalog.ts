@@ -1,5 +1,6 @@
 import approvedBatch from "../../../data/public-info-businesses-batch-1-approved.json";
 import type { PublishedBusinessRow } from "@/lib/businesses/queries";
+import { ISLAND_CODES } from "@/lib/islands";
 
 type ApprovedPublicInfoListing = (typeof approvedBatch.promoted_listings)[number];
 
@@ -19,7 +20,31 @@ const CATEGORY_NAMES: Record<string, { name: string; schema_type: string }> = {
   "local-provisions": { name: "Local Provisions", schema_type: "Store" },
 };
 
+const VALID_ISLAND_CODES = new Set<string>(ISLAND_CODES);
+
+function validateApprovedPublicInfoListing(input: ApprovedPublicInfoListing) {
+  if (!input.island || !VALID_ISLAND_CODES.has(input.island)) {
+    throw new Error(
+      `[public-info-catalog] Listing "${input.name}" is missing a valid island code.`,
+    );
+  }
+
+  if (!input.slug?.trim()) {
+    throw new Error(
+      `[public-info-catalog] Listing "${input.name}" is missing a slug.`,
+    );
+  }
+
+  if (!input.category?.trim()) {
+    throw new Error(
+      `[public-info-catalog] Listing "${input.name}" is missing a category slug.`,
+    );
+  }
+}
+
 function publicInfoListing(input: ApprovedPublicInfoListing): PublishedBusinessRow {
+  validateApprovedPublicInfoListing(input);
+
   const category = CATEGORY_NAMES[input.category] ?? {
     name: "Directory",
     schema_type: "LocalBusiness",

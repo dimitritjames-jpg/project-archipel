@@ -19,7 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   for (const island of ISLAND_SLUGS) {
     entries.push({
-      url: `${siteUrl}/${island}`,
+      url: `${siteUrl}/islands/${island}`,
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.9,
