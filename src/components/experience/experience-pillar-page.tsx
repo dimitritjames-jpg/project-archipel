@@ -110,6 +110,19 @@ function TrustFooterNotice({ pillar }: { pillar: ExperiencePillar }) {
   );
 }
 
+function getRelatedCategoryLinks(pillar: ExperiencePillar) {
+  return pillar.relatedCategories.flatMap((categorySlug) => {
+    const category = getCategoryBySlug(categorySlug);
+    if (!category) return [];
+
+    return pillar.islandRelevance.map((item) => ({
+      key: `${item.island}-${categorySlug}`,
+      label: `${ISLAND_MAP[item.island].name} ${category.name}`,
+      href: `/islands/${item.island}?category=${categorySlug}`,
+    }));
+  });
+}
+
 export function ExperiencePillarPage({
   pillar,
   businesses,
@@ -120,6 +133,7 @@ export function ExperiencePillarPage({
   const pageEvent = PAGE_VIEW_EVENTS[pillar.slug];
   const featureGrid = getFeatureGrid(pillar);
   const heroMedia = getExperienceHeroMedia(pillar.slug, pillar.name);
+  const relatedCategoryLinks = getRelatedCategoryLinks(pillar);
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -234,20 +248,15 @@ export function ExperiencePillarPage({
                 Follow the next island thread.
               </h2>
               <div className="mt-6 flex flex-wrap gap-2">
-                {pillar.relatedCategories.map((categorySlug) => {
-                  const category = getCategoryBySlug(categorySlug);
-                  if (!category) return null;
-
-                  return (
-                    <Link
-                      key={categorySlug}
-                      href={`/st-thomas/${categorySlug}`}
-                      className="rounded-full border border-sand/18 bg-sand/7 px-3 py-1.5 text-xs font-semibold text-sand"
-                    >
-                      {category.name}
-                    </Link>
-                  );
-                })}
+                {relatedCategoryLinks.map((link) => (
+                  <Link
+                    key={link.key}
+                    href={link.href}
+                    className="rounded-full border border-sand/18 bg-sand/7 px-3 py-1.5 text-xs font-semibold text-sand"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
               </div>
             </div>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -341,7 +350,7 @@ export function ExperiencePillarPage({
           {CORE_CATEGORIES.map((category) => (
             <Link
               key={category.slug}
-              href={`/st-thomas/${category.slug}`}
+              href={`/search?category=${category.slug}`}
               className="rounded-full border border-white/9 bg-white/[0.03] px-4 py-2 text-sm text-white/58 transition hover:border-sand/25 hover:text-sand"
             >
               {category.name}

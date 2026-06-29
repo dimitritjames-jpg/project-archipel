@@ -17,6 +17,7 @@ import {
   getIslandName,
   type IslandSlug,
 } from "@/lib/islands";
+import { getCategoryMediaAsset } from "@/lib/media";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
@@ -142,7 +143,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = business.is_demo
     ? `${business.name} — Demo Profile`
     : `${business.name} — ${canonicalCategory.name} in ${islandName}`;
-  const description = business.description_plain.slice(0, 160);
+  const description =
+    business.description_plain.slice(0, 160) ||
+    `${business.name} in ${islandName}.`;
+  const media = getCategoryMediaAsset(
+    canonicalCategorySlug,
+    canonicalCategory.name,
+  );
+  const ogImage = media.src
+    ? `${env.NEXT_PUBLIC_SITE_URL}${media.src}`
+    : `${env.NEXT_PUBLIC_SITE_URL}/opengraph-image`;
 
   return {
     title,
@@ -152,6 +162,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonical,
       title,
       description,
+      images: [
+        {
+          url: ogImage,
+          alt: `VibeVI category artwork for ${business.name} in ${islandName}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
     },
     robots: { index: shouldIndexListing(business), follow: true },
   };

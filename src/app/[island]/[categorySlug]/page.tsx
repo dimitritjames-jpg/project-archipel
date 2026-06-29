@@ -57,13 +57,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const islandName = getIslandName(islandParam as IslandSlug);
   const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${categorySlug}`;
   const searchCopy = HIGH_INTENT_CATEGORY_COPY[`${islandParam}/${categorySlug}`];
+  const businesses = await fetchPublishedBusinessesByCategory(
+    islandParam as IslandSlug,
+    categorySlug,
+  );
+  const shouldIndexCategory = businesses.length > 0;
+  const media = getCategoryMediaAsset(categorySlug, category.name);
+  const ogImage = media.src
+    ? `${env.NEXT_PUBLIC_SITE_URL}${media.src}`
+    : `${env.NEXT_PUBLIC_SITE_URL}/opengraph-image`;
+  const title = searchCopy?.title ?? `${category.name} in ${islandName}`;
+  const description =
+    searchCopy?.description ??
+    (businesses.length > 0
+      ? `Find published ${category.name.toLowerCase()} listings across ${islandName}.`
+      : `Explore ${category.name.toLowerCase()} planning context for ${islandName}. Published listings are still being assembled.`);
 
   return {
-    title: searchCopy?.title ?? `${category.name} in ${islandName}`,
-    description: searchCopy?.description ?? `Find published ${category.name.toLowerCase()} listings across ${islandName}.`,
+    title,
+    description,
     alternates: { canonical },
-    openGraph: { url: canonical, title: `${searchCopy?.title ?? `${category.name} in ${islandName}`} | VibeVI`, description: searchCopy?.description ?? `Find published ${category.name.toLowerCase()} listings across ${islandName}.` },
-    robots: { index: true, follow: true },
+    openGraph: {
+      url: canonical,
+      title: `${title} | VibeVI`,
+      description,
+      images: [
+        {
+          url: ogImage,
+          alt: `${category.name} route artwork for ${islandName} on VibeVI`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | VibeVI`,
+      description,
+      images: [ogImage],
+    },
+    robots: { index: shouldIndexCategory, follow: true },
   };
 }
 

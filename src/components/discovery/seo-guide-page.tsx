@@ -6,6 +6,8 @@ import type { LaunchGuide } from "@/lib/guides";
 import { getGuideMediaAsset } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
 
+const GUIDE_SCHEMA_LAST_MODIFIED = "2026-06-29";
+
 export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
   const canonical = `${env.NEXT_PUBLIC_SITE_URL}${guide.path}`;
   const islandSegment = guide.path.split("/")[1];
@@ -13,7 +15,24 @@ export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
     ? `/${islandSegment}`
     : null;
   const jsonLd = [
-    { "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, mainEntityOfPage: canonical, author: { "@type": "Organization", name: "VibeVI" }, publisher: { "@type": "Organization", name: "VibeVI" } },
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: guide.title,
+      description: guide.description,
+      url: canonical,
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      dateModified: GUIDE_SCHEMA_LAST_MODIFIED,
+      author: { "@type": "Organization", name: "VibeVI" },
+      publisher: {
+        "@type": "Organization",
+        name: "VibeVI",
+        logo: {
+          "@type": "ImageObject",
+          url: `${env.NEXT_PUBLIC_SITE_URL}/vibevi-icon.svg`,
+        },
+      },
+    },
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: guide.faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) },
   ];
   const guideMedia = getGuideMediaAsset(`${guide.path} ${guide.title}`, guide.eyebrow);

@@ -7,13 +7,34 @@ import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CORE_CATEGORIES } from "@/lib/categories";
+import { env } from "@/lib/env";
 import { ISLAND_MAP, ISLAND_SLUGS } from "@/lib/islands";
 import { HERO_MEDIA, ISLAND_PORTALS } from "@/lib/media";
 
 export const metadata: Metadata = {
-  title: "Find the Move",
+  title: "Search the USVI",
   description:
-    "Search VibeVI for beaches, boats, bites, nights, and published USVI businesses by island, category, and mood.",
+    "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
+  alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/search` },
+  openGraph: {
+    title: "Search the USVI | VibeVI",
+    description:
+      "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
+    url: `${env.NEXT_PUBLIC_SITE_URL}/search`,
+    images: [
+      {
+        url: `${env.NEXT_PUBLIC_SITE_URL}/opengraph-image`,
+        alt: "Search VibeVI for island moves",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Search the USVI | VibeVI",
+    description:
+      "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
+    images: [`${env.NEXT_PUBLIC_SITE_URL}/twitter-image`],
+  },
   robots: { index: false, follow: true },
 };
 
