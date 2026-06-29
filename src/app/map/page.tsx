@@ -13,10 +13,10 @@ export const metadata: Metadata = {
 };
 
 const mapRoutes = [
-  ["St. Thomas", "/st-thomas", "st-thomas"],
-  ["St. Croix", "/st-croix", "st-croix"],
-  ["St. John", "/st-john", "st-john"],
-  ["Water Island", "/water-island", "water-island"],
+  ["St. Thomas", "/islands/st-thomas", "st-thomas"],
+  ["St. Croix", "/islands/st-croix", "st-croix"],
+  ["St. John", "/islands/st-john", "st-john"],
+  ["Water Island", "/islands/water-island", "water-island"],
 ] as const;
 
 export default function MapPage() {

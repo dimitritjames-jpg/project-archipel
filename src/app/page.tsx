@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { DirectoryMapSection } from "@/components/map/directory-map-section";
 import { HeroMediaSection } from "@/components/home/hero-media-section";
-import { IslandPortalCard } from "@/components/home/island-portal-card";
+import { IslandSilhouetteCard } from "@/components/home/island-silhouette-card";
 import { PartnerClaimCTA } from "@/components/home/partner-claim-cta";
 import { TodayIslandPulse } from "@/components/home/today-island-pulse";
 import { VibeFilterRail } from "@/components/home/vibe-filter-rail";
@@ -127,6 +127,31 @@ export default function HomePage() {
   return (
     <>
       <HeroMediaSection />
+
+      <section
+        className="homepage-island-chooser px-4 py-14 sm:px-6 lg:py-18"
+        aria-labelledby="choose-your-island-heading"
+      >
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-7 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
+            <SectionHeader
+              eyebrow="Choose your island"
+              title="Start with the shore that fits the day."
+              description="Pick St. Thomas, St. John, St. Croix, or Water Island first, then move through only that island's beaches, food, charters, nightlife, shops, wellness, and useful planning context."
+              id="choose-your-island-heading"
+            />
+            <p className="max-w-md justify-self-end text-sm leading-7 text-[#45636a] lg:text-right">
+              Harbor pulse, park calm, big-island depth, or ferry-hop ease. Choose the island first, then let VibeVI narrow the day.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+            {ISLAND_SLUGS.map((slug) => (
+              <IslandSilhouetteCard key={slug} islandSlug={slug as IslandSlug} />
+            ))}
+          </div>
+        </div>
+      </section>
 
       <section className="homepage-sand-section px-4 py-14 sm:px-6 lg:py-20" aria-labelledby="day-moves-heading">
         <div className="mx-auto max-w-7xl">
@@ -314,26 +339,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="homepage-island-portal-section px-4 py-16 sm:px-6 lg:py-24" aria-labelledby="islands-heading">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-7 lg:grid-cols-[0.75fr_1.25fr] lg:items-end">
-            <SectionHeader
-              eyebrow="Four islands · four different days"
-              title="Choose your island."
-              description="St. Thomas moves fast. St. John opens into the park. St. Croix stretches deeper. Water Island keeps the day small in the best way."
-            />
-            <p className="max-w-md justify-self-end text-sm leading-relaxed text-[#45636a] lg:text-right">
-              Harbor nights, rum-history afternoons, national park coves, ferry hops, golf carts, boardwalk tables, and hidden water.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-2">
-            {ISLAND_SLUGS.map((slug) => (
-              <IslandPortalCard key={slug} islandSlug={slug as IslandSlug} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="homepage-water-section px-4 py-16 sm:px-6 lg:py-24" aria-labelledby="today-guides-heading">
         <div className="mx-auto max-w-7xl">
           <SectionHeader
@@ -371,3 +376,4 @@ export default function HomePage() {
     </>
   );
 }
+

@@ -52,8 +52,7 @@ export function SiteHeader() {
             "shadow-[0_14px_40px_rgba(11,75,85,0.18)] transition hover:-translate-y-0.5 hover:bg-[#0f6874]",
           )}
         >
-          <span className="hidden sm:inline">Find the move</span>
-          <span className="sm:hidden">Search</span>
+          <span>Search</span>
           <span aria-hidden="true">&rarr;</span>
         </Link>
       </div>
