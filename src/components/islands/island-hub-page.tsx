@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { BusinessPreviewCard } from "@/components/discovery/business-preview-card";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { fetchPublishedBusinessesByCategory, type PublishedBusinessRow } from "@/lib/businesses/queries";
@@ -64,12 +64,42 @@ const ISLAND_MICROCOPY: Record<
 const FILTER_LABELS = [
   ["all", "All live listings"],
   ["beaches", "Beaches"],
+  ["excursions-charters", "Excursions & Charters"],
   ["food", "Food / Dining"],
+  ["nightlife", "Nightlife"],
+  ["local-shops", "Local Shops / Provisions"],
   ["things-to-do", "Things to do"],
   ["family", "Family / Rainy-Day"],
   ["history", "Historic / Cultural"],
   ["wellness", "Wellness / Spas"],
+  ["stays", "Stays"],
 ] as const;
+
+const ISLAND_METADATA_COPY: Record<
+  IslandSlug,
+  { description: string; intentTitle: string }
+> = {
+  "st-thomas": {
+    description:
+      "St. Thomas things to do, beaches, nightlife, shopping, charters, and cruise-day planning in one island-first guide.",
+    intentTitle: "things to do, beaches, nightlife, and shopping",
+  },
+  "st-john": {
+    description:
+      "St. John beaches, nature, trails, ferry-day planning, and quieter island routes across Cruz Bay and the national park.",
+    intentTitle: "beaches, nature, and slower island days",
+  },
+  "st-croix": {
+    description:
+      "St. Croix food, culture, beaches, nightlife, diving, and historic stops with island-first planning for Christiansted and Frederiksted.",
+    intentTitle: "food, culture, beaches, and nightlife",
+  },
+  "water-island": {
+    description:
+      "Water Island day-trip planning with Honeymoon Beach, Fort Segarra context, ferry logistics, and a slow beach-day escape.",
+    intentTitle: "day-trip planning and Honeymoon Beach time",
+  },
+};
 
 function normalizeFilter(value?: string) {
   const normalized = value?.trim().toLowerCase();
@@ -172,10 +202,11 @@ function buildIslandHubMetadata(islandSlug: IslandSlug): Metadata {
   const canonical = `${env.NEXT_PUBLIC_SITE_URL}/islands/${islandSlug}`;
   const portal = ISLAND_PORTALS[islandSlug];
   const copy = ISLAND_MICROCOPY[islandSlug];
+  const meta = ISLAND_METADATA_COPY[islandSlug];
 
   return {
     title: `${islandName} Guide`,
-    description: `${islandName} island hub for beaches, charters, dining, nightlife, shops, wellness, stays, and source-backed local planning.`,
+    description: meta.description,
     alternates: { canonical },
     openGraph: {
       title: `${islandName} Guide | VibeVI`,
@@ -338,8 +369,10 @@ export async function IslandHubPage({
     }
     return section.items.length > 0;
   });
+  const hasVisibleResults = visibleSections.some((section) => section.items.length > 0);
 
   const utilityLinks = [
+    ["Back to homepage", "/"],
     ["Search this island", `/search?island=${islandSlug}`],
     ["Search all islands", "/search"],
     ["Map view", "/map"],
@@ -353,6 +386,7 @@ export async function IslandHubPage({
 
   const totalCount = allIslandListings.length;
   const center = ISLAND_MAP[islandSlug].center;
+  const meta = ISLAND_METADATA_COPY[islandSlug];
 
   return (
     <>
@@ -373,6 +407,9 @@ export async function IslandHubPage({
               <p className="text-pretty mt-4 max-w-2xl text-base leading-relaxed text-archipel-white/66 sm:text-lg">
                 {copy.long}
               </p>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-archipel-white/52 sm:text-base">
+                Built for {meta.intentTitle}, with every section scoped to {islandName} so you can stay island-first before widening the search.
+              </p>
             </div>
 
             <div className="command-surface rounded-[1.45rem] p-5">
@@ -387,13 +424,18 @@ export async function IslandHubPage({
               </p>
               <div className="mt-6 grid grid-cols-2 gap-2">
                 {utilityLinks.map(([label, href]) => (
-                  <Link
+                  <TrackedLink
                     key={href}
                     href={href}
+                    eventName="island_selected"
+                    eventProperties={{ island: islandSlug, source: "island_hub_utility_link", label }}
+                    data-track="island-hub-utility-link"
+                    data-island={islandSlug}
+                    data-link-label={label}
                     className="rounded-xl border border-white/8 bg-white/[0.035] px-3 py-3 text-xs font-semibold text-archipel-white/66 transition hover:border-aqua/25 hover:text-aqua"
                   >
                     {label}
-                  </Link>
+                  </TrackedLink>
                 ))}
               </div>
             </div>
@@ -417,6 +459,8 @@ export async function IslandHubPage({
               <form
                 action="/search"
                 method="get"
+                data-track="island-hub-search"
+                data-island={islandSlug}
                 className="rounded-[1.2rem] border border-white/10 bg-midnight-950/45 p-2 backdrop-blur"
               >
                 <input type="hidden" name="island" value={islandSlug} />
@@ -425,10 +469,14 @@ export async function IslandHubPage({
                     type="search"
                     name="q"
                     placeholder={copy.searchHint}
+                    data-track="island-hub-search-input"
+                    data-island={islandSlug}
                     className="min-h-12 flex-1 rounded-[0.95rem] border border-white/8 bg-transparent px-4 text-sm text-white placeholder:text-archipel-white/38 focus:outline-none"
                   />
                   <button
                     type="submit"
+                    data-track="island-hub-search-submit"
+                    data-island={islandSlug}
                     className="inline-flex min-h-12 items-center justify-center rounded-[0.95rem] bg-aqua px-5 text-sm font-bold text-midnight-950 transition hover:bg-aqua/90"
                   >
                     Search {islandName}
@@ -436,18 +484,27 @@ export async function IslandHubPage({
                 </div>
               </form>
               <div className="mt-3 flex flex-wrap gap-2">
-                <Link
+                <TrackedLink
                   href="/search"
+                  eventName="island_selected"
+                  eventProperties={{ island: islandSlug, source: "island_hub_search_escape_hatch" }}
+                  data-track="search-all-islands"
+                  data-island={islandSlug}
                   className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-xs font-semibold text-archipel-white/66 transition hover:border-aqua/25 hover:text-aqua"
                 >
                   Search all islands
-                </Link>
-                <Link
+                </TrackedLink>
+                <TrackedLink
                   href={`/search?island=${islandSlug}&q=things to do`}
+                  eventName="island_selected"
+                  eventProperties={{ island: islandSlug, source: "island_hub_search_shortcut", query: "things to do" }}
+                  data-track="island-hub-search-shortcut"
+                  data-island={islandSlug}
+                  data-query="things to do"
                   className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-xs font-semibold text-archipel-white/66 transition hover:border-aqua/25 hover:text-aqua"
                 >
                   Search things to do
-                </Link>
+                </TrackedLink>
               </div>
             </div>
           </div>
@@ -470,9 +527,14 @@ export async function IslandHubPage({
             {FILTER_LABELS.map(([value, label]) => {
               const isActive = filter === value;
               return (
-                <Link
+                <TrackedLink
                   key={value}
                   href={buildFilterHref(islandSlug, value)}
+                  eventName="island_selected"
+                  eventProperties={{ island: islandSlug, source: "island_hub_filter", filter: value }}
+                  data-track="island-hub-filter"
+                  data-island={islandSlug}
+                  data-filter={value}
                   className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     isActive
                       ? "border border-aqua/35 bg-aqua/12 text-aqua"
@@ -480,14 +542,14 @@ export async function IslandHubPage({
                   }`}
                 >
                   {label}
-                </Link>
+                </TrackedLink>
               );
             })}
           </div>
         </section>
 
         <section className="mt-12 space-y-14" aria-label={`${islandName} listing sections`}>
-          {visibleSections.length > 0 ? (
+          {visibleSections.length > 0 && hasVisibleResults ? (
             visibleSections.map((section) => (
               <div key={section.id}>
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -501,18 +563,28 @@ export async function IslandHubPage({
                     </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <Link
+                    <TrackedLink
                       href={section.href}
+                      eventName="island_selected"
+                      eventProperties={{ island: islandSlug, source: "island_hub_section_link", section: section.id }}
+                      data-track="island-hub-section-link"
+                      data-island={islandSlug}
+                      data-section={section.id}
                       className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-semibold text-archipel-white/66 transition hover:border-aqua/25 hover:text-aqua"
                     >
                       {section.categorySlug ? `Open ${section.title}` : `Search ${section.title}`}
-                    </Link>
-                    <Link
+                    </TrackedLink>
+                    <TrackedLink
                       href={`/search?island=${islandSlug}&q=${encodeURIComponent(section.title.toLowerCase())}`}
+                      eventName="island_selected"
+                      eventProperties={{ island: islandSlug, source: "island_hub_section_search", section: section.id }}
+                      data-track="island-hub-section-search"
+                      data-island={islandSlug}
+                      data-section={section.id}
                       className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-xs font-semibold text-archipel-white/66 transition hover:border-aqua/25 hover:text-aqua"
                     >
                       Search in {islandName}
-                    </Link>
+                    </TrackedLink>
                   </div>
                 </div>
 
@@ -528,7 +600,7 @@ export async function IslandHubPage({
                   </div>
                 ) : (
                   <div className="command-surface mt-6 rounded-[1.35rem] border border-white/8 p-6 text-sm text-archipel-white/55">
-                    More coming soon. This island section is intentionally hidden until it has useful live listings.
+                    More coming soon. This category is scoped correctly to {islandName}, but it needs stronger live coverage before it becomes a useful browse section.
                   </div>
                 )}
               </div>
@@ -537,24 +609,32 @@ export async function IslandHubPage({
             <div className="command-surface rounded-[1.45rem] border border-white/8 p-7">
               <p className="eyebrow-label">Filter reset</p>
               <h2 className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-white">
-                This island slice is still filling in.
+                No live results yet for this island filter.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-relaxed text-archipel-white/58 sm:text-lg">
-                Try a broader hub view, search inside {islandName}, or step back out to the full archipelago while this section grows.
+                Try all categories for {islandName}, search within the island, or widen back out to the full archipelago while this slice fills in.
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
-                <Link
+                <TrackedLink
                   href={`/islands/${islandSlug}`}
+                  eventName="island_selected"
+                  eventProperties={{ island: islandSlug, source: "island_hub_zero_state_reset" }}
+                  data-track="island-hub-zero-state-reset"
+                  data-island={islandSlug}
                   className="rounded-full border border-aqua/25 bg-aqua/10 px-4 py-2 text-sm font-semibold text-aqua transition hover:bg-aqua/16"
                 >
                   Show all {islandName}
-                </Link>
-                <Link
+                </TrackedLink>
+                <TrackedLink
                   href={`/search?island=${islandSlug}`}
+                  eventName="island_selected"
+                  eventProperties={{ island: islandSlug, source: "island_hub_zero_state_search" }}
+                  data-track="island-hub-zero-state-search"
+                  data-island={islandSlug}
                   className="rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm font-semibold text-archipel-white/66 transition hover:border-aqua/25 hover:text-aqua"
                 >
                   Search this island
-                </Link>
+                </TrackedLink>
               </div>
             </div>
           )}

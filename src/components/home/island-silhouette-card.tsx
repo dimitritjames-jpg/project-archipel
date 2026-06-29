@@ -60,6 +60,9 @@ export function IslandSilhouetteCard({
       href={`/islands/${islandSlug}`}
       eventName="island_selected"
       eventProperties={{ island: islandSlug, source: "homepage_choose_your_island" }}
+      data-track="island-selector-card"
+      data-island={islandSlug}
+      data-surface="homepage-choose-your-island"
       className={cn(
         "group relative block min-h-[260px] overflow-hidden rounded-[1.9rem] border border-white/60 bg-[#062532] p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:border-white/85 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)] sm:min-h-[290px] sm:p-6",
         className,
