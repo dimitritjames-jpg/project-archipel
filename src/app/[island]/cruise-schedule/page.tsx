@@ -4,8 +4,8 @@ import { notFound } from "next/navigation";
 import { AnalyticsEvent } from "@/components/analytics/analytics-event";
 import { CrowdPredictor } from "@/components/transit/CrowdPredictor";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
-import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
+import { absoluteUrl } from "@/lib/site-url";
 import { CRUISE_DAY_MEDIA } from "@/lib/media";
 import type { PortLoadDailyRow } from "@/lib/transit/supabase-ports";
 
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         : "St. Croix Cruise Schedule & Port Planning | VibeVI",
     description: `Review scheduled cruise arrivals and capacity context for ${name} ports — planning estimates, not actual passenger counts or live crowd data.`,
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_SITE_URL}/${slug}/cruise-schedule`,
+      canonical: absoluteUrl(`/${slug}/cruise-schedule`),
     },
     openGraph: {
       title: `${name} Cruise Schedule & Port Load | VibeVI`,

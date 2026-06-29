@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { env } from "@/lib/env";
+import { absoluteUrl, getCanonicalSiteUrl } from "@/lib/site-url";
 import { CODE_TO_SLUG, ISLAND_SLUGS } from "@/lib/islands";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { PUBLIC_EXPERIENCE_PILLAR_SLUGS } from "@/lib/experience-pillars";
@@ -7,19 +7,19 @@ import { PUBLIC_INFO_BUSINESSES } from "@/lib/businesses/public-info-catalog";
 import { PUBLIC_FERRY_GUIDE_SLUGS } from "@/lib/transit/ferry-routes";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = env.NEXT_PUBLIC_SITE_URL;
+  const siteUrl = getCanonicalSiteUrl();
   const now = new Date();
 
   const entries: MetadataRoute.Sitemap = [
     { url: siteUrl, lastModified: now, changeFrequency: "daily", priority: 1 },
-    { url: `${siteUrl}/get-listed`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${siteUrl}/ferry`, lastModified: now, changeFrequency: "hourly", priority: 0.9 },
-    { url: `${siteUrl}/cruise-day`, lastModified: now, changeFrequency: "daily", priority: 0.9 },
+    { url: absoluteUrl("/get-listed"), lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: absoluteUrl("/ferry"), lastModified: now, changeFrequency: "hourly", priority: 0.9 },
+    { url: absoluteUrl("/cruise-day"), lastModified: now, changeFrequency: "daily", priority: 0.9 },
   ];
 
   for (const island of ISLAND_SLUGS) {
     entries.push({
-      url: `${siteUrl}/islands/${island}`,
+      url: absoluteUrl(`/islands/${island}`),
       lastModified: now,
       changeFrequency: "daily",
       priority: 0.9,
@@ -27,7 +27,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     for (const category of CORE_CATEGORIES) {
       entries.push({
-        url: `${siteUrl}/${island}/${category.slug}`,
+        url: absoluteUrl(`/${island}/${category.slug}`),
         lastModified: now,
         changeFrequency: "weekly",
         priority: 0.8,
@@ -36,7 +36,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     if (island === "st-thomas" || island === "st-john" || island === "water-island") {
       entries.push({
-        url: `${siteUrl}/${island}/ferry-schedule`,
+        url: absoluteUrl(`/${island}/ferry-schedule`),
         lastModified: now,
         changeFrequency: "hourly",
         priority: 0.85,
@@ -45,7 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     if (island === "st-thomas" || island === "st-croix") {
       entries.push({
-        url: `${siteUrl}/${island}/cruise-schedule`,
+        url: absoluteUrl(`/${island}/cruise-schedule`),
         lastModified: now,
         changeFrequency: "hourly",
         priority: 0.85,
@@ -55,7 +55,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   for (const slug of PUBLIC_EXPERIENCE_PILLAR_SLUGS) {
     entries.push({
-      url: `${siteUrl}/experiences/${slug}`,
+      url: absoluteUrl(`/experiences/${slug}`),
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.85,
@@ -69,7 +69,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     if (!categorySlug) continue;
 
     entries.push({
-      url: `${siteUrl}/${islandSlug}/${categorySlug}/${business.slug}`,
+      url: absoluteUrl(`/${islandSlug}/${categorySlug}/${business.slug}`),
       lastModified: business.last_verified_at
         ? new Date(business.last_verified_at)
         : now,
@@ -80,7 +80,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   for (const slug of PUBLIC_FERRY_GUIDE_SLUGS) {
     entries.push({
-      url: `${siteUrl}/ferry/${slug}`,
+      url: absoluteUrl(`/ferry/${slug}`),
       lastModified: now,
       changeFrequency: "hourly",
       priority: 0.8,
@@ -108,7 +108,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
   for (const path of pillars) {
     entries.push({
-      url: `${siteUrl}${path}`,
+      url: absoluteUrl(path),
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,

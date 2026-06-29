@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PillarPage } from "@/components/discovery/pillar-page";
-import { env } from "@/lib/env";
+import { absoluteUrl } from "@/lib/site-url";
 
 type Props = { params: Promise<{ island: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { island } = await params;
   if (island !== "st-croix") return { robots: { index: false, follow: false } };
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/st-croix/buck-island`;
+  const canonical = absoluteUrl("/st-croix/buck-island");
   return { title: "Buck Island Guide — St. Croix", description: "Plan a Buck Island outing from St. Croix with charter questions, condition checks, departure context, and useful links for the return ashore.", alternates: { canonical }, openGraph: { title: "Buck Island Guide | VibeVI", description: "A practical Buck Island and St. Croix boat-day planner.", url: canonical }, robots: { index: true, follow: true } };
 }
 

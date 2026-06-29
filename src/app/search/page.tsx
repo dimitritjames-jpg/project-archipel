@@ -9,11 +9,32 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { ISLAND_MAP, ISLAND_SLUGS } from "@/lib/islands";
 import { HERO_MEDIA, ISLAND_PORTALS } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
-  title: "Find the Move",
+  title: "Search the USVI",
   description:
-    "Search VibeVI for beaches, boats, bites, nights, and published USVI businesses by island, category, and mood.",
+    "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
+  alternates: { canonical: absoluteUrl("/search") },
+  openGraph: {
+    title: "Search the USVI | VibeVI",
+    description:
+      "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
+    url: absoluteUrl("/search"),
+    images: [
+      {
+        url: absoluteUrl("/opengraph-image"),
+        alt: "Search VibeVI for island moves",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Search the USVI | VibeVI",
+    description:
+      "Search VibeVI for beaches, charters, dining, nightlife, ferry-aware planning, and published USVI businesses by island and category.",
+    images: [absoluteUrl("/twitter-image")],
+  },
   robots: { index: false, follow: true },
 };
 

@@ -5,17 +5,18 @@ import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { env } from "@/lib/env";
 import { GET_LISTED_MEDIA } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Get Listed on VibeVI",
   description:
     "Introduce your USVI business to people planning beaches, boats, dining, nightlife, stays, wellness, shopping, and island experiences.",
-  alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/get-listed` },
+  alternates: { canonical: absoluteUrl("/get-listed") },
   openGraph: {
     title: "Get Listed on VibeVI",
     description:
       "Prepare a richer VibeVI profile and register interest in future featured and sponsor placements.",
-    url: `${env.NEXT_PUBLIC_SITE_URL}/get-listed`,
+    url: absoluteUrl("/get-listed"),
   },
   robots: { index: true, follow: true },
 };

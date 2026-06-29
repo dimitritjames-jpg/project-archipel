@@ -1,19 +1,38 @@
 import Link from "next/link";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
-import { env } from "@/lib/env";
 import type { LaunchGuide } from "@/lib/guides";
 import { getGuideMediaAsset } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 import { serializeJsonLd } from "@/lib/utils";
 
+const GUIDE_SCHEMA_LAST_MODIFIED = "2026-06-29";
+
 export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}${guide.path}`;
+  const canonical = absoluteUrl(guide.path);
   const islandSegment = guide.path.split("/")[1];
   const islandHub = ["st-thomas", "st-croix", "st-john", "water-island"].includes(islandSegment)
     ? `/${islandSegment}`
     : null;
   const jsonLd = [
-    { "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, mainEntityOfPage: canonical, author: { "@type": "Organization", name: "VibeVI" }, publisher: { "@type": "Organization", name: "VibeVI" } },
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: guide.title,
+      description: guide.description,
+      url: canonical,
+      mainEntityOfPage: { "@type": "WebPage", "@id": canonical },
+      dateModified: GUIDE_SCHEMA_LAST_MODIFIED,
+      author: { "@type": "Organization", name: "VibeVI" },
+      publisher: {
+        "@type": "Organization",
+        name: "VibeVI",
+        logo: {
+          "@type": "ImageObject",
+          url: absoluteUrl("/vibevi-icon.svg"),
+        },
+      },
+    },
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: guide.faq.map((item) => ({ "@type": "Question", name: item.question, acceptedAnswer: { "@type": "Answer", text: item.answer } })) },
   ];
   const guideMedia = getGuideMediaAsset(`${guide.path} ${guide.title}`, guide.eyebrow);

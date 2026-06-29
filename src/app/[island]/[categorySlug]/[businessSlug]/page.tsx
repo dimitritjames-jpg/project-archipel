@@ -10,13 +10,14 @@ import { findLaunchPreviewCategorySlug } from "@/lib/businesses/launch-preview-c
 import { findPublicInfoCategorySlug } from "@/lib/businesses/public-info-catalog";
 import { shouldIndexListing } from "@/lib/businesses/listing-trust";
 import { getCategoryBySlug } from "@/lib/categories";
-import { env } from "@/lib/env";
 import {
   CODE_TO_SLUG,
   getIslandBySlug,
   getIslandName,
   type IslandSlug,
 } from "@/lib/islands";
+import { getCategoryMediaAsset } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 
 export const dynamicParams = true;
 export const revalidate = 3600;
@@ -138,11 +139,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const canonicalCategorySlug = getCanonicalCategorySlugForBusiness(business);
   const canonicalCategory =
     resolveCategoryForProfileRoute(canonicalCategorySlug) ?? requestedCategory;
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${canonicalCategorySlug}/${businessSlug}`;
+  const canonical = absoluteUrl(`/${islandParam}/${canonicalCategorySlug}/${businessSlug}`);
   const title = business.is_demo
     ? `${business.name} — Demo Profile`
     : `${business.name} — ${canonicalCategory.name} in ${islandName}`;
-  const description = business.description_plain.slice(0, 160);
+  const description =
+    business.description_plain.slice(0, 160) ||
+    `${business.name} in ${islandName}.`;
+  const media = getCategoryMediaAsset(
+    canonicalCategorySlug,
+    canonicalCategory.name,
+  );
+  const ogImage = media.src
+    ? absoluteUrl(media.src)
+    : absoluteUrl("/opengraph-image");
 
   return {
     title,
@@ -152,6 +162,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: canonical,
       title,
       description,
+      images: [
+        {
+          url: ogImage,
+          alt: `VibeVI category artwork for ${business.name} in ${islandName}`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImage],
     },
     robots: { index: shouldIndexListing(business), follow: true },
   };
@@ -175,7 +197,7 @@ export default async function CanonicalBusinessPage({ params }: Props) {
     permanentRedirect(`/${islandParam}/${canonicalCategorySlug}/${businessSlug}`);
   }
 
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${canonicalCategorySlug}/${businessSlug}`;
+  const canonical = absoluteUrl(`/${islandParam}/${canonicalCategorySlug}/${businessSlug}`);
 
   return (
     <BusinessProfileView

@@ -260,3 +260,73 @@ Remaining SEO items:
 
 - P1 items remain open, especially `/[island]/biz/[slug]` alias handling, thin-directory indexing policy, and St. Thomas-biased experience linking
 - P2 metadata/schema polish remains open
+
+## P1/P2 SEO Cleanup Status
+
+Status: completed on `fix/seo-p1-p2-cleanup`
+
+Files changed:
+
+- [src/app/[island]/biz/[slug]/page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/app/[island]/biz/[slug]/page.tsx)
+- [src/app/[island]/[categorySlug]/page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/app/[island]/[categorySlug]/page.tsx)
+- [src/app/[island]/[categorySlug]/[businessSlug]/page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/app/[island]/[categorySlug]/[businessSlug]/page.tsx)
+- [src/app/page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/app/page.tsx)
+- [src/app/search/page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/app/search/page.tsx)
+- [src/components/experience/experience-pillar-page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/components/experience/experience-pillar-page.tsx)
+- [src/components/business/business-profile-view.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/components/business/business-profile-view.tsx)
+- [src/components/discovery/seo-guide-page.tsx](/C:/Users/dimit/.cursor/projects/project-archipel/src/components/discovery/seo-guide-page.tsx)
+- [docs/seo/VIBEVI_SEO_P1_P2_EXECUTION_REPORT_2026-06-29.md](/C:/Users/dimit/.cursor/projects/project-archipel/docs/seo/VIBEVI_SEO_P1_P2_EXECUTION_REPORT_2026-06-29.md)
+
+What changed:
+
+- `/[island]/biz/[slug]` now returns a `308` redirect to the canonical category profile route instead of rendering duplicate profile HTML
+- empty category directories now stay user-accessible but emit `noindex,follow`
+- category and profile templates now emit stronger page-owned Open Graph and Twitter metadata using honest category artwork fallbacks
+- homepage and `/search` now emit explicit page-owned canonicals; `/search` remains `noindex,follow`
+- business profiles now include crawlable discovery links into search, island hubs, category routes, and island guide routes
+- experience pages no longer use St. Thomas-only related-category chips; they now emit island-aware hub filter links across the relevant islands
+- guide article schema now includes `url`, `dateModified`, `mainEntityOfPage`, and publisher logo details without inventing offers, ratings, or other unsupported fields
+
+Commands run:
+
+- `npm run typecheck`
+- `npm run lint`
+- `$env:NODE_OPTIONS='--use-system-ca'; npm run build`
+- `npm run start -- --port 3031`
+
+Routes verified locally against the built app:
+
+- `/`
+- `/search`
+- `/search?q=beach`
+- `/islands/st-thomas`
+- `/islands/st-john`
+- `/islands/st-croix`
+- `/islands/water-island`
+- `/islands/st-thomas?category=beaches`
+- `/st-thomas/local-provisions/81c-arts`
+- `/st-thomas/biz/81c-arts`
+- `/st-thomas/indulgent-dining/81c-arts`
+- `/st-thomas/beaches/brewers-bay`
+- `/water-island/wellness-spas`
+- `/experiences/adventure`
+- `/sitemap.xml`
+- `/robots.txt`
+
+Verification result:
+
+- `/st-thomas/biz/81c-arts` returns `308` to `/st-thomas/local-provisions/81c-arts`
+- sampled wrong-category route redirects from P0 remain intact
+- canonical profile routes return `200`
+- `/search` and `/search?q=beach` remain `noindex,follow`
+- homepage and `/search` emit explicit canonicals
+- sampled empty category route `/water-island/wellness-spas` returns `200` with `noindex,follow`
+- experience related-category links now include St. Thomas, St. John, St. Croix, and Water Island hub-filter routes
+- no broken crawlable `/st-thomas/beaches` directory link is emitted from the sampled island hub
+- sitemap count remains `194`
+
+Remaining backlog:
+
+- decide whether near-empty category directories beyond `0 listings` should also be `noindex`
+- review whether any experience page should replace island-specific relevance cards with guide links for even stronger crawl focus
+- continue broader metadata/schema polish across remaining utility and guide templates as needed

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { DirectoryMapSection } from "@/components/map/directory-map-section";
@@ -10,6 +11,28 @@ import { HomeSearchBar } from "@/components/search/home-search-bar";
 import { SectionHeader } from "@/components/ui/section-header";
 import { ISLAND_SLUGS, type IslandSlug } from "@/lib/islands";
 import { GENERATED_MEDIA_PATHS } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
+
+const homepageCanonical = absoluteUrl("/");
+
+export const metadata: Metadata = {
+  title: { absolute: "VibeVI - Find Your Island Vibe" },
+  description:
+    "Choose your island, then find beaches, boats, bites, nightlife, ferry planning, and local businesses across St. Thomas, St. John, St. Croix, and Water Island.",
+  alternates: { canonical: homepageCanonical },
+  openGraph: {
+    title: "VibeVI - Find Your Island Vibe",
+    description:
+      "Choose your island, then find beaches, boats, bites, nightlife, ferry planning, and local businesses across St. Thomas, St. John, St. Croix, and Water Island.",
+    url: homepageCanonical,
+    images: [
+      {
+        url: absoluteUrl("/opengraph-image"),
+        alt: "VibeVI - Find Your Island Vibe",
+      },
+    ],
+  },
+};
 
 const dayMoves = [
   {

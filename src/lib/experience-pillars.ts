@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { CategorySlug } from "@/lib/categories";
-import { env } from "@/lib/env";
+import { absoluteUrl } from "@/lib/site-url";
 import type { IslandSlug } from "@/lib/islands";
 
 export const EXPERIENCE_PILLAR_SLUGS = [
@@ -362,7 +362,7 @@ export function getExperiencePillar(slug: string) {
 }
 
 export function experiencePillarMetadata(pillar: ExperiencePillar): Metadata {
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/experiences/${pillar.slug}`;
+  const canonical = absoluteUrl(`/experiences/${pillar.slug}`);
 
   return {
     title: `${pillar.name} in the USVI`,

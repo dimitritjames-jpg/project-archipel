@@ -3,9 +3,9 @@ import { TrackedLink } from "@/components/analytics/tracked-link";
 import { BusinessPreviewCard } from "@/components/discovery/business-preview-card";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { fetchPublishedBusinessesByCategory, type PublishedBusinessRow } from "@/lib/businesses/queries";
-import { env } from "@/lib/env";
 import { getIslandName, ISLAND_MAP, type IslandSlug } from "@/lib/islands";
 import { ISLAND_PORTALS } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 
 type IslandHubSearchParams = {
   category?: string;
@@ -199,7 +199,7 @@ function uniqueBusinesses(businesses: PublishedBusinessRow[]) {
 
 function buildIslandHubMetadata(islandSlug: IslandSlug): Metadata {
   const islandName = getIslandName(islandSlug);
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/islands/${islandSlug}`;
+  const canonical = absoluteUrl(`/islands/${islandSlug}`);
   const portal = ISLAND_PORTALS[islandSlug];
   const copy = ISLAND_MICROCOPY[islandSlug];
   const meta = ISLAND_METADATA_COPY[islandSlug];

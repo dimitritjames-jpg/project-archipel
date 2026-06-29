@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { env } from "@/lib/env";
+import { absoluteUrl, getCanonicalSiteUrl } from "@/lib/site-url";
 import { serializeJsonLd } from "@/lib/utils";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = env.NEXT_PUBLIC_SITE_URL;
+const siteUrl = getCanonicalSiteUrl();
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
@@ -79,7 +79,7 @@ export const metadata: Metadata = {
       "Beach mornings, boat days, local plates, ferry checks, cruise-day moves, and waterfront nights across the U.S. Virgin Islands.",
     images: [
       {
-        url: "/opengraph-image",
+        url: absoluteUrl("/opengraph-image"),
         width: 1200,
         height: 630,
         alt: "VibeVI - Find Your Island Vibe",
@@ -93,7 +93,7 @@ export const metadata: Metadata = {
       "Beaches, boats, bites, ferry checks, cruise-day moves, and local businesses across the U.S. Virgin Islands.",
     images: [
       {
-        url: "/twitter-image",
+        url: absoluteUrl("/twitter-image"),
         alt: "VibeVI - Find Your Island Vibe",
       },
     ],

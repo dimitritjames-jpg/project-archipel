@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { NextBoatWidget } from "@/components/transit/NextBoatWidget";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
-import { env } from "@/lib/env";
+import { absoluteUrl } from "@/lib/site-url";
 import { FERRY_MEDIA } from "@/lib/media";
 import {
   FERRY_ROUTE_GUIDES,
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (redirectSlug) {
     return {
-      alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/ferry/${redirectSlug}` },
+      alternates: { canonical: absoluteUrl(`/ferry/${redirectSlug}`) },
       robots: { index: false, follow: true },
     };
   }
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { robots: { index: false, follow: false } };
   }
 
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/ferry/${route.slug}`;
+  const canonical = absoluteUrl(`/ferry/${route.slug}`);
 
   return {
     title: `${route.plainTitle} | VibeVI`,
@@ -68,7 +68,7 @@ export default async function FerryRoutePage({ params }: Props) {
   const route = getFerryRouteGuide(routeSlug);
   if (!route) notFound();
 
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/ferry/${route.slug}`;
+  const canonical = absoluteUrl(`/ferry/${route.slug}`);
   const jsonLd = [
     {
       "@context": "https://schema.org",

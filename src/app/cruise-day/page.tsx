@@ -2,20 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { CrowdPredictor } from "@/components/transit/CrowdPredictor";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
-import { env } from "@/lib/env";
 import { CRUISE_DAY_MEDIA } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 import { serializeJsonLd } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "USVI Cruise Day Guide | VibeVI",
   description:
     "Plan a USVI cruise day around port location, beach, food, culture, shopping, tours, scheduled capacity context, and a conservative all-aboard buffer.",
-  alternates: { canonical: `${env.NEXT_PUBLIC_SITE_URL}/cruise-day` },
+  alternates: { canonical: absoluteUrl("/cruise-day") },
   openGraph: {
     title: "USVI Cruise Day Guide | VibeVI",
     description:
       "Port-aware cruise-day planning for St. Thomas and St. Croix with scheduled-capacity trust language and useful island links.",
-    url: `${env.NEXT_PUBLIC_SITE_URL}/cruise-day`,
+    url: absoluteUrl("/cruise-day"),
   },
   robots: { index: true, follow: true },
 };

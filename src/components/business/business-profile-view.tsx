@@ -46,6 +46,9 @@ export function BusinessProfileView({
     business.category?.name ?? "Island profile",
   );
   const planningTags = getListingPlanningTags(business);
+  const searchHref = "/search";
+  const islandHubHref = `/islands/${islandSlug}`;
+  const islandGuideHref = `/${islandSlug}/things-to-do`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -305,6 +308,77 @@ export function BusinessProfileView({
         </div>
 
         <aside className="command-surface topographic-field mt-14 overflow-hidden rounded-[1.6rem] border-coral/15 p-6 sm:p-8">
+          <div className="mb-8 border-b border-white/8 pb-8">
+            <p className="eyebrow-label !text-aqua">Keep exploring</p>
+            <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">
+              Keep this stop connected to the rest of the day.
+            </h2>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              <TrackedLink
+                href={searchHref}
+                eventName="search_submitted"
+                eventProperties={{
+                  placement: "business_profile_discovery",
+                  listing_state: trustState,
+                }}
+                className="rounded-[1.15rem] border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-aqua/25 hover:text-aqua"
+              >
+                <p className="text-sm font-semibold text-white">Search VibeVI</p>
+                <p className="mt-2 text-xs leading-6 text-white/48">
+                  Open the full island search board.
+                </p>
+              </TrackedLink>
+              <TrackedLink
+                href={islandHubHref}
+                eventName="island_selected"
+                eventProperties={{
+                  island: islandSlug,
+                  source: "business_profile_discovery",
+                }}
+                className="rounded-[1.15rem] border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-aqua/25 hover:text-aqua"
+              >
+                <p className="text-sm font-semibold text-white">
+                  Explore more on {islandName}
+                </p>
+                <p className="mt-2 text-xs leading-6 text-white/48">
+                  Open the island hub and browse live categories.
+                </p>
+              </TrackedLink>
+              <TrackedLink
+                href={`/${islandSlug}/${categorySlug}`}
+                eventName="category_clicked"
+                eventProperties={{
+                  island: islandSlug,
+                  category: categorySlug,
+                  source: "business_profile_discovery",
+                }}
+                className="rounded-[1.15rem] border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-aqua/25 hover:text-aqua"
+              >
+                <p className="text-sm font-semibold text-white">
+                  More in {business.category?.name ?? "this category"}
+                </p>
+                <p className="mt-2 text-xs leading-6 text-white/48">
+                  Follow the canonical category route for related profiles.
+                </p>
+              </TrackedLink>
+              <TrackedLink
+                href={islandGuideHref}
+                eventName="plan_experience_clicked"
+                eventProperties={{
+                  island: islandSlug,
+                  source: "business_profile_discovery",
+                }}
+                className="rounded-[1.15rem] border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-aqua/25 hover:text-aqua"
+              >
+                <p className="text-sm font-semibold text-white">
+                  Things to do in {islandName}
+                </p>
+                <p className="mt-2 text-xs leading-6 text-white/48">
+                  Move from one listing into the broader island plan.
+                </p>
+              </TrackedLink>
+            </div>
+          </div>
           <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <div className="flex flex-wrap items-center gap-3">

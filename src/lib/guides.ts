@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { env } from "@/lib/env";
+import { absoluteUrl } from "@/lib/site-url";
 
 export type GuideLink = { href: string; label: string; description: string };
 
@@ -15,7 +15,7 @@ export type LaunchGuide = {
 };
 
 export function guideMetadata(guide: LaunchGuide): Metadata {
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}${guide.path}`;
+  const canonical = absoluteUrl(guide.path);
   return {
     title: guide.title,
     description: guide.description,

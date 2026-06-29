@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { env } from "@/lib/env";
+import { absoluteUrl } from "@/lib/site-url";
 
 export type CruisePortGuide = {
   path: string;
@@ -67,7 +67,7 @@ export const ST_THOMAS_CRUISE_PORT_GUIDES = {
 } as const satisfies Record<string, CruisePortGuide>;
 
 export function cruisePortGuideMetadata(guide: CruisePortGuide): Metadata {
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}${guide.path}`;
+  const canonical = absoluteUrl(guide.path);
 
   return {
     title: `${guide.title} | VibeVI`,

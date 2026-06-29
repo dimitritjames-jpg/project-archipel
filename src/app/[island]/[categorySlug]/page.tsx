@@ -7,9 +7,9 @@ import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { fetchPublishedBusinessesByCategory } from "@/lib/businesses/queries";
 import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
-import { env } from "@/lib/env";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
 import { getCategoryMediaAsset } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
 
 type Props = { params: Promise<{ island: string; categorySlug: string }> };
 
@@ -55,15 +55,46 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!island || !category) return { robots: { index: false, follow: false } };
 
   const islandName = getIslandName(islandParam as IslandSlug);
-  const canonical = `${env.NEXT_PUBLIC_SITE_URL}/${islandParam}/${categorySlug}`;
+  const canonical = absoluteUrl(`/${islandParam}/${categorySlug}`);
   const searchCopy = HIGH_INTENT_CATEGORY_COPY[`${islandParam}/${categorySlug}`];
+  const businesses = await fetchPublishedBusinessesByCategory(
+    islandParam as IslandSlug,
+    categorySlug,
+  );
+  const shouldIndexCategory = businesses.length > 0;
+  const media = getCategoryMediaAsset(categorySlug, category.name);
+  const ogImage = media.src
+    ? absoluteUrl(media.src)
+    : absoluteUrl("/opengraph-image");
+  const title = searchCopy?.title ?? `${category.name} in ${islandName}`;
+  const description =
+    searchCopy?.description ??
+    (businesses.length > 0
+      ? `Find published ${category.name.toLowerCase()} listings across ${islandName}.`
+      : `Explore ${category.name.toLowerCase()} planning context for ${islandName}. Published listings are still being assembled.`);
 
   return {
-    title: searchCopy?.title ?? `${category.name} in ${islandName}`,
-    description: searchCopy?.description ?? `Find published ${category.name.toLowerCase()} listings across ${islandName}.`,
+    title,
+    description,
     alternates: { canonical },
-    openGraph: { url: canonical, title: `${searchCopy?.title ?? `${category.name} in ${islandName}`} | VibeVI`, description: searchCopy?.description ?? `Find published ${category.name.toLowerCase()} listings across ${islandName}.` },
-    robots: { index: true, follow: true },
+    openGraph: {
+      url: canonical,
+      title: `${title} | VibeVI`,
+      description,
+      images: [
+        {
+          url: ogImage,
+          alt: `${category.name} route artwork for ${islandName} on VibeVI`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${title} | VibeVI`,
+      description,
+      images: [ogImage],
+    },
+    robots: { index: shouldIndexCategory, follow: true },
   };
 }
 
