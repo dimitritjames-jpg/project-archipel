@@ -4,6 +4,10 @@ import type { PublishedBusinessRow } from "@/lib/businesses/queries";
 type ApprovedPublicInfoListing = (typeof approvedBatch.promoted_listings)[number];
 
 const CATEGORY_NAMES: Record<string, { name: string; schema_type: string }> = {
+  beaches: {
+    name: "Beaches",
+    schema_type: "Beach",
+  },
   "excursions-charters": {
     name: "Excursions & Charters",
     schema_type: "TouristInformationCenter",

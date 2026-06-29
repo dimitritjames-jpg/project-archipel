@@ -20,6 +20,21 @@ type Props = {
   params: Promise<{ island: string; categorySlug: string; businessSlug: string }>;
 };
 
+const PROFILE_ROUTE_FALLBACK_CATEGORIES: Record<
+  string,
+  { name: string; slug: string; schemaType: string }
+> = {
+  beaches: { name: "Beaches", slug: "beaches", schemaType: "Beach" },
+};
+
+function resolveCategoryForProfileRoute(categorySlug: string) {
+  return (
+    getCategoryBySlug(categorySlug) ??
+    PROFILE_ROUTE_FALLBACK_CATEGORIES[categorySlug] ??
+    null
+  );
+}
+
 export async function generateStaticParams() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key =
@@ -87,7 +102,7 @@ function inferCategorySlug(businessSlug: string): string {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { island: islandParam, categorySlug, businessSlug } = await params;
   const island = getIslandBySlug(islandParam);
-  const category = getCategoryBySlug(categorySlug);
+  const category = resolveCategoryForProfileRoute(categorySlug);
   if (!island || !category) return { robots: { index: false, follow: false } };
 
   const business = await fetchPublishedBusiness(
@@ -113,7 +128,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CanonicalBusinessPage({ params }: Props) {
   const { island: islandParam, categorySlug, businessSlug } = await params;
   const island = getIslandBySlug(islandParam);
-  const category = getCategoryBySlug(categorySlug);
+  const category = resolveCategoryForProfileRoute(categorySlug);
   if (!island || !category) notFound();
 
   const business = await fetchPublishedBusiness(
