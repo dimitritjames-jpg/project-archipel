@@ -16,6 +16,7 @@ const ISLAND_BUTTON_COPY: Record<
     gradient: string;
     fill: string;
     path: string;
+    frameClassName?: string;
   }
 > = {
   "st-thomas": {
@@ -23,28 +24,29 @@ const ISLAND_BUTTON_COPY: Record<
     microcopy: "beaches, nightlife, shopping, cruise-day energy",
     gradient: "from-cyan-300/28 via-sky-500/14 to-coral/18",
     fill: "rgba(120, 237, 255, 0.95)",
-    path: "M30 78 C52 54, 96 43, 140 48 C164 39, 203 41, 224 56 C244 70, 242 92, 223 104 C203 118, 166 124, 136 120 C114 131, 83 132, 58 120 C36 110, 22 93, 30 78 Z",
+    path: "M20 90 L32 82 L47 78 L60 68 L79 60 L98 61 L112 57 L130 51 L148 54 L163 49 L178 52 L191 58 L208 60 L223 69 L234 79 L230 89 L216 92 L205 101 L188 104 L175 110 L160 111 L145 118 L128 115 L109 119 L94 116 L80 118 L66 113 L53 109 L40 100 L26 97 Z",
   },
   "st-john": {
     eyebrow: "Park calm",
     microcopy: "national park, beaches, trails, quiet escapes",
     gradient: "from-emerald-300/28 via-teal-500/14 to-aqua/18",
     fill: "rgba(131, 255, 201, 0.95)",
-    path: "M36 96 C54 72, 89 55, 132 50 C166 46, 208 54, 229 74 C243 88, 237 108, 214 121 C191 134, 154 140, 121 136 C89 133, 58 123, 42 110 C28 99, 27 108, 36 96 Z",
+    path: "M30 103 L44 87 L58 79 L73 68 L92 62 L112 57 L128 62 L143 58 L159 61 L177 67 L194 74 L207 84 L221 88 L225 98 L213 104 L205 114 L191 121 L171 121 L154 127 L138 124 L121 128 L104 124 L90 127 L73 122 L56 117 L43 109 Z",
   },
   "st-croix": {
     eyebrow: "Big-island depth",
     microcopy: "food, culture, diving, local rhythm",
     gradient: "from-amber-300/28 via-rose-500/14 to-aqua/18",
     fill: "rgba(255, 210, 130, 0.95)",
-    path: "M24 95 C42 71, 78 58, 120 55 C145 41, 180 39, 209 49 C234 58, 244 79, 232 100 C220 122, 187 135, 151 136 C132 145, 105 147, 78 141 C50 134, 24 117, 20 103 C18 100, 18 98, 24 95 Z",
+    path: "M18 98 L32 86 L51 81 L70 72 L95 68 L118 68 L138 64 L162 63 L185 66 L205 73 L224 78 L238 88 L236 98 L221 103 L205 108 L190 116 L169 118 L148 121 L127 120 L106 123 L87 121 L67 119 L49 114 L34 108 L20 104 Z",
   },
   "water-island": {
     eyebrow: "Ferry-hop ease",
     microcopy: "ferry-hop, Honeymoon Beach, Fort Segarra, slow-day escape",
     gradient: "from-sand/26 via-lime/14 to-aqua/18",
     fill: "rgba(250, 229, 170, 0.95)",
-    path: "M74 104 C88 84, 114 74, 145 76 C161 66, 186 67, 201 79 C215 90, 214 108, 201 118 C187 129, 163 132, 141 128 C118 136, 94 135, 78 125 C64 118, 64 112, 74 104 Z",
+    path: "M82 105 L94 97 L108 91 L120 84 L137 81 L154 83 L167 79 L181 84 L193 92 L194 102 L183 107 L173 115 L158 119 L143 118 L128 122 L113 120 L99 117 L88 111 Z",
+    frameClassName: "inset-x-9 sm:inset-x-10",
   },
 };
 
@@ -63,8 +65,9 @@ export function IslandSilhouetteCard({
       data-track="island-selector-card"
       data-island={islandSlug}
       data-surface="homepage-choose-your-island"
+      aria-label={`Open ${portal.media.label} island guide`}
       className={cn(
-        "group relative block min-h-[260px] overflow-hidden rounded-[1.9rem] border border-white/60 bg-[#062532] p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:border-white/85 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)] sm:min-h-[290px] sm:p-6",
+        "group relative block min-h-[260px] overflow-hidden rounded-[1.9rem] border border-white/60 bg-[#062532] p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:border-white/85 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/85 focus-visible:ring-offset-4 focus-visible:ring-offset-[#062532] sm:min-h-[290px] sm:p-6",
         className,
       )}
     >
@@ -76,10 +79,16 @@ export function IslandSilhouetteCard({
         </span>
       </div>
 
-      <div className="absolute inset-x-5 top-16 h-[124px] sm:top-14 sm:h-[148px]" aria-hidden>
+      <div
+        className={cn(
+          "absolute inset-x-5 top-16 h-[124px] sm:top-14 sm:h-[148px]",
+          style.frameClassName,
+        )}
+        aria-hidden
+      >
         <svg
           viewBox="0 0 256 168"
-          className="h-full w-full drop-shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
+          className="h-full w-full drop-shadow-[0_18px_30px_rgba(0,0,0,0.28)] transition duration-500 group-hover:scale-[1.03] group-focus-visible:scale-[1.03]"
           role="presentation"
         >
           <defs>
@@ -87,13 +96,27 @@ export function IslandSilhouetteCard({
               <stop offset="0%" stopColor={style.fill} stopOpacity="0.98" />
               <stop offset="100%" stopColor="#ffffff" stopOpacity="0.62" />
             </linearGradient>
+            <filter id={`island-shadow-${islandSlug}`} x="-20%" y="-20%" width="140%" height="150%">
+              <feDropShadow dx="0" dy="16" stdDeviation="13" floodColor="rgba(5, 20, 28, 0.34)" />
+            </filter>
           </defs>
           <path
             d={style.path}
             fill={`url(#island-fill-${islandSlug})`}
             stroke="rgba(255,255,255,0.82)"
             strokeWidth="4"
+            strokeLinecap="round"
             strokeLinejoin="round"
+            filter={`url(#island-shadow-${islandSlug})`}
+          />
+          <path
+            d={style.path}
+            fill="none"
+            stroke="rgba(7, 37, 50, 0.22)"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            transform="translate(0 2)"
           />
         </svg>
       </div>
