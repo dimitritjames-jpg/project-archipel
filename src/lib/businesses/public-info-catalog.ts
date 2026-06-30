@@ -1,8 +1,54 @@
-import approvedBatch from "../../../data/public-info-businesses-batch-1-approved.json";
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 import type { PublishedBusinessRow } from "@/lib/businesses/queries";
 import { ISLAND_CODES } from "@/lib/islands";
 
-type ApprovedPublicInfoListing = (typeof approvedBatch.promoted_listings)[number];
+type ApprovedPublicInfoBatch = {
+  promoted_at: string;
+  promoted_listings: Array<{
+    name: string;
+    island: string;
+    slug: string;
+    category: string;
+    description: string;
+    address_or_area?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    website_url?: string | null;
+    social_url?: string | null;
+    verification_source_url?: string | null;
+    source_urls?: string[] | null;
+  }>;
+  shared_public_info_fields: {
+    last_verified_date: string;
+    public_info_disclosure: string;
+  };
+  review_summary: {
+    candidates_reviewed: number;
+    ready_to_promote: string[];
+    needs_human_review: string[];
+    do_not_publish: string[];
+    missing_required_fields: string[];
+  };
+};
+type ApprovedPublicInfoListing = ApprovedPublicInfoBatch["promoted_listings"][number];
+
+function loadApprovedBatches(): ApprovedPublicInfoBatch[] {
+  const dataDir = join(process.cwd(), "data");
+  const filenames = readdirSync(dataDir)
+    .filter((filename) => /^public-info-businesses-batch-\d+-approved\.json$/i.test(filename))
+    .sort((left, right) => left.localeCompare(right, undefined, { numeric: true }));
+
+  if (filenames.length === 0) {
+    throw new Error("[public-info-catalog] No approved public-info batch JSON files were found.");
+  }
+
+  return filenames.map((filename) =>
+    JSON.parse(readFileSync(join(dataDir, filename), "utf8")) as ApprovedPublicInfoBatch,
+  );
+}
+
+const APPROVED_BATCHES = loadApprovedBatches();
 
 const CATEGORY_NAMES: Record<string, { name: string; schema_type: string }> = {
   beaches: {
@@ -42,7 +88,10 @@ function validateApprovedPublicInfoListing(input: ApprovedPublicInfoListing) {
   }
 }
 
-function publicInfoListing(input: ApprovedPublicInfoListing): PublishedBusinessRow {
+function publicInfoListing(
+  input: ApprovedPublicInfoListing,
+  batch: ApprovedPublicInfoBatch,
+): PublishedBusinessRow {
   validateApprovedPublicInfoListing(input);
 
   const category = CATEGORY_NAMES[input.category] ?? {
@@ -57,38 +106,57 @@ function publicInfoListing(input: ApprovedPublicInfoListing): PublishedBusinessR
     slug: input.slug,
     description_plain: input.description,
     description_json: { type: "doc", content: [] },
-    street_address: input.address_or_area,
+    street_address: input.address_or_area ?? null,
     address_locality: null,
-    phone: input.phone,
-    email: input.email,
-    website_url: input.website_url,
+    phone: input.phone ?? null,
+    email: input.email ?? null,
+    website_url: input.website_url ?? null,
     same_as: input.social_url ? [input.social_url] : [],
     price_range: null,
     is_verified: false,
     is_demo: false,
     verification_status: "submitted",
-    verification_source: input.verification_source_url,
-    last_verified_at: approvedBatch.shared_public_info_fields.last_verified_date,
+    verification_source: input.verification_source_url ?? null,
+    last_verified_at: batch.shared_public_info_fields.last_verified_date,
     contact_permission_status: "public_source_only",
     robots_noindex: false,
     is_claimed: false,
     claimed_at: null,
     premium_tier: "none",
-    published_at: approvedBatch.promoted_at,
+    published_at: batch.promoted_at,
     public_info_listing: true,
-    public_info_disclosure: approvedBatch.shared_public_info_fields.public_info_disclosure,
+    public_info_disclosure: batch.shared_public_info_fields.public_info_disclosure,
     booking_enabled: false,
     partner_status: "none",
     media_rights_status: "not_granted",
-    source_urls: input.source_urls,
+    source_urls: input.source_urls ?? undefined,
     category: { slug: input.category, ...category },
   };
 }
 
 export const PUBLIC_INFO_BUSINESSES: PublishedBusinessRow[] =
-  approvedBatch.promoted_listings.map(publicInfoListing);
+  APPROVED_BATCHES.flatMap((batch) =>
+    batch.promoted_listings.map((listing) => publicInfoListing(listing, batch)),
+  );
 
-export const PUBLIC_INFO_REVIEW_SUMMARY = approvedBatch.review_summary;
+export const PUBLIC_INFO_REVIEW_SUMMARY = {
+  candidates_reviewed: APPROVED_BATCHES.reduce(
+    (total, batch) => total + batch.review_summary.candidates_reviewed,
+    0,
+  ),
+  ready_to_promote: APPROVED_BATCHES.flatMap(
+    (batch) => batch.review_summary.ready_to_promote,
+  ),
+  needs_human_review: APPROVED_BATCHES.flatMap(
+    (batch) => batch.review_summary.needs_human_review,
+  ),
+  do_not_publish: APPROVED_BATCHES.flatMap(
+    (batch) => batch.review_summary.do_not_publish,
+  ),
+  missing_required_fields: APPROVED_BATCHES.flatMap(
+    (batch) => batch.review_summary.missing_required_fields,
+  ),
+};
 
 export function findPublicInfoBusiness(
   island: PublishedBusinessRow["island"],
