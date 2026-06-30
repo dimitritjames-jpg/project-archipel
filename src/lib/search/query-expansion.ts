@@ -10,7 +10,17 @@ export function normalizeSearchText(value: string): string {
 
 const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
   bite: ["culinary", "food", "restaurant", "dining", "beach bar"],
+  bar: ["nightlife", "music", "pub", "cantina"],
   beaches: ["beach", "bay", "cove", "shore", "sand"],
+  gifts: [
+    "local-provisions",
+    "shopping",
+    "gallery",
+    "boutique",
+    "maker",
+  ],
+  kids: ["family", "museum", "beach", "park", "things to do"],
+  "live music": ["music", "bar", "nightlife", "night"],
   shops: [
     "local-provisions",
     "provisions",
@@ -31,6 +41,14 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
     "gallery",
     "gifts",
   ],
+  market: [
+    "local-provisions",
+    "shopping",
+    "market",
+    "gifts",
+    "boutique",
+  ],
+  massage: ["spa", "wellness", "massage", "reset"],
   family: ["family", "beach", "calm", "ferry", "day trip", "things to do"],
   romantic: ["sunset", "dinner", "dining", "beach", "stays", "date", "waterfront"],
   "rainy day": [
@@ -54,6 +72,8 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
     "guide",
   ],
   night: ["nightlife", "bar", "music", "dinner", "late", "rhythm"],
+  spa: ["spa", "wellness", "massage", "reset"],
+  sunset: ["romantic", "beach", "bar", "dinner", "waterfront"],
   wellness: ["spa", "wellness", "calm", "reset"],
   ferry: ["ferry", "water island ferry"],
 };

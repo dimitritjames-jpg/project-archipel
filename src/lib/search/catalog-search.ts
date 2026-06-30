@@ -33,8 +33,14 @@ const SCORE_UTILITY = 110;
 const SCORE_GUIDE = 95;
 
 const CATEGORY_BOOSTS: Record<string, string[]> = {
+  bar: ["nightlife-rhythm"],
+  gifts: ["local-provisions"],
+  "live music": ["nightlife-rhythm"],
+  market: ["local-provisions"],
+  massage: ["wellness-spas"],
   night: ["nightlife-rhythm"],
   nightlife: ["nightlife-rhythm"],
+  spa: ["wellness-spas"],
   wellness: ["wellness-spas"],
   shops: ["local-provisions"],
   "local shops": ["local-provisions"],
@@ -317,12 +323,54 @@ function scoreBusinessMatch(
     }
   }
 
+  if (normalizedQuery === "spa" || normalizedQuery === "massage") {
+    if (business.category?.slug === "wellness-spas") {
+      score = Math.max(score, 92);
+    } else if (
+      !fields.name.includes("spa") &&
+      !fields.name.includes("massage") &&
+      !fields.description.includes("spa") &&
+      !fields.description.includes("massage")
+    ) {
+      return 0;
+    }
+  }
+
   if (normalizedQuery === "water island" && business.island === "WI") {
     score += 35;
   }
 
   if (normalizedQuery === "night" && business.category?.slug === "nightlife-rhythm") {
     score = Math.max(score, 85);
+  }
+
+  if (
+    (normalizedQuery === "bar" || normalizedQuery === "live music") &&
+    business.category?.slug === "nightlife-rhythm"
+  ) {
+    score = Math.max(score, 82);
+  }
+
+  if (
+    (normalizedQuery === "gifts" || normalizedQuery === "market") &&
+    business.category?.slug === "local-provisions"
+  ) {
+    score = Math.max(score, 78);
+  }
+
+  if (normalizedQuery === "shops" || normalizedQuery === "local shops") {
+    if (business.category?.slug === "local-provisions") {
+      score = Math.max(score, 84);
+    } else {
+      const retailTerms = ["shop", "shops", "gallery", "boutique", "gift", "store"];
+      const hasRetailSignal = retailTerms.some(
+        (term) => fields.name.includes(term) || fields.description.includes(term),
+      );
+
+      if (!hasRetailSignal) {
+        return 0;
+      }
+    }
   }
 
   if (normalizedQuery === "food" && business.category?.slug === "indulgent-dining") {
@@ -334,6 +382,40 @@ function scoreBusinessMatch(
     (fields.name.includes("beach") || fields.name.includes("bay"))
   ) {
     score = Math.max(score, 88);
+  }
+
+  const beachIslandQueries: Record<string, PublishedBusinessRow["island"]> = {
+    "beach st thomas": "STT",
+    "beaches st thomas": "STT",
+    "st thomas beach": "STT",
+    "st thomas beaches": "STT",
+    "beach st croix": "STX",
+    "beaches st croix": "STX",
+    "st croix beach": "STX",
+    "st croix beaches": "STX",
+    "beach st john": "STJ",
+    "beaches st john": "STJ",
+    "st john beach": "STJ",
+    "st john beaches": "STJ",
+    "beach water island": "WI",
+    "beaches water island": "WI",
+    "water island beach": "WI",
+    "water island beaches": "WI",
+  };
+
+  const beachIslandTarget = beachIslandQueries[normalizedQuery];
+  if (beachIslandTarget) {
+    if (
+      business.island === beachIslandTarget &&
+      business.category?.slug === "beaches"
+    ) {
+      score = Math.max(score, 96);
+    } else if (
+      business.island === beachIslandTarget &&
+      BEACH_FRIENDLY_CATEGORIES.has(business.category?.slug ?? "")
+    ) {
+      score = Math.max(score, 70);
+    }
   }
 
   if (normalizedQuery === "cruise") {
