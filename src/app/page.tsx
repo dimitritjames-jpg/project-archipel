@@ -196,7 +196,7 @@ export default function HomePage() {
                 <Link
                   key={move.label}
                   href={move.href}
-                  className={`${move.className} island-vibe-poster group relative min-h-[330px] overflow-hidden rounded-[2rem] border border-white/55 p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)]`}
+                  className={`${move.className} island-vibe-poster group relative flex min-h-[330px] flex-col overflow-hidden rounded-[2rem] border border-white/55 p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)]`}
                 >
                   <Image
                     src={move.imageSrc}
@@ -206,13 +206,15 @@ export default function HomePage() {
                     className="object-cover transition duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/72 via-black/24 to-white/8" aria-hidden />
-                  <span className="relative z-10 inline-flex rounded-full border border-white/60 bg-white/72 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#143740]/88 backdrop-blur-md">
-                    {move.label}
-                  </span>
-                  <div className="relative z-10 mt-36">
-                    <h3 className="text-4xl font-semibold tracking-[-0.06em] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.22)]">{move.label}</h3>
-                    <p className="mt-3 text-sm leading-6 text-white/88 drop-shadow">{move.line}</p>
-                    <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-white/86">{move.motif}</p>
+                  <div className="relative z-10 flex h-full flex-col justify-between">
+                    <span className="inline-flex self-start rounded-full border border-white/60 bg-white/72 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-[#143740]/88 backdrop-blur-md">
+                      {move.label}
+                    </span>
+                    <div className="mt-auto flex min-h-[11.5rem] flex-col justify-start">
+                      <h3 className="text-4xl font-semibold tracking-[-0.06em] text-white drop-shadow-[0_2px_18px_rgba(0,0,0,0.22)]">{move.label}</h3>
+                      <p className="mt-3 text-sm leading-6 text-white/88 drop-shadow">{move.line}</p>
+                      <p className="mt-5 text-[11px] font-black uppercase tracking-[0.14em] text-white/86">{move.motif}</p>
+                    </div>
                   </div>
                 </Link>
               ))}

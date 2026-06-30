@@ -8,52 +8,128 @@ type IslandSilhouetteCardProps = {
   className?: string;
 };
 
-const ISLAND_BUTTON_COPY: Record<
-  IslandSlug,
-  {
-    eyebrow: string;
-    microcopy: string;
-    gradient: string;
-    fill: string;
-    path: string;
-  }
-> = {
+type IslandVisualConfig = {
+  eyebrow: string;
+  accent: string;
+  badgeGlow: string;
+  badgeFill: string;
+  outlinePath: string;
+  cayDots?: string[];
+  badgeClassName?: string;
+};
+
+const ISLAND_VISUALS: Record<IslandSlug, IslandVisualConfig> = {
   "st-thomas": {
     eyebrow: "Harbor pulse",
-    microcopy: "beaches, nightlife, shopping, cruise-day energy",
-    gradient: "from-cyan-300/28 via-sky-500/14 to-coral/18",
-    fill: "rgba(120, 237, 255, 0.95)",
-    path: "M30 78 C52 54, 96 43, 140 48 C164 39, 203 41, 224 56 C244 70, 242 92, 223 104 C203 118, 166 124, 136 120 C114 131, 83 132, 58 120 C36 110, 22 93, 30 78 Z",
+    accent: "from-cyan-200/85 via-sky-300/70 to-white/95",
+    badgeGlow: "from-cyan-400/18 via-sky-400/10 to-transparent",
+    badgeFill: "rgba(156, 228, 239, 0.42)",
+    outlinePath:
+      "M20 82 L33 75 L49 73 L62 63 L80 55 L99 56 L114 51 L130 47 L147 50 L163 46 L180 49 L196 57 L212 58 L227 67 L236 78 L233 87 L220 90 L209 98 L191 101 L177 108 L161 109 L147 115 L128 113 L111 116 L94 113 L79 115 L63 110 L49 106 L37 98 L24 94 Z",
+    cayDots: ["225 56 4.2", "240 64 3.2", "15 95 2.8"],
   },
   "st-john": {
     eyebrow: "Park calm",
-    microcopy: "national park, beaches, trails, quiet escapes",
-    gradient: "from-emerald-300/28 via-teal-500/14 to-aqua/18",
-    fill: "rgba(131, 255, 201, 0.95)",
-    path: "M36 96 C54 72, 89 55, 132 50 C166 46, 208 54, 229 74 C243 88, 237 108, 214 121 C191 134, 154 140, 121 136 C89 133, 58 123, 42 110 C28 99, 27 108, 36 96 Z",
+    accent: "from-emerald-200/85 via-teal-300/70 to-white/95",
+    badgeGlow: "from-emerald-400/16 via-teal-400/10 to-transparent",
+    badgeFill: "rgba(156, 239, 208, 0.38)",
+    outlinePath:
+      "M24 92 L37 79 L50 72 L66 61 L85 56 L104 51 L121 56 L136 52 L152 55 L169 61 L186 68 L198 78 L214 82 L218 91 L207 98 L199 109 L184 116 L166 116 L151 121 L135 119 L118 123 L101 119 L87 122 L71 117 L54 112 L40 103 Z",
+    cayDots: ["212 71 3.4", "223 86 2.8", "31 105 2.5"],
   },
   "st-croix": {
     eyebrow: "Big-island depth",
-    microcopy: "food, culture, diving, local rhythm",
-    gradient: "from-amber-300/28 via-rose-500/14 to-aqua/18",
-    fill: "rgba(255, 210, 130, 0.95)",
-    path: "M24 95 C42 71, 78 58, 120 55 C145 41, 180 39, 209 49 C234 58, 244 79, 232 100 C220 122, 187 135, 151 136 C132 145, 105 147, 78 141 C50 134, 24 117, 20 103 C18 100, 18 98, 24 95 Z",
+    accent: "from-amber-200/88 via-orange-200/70 to-white/95",
+    badgeGlow: "from-amber-400/16 via-rose-300/10 to-transparent",
+    badgeFill: "rgba(244, 209, 151, 0.34)",
+    outlinePath:
+      "M18 88 L33 79 L52 74 L72 66 L96 63 L120 63 L140 59 L163 58 L186 61 L207 68 L225 73 L238 82 L237 91 L223 96 L208 101 L192 109 L171 111 L149 115 L128 114 L108 117 L87 115 L67 113 L49 108 L34 102 L21 98 Z",
+    cayDots: ["241 84 2.8", "12 94 2.4"],
   },
   "water-island": {
     eyebrow: "Ferry-hop ease",
-    microcopy: "ferry-hop, Honeymoon Beach, Fort Segarra, slow-day escape",
-    gradient: "from-sand/26 via-lime/14 to-aqua/18",
-    fill: "rgba(250, 229, 170, 0.95)",
-    path: "M74 104 C88 84, 114 74, 145 76 C161 66, 186 67, 201 79 C215 90, 214 108, 201 118 C187 129, 163 132, 141 128 C118 136, 94 135, 78 125 C64 118, 64 112, 74 104 Z",
+    accent: "from-stone-100/92 via-sand/90 to-white/95",
+    badgeGlow: "from-lime-300/16 via-aqua/10 to-transparent",
+    badgeFill: "rgba(244, 223, 184, 0.28)",
+    outlinePath:
+      "M84 90 L96 83 L110 78 L122 71 L138 68 L154 70 L166 66 L179 71 L190 79 L191 88 L181 93 L172 102 L158 106 L143 105 L129 109 L114 107 L101 104 L90 98 Z",
+    cayDots: ["196 75 2.8", "205 87 2.4", "79 101 2.2"],
+    badgeClassName: "sm:w-[9.4rem]",
   },
 };
+
+function IslandMapBadge({
+  islandSlug,
+  visual,
+}: {
+  islandSlug: IslandSlug;
+  visual: IslandVisualConfig;
+}) {
+  return (
+    <div
+      className={cn(
+        "relative w-[10.8rem] shrink-0 overflow-hidden rounded-[1.45rem] border border-[#0b4b55]/12 bg-white/68 p-3 shadow-[0_16px_44px_rgba(7,151,166,0.12)] backdrop-blur-md",
+        visual.badgeClassName,
+      )}
+      aria-hidden
+    >
+      <div className="absolute inset-0 opacity-80">
+        <div className={`absolute inset-0 bg-gradient-to-br ${visual.badgeGlow}`} />
+        <div
+          className="absolute inset-[10px] rounded-[1rem] border border-[#0b4b55]/8"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(11,75,85,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(11,75,85,0.06) 1px, transparent 1px)",
+            backgroundSize: "18px 18px",
+          }}
+        />
+      </div>
+      <svg
+        viewBox="0 0 256 140"
+        className="relative z-10 h-[5.1rem] w-full"
+        role="presentation"
+      >
+        <defs>
+          <linearGradient id={`island-badge-fill-${islandSlug}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor={visual.badgeFill} />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.08)" />
+          </linearGradient>
+        </defs>
+        <path
+          d={visual.outlinePath}
+          fill={`url(#island-badge-fill-${islandSlug})`}
+          stroke="rgba(16, 64, 73, 0.84)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {visual.cayDots?.map((dot) => {
+          const [cx, cy, r] = dot.split(" ");
+          return (
+            <circle
+              key={dot}
+              cx={cx}
+              cy={cy}
+              r={r}
+              fill="rgba(16, 64, 73, 0.76)"
+            />
+          );
+        })}
+      </svg>
+      <div className="relative z-10 mt-2 flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.18em] text-[#41616a]">
+        <span>Map accent</span>
+        <span className="rounded-full bg-[#0b4b55]/8 px-2 py-1 text-[#0b4b55]">Island guide</span>
+      </div>
+    </div>
+  );
+}
 
 export function IslandSilhouetteCard({
   islandSlug,
   className,
 }: IslandSilhouetteCardProps) {
   const portal = ISLAND_PORTALS[islandSlug];
-  const style = ISLAND_BUTTON_COPY[islandSlug];
+  const visual = ISLAND_VISUALS[islandSlug];
 
   return (
     <TrackedLink
@@ -63,60 +139,66 @@ export function IslandSilhouetteCard({
       data-track="island-selector-card"
       data-island={islandSlug}
       data-surface="homepage-choose-your-island"
+      aria-label={`Explore ${portal.media.label} island guide`}
       className={cn(
-        "group relative block min-h-[260px] overflow-hidden rounded-[1.9rem] border border-white/60 bg-[#062532] p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:border-white/85 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)] sm:min-h-[290px] sm:p-6",
+        "group island-card-glow relative block overflow-hidden rounded-[2rem] border border-[#0b4b55]/10 bg-white/72 p-5 shadow-[0_26px_80px_rgba(7,151,166,0.12)] backdrop-blur-md transition duration-500 hover:-translate-y-1.5 hover:border-[#0b4b55]/18 hover:shadow-[0_32px_110px_rgba(7,151,166,0.18)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0b4b55] focus-visible:ring-offset-4 focus-visible:ring-offset-[#fff4d6] sm:min-h-[295px] sm:p-6",
         className,
       )}
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${style.gradient}`} aria-hidden />
-      <div className="absolute inset-x-6 top-6 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.18em] text-sand/82">
-        <span>{style.eyebrow}</span>
-        <span className="rounded-full border border-white/14 bg-white/6 px-2 py-1 text-white/72">
-          Enter
-        </span>
-      </div>
+      <div
+        className="absolute inset-0 opacity-90"
+        aria-hidden
+        style={{
+          background:
+            "radial-gradient(circle at 0% 0%, rgba(125,232,220,0.16), transparent 28%), radial-gradient(circle at 100% 0%, rgba(255,184,77,0.14), transparent 24%), linear-gradient(180deg, rgba(255,255,255,0.36), rgba(255,255,255,0.08))",
+        }}
+      />
+      <div
+        className="absolute inset-[14px] rounded-[1.5rem] border border-white/58"
+        aria-hidden
+      />
 
-      <div className="absolute inset-x-5 top-16 h-[124px] sm:top-14 sm:h-[148px]" aria-hidden>
-        <svg
-          viewBox="0 0 256 168"
-          className="h-full w-full drop-shadow-[0_18px_30px_rgba(0,0,0,0.28)]"
-          role="presentation"
-        >
-          <defs>
-            <linearGradient id={`island-fill-${islandSlug}`} x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor={style.fill} stopOpacity="0.98" />
-              <stop offset="100%" stopColor="#ffffff" stopOpacity="0.62" />
-            </linearGradient>
-          </defs>
-          <path
-            d={style.path}
-            fill={`url(#island-fill-${islandSlug})`}
-            stroke="rgba(255,255,255,0.82)"
-            strokeWidth="4"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </div>
+      <div className="relative z-10 flex h-full flex-col">
+        <div className="flex items-start justify-between gap-4">
+          <div className="max-w-[11rem]">
+            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#0b7b89]">
+              {visual.eyebrow}
+            </p>
+            <h3 className="mt-3 text-[2.1rem] font-semibold tracking-[-0.06em] text-[#173941] sm:text-[2.35rem]">
+              {portal.media.label}
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-[#45636a]">
+              {portal.tagline}
+            </p>
+          </div>
+          <IslandMapBadge islandSlug={islandSlug} visual={visual} />
+        </div>
 
-      <div className="relative z-10 mt-[9.5rem] sm:mt-[10.5rem]">
-        <p className="text-[11px] font-black uppercase tracking-[0.14em] text-aqua/75">
-          Choose your island
-        </p>
-        <h3 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-white sm:text-[2.2rem]">
-          {portal.media.label}
-        </h3>
-        <p className="mt-3 text-sm leading-6 text-white/78">
-          {style.microcopy}
-        </p>
+        <div className="mt-5 rounded-[1.35rem] border border-[#0b4b55]/8 bg-white/52 p-4">
+          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#0b7b89]">
+            Local guide lens
+          </p>
+          <p className="mt-2 text-sm leading-6 text-[#45636a]">
+            {portal.vibe}
+          </p>
+        </div>
+
         <div className="mt-5 flex flex-wrap gap-2">
           {portal.highlights.slice(0, 3).map((highlight) => (
             <span
               key={highlight}
-              className="rounded-full border border-white/12 bg-white/7 px-2.5 py-1 text-[10px] font-semibold text-white/76 backdrop-blur"
+              className="rounded-full border border-[#0b4b55]/10 bg-white/78 px-2.5 py-1 text-[10px] font-semibold text-[#41616a]"
             >
               {highlight}
             </span>
           ))}
+        </div>
+
+        <div className="mt-auto pt-5">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#0b4b55]/14 bg-[#0b4b55] px-4 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-white shadow-[0_16px_32px_rgba(11,75,85,0.18)] transition duration-300 group-hover:translate-x-1 group-focus-visible:translate-x-1">
+            Explore {portal.media.label}
+            <span aria-hidden>&rarr;</span>
+          </span>
         </div>
       </div>
     </TrackedLink>
