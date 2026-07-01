@@ -3,6 +3,7 @@ import { TrackedLink } from "@/components/analytics/tracked-link";
 import { BusinessPreviewCard } from "@/components/discovery/business-preview-card";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { fetchPublishedBusinessesByCategory, type PublishedBusinessRow } from "@/lib/businesses/queries";
+import { buildGetListedHref } from "@/lib/get-listed";
 import { getIslandName, ISLAND_MAP, type IslandSlug } from "@/lib/islands";
 import { ISLAND_PORTALS } from "@/lib/media";
 import { absoluteUrl } from "@/lib/site-url";
@@ -386,6 +387,7 @@ export async function IslandHubPage({
     ["Back to homepage", "/"],
     ["Search this island", `/search?island=${islandSlug}`],
     ["Search all islands", "/search"],
+    ["Add or correct a business", buildGetListedHref({ intent: "add-my-business", islandSlug })],
     ["Map view", "/map"],
     islandSlug === "st-thomas" || islandSlug === "st-john" || islandSlug === "water-island"
       ? ["Ferry schedule", `/${islandSlug}/ferry-schedule`]
@@ -556,6 +558,38 @@ export async function IslandHubPage({
                 </TrackedLink>
               );
             })}
+          </div>
+        </section>
+
+        <section className="mt-10" aria-labelledby="island-owner-actions">
+          <div className="rounded-[1.4rem] border border-coral/15 bg-coral/7 p-5 sm:p-6">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p id="island-owner-actions" className="eyebrow-label !text-coral-sunset">
+                  For businesses on {islandName}
+                </p>
+                <p className="mt-3 max-w-2xl text-sm leading-7 text-white/58">
+                  Own or manage a business on {islandName}? Confirm a public-info
+                  listing, correct details, send approved photos, or add a missing
+                  business without leaving the current island flow.
+                </p>
+              </div>
+              <TrackedLink
+                href={buildGetListedHref({
+                  intent: "add-my-business",
+                  islandSlug,
+                })}
+                eventName="get_listed_cta_clicked"
+                eventProperties={{
+                  placement: "island_hub",
+                  island: islandSlug,
+                  intent: "add-my-business",
+                }}
+                className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full border border-coral/20 bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]"
+              >
+                Add or correct a business
+              </TrackedLink>
+            </div>
           </div>
         </section>
 

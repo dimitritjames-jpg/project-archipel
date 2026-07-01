@@ -11,6 +11,7 @@ import {
   LISTING_STATE_LABELS,
 } from "@/lib/businesses/listing-trust";
 import { getListingPlanningTags } from "@/lib/businesses/planning-tags";
+import { buildGetListedHref } from "@/lib/get-listed";
 import { getIslandName, type IslandSlug } from "@/lib/islands";
 import { getCategoryMediaAsset } from "@/lib/media";
 import { serializeJsonLd } from "@/lib/utils";
@@ -49,6 +50,11 @@ export function BusinessProfileView({
   const searchHref = "/search";
   const islandHubHref = `/islands/${islandSlug}`;
   const islandGuideHref = `/${islandSlug}/things-to-do`;
+  const ownerActionContext = {
+    businessName: business.name,
+    islandSlug,
+    categorySlug,
+  };
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -379,31 +385,72 @@ export function BusinessProfileView({
               </TrackedLink>
             </div>
           </div>
-          <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <div className="flex flex-wrap items-center gap-3">
-                <p className="eyebrow-label !text-coral-sunset">Is this your business?</p>
-                <ComingSoonBadge label="Owner tools coming soon" />
+          {!isDemo ? (
+            <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <p className="eyebrow-label !text-coral-sunset">Is this your business?</p>
+                  <ComingSoonBadge label="Owner tools coming soon" />
+                </div>
+                <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">
+                  Own or manage this business?
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/52">
+                  Use the launch workflow to confirm details, send approved photos, or
+                  register claim interest. Owner tools are not self-serve yet, and this
+                  listing stays clearly public-info until business confirmation is
+                  reviewed.
+                </p>
               </div>
-              <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">
-                Suggest an update or claim your profile.
-              </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-6 text-white/52">
-                Owner tools are not active yet. Use the launch workflow to correct public-info details, share licensed media, or register interest in a future claim flow.
-              </p>
+              <div className="flex shrink-0 flex-wrap gap-2">
+                <TrackedLink
+                  href={buildGetListedHref({
+                    intent: "correct-my-info",
+                    ...ownerActionContext,
+                  })}
+                  eventName="get_listed_cta_clicked"
+                  eventProperties={{
+                    placement: "business_profile",
+                    listing_state: trustState,
+                    intent: "correct-my-info",
+                  }}
+                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]"
+                >
+                  Update this listing
+                </TrackedLink>
+                <TrackedLink
+                  href={buildGetListedHref({
+                    intent: "send-approved-photos",
+                    ...ownerActionContext,
+                  })}
+                  eventName="get_listed_cta_clicked"
+                  eventProperties={{
+                    placement: "business_profile",
+                    listing_state: trustState,
+                    intent: "send-approved-photos",
+                  }}
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/12 bg-white/5 px-5 text-sm font-semibold text-white transition hover:border-aqua/25 hover:text-aqua"
+                >
+                  Send approved photos
+                </TrackedLink>
+                <TrackedLink
+                  href={buildGetListedHref({
+                    intent: "claim-interest",
+                    ...ownerActionContext,
+                  })}
+                  eventName="get_listed_cta_clicked"
+                  eventProperties={{
+                    placement: "business_profile",
+                    listing_state: trustState,
+                    intent: "claim-interest",
+                  }}
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-coral/20 bg-coral/7 px-5 text-sm font-semibold text-coral-sunset transition hover:bg-coral/12"
+                >
+                  Claim interest
+                </TrackedLink>
+              </div>
             </div>
-            <TrackedLink
-              href="/get-listed"
-              eventName="get_listed_cta_clicked"
-              eventProperties={{
-                placement: "business_profile",
-                listing_state: trustState,
-              }}
-              className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-full bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]"
-            >
-              Suggest an update
-            </TrackedLink>
-          </div>
+          ) : null}
         </aside>
       </article>
     </>
