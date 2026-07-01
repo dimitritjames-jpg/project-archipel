@@ -1,295 +1,149 @@
 # VibeVI current state and next steps
 
-**Source of truth:** `main`  
-**Safe commit:** `695c1ec` — *Build VibeVI experience engine foundation*  
-**Date:** 2026-06-25  
-**Design direction:** Keep current site design. No visual redesign in flight.
+**Source of truth:** GitHub `main` on `dimitritjames-jpg/project-archipel`  
+**Production-safe merge baseline:** `74ce26eaa3331d4cb724947fd0d45bc6e6ff7574`  
+**Date:** 2026-07-01  
+**Design direction:** Keep the current live site structure and trust posture. No broad redesign is in scope.
 
 ---
 
-## 1. Current branch and commit
+## 1. Baseline integrity
 
 | Item | Value |
 |------|-------|
-| Branch | `main` |
-| Commit | `695c1ec` |
 | Production URL | `https://www.myvibevi.com` |
-| Rollback checkpoint | `checkpoint/pre-facelift-2026-06-25` (reference only) |
+| Source-of-truth branch | GitHub `main` |
+| Local mirror warning | This clone's `origin` points to a local mirror and is **not** the source of truth for merge state |
+| PR #20 status | Merged and production-safe |
+| Preview policy | Protected previews still require authenticated rendered QA before merge on UI or search-facing work |
+
+**Important:** any stale local `origin/main` or mirror branch should be treated as cached context only. Use GitHub `main` plus PR and deployment history for merge truth.
 
 ---
 
-## 2. Rejected design branches — not merged
+## 2. Live production baseline
 
-| Branch | PR | Status | Merged |
-|--------|-----|--------|--------|
-| `codex/vibevi-warm-caribbean-facelift` | #1 (closed) | Rejected / abandoned | **No** |
-| `codex/vibevi-homepage-render-v2` | #2 (open) | Rejected for production | **No** |
-
-**Action:** Do not merge, cherry-pick, or deploy either branch. Keep `main` as the visual and architectural baseline.
-
----
-
-## 3. Current site architecture
-
-| Layer | Technology |
-|-------|------------|
-| Framework | Next.js 15 App Router, React 19 |
-| Styling | Tailwind CSS v4, `globals.css` design tokens |
-| Data | Supabase (Postgres + RLS), server components + server actions |
-| Maps | Mapbox GL (`react-map-gl`), `DirectoryMap` |
-| Search (live) | Supabase ILIKE via `searchLocalBusinesses` — Algolia stubbed |
-| Analytics | Provider-neutral `trackEvent` |
-| Auth | Supabase auth — sign-in + dashboard (minimal) |
-| Media | Generated WebP in `public/media/generated/`, registry in `src/lib/media.ts` |
-| Listings fallback | `public-info-catalog.ts` (52 approved) + `launch-preview-catalog.ts` (demo/noindex) |
+| Area | Current live state |
+|------|--------------------|
+| Catalog count | `179` public-info listings |
+| Sitemap count | `253` URLs |
+| Canonical host | `https://www.myvibevi.com` |
+| `/search` | `noindex, follow` |
+| Base island hubs | `index, follow` |
+| Filtered island hubs | `noindex, follow` with canonical to base hub |
+| `/biz` aliases | `308` to canonical profile routes |
+| Wrong-category profile URLs | Safe `308` or `404` behavior |
+| Localhost leakage | Cleared in current production baseline |
 
 ---
 
-## 4. Routes and page types
+## 3. Live catalog model
 
-**~189 static/dynamic pages** at build time.
+### Core categories now live
 
-| Type | Examples |
-|------|----------|
-| Homepage | `/` |
-| Search | `/search` (noindex) |
-| Island portals | `/st-thomas`, `/st-john`, `/st-croix`, `/water-island` |
-| Category directories | `/{island}/{categorySlug}` (6 core categories) |
-| Business profiles | `/{island}/{categorySlug}/{businessSlug}`, `/{island}/biz/{slug}` |
-| Experience pillars | `/experiences/{pillarSlug}` (8 pillars) |
-| Guides | `/guides/{guideSlug}` |
-| Island utility SEO | `/{island}/beaches`, `things-to-do`, `day-trip`, `best-snorkeling`, `cruise-day`, pillar pages (Magens Bay, Buck Island, etc.) |
-| Ferry | `/ferry`, `/ferry/{routeSlug}`, `/{island}/ferry-schedule` |
-| Cruise | `/cruise-day`, `/{island}/cruise-schedule`, Havensight/Crown Bay port guides |
-| Map | `/map` (noindex) |
-| Get Listed | `/get-listed` |
-| Owner | `/dashboard`, `/dashboard/businesses/{id}`, `/sign-in` |
-| API | `/api/health`, `/api/engagement`, `/api/revalidate`, `/api/search/sync` (stub) |
+- `beaches`
+- `excursions-charters`
+- `tours-activities`
+- `attractions`
+- `indulgent-dining`
+- `nightlife-rhythm`
+- `local-provisions`
+- `wellness-spas`
+- `boutique-stays`
+- `culture-history`
 
----
+### Production counts and posture
 
-## 5. Experience pages status
-
-**8 pillars** in `src/lib/experience-pillars.ts`: adventure, culture, culinary, cruise-day, nightlife, wellness, stays, local-shops.
-
-| Aspect | Status |
-|--------|--------|
-| Route template | `ExperiencePillarPage` — hero, island relevance, related categories/guides, booking-intent panel |
-| Booking claims | Honest — discovery/inquiry only; no fake checkout |
-| Trust badges | `launch-preview`, `guide-first`, `verified-listings-when-available` per pillar |
-| SEO | Per-pillar metadata via `experiencePillarMetadata()` |
-
-**Ready:** Content structure and trust copy.  
-**Incomplete:** Live verified booking paths; partner lead routing.
+- Public-info catalog remains the live directory source for this phase.
+- No demo listings should be allowed to bleed into production discovery.
+- Public-info listings must keep source-backed copy and disclosure.
+- No fake reviews, ratings, hours, pricing, booking, availability, partnerships, or verification claims.
 
 ---
 
-## 6. Listing / catalog status
+## 4. Search and discovery baseline
 
-| Source | Count | Notes |
-|--------|-------|-------|
-| Public-info batch (approved) | 52 | `data/public-info-businesses-batch-1-approved.json` — unclaimed, source-backed |
-| Launch preview (demo) | 24 | Fictional, `robots_noindex`, fallback when Supabase empty |
-| Supabase published | Variable | Primary at runtime when reachable; build uses static params from DB or fallback |
+| Area | Current state |
+|------|---------------|
+| Search engine | Local catalog search with guide shortcuts, query expansion, and category/island intent tuning |
+| Strong intents | `boat`, `yacht`, `charter`, `coral world`, `spa`, `beach st thomas`, `beach st croix`, `claim listing` |
+| Still broad or weak | `nightlife`, `sunset`, `market`, broad island-name browsing, family/rainy-day refinement |
+| Homepage island-first flow | Live and production-safe |
+| Boat tile flow | Homepage Boat tile routes to `/search?q=boat` |
+| Search indexing | `/search` must stay `noindex, follow` |
 
-**Categories (6):** excursions-charters, indulgent-dining, boutique-stays, nightlife-rhythm, wellness-spas, local-provisions.
-
-**Profile features:** JSON-LD when eligible, trust state badges, tabs (overview/services/photos/reviews/details), map preview, public-info disclosure.
-
----
-
-## 7. Search status
-
-| Item | Status |
-|------|--------|
-| UI | `HomeSearchBar` on homepage + `/search` |
-| Backend | `searchLocalBusinesses` — ILIKE on name + description_plain |
-| Algolia | Disabled; `/api/search/sync` returns skipped |
-| **Production bug (found 2026-06-25)** | Server action HTTP **500** — PostgREST `.or()` filter failure |
-| **Fix (search-only, pending deploy)** | Dual `.ilike()` queries merged by id — see `local-search.ts` |
-| Synonyms / category / island | **Not implemented** |
-| QA doc | `docs/search-short-query-production-qa-2026-06-25.md` |
-
-**Impact:** Directory search is non-functional in production until fix is deployed.
+This repo no longer uses the older production-bug assumptions from the 2026-06-25 state. Search is live, routed, and protected by current SEO policy.
 
 ---
 
-## 8. Map status
+## 5. Island and route policy
 
-| Item | Status |
-|------|--------|
-| Page | `/map` + `DirectoryMapSection` on homepage |
-| Provider | Mapbox (`NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN`) |
-| Data | Published businesses with geoloc from Supabase |
-| Features | List/map split, category filters, island bounds |
-| Custom style | Optional via `NEXT_PUBLIC_MAPBOX_STYLE_URL` |
-
-**Ready:** Functional discovery map for published pins.  
-**Incomplete:** Saved routes, warm custom marker sprites, custom Studio style in prod env.
+| Route family | Live policy |
+|-------------|-------------|
+| Island hubs | `/islands/{island}` remains the island-first browse entrypoint |
+| Canonical profiles | `/{island}/{canonicalCategorySlug}/{businessSlug}` only |
+| Old category paths after migration | Redirect to the new canonical profile route |
+| Thin category pages | Stay user-accessible but should be `noindex, follow` and excluded from sitemap when too thin |
+| Sitemap | Canonical URLs only; no `/biz`, no filtered query URLs, no wrong-category duplicates |
 
 ---
 
-## 9. Get Listed status
+## 6. Get Listed and trust posture
 
-| Item | Status |
-|------|--------|
-| Page | `/get-listed` — owner-focused hero, value props, mailto intake |
-| Claims | No fake verification; coming-soon badges on premium placements |
-| Backend | No self-serve claim workflow yet |
-| SEO | Indexed, canonical set |
+| Item | Current state |
+|------|---------------|
+| `/get-listed` | Indexed business-intent page |
+| Intake model | Manual review and mailto-driven |
+| Self-serve claim flow | Not live |
+| Paid placement | Interest capture only; do not imply active guaranteed placement |
+| Dashboard automation | Not live |
 
-**Ready:** Marketing/intent capture page.  
-**Incomplete:** Owner dashboard claim flow, Stripe/partner tiers.
-
----
-
-## 10. Ferry / cruise utility status
-
-| Route | Status |
-|-------|--------|
-| `/ferry` + route slugs | Schedule-based widgets (`NextBoatWidget`, `CrowdPredictor`) |
-| `/{island}/ferry-schedule` | Island ferry boards |
-| `/cruise-day`, cruise schedules | Scheduled capacity (not live passenger counts) |
-| Port guides | Havensight, Crown Bay cruise-day pages |
-
-**Trust:** Explicit copy — not live vessel tracking; cruise capacity is scheduled, not observed.
+For beta, `/get-listed` stays manual-review / inbox-driven. Do not imply instant approval, live claim verification, a real owner dashboard, or automated premium workflow.
 
 ---
 
-## 11. SEO / content status
+## 7. Supporting docs to use with this baseline
 
-| Area | Status |
-|------|--------|
-| Sitemap | Dynamic `sitemap.ts` |
-| Robots | `robots.ts` |
-| JSON-LD | WebSite, Organization, LocalBusiness when eligible |
-| Island guides | `ISLAND_GUIDES` + `seo-guide-page` template |
-| Launch guides | `/guides/usvi-charters`, `/guides/best-beaches-usvi` |
-| noindex | Search, map, demo listings, some utility pages |
+- [site-completion-report-2026-07-01.md](./site-completion-report-2026-07-01.md)
+- [search-scs-final-qa-2026-07-01.md](./search-scs-final-qa-2026-07-01.md)
+- [real-business-intake-workflow.md](./real-business-intake-workflow.md)
+- [public-soft-launch-qa.md](./public-soft-launch-qa.md)
 
-**Strong:** Guide/pillar content architecture, canonical URLs, trust-aware indexing gates.
+These docs are supporting evidence. This file is the refreshed baseline summary for current production state.
 
 ---
 
-## 12. Trust / verification rules
+## 8. Safe next work
 
-Implemented in `src/lib/businesses/listing-trust.ts`:
+### In scope next
 
-| State | Behavior |
-|-------|----------|
-| `demo` | Fictional preview, noindex |
-| `public_info` | Source-backed, disclosure required, no booking claims |
-| `verified` / `verified_claimed` | Schema/index eligibility when evidence present |
-| Contact | Gated by `contact_permission_status` |
-| Search | Published rows only; no invented results |
+- Search/SCS intent tuning that does not change listing data or indexing policy
+- QA docs refreshes
+- Honest business conversion improvements that preserve the manual-review beta posture
+- Preview-first verification before merge
 
-**Never:** Fake reviews, ratings, hours, live availability, or business photography.
+### Out of scope unless explicitly approved
 
----
-
-## 13. Production-ready now
-
-- Island portals, category directories, business profiles (public-info batch)
-- Experience pillar pages (8) with honest booking language
-- Ferry/cruise schedule utility pages
-- Map with published business pins
-- Get Listed intent page
-- SEO guides and island utility content
-- Build pipeline (typecheck, lint, 189-page build)
-- Trust/indexing gates
+- New categories beyond approved taxonomy work
+- Listing migrations unrelated to an approved taxonomy pass
+- Any change that makes `/search` indexable
+- Any change that makes filtered island query URLs indexable
+- Any fake real-time, verification, booking, or partner behavior
+- Global redesign work
 
 ---
 
-## 14. Incomplete
-
-| Priority | Item |
-|----------|------|
-| **P0** | Search server action 500 in production |
-| P1 | Short-query synonyms and category/island matching |
-| P2 | Owner claim/dashboard workflow |
-| P3 | Algolia provisioning (optional) |
-| P4 | Self-serve listing intake (beyond mailto) |
-| P5 | Custom Mapbox style + marker art |
-| P6 | Saved routes / user accounts for planning |
-| P7 | Fraunces/local serif (cosmetic — defer) |
-
----
-
-## 15. What should not be touched
-
-- **Rejected branches:** `codex/vibevi-warm-caribbean-facelift`, `codex/vibevi-homepage-render-v2`
-- **Checkpoint branch:** `checkpoint/pre-facelift-2026-06-25`
-- **Current visual system** on `main` — no site-wide redesign without explicit approval
-- **Trust rules** — demo/public-info/verified gating
-- **Public-info disclosure** copy and batch integrity
-- **Dashboard/sign-in** — out of scope unless owner tools are explicitly scoped
-
----
-
-## 16. Recommended next 10 build tasks (by impact)
-
-| Rank | Task | Impact | Risk |
-|------|------|--------|------|
-| 1 | **Deploy search `.or()` fix** | Restores core discovery | Low (search-only) |
-| 2 | **Synonym + alias map** (bite, night, boat, beaches, shops) | Visitor query success | Low |
-| 3 | **Island + category query expansion** | st thomas, wellness, nightlife | Low |
-| 4 | **No-results shortcuts** (ferry, cruise, vibes, islands) | UX without fake listings | Low |
-| 5 | **Re-run short-query QA on production** after deploy | Validation | None |
-| 6 | **Owner claim MVP** (dashboard intake) | Business growth | Medium |
-| 7 | **Mapbox warm style URL in prod env** | Polish, no code | Low |
-| 8 | **Directory sort/filter backend** | Category pages | Medium |
-| 9 | **Algolia provision + sync** (optional) | Scale search | Medium |
-| 10 | **Engagement analytics review** | Product insight | Low |
-
----
-
-## 17. Suggested Cursor task sequence
-
-1. **Task A:** Deploy + verify search fix (`local-search.ts`) — typecheck, lint, build, production QA matrix  
-2. **Task B:** Add `src/lib/search/query-expansion.ts` + wire into `searchLocalBusinesses` (no UI)  
-3. **Task C:** No-results helper links in `HomeSearchBar` only (copy + existing routes)  
-4. **Task D:** Re-capture `docs/search-short-query-production-qa-*.md` after deploy  
-5. **Task E:** Owner claim scoping doc (no UI until approved)  
-6. **Task F:** Map env + marker documentation pass  
-7. **Task G:** Category directory sort when API ready  
-
-**Do not run:** Facelift, homepage render v2, or global CSS/token overhauls.
-
----
-
-## 18. QA checklist for future work
+## 9. Baseline QA guardrails
 
 ```
-[ ] Branch is main (or explicit feature branch off main)
-[ ] Rejected design branches not merged
+[ ] Start from GitHub main, not the local mirror
 [ ] npm run typecheck
 [ ] npm run lint
-[ ] npm run build (189 pages)
-[ ] No visual diff unless task is explicitly visual
-[ ] Search: 24 short-query matrix on production
-[ ] Map: pins load, mobile list/map toggle
-[ ] Business profile: public-info disclosure visible
-[ ] Get Listed: mailto + copy intact
-[ ] Ferry/cruise: trust copy unchanged
-[ ] No invented listings, reviews, hours, availability
-[ ] Demo listings remain noindex
-[ ] Screenshots only when UI task requires them
+[ ] NODE_OPTIONS=--use-system-ca npm run build
+[ ] Sitemap count remains expected for the branch
+[ ] /search remains noindex, follow
+[ ] Canonical host remains https://www.myvibevi.com
+[ ] No localhost / 127.0.0.1 leakage
+[ ] No visible source/code artifacts
+[ ] No fake listing or trust-policy regression
 ```
-
----
-
-## Related docs
-
-| Doc | Purpose |
-|-----|---------|
-| `docs/search-short-query-production-qa-2026-06-25.md` | Short-query search QA matrix |
-| `data/public-info-businesses-batch-1-approved.json` | Approved listing batch |
-| `src/lib/businesses/listing-trust.ts` | Trust gate reference |
-
----
-
-## Changelog
-
-| Date | Update |
-|------|--------|
-| 2026-06-25 | Initial audit on `main@695c1ec`; search 500 identified; dual-query fix prepared |
