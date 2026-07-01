@@ -7,6 +7,7 @@ import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { fetchPublishedBusinessesByCategory } from "@/lib/businesses/queries";
 import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
+import { buildGetListedHref } from "@/lib/get-listed";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
 import { getCategoryMediaAsset } from "@/lib/media";
 import { absoluteUrl } from "@/lib/site-url";
@@ -183,6 +184,20 @@ export default async function CategoryPage({ params }: Props) {
             className="w-fit rounded-full border border-aqua/20 bg-aqua/7 px-4 py-2 text-xs font-semibold text-aqua transition hover:bg-aqua/12"
           >
             Search this channel ↗
+          </Link>
+        </div>
+
+        <div className="mt-6 rounded-[1.25rem] border border-coral/15 bg-coral/7 p-5 text-sm leading-7 text-white/58">
+          Own or manage a business in {category.name} on {islandName}?{" "}
+          <Link
+            href={buildGetListedHref({
+              intent: "add-my-business",
+              islandSlug: islandParam,
+              categorySlug,
+            })}
+            className="font-semibold text-coral-sunset transition hover:text-aqua"
+          >
+            Add it, correct the listing, or send approved photos.
           </Link>
         </div>
 

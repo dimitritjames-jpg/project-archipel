@@ -21,6 +21,12 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
   ],
   kids: ["family", "museum", "beach", "park", "things to do"],
   "live music": ["music", "bar", "nightlife", "night"],
+  "get listed": ["claim listing", "update listing", "business", "owner", "listing"],
+  "claim listing": ["get listed", "claim interest", "owner", "business", "listing"],
+  "update listing": ["get listed", "correct my info", "owner", "business", "listing"],
+  "send photos": ["send approved photos", "photo rights", "business", "listing"],
+  sponsor: ["featured placement", "get listed", "business", "owner"],
+  "featured placement": ["sponsor", "get listed", "business", "owner"],
   shops: [
     "local-provisions",
     "provisions",
@@ -92,6 +98,12 @@ const GUIDE_STYLE_QUERIES = new Set([
   "things to do",
   "shops",
   "local shops",
+  "get listed",
+  "claim listing",
+  "update listing",
+  "send photos",
+  "featured placement",
+  "sponsor",
 ]);
 
 export type GuideShortcut = {
@@ -361,6 +373,66 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "/water-island/local-provisions",
     ),
   ],
+  "get listed": [
+    utilityShortcut(
+      "utility-get-listed",
+      "Get listed on VibeVI",
+      "get-listed",
+      "STT",
+      "Claim or correct a listing, send approved photos, ask about featured placement, or add a business.",
+      "/get-listed",
+    ),
+  ],
+  "claim listing": [
+    utilityShortcut(
+      "utility-claim-listing",
+      "Claim or correct a VibeVI listing",
+      "claim-listing",
+      "STT",
+      "Use the VibeVI launch inbox to confirm details, correct public info, or register claim interest.",
+      "/get-listed?intent=claim-interest",
+    ),
+  ],
+  "update listing": [
+    utilityShortcut(
+      "utility-update-listing",
+      "Correct a VibeVI listing",
+      "update-listing",
+      "STT",
+      "Send corrections for public listing details, category fit, contact fields, or source-backed profile notes.",
+      "/get-listed?intent=correct-my-info",
+    ),
+  ],
+  "send photos": [
+    utilityShortcut(
+      "utility-send-photos",
+      "Send approved photos to VibeVI",
+      "send-photos",
+      "STT",
+      "Share business-owned or licensed photos for a listing without implying partnership or paid placement.",
+      "/get-listed?intent=send-approved-photos",
+    ),
+  ],
+  sponsor: [
+    utilityShortcut(
+      "utility-sponsor-interest",
+      "Sponsor interest on VibeVI",
+      "sponsor-interest",
+      "STT",
+      "Ask about future sponsor opportunities without implying paid placement is active today.",
+      "/get-listed?intent=sponsor-interest",
+    ),
+  ],
+  "featured placement": [
+    utilityShortcut(
+      "utility-featured-placement",
+      "Ask about featured placement",
+      "featured-placement",
+      "STT",
+      "Register interest in future featured opportunities while current listings remain non-paid and trust-first.",
+      "/get-listed?intent=featured-placement",
+    ),
+  ],
 };
 
 function utilityShortcut(
@@ -445,7 +517,13 @@ export function shouldPrependGuideShortcuts(query: string): boolean {
   return (
     GUIDE_STYLE_QUERIES.has(normalized) ||
     normalized === "ferry" ||
-    normalized === "cruise"
+    normalized === "cruise" ||
+    normalized === "get listed" ||
+    normalized === "claim listing" ||
+    normalized === "update listing" ||
+    normalized === "send photos" ||
+    normalized === "featured placement" ||
+    normalized === "sponsor"
   );
 }
 

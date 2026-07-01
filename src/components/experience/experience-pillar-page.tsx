@@ -10,6 +10,7 @@ import {
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
 import type { PublishedBusinessRow } from "@/lib/businesses/queries";
+import { buildGetListedHref } from "@/lib/get-listed";
 import type { AnalyticsEventName } from "@/lib/analytics/events";
 import type { ExperiencePillar } from "@/lib/experience-pillars";
 import { CODE_TO_SLUG, ISLAND_MAP } from "@/lib/islands";
@@ -308,6 +309,21 @@ export function ExperiencePillarPage({
               Real inventory for this experience is being assembled. No real businesses are invented to fill the gap.
             </div>
           )}
+          <div className="mt-8 rounded-[1.35rem] border border-coral/15 bg-coral/7 p-5 text-sm leading-7 text-white/58">
+            Own or manage a business that fits this vibe?{" "}
+            <TrackedLink
+              href={buildGetListedHref({ intent: "add-my-business" })}
+              eventName="get_listed_cta_clicked"
+              eventProperties={{
+                placement: "experience_pillar",
+                pillar: pillar.slug,
+                intent: "add-my-business",
+              }}
+              className="font-semibold text-coral-sunset transition hover:text-aqua"
+            >
+              Add your business, correct a listing, or send approved photos.
+            </TrackedLink>
+          </div>
         </section>
 
         <section className="mt-20 border-t border-white/8 pt-14" aria-labelledby="planning-prompts">
