@@ -42,6 +42,7 @@ const CATEGORY_BOOSTS: Record<string, string[]> = {
   attractions: ["attractions", "culture-history"],
   bar: ["nightlife-rhythm"],
   boat: ["excursions-charters", "tours-activities"],
+  yacht: ["excursions-charters", "tours-activities"],
   charter: ["excursions-charters"],
   "snorkel charter": ["excursions-charters", "tours-activities"],
   "sunset sail": ["excursions-charters"],
@@ -351,8 +352,8 @@ function applyDescriptionNoisePenalty(
     return SCORE_DESCRIPTION_WEAK;
   }
 
-  if (["boat", "charter", "snorkel charter", "sunset sail"].includes(normalizedQuery)) {
-    const boatSignals = ["boat", "charter", "sail", "catamaran", "snorkel", "kayak", "paddle", "cruise", "fishing"];
+  if (["boat", "yacht", "charter", "snorkel charter", "sunset sail"].includes(normalizedQuery)) {
+    const boatSignals = ["boat", "charter", "sail", "catamaran", "snorkel", "kayak", "paddle", "cruise", "fishing", "yacht"];
     const operatorSignals = ["charter", "tour", "tours", "excursion", "excursions", "sail", "catamaran", "snorkel", "cruise", "fishing", "kayak", "paddle", "adventure", "adventures", "ecotours"];
     const hasBoatSignal = hasAnyFieldSignal(fields, boatSignals);
     const hasOperatorSignal = hasAnyFieldSignal(fields, operatorSignals);
@@ -441,8 +442,8 @@ function scoreBusinessMatch(
     score += 25;
   }
 
-  if (normalizedQuery === "boat") {
-    const boatSignals = ["boat", "charter", "sail", "catamaran", "snorkel", "kayak", "paddle", "cruise", "fishing"];
+  if (normalizedQuery === "boat" || normalizedQuery === "yacht") {
+    const boatSignals = ["boat", "charter", "sail", "catamaran", "snorkel", "kayak", "paddle", "cruise", "fishing", "yacht"];
     const operatorSignals = ["charter", "tour", "tours", "excursion", "excursions", "sail", "catamaran", "snorkel", "cruise", "fishing", "kayak", "paddle", "adventure", "adventures", "ecotours"];
     const hasBoatSignal = hasAnyFieldSignal(fields, boatSignals);
     const hasOperatorSignal = hasAnyFieldSignal(fields, operatorSignals);

@@ -9,14 +9,15 @@ export function normalizeSearchText(value: string): string {
 }
 
 const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
-  boat: ["boating", "charter", "sail", "snorkel", "sunset sail", "catamaran"],
+  boat: ["boating", "charter", "sail", "snorkel", "sunset sail", "catamaran", "yacht"],
   charter: ["boat", "sail", "catamaran", "snorkel charter", "excursions-charters"],
   "snorkel charter": ["boat", "charter", "snorkel", "sail", "excursions-charters"],
   "sunset sail": ["boat", "charter", "sail", "catamaran", "sunset"],
   bite: ["culinary", "food", "restaurant", "dining", "beach bar"],
   bar: ["nightlife", "music", "pub", "cantina"],
   beaches: ["beach", "bay", "cove", "shore", "sand"],
-  boating: ["boat", "charter", "sail", "snorkel", "excursions-charters"],
+  boating: ["boat", "charter", "sail", "snorkel", "excursions-charters", "yacht"],
+  yacht: ["boat", "charter", "sail", "catamaran", "excursions-charters"],
   attraction: ["attractions", "marine park", "ocean park", "tourist attraction"],
   attractions: ["attraction", "marine park", "ocean park", "tourist attraction"],
   "marine park": ["attractions", "coral world", "ocean park", "coki point"],
