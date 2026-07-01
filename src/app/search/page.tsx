@@ -79,6 +79,7 @@ export default async function SearchPage({ searchParams }: Props) {
   const hasQuery = query.length >= 2;
   const isOwnerIntent = hasQuery && isOwnerIntentQuery(query);
   const searchResults = hasQuery ? searchPublicInfoCatalog(query) : [];
+  const topResult = searchResults[0] ?? null;
 
   return (
     <>
@@ -128,6 +129,16 @@ export default async function SearchPage({ searchParams }: Props) {
                 release.
               </p>
             </div>
+            {topResult ? (
+              <div className="mt-5 max-w-2xl">
+                <SearchResultCard
+                  result={topResult}
+                  rank={0}
+                  ownerIntent={isOwnerIntent}
+                  compact
+                />
+              </div>
+            ) : null}
           </div>
         </section>
       </MediaBackdrop>
@@ -170,6 +181,7 @@ export default async function SearchPage({ searchParams }: Props) {
                     result={result}
                     rank={index}
                     ownerIntent={isOwnerIntent}
+                    suppressTopResult={index === 0}
                   />
                 ))}
               </div>
@@ -295,11 +307,19 @@ function SearchResultCard({
   result,
   rank,
   ownerIntent,
+  compact = false,
+  suppressTopResult = false,
 }: {
   result: LocalSearchResult;
   rank: number;
   ownerIntent: boolean;
+  compact?: boolean;
+  suppressTopResult?: boolean;
 }) {
+  if (suppressTopResult) {
+    return null;
+  }
+
   const isUtility = result.href === "/get-listed";
   const detailLabel = result.categoryName ?? "Business";
   const cardTitle =
@@ -315,7 +335,9 @@ function SearchResultCard({
 
   return (
     <article
-      className={`rounded-[1.5rem] border p-5 shadow-[0_20px_70px_rgba(7,151,166,0.12)] transition sm:p-6 ${
+      className={`rounded-[1.5rem] border shadow-[0_20px_70px_rgba(7,151,166,0.12)] transition ${
+        compact ? "p-4 sm:p-5" : "p-5 sm:p-6"
+      } ${
         isUtility
           ? "border-coral/20 bg-[linear-gradient(135deg,rgba(255,121,104,0.12),rgba(255,248,232,0.96)_38%,rgba(55,234,217,0.14))]"
           : "bg-white/72 border-white/70"
@@ -331,10 +353,18 @@ function SearchResultCard({
               {isUtility ? "Utility" : `${detailLabel} / ${result.islandName}`}
             </span>
           </div>
-          <h3 className="mt-4 text-2xl font-semibold tracking-[-0.035em] text-[#173941]">
+          <h3
+            className={`font-semibold tracking-[-0.035em] text-[#173941] ${
+              compact ? "mt-3 text-xl sm:text-2xl" : "mt-4 text-2xl"
+            }`}
+          >
             {cardTitle}
           </h3>
-          <p className="mt-3 max-w-3xl text-sm leading-7 text-[#45636a] sm:text-base">
+          <p
+            className={`max-w-3xl text-sm text-[#45636a] sm:text-base ${
+              compact ? "mt-2 leading-6" : "mt-3 leading-7"
+            }`}
+          >
             {cardDescription}
           </p>
           {trustNote ? (
