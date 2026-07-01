@@ -23,6 +23,11 @@ export type LocalSearchResult = {
   href: string;
 };
 
+export type SearchScopeOptions = {
+  islandSlug?: string | null;
+  categorySlug?: string | null;
+};
+
 const SCORE_NAME_EXACT = 100;
 const SCORE_NAME = 80;
 const SCORE_CATEGORY = 60;
@@ -511,6 +516,34 @@ function scoreGuideMatch(
 }
 
 export function searchPublicInfoCatalog(query: string): LocalSearchResult[] {
+  return searchPublicInfoCatalogWithScope(query, {});
+}
+
+function shortcutMatchesScope(
+  shortcut: GuideShortcut,
+  scope: SearchScopeOptions,
+): boolean {
+  const { islandSlug, categorySlug } = scope;
+
+  if (islandSlug && CODE_TO_SLUG[shortcut.island] !== islandSlug) {
+    return false;
+  }
+
+  if (!categorySlug) {
+    return true;
+  }
+
+  return (
+    shortcut.slug === categorySlug ||
+    shortcut.href.endsWith(`/${categorySlug}`) ||
+    shortcut.href.includes(`/${categorySlug}/`)
+  );
+}
+
+export function searchPublicInfoCatalogWithScope(
+  query: string,
+  scope: SearchScopeOptions,
+): LocalSearchResult[] {
   const normalizedQuery = normalizeSearchText(query);
   if (normalizedQuery.length < 2) {
     return [];
@@ -527,6 +560,7 @@ export function searchPublicInfoCatalog(query: string): LocalSearchResult[] {
   }
 
   const guideResults = getGuideShortcuts(query)
+    .filter((shortcut) => shortcutMatchesScope(shortcut, scope))
     .map((shortcut) => ({
       shortcut,
       score: scoreGuideMatch(shortcut, normalizedQuery, terms),
@@ -536,6 +570,17 @@ export function searchPublicInfoCatalog(query: string): LocalSearchResult[] {
     .map(({ shortcut }) => guideToSearchResult(shortcut));
 
   const listingResults = Array.from(listingScores.values())
+    .filter(({ business }) => {
+      if (scope.islandSlug && CODE_TO_SLUG[business.island] !== scope.islandSlug) {
+        return false;
+      }
+
+      if (scope.categorySlug && business.category?.slug !== scope.categorySlug) {
+        return false;
+      }
+
+      return true;
+    })
     .sort((a, b) => b.score - a.score || a.business.name.localeCompare(b.business.name))
     .map(({ business }) =>
       toSearchResult({

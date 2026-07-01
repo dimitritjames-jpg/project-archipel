@@ -9,9 +9,12 @@ export function normalizeSearchText(value: string): string {
 }
 
 const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
+  boat: ["boating", "charter", "sail", "snorkel"],
   bite: ["culinary", "food", "restaurant", "dining", "beach bar"],
   bar: ["nightlife", "music", "pub", "cantina"],
   beaches: ["beach", "bay", "cove", "shore", "sand"],
+  boating: ["boat", "charter", "sail", "snorkel", "excursions-charters"],
+  food: ["culinary", "restaurant", "dining", "local plate", "waterfront"],
   gifts: [
     "local-provisions",
     "shopping",
@@ -109,6 +112,8 @@ const GUIDE_STYLE_QUERIES = new Set([
   "historic site",
   "ruins",
   "cruise day",
+  "nightlife",
+  "sunset",
   "shops",
   "local shops",
   "get listed",
@@ -143,6 +148,15 @@ export type GuideShortcut = {
   href: string;
   categoryName: string;
 };
+
+type IslandIntentKind =
+  | "dining"
+  | "excursions"
+  | "nightlife"
+  | "local-provisions"
+  | "culture-history"
+  | "sunset"
+  | "beaches";
 
 export const OWNER_INTENT_UTILITY_SHORTCUT = utilityShortcut(
   "utility-owner-get-listed",
@@ -181,11 +195,11 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
     ),
     guideShortcut(
       "guide-things-water-island",
-      "Water Island day trip",
-      "day-trip",
+      "Things to do on Water Island",
+      "things-to-do",
       "WI",
-      "Compact ferry-hop beach day with a protected return plan.",
-      "/water-island/day-trip",
+      "Ferry-first beach time, Fort Segarra context, rentals, and a slow-day escape that still protects the return.",
+      "/water-island/things-to-do",
     ),
     experienceShortcut(
       "experience-adventure",
@@ -584,6 +598,50 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "/st-thomas/cruise-schedule",
     ),
   ],
+  nightlife: [
+    experienceShortcut(
+      "experience-nightlife-query",
+      "Nightlife experiences",
+      "nightlife",
+      "STT",
+      "Harbor nights, live music, beach bars, and after-dark route planning across the USVI.",
+      "/experiences/nightlife",
+    ),
+    categoryShortcut(
+      "category-nightlife-stt-query",
+      "St. Thomas nightlife",
+      "nightlife-rhythm",
+      "STT",
+      "Published nightlife, bar, and late-night listings for St. Thomas.",
+      "/st-thomas/nightlife-rhythm",
+    ),
+    categoryShortcut(
+      "category-nightlife-stx-query",
+      "St. Croix nightlife",
+      "nightlife-rhythm",
+      "STX",
+      "Published nightlife, boardwalk, and after-dark listings for St. Croix.",
+      "/st-croix/nightlife-rhythm",
+    ),
+  ],
+  sunset: [
+    guideShortcut(
+      "guide-sunset-beaches",
+      "Best beaches in the USVI",
+      "best-beaches-usvi",
+      "STJ",
+      "Use beach access, pace, and island style to choose a stronger sunset route.",
+      "/guides/best-beaches-usvi",
+    ),
+    experienceShortcut(
+      "experience-sunset-culinary",
+      "Culinary experiences",
+      "culinary",
+      "STT",
+      "Waterfront tables, beach bars, and date-night routes that work better than a random lexical match.",
+      "/experiences/culinary",
+    ),
+  ],
   "get listed": [
     utilityShortcut(
       "utility-get-listed",
@@ -690,6 +748,132 @@ function categoryShortcut(
   return { id, name, slug, island, descriptionPlain, href, categoryName: "Category" };
 }
 
+function islandHubShortcut(island: IslandCode): GuideShortcut {
+  const islandSlug = CODE_TO_SLUG[island];
+  const islandName = ISLAND_MAP[islandSlug].name;
+
+  return guideShortcut(
+    `island-hub-${islandSlug}`,
+    `${islandName} Guide`,
+    islandSlug,
+    island,
+    `Start with ${islandName} only: island-first browsing, category sections, and scoped route planning before widening to the rest of the USVI.`,
+    `/islands/${islandSlug}`,
+  );
+}
+
+function buildIslandIntentShortcut(
+  island: IslandCode,
+  kind: IslandIntentKind,
+): GuideShortcut | null {
+  const islandSlug = CODE_TO_SLUG[island];
+  const islandName = ISLAND_MAP[islandSlug].name;
+
+  switch (kind) {
+    case "dining":
+      if (island === "WI") {
+        return guideShortcut(
+          `guide-dining-${islandSlug}`,
+          `${islandName} day-trip food planning`,
+          "day-trip",
+          island,
+          `Plan simple food and ferry-aware beach timing on ${islandName} without assuming a deep standalone dining directory.`,
+          "/water-island/day-trip",
+        );
+      }
+
+      return categoryShortcut(
+        `category-dining-${islandSlug}`,
+        `${islandName} restaurants`,
+        "indulgent-dining",
+        island,
+        `Published food and dining listings for ${islandName}.`,
+        `/${islandSlug}/indulgent-dining`,
+      );
+    case "excursions":
+      if (island === "WI") {
+        return guideShortcut(
+          `guide-excursions-${islandSlug}`,
+          `${islandName} day-trip planning`,
+          "day-trip",
+          island,
+          `A smaller-island route where the ferry, beach time, and return matter more than forcing a charter-style directory.`,
+          "/water-island/day-trip",
+        );
+      }
+
+      return categoryShortcut(
+        `category-excursions-${islandSlug}`,
+        `${islandName} charters & excursions`,
+        "excursions-charters",
+        island,
+        `Published charter, excursion, snorkeling, and boating listings for ${islandName}.`,
+        `/${islandSlug}/excursions-charters`,
+      );
+    case "nightlife":
+      if (island === "WI") {
+        return guideShortcut(
+          `guide-nightlife-${islandSlug}`,
+          `${islandName} day-trip planning`,
+          "day-trip",
+          island,
+          `Late-night plans from ${islandName} usually depend on the ferry and a return to St. Thomas, so start with the day-trip guide.`,
+          "/water-island/day-trip",
+        );
+      }
+
+      return categoryShortcut(
+        `category-nightlife-${islandSlug}`,
+        `${islandName} nightlife`,
+        "nightlife-rhythm",
+        island,
+        `Published nightlife, bar, music, and late-night listings for ${islandName}.`,
+        `/${islandSlug}/nightlife-rhythm`,
+      );
+    case "local-provisions":
+      return categoryShortcut(
+        `category-local-provisions-${islandSlug}`,
+        `Local provisions on ${islandName}`,
+        "local-provisions",
+        island,
+        `Published markets, practical provisions, shops, and island browse stops for ${islandName}.`,
+        `/${islandSlug}/local-provisions`,
+      );
+    case "culture-history":
+      return categoryShortcut(
+        `category-culture-history-${islandSlug}`,
+        `Culture & history on ${islandName}`,
+        "culture-history",
+        island,
+        `Museums, forts, historic places, ruins, and cultural landmarks on ${islandName}.`,
+        `/${islandSlug}/culture-history`,
+      );
+    case "sunset":
+      return guideShortcut(
+        `guide-sunset-${islandSlug}`,
+        `Things to do on ${islandName}`,
+        "things-to-do",
+        island,
+        `Use the ${islandName} field guide to shape beaches, waterfront dining, and slower sunset-friendly routes without a fake live recommendation layer.`,
+        `/${islandSlug}/things-to-do`,
+      );
+    case "beaches":
+      if (island === "STJ") {
+        return guideShortcut(
+          "guide-beaches-st-john",
+          "St. John beaches",
+          "beaches",
+          island,
+          "Compare St. John beaches by access, pace, snorkeling interest, and the ferry return.",
+          "/st-john/beaches",
+        );
+      }
+      return null;
+    default:
+      return null;
+  }
+}
+
 function resolveIslandAlias(query: string): IslandCode | null {
   for (const [alias, extras] of Object.entries(ISLAND_ALIAS_TERMS)) {
     const islandCode =
@@ -716,6 +900,13 @@ function resolveIslandAlias(query: string): IslandCode | null {
   return null;
 }
 
+function isExactIslandQuery(query: string): boolean {
+  return Object.entries(ISLAND_ALIAS_TERMS).some(([alias, extras]) => {
+    if (query === alias) return true;
+    return extras.some((extra) => normalizeSearchText(extra) === query);
+  });
+}
+
 function getIslandSpecificThingsToDoShortcuts(
   query: string,
 ): GuideShortcut[] | null {
@@ -735,6 +926,64 @@ function getIslandSpecificThingsToDoShortcuts(
   );
 
   return islandSpecific.length > 0 ? islandSpecific : null;
+}
+
+function getExactIslandQueryShortcut(query: string): GuideShortcut[] | null {
+  if (!isExactIslandQuery(query)) {
+    return null;
+  }
+
+  const island = resolveIslandAlias(query);
+  return island ? [islandHubShortcut(island)] : null;
+}
+
+function getIslandIntentShortcuts(query: string): GuideShortcut[] | null {
+  const island = resolveIslandAlias(query);
+  if (!island) {
+    return null;
+  }
+
+  if (query.includes("food") || query.includes("dining") || query.includes("restaurant")) {
+    return [buildIslandIntentShortcut(island, "dining")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (query.includes("boating") || query.includes("boat") || query.includes("charter")) {
+    return [buildIslandIntentShortcut(island, "excursions")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (query.includes("nightlife") || query.includes(" night")) {
+    return [buildIslandIntentShortcut(island, "nightlife")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (
+    query.includes("local shops") ||
+    query.includes("shops") ||
+    query.includes("market") ||
+    query.includes("gifts")
+  ) {
+    return [buildIslandIntentShortcut(island, "local-provisions")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (
+    query.includes("culture") ||
+    query.includes("history") ||
+    query.includes("museum") ||
+    query.includes("fort") ||
+    query.includes("historic site") ||
+    query.includes("ruins")
+  ) {
+    return [buildIslandIntentShortcut(island, "culture-history")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (query.includes("sunset")) {
+    return [buildIslandIntentShortcut(island, "sunset")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (query.includes("beach")) {
+    return [buildIslandIntentShortcut(island, "beaches")].filter(Boolean) as GuideShortcut[];
+  }
+
+  return null;
 }
 
 export function getExpandedSearchTerms(query: string): string[] {
@@ -769,7 +1018,9 @@ export function isGuideStyleQuery(query: string): boolean {
   const normalized = normalizeSearchText(query);
   return (
     GUIDE_STYLE_QUERIES.has(normalized) ||
-    getIslandSpecificThingsToDoShortcuts(normalized) !== null
+    getIslandSpecificThingsToDoShortcuts(normalized) !== null ||
+    getExactIslandQueryShortcut(normalized) !== null ||
+    getIslandIntentShortcuts(normalized) !== null
   );
 }
 
@@ -778,6 +1029,8 @@ export function shouldPrependGuideShortcuts(query: string): boolean {
   return (
     GUIDE_STYLE_QUERIES.has(normalized) ||
     getIslandSpecificThingsToDoShortcuts(normalized) !== null ||
+    getExactIslandQueryShortcut(normalized) !== null ||
+    getIslandIntentShortcuts(normalized) !== null ||
     normalized === "ferry" ||
     normalized === "cruise" ||
     isOwnerIntentQuery(normalized)
@@ -792,6 +1045,14 @@ export function getGuideShortcuts(query: string): GuideShortcut[] {
   const islandSpecificThingsToDo = getIslandSpecificThingsToDoShortcuts(normalized);
   if (islandSpecificThingsToDo) {
     return islandSpecificThingsToDo;
+  }
+  const exactIslandShortcut = getExactIslandQueryShortcut(normalized);
+  if (exactIslandShortcut) {
+    return exactIslandShortcut;
+  }
+  const islandIntentShortcuts = getIslandIntentShortcuts(normalized);
+  if (islandIntentShortcuts) {
+    return islandIntentShortcuts;
   }
   return GUIDE_SHORTCUTS[normalized] ?? [];
 }

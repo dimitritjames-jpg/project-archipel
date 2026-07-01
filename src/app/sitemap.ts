@@ -105,6 +105,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/st-thomas/things-to-do",
     "/st-croix/things-to-do",
     "/st-john/things-to-do",
+    "/water-island/things-to-do",
     "/st-john/beaches",
     "/st-john/best-snorkeling",
     "/st-thomas/cruise-day",

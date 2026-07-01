@@ -100,7 +100,7 @@ Other category totals were unchanged.
 ## Sitemap Impact
 
 - Sitemap count before: `246`
-- Sitemap count after: `249`
+- Sitemap count after migration: `249`
 
 Reason:
 - profile URLs stayed one-for-one, with old local-provisions canonicals replaced by new culture-history canonicals
@@ -117,6 +117,19 @@ Sitemap QA:
 - old moved `local-provisions` canonical profile URLs removed
 - only index-worthy `culture-history` category routes present
 - `/st-john/culture-history` excluded from sitemap
+
+### Branch follow-up after migration
+
+This branch later picked up two additional baseline-completion fixes without changing the catalog totals:
+
+- added `/water-island/things-to-do` as a real guide route instead of leaving Water Island dependent on `/water-island/day-trip` alone
+- added low-risk search-routing improvements so direct island queries and documented July 1 island-qualified intents lead with the correct island or category route above the fold
+
+Current branch sitemap count after those follow-ups: `250`
+
+Reason for the extra `+1` beyond the migration-only count:
+
+- `/water-island/things-to-do` is now a real public guide route and is intentionally included in sitemap generation
 
 ## Category Route Indexing Policy
 
@@ -163,6 +176,30 @@ Why this policy:
   - top result: `/st-croix/things-to-do`
 - `things to do st john`
   - top result: `/st-john/things-to-do`
+- `things to do water island`
+  - top result: `/water-island/things-to-do`
+- `st thomas`
+  - top result: `/islands/st-thomas`
+- `st croix`
+  - top result: `/islands/st-croix`
+- `nightlife`
+  - top result: `/experiences/nightlife`
+- `sunset`
+  - top result: `/guides/best-beaches-usvi`
+- `food st croix`
+  - top result: `/st-croix/indulgent-dining`
+- `boating st thomas`
+  - top result: `/st-thomas/excursions-charters`
+- `nightlife st thomas`
+  - top result: `/st-thomas/nightlife-rhythm`
+- `sunset st thomas`
+  - top result: `/st-thomas/things-to-do`
+- `market st croix`
+  - top result: `/st-croix/local-provisions`
+- `local shops st croix`
+  - top result: `/st-croix/local-provisions`
+- `culture history st john`
+  - top result: `/st-john/culture-history`
 
 ### Still acceptable / guide-led
 
