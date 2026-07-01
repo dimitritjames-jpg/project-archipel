@@ -38,7 +38,16 @@ const SCORE_UTILITY = 110;
 const SCORE_GUIDE = 95;
 
 const CATEGORY_BOOSTS: Record<string, string[]> = {
+  attraction: ["attractions", "culture-history"],
+  attractions: ["attractions", "culture-history"],
   bar: ["nightlife-rhythm"],
+  boat: ["excursions-charters", "tours-activities"],
+  charter: ["excursions-charters"],
+  "snorkel charter": ["excursions-charters", "tours-activities"],
+  "sunset sail": ["excursions-charters"],
+  "coral world": ["attractions"],
+  "marine park": ["attractions"],
+  "coki point": ["attractions", "beaches"],
   gifts: ["local-provisions"],
   "live music": ["nightlife-rhythm"],
   market: ["local-provisions"],
@@ -47,10 +56,17 @@ const CATEGORY_BOOSTS: Record<string, string[]> = {
   nightlife: ["nightlife-rhythm"],
   culture: ["culture-history"],
   history: ["culture-history"],
-  museum: ["culture-history"],
-  fort: ["culture-history"],
+  museum: ["culture-history", "attractions"],
+  fort: ["culture-history", "attractions"],
   "historic site": ["culture-history"],
-  ruins: ["culture-history"],
+  ruins: ["culture-history", "attractions"],
+  family: ["attractions", "beaches", "culture-history", "tours-activities"],
+  kids: ["attractions", "beaches", "culture-history", "tours-activities"],
+  "rainy day": ["culture-history", "attractions", "wellness-spas", "indulgent-dining"],
+  skyride: ["attractions"],
+  zipline: ["tours-activities"],
+  "food tour": ["tours-activities", "indulgent-dining"],
+  "eco tour": ["tours-activities"],
   spa: ["wellness-spas"],
   wellness: ["wellness-spas"],
   shops: ["local-provisions"],
@@ -64,9 +80,15 @@ const BEACH_FRIENDLY_CATEGORIES = new Set([
   "boutique-stays",
 ]);
 
+const FAMILY_FRIENDLY_CATEGORIES = new Set([
+  "attractions",
+  "beaches",
+  "culture-history",
+  "tours-activities",
+]);
+
 const FOOD_FRIENDLY_CATEGORIES = new Set([
   "indulgent-dining",
-  "excursions-charters",
 ]);
 
 type MatchTiers = {
@@ -243,6 +265,51 @@ function hasStrongMatch(tiers: MatchTiers): boolean {
   return tiers.name > 0 || tiers.slug > 0 || tiers.category > 0 || tiers.island > 0;
 }
 
+function hasAnyFieldSignal(
+  fields: ReturnType<typeof businessSearchFields>,
+  terms: string[],
+): boolean {
+  return terms.some(
+    (term) =>
+      fields.name.includes(term) ||
+      fields.slug.includes(term) ||
+      fields.description.includes(term),
+  );
+}
+
+function isHarborUtilityForBoatIntent(
+  fields: ReturnType<typeof businessSearchFields>,
+): boolean {
+  const harborSignals = ["marina", "harbor", "harbour", "dock", "yacht haven"];
+  const operatorSignals = [
+    "charter",
+    "tour",
+    "tours",
+    "excursion",
+    "excursions",
+    "sail",
+    "sailing",
+    "catamaran",
+    "cruise",
+    "snorkel",
+    "fishing",
+    "kayak",
+    "paddle",
+    "ecotours",
+    "adventure",
+    "adventures",
+  ];
+
+  const hasHarborSignal = harborSignals.some(
+    (term) => fields.name.includes(term) || fields.slug.includes(term),
+  );
+  const hasOperatorSignal = operatorSignals.some(
+    (term) => fields.name.includes(term) || fields.slug.includes(term),
+  );
+
+  return hasHarborSignal && !hasOperatorSignal;
+}
+
 function applyDescriptionNoisePenalty(
   business: PublishedBusinessRow,
   normalizedQuery: string,
@@ -284,6 +351,59 @@ function applyDescriptionNoisePenalty(
     return SCORE_DESCRIPTION_WEAK;
   }
 
+  if (["boat", "charter", "snorkel charter", "sunset sail"].includes(normalizedQuery)) {
+    const boatSignals = ["boat", "charter", "sail", "catamaran", "snorkel", "kayak", "paddle", "cruise", "fishing"];
+    const operatorSignals = ["charter", "tour", "tours", "excursion", "excursions", "sail", "catamaran", "snorkel", "cruise", "fishing", "kayak", "paddle", "adventure", "adventures", "ecotours"];
+    const hasBoatSignal = hasAnyFieldSignal(fields, boatSignals);
+    const hasOperatorSignal = hasAnyFieldSignal(fields, operatorSignals);
+    const harborUtility = isHarborUtilityForBoatIntent(fields);
+
+    if (categorySlug === "excursions-charters") {
+      if (harborUtility) {
+        return Math.max(tiers.description, SCORE_CATEGORY - 18);
+      }
+
+      return Math.max(
+        tiers.description,
+        hasOperatorSignal ? SCORE_CATEGORY : hasBoatSignal ? SCORE_CATEGORY - 8 : SCORE_CATEGORY - 12,
+      );
+    }
+
+    if (categorySlug === "tours-activities" && hasBoatSignal) {
+      return Math.max(tiers.description, hasOperatorSignal ? SCORE_CATEGORY - 6 : SCORE_CATEGORY - 12);
+    }
+
+    return 0;
+  }
+
+  if (["attraction", "attractions", "marine park", "coki point"].includes(normalizedQuery)) {
+    if (categorySlug === "attractions") {
+      return Math.max(tiers.description, SCORE_CATEGORY);
+    }
+
+    if (categorySlug === "culture-history") {
+      return Math.max(tiers.description, SCORE_CATEGORY - 8);
+    }
+
+    return SCORE_DESCRIPTION_WEAK;
+  }
+
+  if (["family", "kids", "rainy day"].includes(normalizedQuery)) {
+    const familySignals = ["family", "kids", "children", "museum", "park", "beach", "garden", "attraction", "aquarium", "ocean park"];
+    const hasFamilySignal = familySignals.some(
+      (term) =>
+        fields.name.includes(term) ||
+        fields.description.includes(term) ||
+        fields.slug.includes(term),
+    );
+
+    if (FAMILY_FRIENDLY_CATEGORIES.has(categorySlug) || hasFamilySignal) {
+      return Math.max(tiers.description, SCORE_CATEGORY - 6);
+    }
+
+    return 0;
+  }
+
   if (normalizedQuery === "food") {
     if (FOOD_FRIENDLY_CATEGORIES.has(categorySlug)) {
       return Math.max(tiers.description, SCORE_CATEGORY);
@@ -319,6 +439,146 @@ function scoreBusinessMatch(
 
   if (normalizedQuery === "ferry" && fields.name.includes("ferry")) {
     score += 25;
+  }
+
+  if (normalizedQuery === "boat") {
+    const boatSignals = ["boat", "charter", "sail", "catamaran", "snorkel", "kayak", "paddle", "cruise", "fishing"];
+    const operatorSignals = ["charter", "tour", "tours", "excursion", "excursions", "sail", "catamaran", "snorkel", "cruise", "fishing", "kayak", "paddle", "adventure", "adventures", "ecotours"];
+    const hasBoatSignal = hasAnyFieldSignal(fields, boatSignals);
+    const hasOperatorSignal = hasAnyFieldSignal(fields, operatorSignals);
+    const harborUtility = isHarborUtilityForBoatIntent(fields);
+
+    if (business.category?.slug === "excursions-charters") {
+      if (harborUtility) {
+        score = Math.min(score, 68);
+      } else {
+        score = Math.max(score, hasOperatorSignal ? 96 : hasBoatSignal ? 84 : 72);
+      }
+    } else if (business.category?.slug === "tours-activities") {
+      if (!hasBoatSignal && !hasStrongMatch(tiers)) {
+        return 0;
+      }
+      score = Math.max(score, hasOperatorSignal ? 82 : 74);
+    } else if (!hasBoatSignal && !hasStrongMatch(tiers)) {
+      return 0;
+    }
+  }
+
+  if (normalizedQuery === "charter" || normalizedQuery === "snorkel charter" || normalizedQuery === "sunset sail") {
+    const sailSignals = ["charter", "sail", "catamaran", "snorkel", "boat", "cruise", "fishing"];
+    const operatorSignals = ["charter", "tour", "tours", "excursion", "excursions", "sail", "catamaran", "snorkel", "cruise", "fishing", "adventure", "adventures", "ecotours"];
+    const hasSailSignal = hasAnyFieldSignal(fields, sailSignals);
+    const hasOperatorSignal = hasAnyFieldSignal(fields, operatorSignals);
+    const harborUtility = isHarborUtilityForBoatIntent(fields);
+
+    if (business.category?.slug === "excursions-charters") {
+      if (harborUtility) {
+        score = Math.min(score, 66);
+      } else {
+        score = Math.max(score, normalizedQuery === "charter" ? 97 : 93);
+      }
+    } else if (business.category?.slug === "tours-activities") {
+      if (!hasSailSignal && !hasStrongMatch(tiers)) {
+        return 0;
+      }
+      score = Math.max(score, hasOperatorSignal ? 76 : 70);
+    } else if (!hasSailSignal && !hasStrongMatch(tiers)) {
+      return 0;
+    }
+  }
+
+  if (normalizedQuery === "attraction" || normalizedQuery === "attractions") {
+    if (business.category?.slug === "attractions") {
+      score = Math.max(score, 92);
+    } else if (business.category?.slug === "culture-history") {
+      score = Math.max(score, 80);
+    }
+  }
+
+  if (normalizedQuery === "coral world") {
+    if (fields.name.includes("coral world")) {
+      score = Math.max(score, 99);
+    } else if (business.category?.slug === "attractions") {
+      score = Math.max(score, 78);
+    }
+  }
+
+  if (normalizedQuery === "marine park" || normalizedQuery === "coki point") {
+    if (fields.name.includes("coral world") || fields.description.includes("marine") || fields.description.includes("coki")) {
+      score = Math.max(score, 97);
+    } else if (business.category?.slug === "attractions") {
+      score = Math.max(score, 82);
+    }
+  }
+
+  if (normalizedQuery === "skyride") {
+    if (fields.name.includes("skyride") || fields.slug.includes("paradise-point")) {
+      score = Math.max(score, 98);
+    } else if (business.category?.slug === "attractions") {
+      score = Math.max(score, 80);
+    }
+  }
+
+  if (normalizedQuery === "zipline") {
+    if (fields.name.includes("zipline") || fields.description.includes("zipline")) {
+      score = Math.max(score, 98);
+    } else if (!hasStrongMatch(tiers)) {
+      return 0;
+    }
+  }
+
+  if (normalizedQuery === "food tour") {
+    if (business.category?.slug === "tours-activities" && (fields.name.includes("food tour") || fields.description.includes("food tour"))) {
+      score = Math.max(score, 96);
+    } else if (!hasStrongMatch(tiers)) {
+      return 0;
+    }
+  }
+
+  if (normalizedQuery === "eco tour") {
+    if (business.category?.slug === "tours-activities" && (fields.name.includes("eco") || fields.description.includes("eco") || fields.description.includes("kayak"))) {
+      score = Math.max(score, 95);
+    } else if (!hasStrongMatch(tiers)) {
+      return 0;
+    }
+  }
+
+  if (normalizedQuery === "family" || normalizedQuery === "kids") {
+    const familySignals = ["family", "kids", "children", "museum", "park", "beach", "garden", "attraction", "aquarium", "ocean park"];
+    const hasFamilySignal = familySignals.some(
+      (term) =>
+        fields.name.includes(term) ||
+        fields.description.includes(term) ||
+        fields.slug.includes(term),
+    );
+
+    if (business.category?.slug === "attractions") {
+      score = Math.max(score, 92);
+    } else if (business.category?.slug === "beaches") {
+      score = Math.max(score, 84);
+    } else if (business.category?.slug === "culture-history" && hasFamilySignal) {
+      score = Math.max(score, 82);
+    } else if (!hasFamilySignal && !hasStrongMatch(tiers)) {
+      return 0;
+    }
+  }
+
+  if (normalizedQuery === "rainy day") {
+    const rainySignals = ["museum", "history", "fort", "garden", "distillery", "attraction", "gallery", "indoor"];
+    const hasRainySignal = rainySignals.some(
+      (term) =>
+        fields.name.includes(term) ||
+        fields.description.includes(term) ||
+        fields.slug.includes(term),
+    );
+
+    if ((business.category?.slug === "culture-history" || business.category?.slug === "attractions") && hasRainySignal) {
+      score = Math.max(score, 90);
+    } else if (business.category?.slug === "wellness-spas" || business.category?.slug === "indulgent-dining") {
+      score = Math.max(score, 74);
+    } else if (!hasRainySignal && !hasStrongMatch(tiers)) {
+      return 0;
+    }
   }
 
   if (normalizedQuery === "wellness") {
@@ -493,6 +753,14 @@ function scoreGuideMatch(
 ): number {
   if (normalizedQuery === "cruise day" && shortcut.href === "/cruise-day") {
     return SCORE_UTILITY + 5;
+  }
+
+  if (normalizedQuery === "kids" && shortcut.href === "/st-thomas/attractions") {
+    return SCORE_GUIDE + 10;
+  }
+
+  if (normalizedQuery === "rainy day" && shortcut.href === "/experiences/culture") {
+    return SCORE_GUIDE + 8;
   }
 
   if (shortcut.categoryName === "Utility") {

@@ -7,40 +7,52 @@ export const CORE_CATEGORIES = [
     sortOrder: 1,
   },
   {
+    name: "Tours & Activities",
+    slug: "tours-activities",
+    schemaType: "TouristTrip",
+    sortOrder: 2,
+  },
+  {
+    name: "Attractions",
+    slug: "attractions",
+    schemaType: "TouristAttraction",
+    sortOrder: 3,
+  },
+  {
     name: "Indulgent Dining",
     slug: "indulgent-dining",
     schemaType: "Restaurant",
-    sortOrder: 2,
+    sortOrder: 4,
   },
   {
     name: "Boutique Stays",
     slug: "boutique-stays",
     schemaType: "LodgingBusiness",
-    sortOrder: 3,
+    sortOrder: 5,
   },
   {
     name: "Nightlife & Rhythm",
     slug: "nightlife-rhythm",
     schemaType: "BarOrPub",
-    sortOrder: 4,
+    sortOrder: 6,
   },
   {
     name: "Wellness & Spas",
     slug: "wellness-spas",
     schemaType: "HealthAndBeautyBusiness",
-    sortOrder: 5,
+    sortOrder: 7,
   },
   {
     name: "Culture & History",
     slug: "culture-history",
     schemaType: "TouristAttraction",
-    sortOrder: 6,
+    sortOrder: 8,
   },
   {
     name: "Local Provisions",
     slug: "local-provisions",
     schemaType: "Store",
-    sortOrder: 7,
+    sortOrder: 9,
   },
 ] as const;
 

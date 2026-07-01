@@ -27,11 +27,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
 
     for (const category of CORE_CATEGORIES) {
-      if (category.slug === "culture-history") {
-        const listingCount = getPublicInfoCategoryCountByIsland(island, category.slug);
-        if (!shouldIndexCategoryPage(category.slug, listingCount)) {
-          continue;
-        }
+      const listingCount = getPublicInfoCategoryCountByIsland(island, category.slug);
+      if (!shouldIndexCategoryPage(category.slug, listingCount)) {
+        continue;
       }
 
       entries.push({

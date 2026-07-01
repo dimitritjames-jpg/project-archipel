@@ -3,7 +3,9 @@ import { CODE_TO_SLUG, type IslandSlug } from "@/lib/islands";
 import type { CategorySlug } from "@/lib/categories";
 
 const INDEXABLE_CATEGORY_MINIMUMS: Partial<Record<CategorySlug, number>> = {
+  attractions: 2,
   "culture-history": 2,
+  "tours-activities": 2,
 };
 
 export function getCategoryIndexThreshold(categorySlug: CategorySlug): number {

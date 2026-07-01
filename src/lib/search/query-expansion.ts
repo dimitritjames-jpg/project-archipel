@@ -9,11 +9,22 @@ export function normalizeSearchText(value: string): string {
 }
 
 const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
-  boat: ["boating", "charter", "sail", "snorkel"],
+  boat: ["boating", "charter", "sail", "snorkel", "sunset sail", "catamaran"],
+  charter: ["boat", "sail", "catamaran", "snorkel charter", "excursions-charters"],
+  "snorkel charter": ["boat", "charter", "snorkel", "sail", "excursions-charters"],
+  "sunset sail": ["boat", "charter", "sail", "catamaran", "sunset"],
   bite: ["culinary", "food", "restaurant", "dining", "beach bar"],
   bar: ["nightlife", "music", "pub", "cantina"],
   beaches: ["beach", "bay", "cove", "shore", "sand"],
   boating: ["boat", "charter", "sail", "snorkel", "excursions-charters"],
+  attraction: ["attractions", "marine park", "ocean park", "tourist attraction"],
+  attractions: ["attraction", "marine park", "ocean park", "tourist attraction"],
+  "marine park": ["attractions", "coral world", "ocean park", "coki point"],
+  "coki point": ["coral world", "attractions", "beach", "marine park"],
+  skyride: ["attractions", "paradise point", "viewpoint"],
+  zipline: ["tours-activities", "tree limin", "adventure"],
+  "food tour": ["tours-activities", "food tours", "culinary", "walking tour"],
+  "eco tour": ["tours-activities", "ecotours", "eco", "kayak", "snorkel"],
   food: ["culinary", "restaurant", "dining", "local plate", "waterfront"],
   gifts: [
     "local-provisions",
@@ -22,7 +33,7 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
     "boutique",
     "maker",
   ],
-  kids: ["family", "museum", "beach", "park", "things to do"],
+  kids: ["family", "museum", "beach", "park", "attractions", "things to do"],
   "live music": ["music", "bar", "nightlife", "night"],
   "get listed": ["claim listing", "update listing", "business", "owner", "listing"],
   "claim listing": ["get listed", "claim interest", "owner", "business", "listing"],
@@ -74,6 +85,8 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
     "wellness",
     "indoor",
     "gallery",
+    "museum",
+    "attractions",
   ],
   "things to do": [
     "experiences",
@@ -85,6 +98,8 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
     "boat",
     "ferry",
     "guide",
+    "attractions",
+    "tours-activities",
   ],
   night: ["nightlife", "bar", "music", "dinner", "late", "rhythm"],
   spa: ["spa", "wellness", "massage", "reset"],
@@ -114,6 +129,15 @@ const GUIDE_STYLE_QUERIES = new Set([
   "cruise day",
   "nightlife",
   "sunset",
+  "kids",
+  "attraction",
+  "attractions",
+  "marine park",
+  "coki point",
+  "skyride",
+  "zipline",
+  "food tour",
+  "eco tour",
   "shops",
   "local shops",
   "get listed",
@@ -152,6 +176,9 @@ export type GuideShortcut = {
 type IslandIntentKind =
   | "dining"
   | "excursions"
+  | "tours-activities"
+  | "attractions"
+  | "family"
   | "nightlife"
   | "local-provisions"
   | "culture-history"
@@ -196,10 +223,10 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
     guideShortcut(
       "guide-things-water-island",
       "Things to do on Water Island",
-      "things-to-do",
+      "day-trip",
       "WI",
       "Ferry-first beach time, Fort Segarra context, rentals, and a slow-day escape that still protects the return.",
-      "/water-island/things-to-do",
+      "/water-island/day-trip",
     ),
     experienceShortcut(
       "experience-adventure",
@@ -503,6 +530,14 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "Family-friendly beach comparisons across all four islands.",
       "/guides/best-beaches-usvi",
     ),
+    categoryShortcut(
+      "category-family-attractions-stt",
+      "St. Thomas attractions",
+      "attractions",
+      "STT",
+      "Coral World, Skyride, and family-friendly anchor stops on St. Thomas.",
+      "/st-thomas/attractions",
+    ),
     guideShortcut(
       "guide-water-island-day-trip",
       "Water Island day trip",
@@ -518,6 +553,32 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "STT",
       "Shore-excursion planning with conservative ship-return timing.",
       "/experiences/cruise-day",
+    ),
+  ],
+  kids: [
+    categoryShortcut(
+      "category-kids-attractions-stt",
+      "St. Thomas attractions",
+      "attractions",
+      "STT",
+      "Family-oriented attractions such as Coral World and Skyride on St. Thomas.",
+      "/st-thomas/attractions",
+    ),
+    categoryShortcut(
+      "category-kids-culture-history-stx",
+      "Culture & history on St. Croix",
+      "culture-history",
+      "STX",
+      "Museum and fort stops that work well for a family-flex or rainy-day route.",
+      "/st-croix/culture-history",
+    ),
+    guideShortcut(
+      "guide-kids-water-island-day-trip",
+      "Water Island day trip",
+      "day-trip",
+      "WI",
+      "A compact beach-first family day that keeps the ferry return simple.",
+      "/water-island/day-trip",
     ),
   ],
   shops: [
@@ -810,6 +871,75 @@ function buildIslandIntentShortcut(
         `Published charter, excursion, snorkeling, and boating listings for ${islandName}.`,
         `/${islandSlug}/excursions-charters`,
       );
+    case "tours-activities":
+      if (island === "WI") {
+        return guideShortcut(
+          `guide-tours-activities-${islandSlug}`,
+          `${islandName} day-trip planning`,
+          "day-trip",
+          island,
+          "A smaller-island route where ferry timing and a protected return matter more than forcing a thin tours category.",
+          "/water-island/day-trip",
+        );
+      }
+
+      return categoryShortcut(
+        `category-tours-activities-${islandSlug}`,
+        `${islandName} tours & activities`,
+        "tours-activities",
+        island,
+        `Published guided activity, food tour, eco tour, paddle, and zipline listings for ${islandName}.`,
+        `/${islandSlug}/tours-activities`,
+      );
+    case "attractions":
+      if (island === "WI") {
+        return guideShortcut(
+          `guide-attractions-${islandSlug}`,
+          `${islandName} day-trip planning`,
+          "day-trip",
+          island,
+          "Use the day-trip guide to layer Fort Segarra and other stops into a smaller-island route without forcing a thin attraction directory.",
+          "/water-island/day-trip",
+        );
+      }
+
+      if (island === "STJ") {
+        return guideShortcut(
+          `guide-attractions-${islandSlug}`,
+          `Things to do on ${islandName}`,
+          "things-to-do",
+          island,
+          `Use the ${islandName} field guide to connect the park, beaches, and attraction-style anchors without forcing a thin browse page.`,
+          `/${islandSlug}/things-to-do`,
+        );
+      }
+
+      return categoryShortcut(
+        `category-attractions-${islandSlug}`,
+        `${islandName} attractions`,
+        "attractions",
+        island,
+        `Published attraction profiles for ${islandName}, including family, rainy-day, and cruise-day anchors.`,
+        `/${islandSlug}/attractions`,
+      );
+    case "family":
+      return island === "WI"
+        ? guideShortcut(
+            `guide-family-${islandSlug}`,
+            "Water Island day trip",
+            "day-trip",
+            island,
+            "A compact, ferry-first family day with beach time and a conservative return.",
+            "/water-island/day-trip",
+          )
+        : guideShortcut(
+            `guide-family-${islandSlug}`,
+            `Things to do on ${islandName}`,
+            "things-to-do",
+            island,
+            `Use the ${islandName} field guide to shape a family-flex day around beaches, attractions, and easier logistics.`,
+            `/${islandSlug}/things-to-do`,
+          );
     case "nightlife":
       if (island === "WI") {
         return guideShortcut(
@@ -949,6 +1079,18 @@ function getIslandIntentShortcuts(query: string): GuideShortcut[] | null {
 
   if (query.includes("boating") || query.includes("boat") || query.includes("charter")) {
     return [buildIslandIntentShortcut(island, "excursions")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (query.includes("food tour") || query.includes("eco tour") || query.includes("zipline") || query.includes("tour") || query.includes("activities")) {
+    return [buildIslandIntentShortcut(island, "tours-activities")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (query.includes("kids") || query.includes("family")) {
+    return [buildIslandIntentShortcut(island, "family")].filter(Boolean) as GuideShortcut[];
+  }
+
+  if (query.includes("attraction") || query.includes("marine park") || query.includes("coki point") || query.includes("skyride")) {
+    return [buildIslandIntentShortcut(island, "attractions")].filter(Boolean) as GuideShortcut[];
   }
 
   if (query.includes("nightlife") || query.includes(" night")) {

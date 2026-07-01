@@ -25,6 +25,8 @@ type IslandHubSection = {
   id:
     | "beaches"
     | "excursions"
+    | "tours"
+    | "attractions"
     | "food"
     | "nightlife"
     | "shops"
@@ -70,6 +72,8 @@ const FILTER_LABELS = [
   ["all", "All live listings"],
   ["beaches", "Beaches"],
   ["excursions-charters", "Excursions & Charters"],
+  ["tours-activities", "Tours & Activities"],
+  ["attractions", "Attractions"],
   ["food", "Food / Dining"],
   ["nightlife", "Nightlife"],
   ["local-shops", "Local Shops / Provisions"],
@@ -114,6 +118,12 @@ function normalizeFilter(value?: string) {
     case "beaches":
     case "excursions":
     case "excursions-charters":
+    case "tours":
+    case "tour":
+    case "activities":
+    case "tours-activities":
+    case "attractions":
+    case "attraction":
     case "food":
     case "dining":
     case "nightlife":
@@ -133,9 +143,19 @@ function normalizeFilter(value?: string) {
     case "culture-history":
     case "things-to-do":
     case "things to do":
-      return normalized === "history" || normalized === "historic" || normalized === "cultural"
-        ? "culture-history"
-        : normalized.replace(/\s+/g, "-");
+      if (normalized === "history" || normalized === "historic" || normalized === "cultural") {
+        return "culture-history";
+      }
+
+      if (normalized === "tours" || normalized === "tour" || normalized === "activities") {
+        return "tours-activities";
+      }
+
+      if (normalized === "attraction") {
+        return "attractions";
+      }
+
+      return normalized.replace(/\s+/g, "-");
     default:
       return "all";
   }
@@ -160,15 +180,20 @@ function deriveFamilyListings(businesses: PublishedBusinessRow[]) {
   const patterns = [
     /family/,
     /children/,
+    /kids/,
     /museum/,
     /beach/,
     /park/,
     /garden/,
+    /attraction/,
+    /ocean park/,
+    /aquarium/,
     /ferry/,
     /fort/,
     /historic/,
     /trail/,
     /snorkel/,
+    /zipline/,
     /water island/,
   ];
 
@@ -259,6 +284,8 @@ export async function IslandHubPage({
   const [
     beachesRaw,
     excursionsRaw,
+    toursRaw,
+    attractionsRaw,
     foodRaw,
     nightlifeRaw,
     shopsRaw,
@@ -268,6 +295,8 @@ export async function IslandHubPage({
   ] = await Promise.all([
     fetchPublishedBusinessesByCategory(islandSlug, "beaches"),
     fetchPublishedBusinessesByCategory(islandSlug, "excursions-charters"),
+    fetchPublishedBusinessesByCategory(islandSlug, "tours-activities"),
+    fetchPublishedBusinessesByCategory(islandSlug, "attractions"),
     fetchPublishedBusinessesByCategory(islandSlug, "indulgent-dining"),
     fetchPublishedBusinessesByCategory(islandSlug, "nightlife-rhythm"),
     fetchPublishedBusinessesByCategory(islandSlug, "local-provisions"),
@@ -278,6 +307,8 @@ export async function IslandHubPage({
 
   const beaches = liveListingsOnly(beachesRaw);
   const excursions = liveListingsOnly(excursionsRaw);
+  const tours = liveListingsOnly(toursRaw);
+  const attractions = liveListingsOnly(attractionsRaw);
   const food = liveListingsOnly(foodRaw);
   const nightlife = liveListingsOnly(nightlifeRaw);
   const shops = liveListingsOnly(shopsRaw);
@@ -288,6 +319,8 @@ export async function IslandHubPage({
   const allIslandListings = uniqueBusinesses([
     ...beaches,
     ...excursions,
+    ...tours,
+    ...attractions,
     ...food,
     ...nightlife,
     ...shops,
@@ -313,10 +346,26 @@ export async function IslandHubPage({
     {
       id: "excursions",
       title: "Excursions & Charters",
-      description: "Boat days, snorkeling, tours, marinas, and on-water planning with island-specific departure context.",
+      description: "Boat charters, sailing, snorkeling departures, and on-water planning with island-specific launch context.",
       categorySlug: "excursions-charters",
       href: `/${islandSlug}/excursions-charters`,
       items: excursions,
+    },
+    {
+      id: "tours",
+      title: "Tours & Activities",
+      description: "Food tours, eco tours, guided paddles, ziplines, night kayaks, and activity-led listings for this island.",
+      categorySlug: "tours-activities",
+      href: `/${islandSlug}/tours-activities`,
+      items: tours,
+    },
+    {
+      id: "attractions",
+      title: "Attractions",
+      description: "Marine parks, skyrides, botanical gardens, distilleries, and other anchor stops that shape a family, rainy-day, or cruise-day plan.",
+      categorySlug: "attractions",
+      href: `/${islandSlug}/attractions`,
+      items: attractions,
     },
     {
       id: "food",
@@ -379,6 +428,8 @@ export async function IslandHubPage({
     if (filter === "all") return section.items.length > 0;
     if (filter === "beaches") return section.id === "beaches";
     if (filter === "excursions-charters" || filter === "excursions") return section.id === "excursions";
+    if (filter === "tours-activities") return section.id === "tours";
+    if (filter === "attractions") return section.id === "attractions";
     if (filter === "food" || filter === "dining") return section.id === "food";
     if (filter === "nightlife") return section.id === "nightlife";
     if (filter === "shops" || filter === "local-provisions" || filter === "local-shops") return section.id === "shops";
@@ -387,7 +438,7 @@ export async function IslandHubPage({
     if (filter === "family" || filter === "rainy-day") return section.id === "family";
     if (filter === "culture-history") return section.id === "history";
     if (filter === "things-to-do") {
-      return ["beaches", "excursions", "family", "history", "shops"].includes(section.id);
+      return ["beaches", "excursions", "tours", "attractions", "family", "history", "shops"].includes(section.id);
     }
     return section.items.length > 0;
   });
@@ -422,7 +473,7 @@ export async function IslandHubPage({
         <div className="section-shell flex min-h-[min(76vh,760px)] flex-col justify-end pb-12 pt-24 sm:pb-16">
           <div className="grid gap-8 lg:grid-cols-[1.05fr_0.55fr] lg:items-end">
             <div>
-              <p className="eyebrow-label">Choose your island / {center[1].toFixed(2)}° N · {Math.abs(center[0]).toFixed(2)}° W</p>
+              <p className="eyebrow-label">Choose your island / {center[1].toFixed(2)} deg N / {Math.abs(center[0]).toFixed(2)} deg W</p>
               <h1 className="display-type mt-6 text-archipel-white">{islandName} Guide</h1>
               <p className="mt-5 max-w-3xl text-lg font-medium text-coral-sunset sm:text-xl">
                 {copy.short}
