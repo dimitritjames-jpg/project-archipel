@@ -110,6 +110,8 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
     "Published nightlife and evening rhythm listings. Confirm current programming and opening hours directly.",
   "wellness-spas":
     "Published wellness and spa listings. Confirm services and appointment availability directly.",
+  "culture-history":
+    "Published culture and history listings for museums, forts, historic sites, ruins, and heritage stops.",
   "local-provisions":
     "Published local shops and provisions listings. Do not assume live inventory.",
 };
@@ -121,6 +123,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   "boutique-stays": "hotel",
   "nightlife-rhythm": "moon",
   "wellness-spas": "leaf",
+  "culture-history": "museum",
   "local-provisions": "shop",
 };
 

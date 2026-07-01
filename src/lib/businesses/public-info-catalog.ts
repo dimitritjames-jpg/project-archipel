@@ -63,6 +63,7 @@ const CATEGORY_NAMES: Record<string, { name: string; schema_type: string }> = {
   "boutique-stays": { name: "Boutique Stays", schema_type: "LodgingBusiness" },
   "nightlife-rhythm": { name: "Nightlife & Rhythm", schema_type: "BarOrPub" },
   "wellness-spas": { name: "Wellness & Spas", schema_type: "HealthAndBeautyBusiness" },
+  "culture-history": { name: "Culture & History", schema_type: "TouristAttraction" },
   "local-provisions": { name: "Local Provisions", schema_type: "Store" },
 };
 

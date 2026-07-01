@@ -42,7 +42,7 @@ export function getListingPlanningTags(
       text,
     ) ||
     (business.island === "STT" &&
-      ["excursions-charters", "indulgent-dining", "local-provisions"].includes(
+      ["excursions-charters", "indulgent-dining", "local-provisions", "culture-history"].includes(
         categorySlug,
       ));
 

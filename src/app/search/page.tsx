@@ -193,8 +193,8 @@ export default async function SearchPage({ searchParams }: Props) {
                 </h3>
                 <p className="mt-4 max-w-2xl text-sm leading-7 text-white/58">
                   Search works best for island names, beaches, ferry, charters,
-                  dining, nightlife, wellness, local shops, and specific
-                  businesses that are already published.
+                  dining, nightlife, wellness, culture-history stops, local
+                  shops, and specific businesses that are already published.
                 </p>
               </div>
             )}

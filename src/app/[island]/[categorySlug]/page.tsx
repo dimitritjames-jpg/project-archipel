@@ -6,6 +6,7 @@ import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { fetchPublishedBusinessesByCategory } from "@/lib/businesses/queries";
+import { shouldIndexCategoryPage } from "@/lib/category-indexing";
 import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
 import { buildGetListedHref } from "@/lib/get-listed";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
@@ -35,6 +36,18 @@ const HIGH_INTENT_CATEGORY_COPY: Record<string, { title: string; description: st
     title: "St. Croix Charters & Excursions",
     description: "Browse published St. Croix charter, Buck Island, and excursion business profiles.",
   },
+  "st-thomas/culture-history": {
+    title: "St. Thomas Culture & History",
+    description: "Browse published St. Thomas museums, forts, and cultural-history stops with source-backed profile details.",
+  },
+  "st-croix/culture-history": {
+    title: "St. Croix Culture & History",
+    description: "Browse published St. Croix museums, forts, historic sites, and heritage stops across Christiansted and Frederiksted.",
+  },
+  "water-island/culture-history": {
+    title: "Water Island Culture & History",
+    description: "Browse published Water Island ruins and historic stops that add depth beyond the ferry-and-beach day loop.",
+  },
 };
 
 const CHANNEL_GUIDANCE: Record<string, { heading: string; points: string[]; guideHref?: string; guideLabel?: string }> = {
@@ -47,6 +60,36 @@ const CHANNEL_GUIDANCE: Record<string, { heading: string; points: string[]; guid
   "st-thomas/excursions-charters": { heading: "Compare the departure point before the boat.", points: ["Confirm marina, pickup, duration, fuel, equipment, weather policy, and cancellation terms.", "VibeVI does not claim live availability or booking inventory.", "Match the return time to ferries, dining, or ship schedules."], guideHref: "/guides/usvi-charters", guideLabel: "Read the USVI charter guide" },
   "st-john/excursions-charters": { heading: "Make the charter fit the ferry and the island.", points: ["Confirm Cruz Bay or Coral Bay departure details directly.", "Treat conditions and operator guidance as authoritative on the day.", "Protect enough time for the return crossing if you are not staying on St. John."], guideHref: "/guides/usvi-charters", guideLabel: "Read the USVI charter guide" },
   "st-croix/excursions-charters": { heading: "Start with the St. Croix departure geography.", points: ["Buck Island, East End, and West End outings solve different days.", "Confirm authorization, inclusions, conditions, and timing directly.", "VibeVI profiles are planning starters, not live booking inventory."], guideHref: "/st-croix/buck-island", guideLabel: "Open the Buck Island guide" },
+  "st-thomas/culture-history": {
+    heading: "Use museums and forts as real day-shaping anchors, not filler stops.",
+    points: [
+      "Historic stops often work best when paired with port timing, downtown walking, or a rainy-day pivot.",
+      "Confirm admission, hours, event programming, and access details directly with the source or organization.",
+      "These profiles are planning starters and do not imply live ticketing or current exhibit information.",
+    ],
+    guideHref: "/st-thomas/things-to-do",
+    guideLabel: "Open the St. Thomas field guide",
+  },
+  "st-croix/culture-history": {
+    heading: "Let the island story shape the route, not just the stop list.",
+    points: [
+      "Christiansted, Frederiksted, Salt River, and west-end history each solve a different St. Croix day.",
+      "Confirm hours, ranger programming, exhibits, and local access details directly before you go.",
+      "Use these listings as route anchors for culture, family, and rainy-day planning rather than assuming full attraction coverage.",
+    ],
+    guideHref: "/st-croix/things-to-do",
+    guideLabel: "Open the St. Croix field guide",
+  },
+  "water-island/culture-history": {
+    heading: "Historic stops on Water Island only work if the ferry and return still stay protected.",
+    points: [
+      "Keep the ferry schedule visible before you commit to ruins, tunnels, or longer walks on a smaller island.",
+      "Confirm on-island access expectations directly and do not assume staffed attraction services.",
+      "Use culture stops to deepen the beach day, not to overbuild a thin island into a crowded itinerary.",
+    ],
+    guideHref: "/water-island/day-trip",
+    guideLabel: "Open the Water Island day-trip guide",
+  },
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -62,7 +105,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     islandParam as IslandSlug,
     categorySlug,
   );
-  const shouldIndexCategory = businesses.length > 0;
+  const realListingCount = businesses.filter((business) => !business.is_demo).length;
+  const shouldIndexCategory = shouldIndexCategoryPage(category.slug, realListingCount);
   const media = getCategoryMediaAsset(categorySlug, category.name);
   const ogImage = media.src
     ? absoluteUrl(media.src)
@@ -145,7 +189,9 @@ export default async function CategoryPage({ params }: Props) {
                   ? demoCount === businesses.length
                     ? `${demoCount} clearly labeled demo profile${demoCount === 1 ? "" : "s"} show how this channel will work while verified inventory is collected.`
                     : `${realCount} published listing${realCount === 1 ? "" : "s"}${demoCount ? ` plus ${demoCount} labeled demo profile${demoCount === 1 ? "" : "s"}` : ""}. Open a profile for source details.`
-                  : "This channel is being assembled. Use search or move laterally into another island category."}
+                  : categorySlug === "culture-history"
+                    ? "This island does not have enough published culture-and-history inventory yet. Use search or move laterally into another island category."
+                    : "This channel is being assembled. Use search or move laterally into another island category."}
               </p>
             </div>
             <div className="command-surface rounded-[1.3rem] p-5">

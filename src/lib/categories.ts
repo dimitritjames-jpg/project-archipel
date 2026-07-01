@@ -31,10 +31,16 @@ export const CORE_CATEGORIES = [
     sortOrder: 5,
   },
   {
+    name: "Culture & History",
+    slug: "culture-history",
+    schemaType: "TouristAttraction",
+    sortOrder: 6,
+  },
+  {
     name: "Local Provisions",
     slug: "local-provisions",
     schemaType: "Store",
-    sortOrder: 6,
+    sortOrder: 7,
   },
 ] as const;
 

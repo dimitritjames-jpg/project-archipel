@@ -276,6 +276,7 @@ export const CATEGORY_MEDIA: Record<string, string> = {
   "boutique-stays": "from-amber-300/40 via-indigo-950 to-sky-400/30",
   "nightlife-rhythm": "from-fuchsia-500/40 via-indigo-950 to-violet-600/45",
   "wellness-spas": "from-emerald-300/45 via-teal-950 to-cyan-300/35",
+  "culture-history": "from-amber-300/50 via-purple-950 to-rose-500/35",
   "local-provisions": "from-lime-300/40 via-emerald-950 to-yellow-300/30",
 };
 
@@ -314,6 +315,13 @@ export const CATEGORY_MEDIA_ASSETS: Record<string, MediaAsset> = {
     gradient: CATEGORY_MEDIA["wellness-spas"],
     src: GENERATED_MEDIA_PATHS.beachDay,
     alt: "Generated atmospheric quiet beach scene for island wellness and slow-day planning",
+  },
+  "culture-history": {
+    id: "category-culture-history",
+    label: "Culture & history",
+    gradient: CATEGORY_MEDIA["culture-history"],
+    src: GENERATED_MEDIA_PATHS.cultureStreet,
+    alt: "Generated atmospheric island culture and heritage scene for museums, forts, and historic routes",
   },
   "local-provisions": {
     id: "category-local-provisions",
@@ -355,7 +363,9 @@ export function getGuideMediaAsset(input: string, label = "Island guide"): Media
     asset = getCategoryMediaAsset("indulgent-dining", label);
   } else if (key.includes("night")) {
     asset = getCategoryMediaAsset("nightlife-rhythm", label);
-  } else if (key.includes("culture") || key.includes("things-to-do") || key.includes("shop") || key.includes("market")) {
+  } else if (key.includes("culture") || key.includes("history") || key.includes("museum") || key.includes("fort") || key.includes("ruins")) {
+    asset = getCategoryMediaAsset("culture-history", label);
+  } else if (key.includes("things-to-do") || key.includes("shop") || key.includes("market")) {
     asset = getCategoryMediaAsset("local-provisions", label);
   } else if (key.includes("cruise")) {
     asset = CRUISE_DAY_MEDIA;

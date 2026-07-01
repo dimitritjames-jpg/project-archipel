@@ -40,6 +40,12 @@ const CATEGORY_BOOSTS: Record<string, string[]> = {
   massage: ["wellness-spas"],
   night: ["nightlife-rhythm"],
   nightlife: ["nightlife-rhythm"],
+  culture: ["culture-history"],
+  history: ["culture-history"],
+  museum: ["culture-history"],
+  fort: ["culture-history"],
+  "historic site": ["culture-history"],
+  ruins: ["culture-history"],
   spa: ["wellness-spas"],
   wellness: ["wellness-spas"],
   shops: ["local-provisions"],
@@ -355,7 +361,49 @@ function scoreBusinessMatch(
     (normalizedQuery === "gifts" || normalizedQuery === "market") &&
     business.category?.slug === "local-provisions"
   ) {
-    score = Math.max(score, 78);
+    if (normalizedQuery === "market") {
+      const marketSignals = [
+        "market",
+        "provision",
+        "grocery",
+        "fresh",
+        "drugstore",
+        "shop",
+        "shops",
+        "store",
+        "mall",
+        "spice",
+      ];
+      const hasMarketSignal = marketSignals.some(
+        (term) =>
+          fields.name.includes(term) ||
+          fields.description.includes(term) ||
+          fields.slug.includes(term),
+      );
+
+      if (!hasMarketSignal) {
+        return 0;
+      }
+
+      score = Math.max(score, fields.name.includes("market") ? 95 : 84);
+    } else {
+      score = Math.max(score, 78);
+    }
+  }
+
+  if (
+    normalizedQuery === "market" &&
+    business.category?.slug === "indulgent-dining" &&
+    fields.name.includes("market")
+  ) {
+    score = Math.min(score, 68);
+  }
+
+  if (
+    ["culture", "history", "museum", "fort", "historic site", "ruins"].includes(normalizedQuery) &&
+    business.category?.slug === "culture-history"
+  ) {
+    score = Math.max(score, 90);
   }
 
   if (normalizedQuery === "shops" || normalizedQuery === "local shops") {

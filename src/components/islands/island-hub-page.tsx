@@ -73,9 +73,9 @@ const FILTER_LABELS = [
   ["food", "Food / Dining"],
   ["nightlife", "Nightlife"],
   ["local-shops", "Local Shops / Provisions"],
+  ["culture-history", "Historic / Cultural"],
   ["things-to-do", "Things to do"],
   ["family", "Family / Rainy-Day"],
-  ["history", "Historic / Cultural"],
   ["wellness", "Wellness / Spas"],
   ["stays", "Stays"],
 ] as const;
@@ -130,9 +130,12 @@ function normalizeFilter(value?: string) {
     case "history":
     case "historic":
     case "cultural":
+    case "culture-history":
     case "things-to-do":
     case "things to do":
-      return normalized.replace(/\s+/g, "-");
+      return normalized === "history" || normalized === "historic" || normalized === "cultural"
+        ? "culture-history"
+        : normalized.replace(/\s+/g, "-");
     default:
       return "all";
   }
@@ -260,6 +263,7 @@ export async function IslandHubPage({
     nightlifeRaw,
     shopsRaw,
     wellnessRaw,
+    cultureHistoryRaw,
     staysRaw,
   ] = await Promise.all([
     fetchPublishedBusinessesByCategory(islandSlug, "beaches"),
@@ -268,6 +272,7 @@ export async function IslandHubPage({
     fetchPublishedBusinessesByCategory(islandSlug, "nightlife-rhythm"),
     fetchPublishedBusinessesByCategory(islandSlug, "local-provisions"),
     fetchPublishedBusinessesByCategory(islandSlug, "wellness-spas"),
+    fetchPublishedBusinessesByCategory(islandSlug, "culture-history"),
     fetchPublishedBusinessesByCategory(islandSlug, "boutique-stays"),
   ]);
 
@@ -277,6 +282,7 @@ export async function IslandHubPage({
   const nightlife = liveListingsOnly(nightlifeRaw);
   const shops = liveListingsOnly(shopsRaw);
   const wellness = liveListingsOnly(wellnessRaw);
+  const cultureHistory = liveListingsOnly(cultureHistoryRaw);
   const stays = liveListingsOnly(staysRaw);
 
   const allIslandListings = uniqueBusinesses([
@@ -286,11 +292,14 @@ export async function IslandHubPage({
     ...nightlife,
     ...shops,
     ...wellness,
+    ...cultureHistory,
     ...stays,
   ]);
 
   const family = uniqueBusinesses(deriveFamilyListings(allIslandListings));
-  const history = uniqueBusinesses(deriveHistoricListings(allIslandListings));
+  const history = uniqueBusinesses(
+    cultureHistory.length > 0 ? cultureHistory : deriveHistoricListings(allIslandListings),
+  );
 
   const sections: IslandHubSection[] = [
     {
@@ -328,7 +337,7 @@ export async function IslandHubPage({
     {
       id: "shops",
       title: "Local Shops / Provisions",
-      description: "Makers, provisions, museums, galleries, and useful local stops tied to this island.",
+      description: "Makers, boutiques, galleries, giftable island goods, and practical provision stops tied to this island.",
       categorySlug: "local-provisions",
       href: `/${islandSlug}/local-provisions`,
       items: shops,
@@ -359,8 +368,9 @@ export async function IslandHubPage({
     {
       id: "history",
       title: "Historic / Cultural Stops",
-      description: "Cross-category history, culture, forts, museums, and story-rich stops for this island.",
-      href: `/search?island=${islandSlug}&q=history`,
+      description: "Museums, forts, historic places, cultural landmarks, ruins, and heritage-led stops for this island.",
+      categorySlug: "culture-history",
+      href: `/${islandSlug}/culture-history`,
       items: history,
     },
   ];
@@ -375,7 +385,7 @@ export async function IslandHubPage({
     if (filter === "wellness" || filter === "spa" || filter === "wellness-spas") return section.id === "wellness";
     if (filter === "stays") return section.id === "stays";
     if (filter === "family" || filter === "rainy-day") return section.id === "family";
-    if (filter === "history" || filter === "historic" || filter === "cultural") return section.id === "history";
+    if (filter === "culture-history") return section.id === "history";
     if (filter === "things-to-do") {
       return ["beaches", "excursions", "family", "history", "shops"].includes(section.id);
     }

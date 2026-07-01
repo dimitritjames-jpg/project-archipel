@@ -107,7 +107,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       { island: "st-john", angle: "Park history, Cruz Bay, Coral Bay, reef stewardship, and quieter community context.", href: "/st-john/things-to-do" },
       { island: "water-island", angle: "Small-island pace and day-trip etiquette around limited services and ferry timing.", href: "/water-island/day-trip" },
     ],
-    relatedCategories: ["local-provisions", "indulgent-dining", "nightlife-rhythm"],
+    relatedCategories: ["culture-history", "indulgent-dining", "nightlife-rhythm"],
     relatedGuides: [
       { href: "/st-croix/things-to-do", label: "Things to do in St. Croix", description: "A slower island route with history, food, reef, and town context." },
       { href: "/st-thomas/things-to-do", label: "Things to do in St. Thomas", description: "Harbor city, beach routes, local stops, and after-dark energy." },
