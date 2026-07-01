@@ -106,6 +106,21 @@ const GUIDE_STYLE_QUERIES = new Set([
   "sponsor",
 ]);
 
+const OWNER_INTENT_PHRASES = [
+  "get listed",
+  "claim listing",
+  "update listing",
+  "send photos",
+  "add my business",
+  "list my business",
+  "business listing",
+  "sponsor",
+  "sponsorship",
+  "featured placement",
+  "advertise",
+  "promote my business",
+] as const;
+
 export type GuideShortcut = {
   id: string;
   name: string;
@@ -115,6 +130,15 @@ export type GuideShortcut = {
   href: string;
   categoryName: string;
 };
+
+export const OWNER_INTENT_UTILITY_SHORTCUT = utilityShortcut(
+  "utility-owner-get-listed",
+  "Get listed on VibeVI",
+  "get-listed",
+  "STT",
+  "Own or manage a Virgin Islands business? Submit a new listing, claim public-info details, send updates, or ask about growth placement.",
+  "/get-listed",
+);
 
 const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
   "things to do": [
@@ -518,18 +542,23 @@ export function shouldPrependGuideShortcuts(query: string): boolean {
     GUIDE_STYLE_QUERIES.has(normalized) ||
     normalized === "ferry" ||
     normalized === "cruise" ||
-    normalized === "get listed" ||
-    normalized === "claim listing" ||
-    normalized === "update listing" ||
-    normalized === "send photos" ||
-    normalized === "featured placement" ||
-    normalized === "sponsor"
+    isOwnerIntentQuery(normalized)
   );
 }
 
 export function getGuideShortcuts(query: string): GuideShortcut[] {
   const normalized = normalizeSearchText(query);
+  if (isOwnerIntentQuery(normalized)) {
+    return [OWNER_INTENT_UTILITY_SHORTCUT];
+  }
   return GUIDE_SHORTCUTS[normalized] ?? [];
+}
+
+export function isOwnerIntentQuery(query: string): boolean {
+  const normalized = normalizeSearchText(query);
+  return OWNER_INTENT_PHRASES.some(
+    (phrase) => normalized === phrase || normalized.includes(phrase),
+  );
 }
 
 export function guideShortcutToSearchFields(shortcut: GuideShortcut): string[] {

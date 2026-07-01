@@ -9,6 +9,8 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { ISLAND_MAP, ISLAND_SLUGS } from "@/lib/islands";
 import { HERO_MEDIA, ISLAND_PORTALS } from "@/lib/media";
+import { searchPublicInfoCatalog, type LocalSearchResult } from "@/lib/search/catalog-search";
+import { isOwnerIntentQuery } from "@/lib/search/query-expansion";
 import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
@@ -74,6 +76,9 @@ const utilityShortcuts = [
 export default async function SearchPage({ searchParams }: Props) {
   const { vibe, q = "" } = await searchParams;
   const query = q.trim();
+  const hasQuery = query.length >= 2;
+  const isOwnerIntent = hasQuery && isOwnerIntentQuery(query);
+  const searchResults = hasQuery ? searchPublicInfoCatalog(query) : [];
 
   return (
     <>
@@ -128,6 +133,62 @@ export default async function SearchPage({ searchParams }: Props) {
       </MediaBackdrop>
 
       <div className="section-shell py-12 sm:py-16 lg:py-20">
+        {hasQuery ? (
+          <section aria-labelledby="search-results" className="mb-16">
+            <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/8 pb-6">
+              <div>
+                <p className="eyebrow-label">
+                  {isOwnerIntent ? "Owner intent" : "Published results"}
+                </p>
+                <h2
+                  id="search-results"
+                  className="mt-4 text-3xl font-semibold tracking-[-0.045em] text-[#173941] sm:text-4xl"
+                >
+                  {isOwnerIntent
+                    ? "Start with the listing request."
+                    : `Results for “${query}”`}
+                </h2>
+                <p className="mt-4 max-w-3xl text-sm leading-7 text-[#45636a] sm:text-base">
+                  {isOwnerIntent
+                    ? "Use the launch inbox to submit a new listing, claim public-info details, send source-backed updates, or ask about future growth placement."
+                    : "These results come from published business names, descriptions, island hubs, and route-aware utility pages."}
+                </p>
+              </div>
+              <Link
+                href="/search"
+                className="rounded-full border border-[#0b4b55]/12 bg-white px-4 py-2 text-sm font-semibold text-[#173941] transition hover:-translate-y-0.5 hover:border-aqua/35 hover:text-[#0b4b55]"
+              >
+                Clear search
+              </Link>
+            </div>
+
+            {searchResults.length > 0 ? (
+              <div className="mt-8 grid gap-4">
+                {searchResults.map((result, index) => (
+                  <SearchResultCard
+                    key={result.id}
+                    result={result}
+                    rank={index}
+                    ownerIntent={isOwnerIntent}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="command-surface mt-8 rounded-[1.5rem] p-6 sm:p-7">
+                <p className="eyebrow-label">No exact match yet</p>
+                <h3 className="mt-4 text-2xl font-semibold text-white">
+                  Try an island, category, or practical need.
+                </h3>
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-white/58">
+                  Search works best for island names, beaches, ferry, charters,
+                  dining, nightlife, wellness, local shops, and specific
+                  businesses that are already published.
+                </p>
+              </div>
+            )}
+          </section>
+        ) : null}
+
         <VibeFilterRail activeId={vibe} className="!px-0" title="Route by mood" />
 
         <section className="mt-16" aria-labelledby="island-search">
@@ -227,5 +288,78 @@ export default async function SearchPage({ searchParams }: Props) {
         </section>
       </div>
     </>
+  );
+}
+
+function SearchResultCard({
+  result,
+  rank,
+  ownerIntent,
+}: {
+  result: LocalSearchResult;
+  rank: number;
+  ownerIntent: boolean;
+}) {
+  const isUtility = result.href === "/get-listed";
+  const detailLabel = result.categoryName ?? "Business";
+  const cardTitle =
+    isUtility && ownerIntent ? "Get listed on VibeVI" : result.name;
+  const cardDescription =
+    isUtility && ownerIntent
+      ? "Own or manage a Virgin Islands business? Submit a new listing, claim public-info details, send updates, or ask about growth placement."
+      : result.descriptionPlain;
+  const trustNote =
+    isUtility && ownerIntent
+      ? "Public-info listings are reviewed before publishing. No instant verification or paid placement is implied."
+      : null;
+
+  return (
+    <article
+      className={`rounded-[1.5rem] border p-5 shadow-[0_20px_70px_rgba(7,151,166,0.12)] transition sm:p-6 ${
+        isUtility
+          ? "border-coral/20 bg-[linear-gradient(135deg,rgba(255,121,104,0.12),rgba(255,248,232,0.96)_38%,rgba(55,234,217,0.14))]"
+          : "bg-white/72 border-white/70"
+      }`}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="max-w-3xl">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-full border border-[#0b4b55]/10 bg-white/70 px-2.5 py-1 text-[9px] font-black uppercase tracking-[0.14em] text-[#47636a]">
+              {rank === 0 ? "Top result" : `Result ${rank + 1}`}
+            </span>
+            <span className="rounded-full border border-[#0b4b55]/10 bg-white/60 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-[#47636a]">
+              {isUtility ? "Utility" : `${detailLabel} / ${result.islandName}`}
+            </span>
+          </div>
+          <h3 className="mt-4 text-2xl font-semibold tracking-[-0.035em] text-[#173941]">
+            {cardTitle}
+          </h3>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-[#45636a] sm:text-base">
+            {cardDescription}
+          </p>
+          {trustNote ? (
+            <p className="mt-3 text-xs leading-6 text-[#5c6f75]">{trustNote}</p>
+          ) : null}
+        </div>
+
+        <div className="flex shrink-0 flex-col items-stretch gap-2 sm:items-end">
+          <Link
+            href={result.href}
+            className={`rounded-full px-5 py-2.5 text-sm font-bold transition hover:-translate-y-0.5 ${
+              isUtility
+                ? "bg-coral text-midnight-950"
+                : "bg-[#0b4b55] text-white hover:bg-[#0f6874]"
+            }`}
+          >
+            {isUtility ? "Start listing request" : "Open result"}
+          </Link>
+          {isUtility ? (
+            <span className="text-right text-[11px] leading-5 text-[#5c6f75]">
+              Claim or update your VibeVI listing
+            </span>
+          ) : null}
+        </div>
+      </div>
+    </article>
   );
 }
