@@ -96,6 +96,7 @@ const GUIDE_STYLE_QUERIES = new Set([
   "romantic",
   "rainy day",
   "things to do",
+  "cruise day",
   "shops",
   "local shops",
   "get listed",
@@ -397,6 +398,32 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "/water-island/local-provisions",
     ),
   ],
+  "cruise day": [
+    utilityShortcut(
+      "utility-cruise-day-hub-direct",
+      "USVI cruise-day guide",
+      "cruise-day",
+      "STT",
+      "Port-aware planning for St. Thomas and St. Croix with honest return buffers.",
+      "/cruise-day",
+    ),
+    experienceShortcut(
+      "utility-cruise-day-experience-direct",
+      "Cruise-day experiences",
+      "cruise-day",
+      "STT",
+      "Shore-excursion planning paths across beaches, food, tours, and culture.",
+      "/experiences/cruise-day",
+    ),
+    utilityShortcut(
+      "utility-cruise-schedule-st-thomas-direct",
+      "St. Thomas cruise schedule",
+      "cruise-schedule",
+      "STT",
+      "Scheduled port capacity context before picking a cruise-day move.",
+      "/st-thomas/cruise-schedule",
+    ),
+  ],
   "get listed": [
     utilityShortcut(
       "utility-get-listed",
@@ -503,6 +530,53 @@ function categoryShortcut(
   return { id, name, slug, island, descriptionPlain, href, categoryName: "Category" };
 }
 
+function resolveIslandAlias(query: string): IslandCode | null {
+  for (const [alias, extras] of Object.entries(ISLAND_ALIAS_TERMS)) {
+    const islandCode =
+      alias === "st thomas"
+        ? "STT"
+        : alias === "st john"
+          ? "STJ"
+          : alias === "st croix"
+            ? "STX"
+            : "WI";
+
+    if (query === alias || query.endsWith(` ${alias}`)) {
+      return islandCode;
+    }
+
+    for (const extra of extras) {
+      const normalizedExtra = normalizeSearchText(extra);
+      if (query === normalizedExtra || query.endsWith(` ${normalizedExtra}`)) {
+        return islandCode;
+      }
+    }
+  }
+
+  return null;
+}
+
+function getIslandSpecificThingsToDoShortcuts(
+  query: string,
+): GuideShortcut[] | null {
+  if (!query.startsWith("things to do ")) {
+    return null;
+  }
+
+  const island = resolveIslandAlias(query);
+  if (!island) {
+    return null;
+  }
+
+  const islandSpecific = GUIDE_SHORTCUTS["things to do"].filter(
+    (shortcut) =>
+      shortcut.island === island &&
+      (shortcut.categoryName === "Guide" || shortcut.categoryName === "Utility"),
+  );
+
+  return islandSpecific.length > 0 ? islandSpecific : null;
+}
+
 export function getExpandedSearchTerms(query: string): string[] {
   const normalized = normalizeSearchText(query);
   if (normalized.length < 2) {
@@ -533,13 +607,17 @@ export function getExpandedSearchTerms(query: string): string[] {
 
 export function isGuideStyleQuery(query: string): boolean {
   const normalized = normalizeSearchText(query);
-  return GUIDE_STYLE_QUERIES.has(normalized);
+  return (
+    GUIDE_STYLE_QUERIES.has(normalized) ||
+    getIslandSpecificThingsToDoShortcuts(normalized) !== null
+  );
 }
 
 export function shouldPrependGuideShortcuts(query: string): boolean {
   const normalized = normalizeSearchText(query);
   return (
     GUIDE_STYLE_QUERIES.has(normalized) ||
+    getIslandSpecificThingsToDoShortcuts(normalized) !== null ||
     normalized === "ferry" ||
     normalized === "cruise" ||
     isOwnerIntentQuery(normalized)
@@ -550,6 +628,10 @@ export function getGuideShortcuts(query: string): GuideShortcut[] {
   const normalized = normalizeSearchText(query);
   if (isOwnerIntentQuery(normalized)) {
     return [OWNER_INTENT_UTILITY_SHORTCUT];
+  }
+  const islandSpecificThingsToDo = getIslandSpecificThingsToDoShortcuts(normalized);
+  if (islandSpecificThingsToDo) {
+    return islandSpecificThingsToDo;
   }
   return GUIDE_SHORTCUTS[normalized] ?? [];
 }

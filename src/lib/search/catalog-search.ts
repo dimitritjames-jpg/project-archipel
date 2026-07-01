@@ -438,6 +438,10 @@ function scoreGuideMatch(
   normalizedQuery: string,
   terms: string[],
 ): number {
+  if (normalizedQuery === "cruise day" && shortcut.href === "/cruise-day") {
+    return SCORE_UTILITY + 5;
+  }
+
   if (shortcut.categoryName === "Utility") {
     return SCORE_UTILITY;
   }
