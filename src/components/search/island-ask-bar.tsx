@@ -31,6 +31,7 @@ export function IslandAskBar({
   const inputId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const isCompact = variant === "compact";
+  const stacksOnNarrowMobile = !isCompact;
 
   useEffect(() => {
     if (inputRef.current) {
@@ -57,7 +58,16 @@ export function IslandAskBar({
           if (!value) event.preventDefault();
         }}
       >
-        <div className={cn("flex items-center gap-2", isCompact ? "gap-2" : "gap-3")}>
+        <div
+          className={cn(
+            "flex gap-2",
+            isCompact
+              ? "items-center gap-2"
+              : stacksOnNarrowMobile
+                ? "flex-col items-stretch min-[430px]:flex-row min-[430px]:items-center min-[430px]:gap-3"
+                : "items-center gap-3",
+          )}
+        >
           <label htmlFor={inputId} className="sr-only">
             Ask VibeVI
           </label>
@@ -79,7 +89,9 @@ export function IslandAskBar({
             type="submit"
             className={cn(
               "inline-flex shrink-0 items-center justify-center rounded-full bg-[#0b4b55] font-bold text-white transition hover:-translate-y-0.5 hover:bg-[#0f6874]",
-              isCompact ? "min-h-10 px-4 text-sm" : "min-h-11 px-5 text-sm sm:min-h-12 sm:px-6",
+              isCompact
+                ? "min-h-10 px-4 text-sm"
+                : "min-h-11 w-full px-5 text-sm min-[430px]:w-auto sm:min-h-12 sm:px-6",
             )}
           >
             Find the move

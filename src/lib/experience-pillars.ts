@@ -69,7 +69,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       { island: "st-croix", angle: "Buck Island, diving, broader drives, and slower full-day reef outings.", href: "/st-croix/excursions-charters" },
       { island: "water-island", angle: "Compact ferry-hop beach days with simple movement and a protected return plan.", href: "/water-island/day-trip" },
     ],
-    relatedCategories: ["excursions-charters"],
+    relatedCategories: ["excursions-charters", "tours-activities", "attractions"],
     relatedGuides: [
       { href: "/guides/usvi-charters", label: "USVI charters", description: "Compare departure geography, inclusions, conditions, and direct booking questions." },
       { href: "/st-john/best-snorkeling", label: "Best snorkeling in St. John", description: "Plan around conditions, ability, and official park context." },
@@ -107,7 +107,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       { island: "st-john", angle: "Park history, Cruz Bay, Coral Bay, reef stewardship, and quieter community context.", href: "/st-john/things-to-do" },
       { island: "water-island", angle: "Small-island pace and day-trip etiquette around limited services and ferry timing.", href: "/water-island/day-trip" },
     ],
-    relatedCategories: ["local-provisions", "indulgent-dining", "nightlife-rhythm"],
+    relatedCategories: ["culture-history", "attractions", "indulgent-dining", "nightlife-rhythm"],
     relatedGuides: [
       { href: "/st-croix/things-to-do", label: "Things to do in St. Croix", description: "A slower island route with history, food, reef, and town context." },
       { href: "/st-thomas/things-to-do", label: "Things to do in St. Thomas", description: "Harbor city, beach routes, local stops, and after-dark energy." },
@@ -181,7 +181,7 @@ export const EXPERIENCE_PILLARS: Record<ExperiencePillarSlug, ExperiencePillar> 
       { island: "st-john", angle: "Possible ferry-linked day trips where ship time, taxi time, and return crossings all matter.", href: "/st-john/ferry-schedule" },
       { island: "water-island", angle: "A compact ferry-hop idea only when timing, services, and return margin are conservative.", href: "/water-island/day-trip" },
     ],
-    relatedCategories: ["excursions-charters", "indulgent-dining", "local-provisions"],
+    relatedCategories: ["excursions-charters", "tours-activities", "attractions", "indulgent-dining", "local-provisions", "culture-history"],
     relatedGuides: [
       { href: "/cruise-day", label: "USVI cruise-day hub", description: "Start with port, buffer, and one realistic move." },
       { href: "/st-thomas/cruise-day", label: "Cruise day in St. Thomas", description: "Use port, beach, food, and return-margin context in one plan." },

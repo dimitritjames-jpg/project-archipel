@@ -16,15 +16,15 @@ const utilityLinks = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-[#0b4b55]/10 bg-[#fff8e8]/82 shadow-[0_10px_34px_rgba(11,75,85,0.08)] backdrop-blur-xl">
-      <div className="section-shell flex h-20 items-center justify-between gap-4">
+      <div className="section-shell flex h-20 min-w-0 items-center justify-between gap-2 sm:gap-4">
         <Link
           href="/"
-          className="group flex items-center gap-3 text-base font-semibold tracking-[-0.03em] text-[#123840] sm:text-lg"
+          className="group flex min-w-0 items-center gap-2 text-base font-semibold tracking-[-0.03em] text-[#123840] sm:gap-3 sm:text-lg"
           aria-label="VibeVI home"
         >
           <ArchipelMark className="transition duration-300 group-hover:rotate-12 group-hover:border-aqua/70" />
-          <span className="flex flex-col leading-none">
-            <span>
+          <span className="flex min-w-0 flex-col leading-none">
+            <span className="truncate">
               Vibe<span className="text-reef-blue transition group-hover:text-coral-sunset">VI</span>
             </span>
             <span className="mt-1 hidden text-[9px] font-black uppercase tracking-[0.18em] text-[#47636a] sm:block">
@@ -48,12 +48,14 @@ export function SiteHeader() {
         <Link
           href="/search"
           className={cn(
-            "inline-flex min-h-10 items-center gap-2 rounded-full border border-[#0b4b55]/14 bg-[#0b4b55] px-4 text-sm font-bold text-white",
+            "inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-full border border-[#0b4b55]/14 bg-[#0b4b55] px-3 text-xs font-bold text-white sm:gap-2 sm:px-4 sm:text-sm",
             "shadow-[0_14px_40px_rgba(11,75,85,0.18)] transition hover:-translate-y-0.5 hover:bg-[#0f6874]",
           )}
         >
           <span>Search</span>
-          <span aria-hidden="true">&rarr;</span>
+          <span aria-hidden="true" className="hidden sm:inline">
+            &rarr;
+          </span>
         </Link>
       </div>
 

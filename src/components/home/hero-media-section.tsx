@@ -15,7 +15,7 @@ const heroMoves = [
   },
   {
     label: "Boat",
-    href: "/experiences/adventure",
+    href: "/search?q=boat",
     imageSrc: GENERATED_MEDIA_PATHS.boatDay,
     alt: "Generated atmospheric boat-day scene with an unbranded sailboat on turquoise water",
     detail: "Snorkel, sail, beach-hop.",
@@ -38,7 +38,7 @@ const heroMoves = [
 
 export function HeroMediaSection() {
   return (
-    <section className="destination-cover-hero relative -mt-20 overflow-visible">
+    <section className="destination-cover-hero relative -mt-20 overflow-x-hidden overflow-y-visible">
       <MediaBackdrop
         media={HERO_MEDIA}
         overlay="subtle"

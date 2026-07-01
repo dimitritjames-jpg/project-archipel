@@ -6,6 +6,7 @@ import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { fetchPublishedBusinessesByCategory } from "@/lib/businesses/queries";
+import { shouldIndexCategoryPage } from "@/lib/category-indexing";
 import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
 import { buildGetListedHref } from "@/lib/get-listed";
 import { getIslandBySlug, getIslandName, type IslandSlug } from "@/lib/islands";
@@ -35,6 +36,42 @@ const HIGH_INTENT_CATEGORY_COPY: Record<string, { title: string; description: st
     title: "St. Croix Charters & Excursions",
     description: "Browse published St. Croix charter, Buck Island, and excursion business profiles.",
   },
+  "st-thomas/tours-activities": {
+    title: "St. Thomas Tours & Activities",
+    description: "Browse published St. Thomas food tours, eco tours, zipline runs, paddles, and guided activity profiles.",
+  },
+  "st-john/tours-activities": {
+    title: "St. John Tours & Activities",
+    description: "Browse published St. John guided eco tours, paddles, and activity-led experiences tied to the island day.",
+  },
+  "st-croix/tours-activities": {
+    title: "St. Croix Tours & Activities",
+    description: "Browse published St. Croix food tours, eco tours, and guided activity profiles with direct-source details.",
+  },
+  "st-thomas/attractions": {
+    title: "St. Thomas Attractions",
+    description: "Browse published St. Thomas attraction profiles including Coral World, Skyride, and family-friendly anchor stops.",
+  },
+  "st-john/attractions": {
+    title: "St. John Attractions",
+    description: "Browse published St. John attraction profiles and island anchors such as Virgin Islands National Park.",
+  },
+  "st-croix/attractions": {
+    title: "St. Croix Attractions",
+    description: "Browse published St. Croix attraction profiles including Buck Island, botanical garden, and distillery stops.",
+  },
+  "st-thomas/culture-history": {
+    title: "St. Thomas Culture & History",
+    description: "Browse published St. Thomas museums, forts, and cultural-history stops with source-backed profile details.",
+  },
+  "st-croix/culture-history": {
+    title: "St. Croix Culture & History",
+    description: "Browse published St. Croix museums, forts, historic sites, and heritage stops across Christiansted and Frederiksted.",
+  },
+  "water-island/culture-history": {
+    title: "Water Island Culture & History",
+    description: "Browse published Water Island ruins and historic stops that add depth beyond the ferry-and-beach day loop.",
+  },
 };
 
 const CHANNEL_GUIDANCE: Record<string, { heading: string; points: string[]; guideHref?: string; guideLabel?: string }> = {
@@ -47,6 +84,96 @@ const CHANNEL_GUIDANCE: Record<string, { heading: string; points: string[]; guid
   "st-thomas/excursions-charters": { heading: "Compare the departure point before the boat.", points: ["Confirm marina, pickup, duration, fuel, equipment, weather policy, and cancellation terms.", "VibeVI does not claim live availability or booking inventory.", "Match the return time to ferries, dining, or ship schedules."], guideHref: "/guides/usvi-charters", guideLabel: "Read the USVI charter guide" },
   "st-john/excursions-charters": { heading: "Make the charter fit the ferry and the island.", points: ["Confirm Cruz Bay or Coral Bay departure details directly.", "Treat conditions and operator guidance as authoritative on the day.", "Protect enough time for the return crossing if you are not staying on St. John."], guideHref: "/guides/usvi-charters", guideLabel: "Read the USVI charter guide" },
   "st-croix/excursions-charters": { heading: "Start with the St. Croix departure geography.", points: ["Buck Island, East End, and West End outings solve different days.", "Confirm authorization, inclusions, conditions, and timing directly.", "VibeVI profiles are planning starters, not live booking inventory."], guideHref: "/st-croix/buck-island", guideLabel: "Open the Buck Island guide" },
+  "st-thomas/tours-activities": {
+    heading: "Treat land-and-water activities like route anchors, not filler between meals.",
+    points: [
+      "Confirm departure point, duration, physical requirements, weather policy, and inclusions directly before building the rest of the day.",
+      "Use guided activities to shape the island day honestly instead of assuming they behave like open-ended browse stops.",
+      "These profiles are planning starters only and do not imply live booking, guaranteed space, or verified same-day availability.",
+    ],
+    guideHref: "/st-thomas/things-to-do",
+    guideLabel: "Open the St. Thomas field guide",
+  },
+  "st-john/tours-activities": {
+    heading: "On St. John, the activity has to fit the ferry and the pace of the island.",
+    points: [
+      "Check whether the operator starts near Cruz Bay, Coral Bay, or a pickup point that changes the return ferry plan.",
+      "Confirm conditions, equipment, skill level, and timing directly rather than assuming a quick plug-in activity.",
+      "Use these listings to narrow the day, not to overstuff a park-and-beach island into too many moves.",
+    ],
+    guideHref: "/st-john/things-to-do",
+    guideLabel: "Open the St. John field guide",
+  },
+  "st-croix/tours-activities": {
+    heading: "A guided activity on St. Croix should match the part of the island you actually want to spend time in.",
+    points: [
+      "Christiansted, Frederiksted, and the east end create different drive times, weather feel, and after-activity options.",
+      "Confirm timing, inclusions, transport expectations, and weather policy directly with the operator.",
+      "Use activities to sharpen the route, not to flatten the island into one generic excursion bucket.",
+    ],
+    guideHref: "/st-croix/things-to-do",
+    guideLabel: "Open the St. Croix field guide",
+  },
+  "st-thomas/attractions": {
+    heading: "Use attractions when the day needs a clear anchor beyond sand and reservations.",
+    points: [
+      "Marine parks, skyride views, and family stops work best when paired with transport, port timing, or a nearby beach plan.",
+      "Confirm admission, hours, weather dependence, and current programming directly before you go.",
+      "These profiles stay honest about published information only. VibeVI does not claim live ticketing or same-day availability.",
+    ],
+    guideHref: "/st-thomas/things-to-do",
+    guideLabel: "Open the St. Thomas field guide",
+  },
+  "st-john/attractions": {
+    heading: "On St. John, a single attraction can shape the whole day because the island already runs on a slower clock.",
+    points: [
+      "Let park context, ferry timing, and beach access determine whether an attraction becomes the anchor or a supporting stop.",
+      "Confirm access expectations, conditions, fees, and official guidance directly with the source before you go.",
+      "Use these listings as route-shaping context, not as proof of live operations or current staffing.",
+    ],
+    guideHref: "/st-john/things-to-do",
+    guideLabel: "Open the St. John field guide",
+  },
+  "st-croix/attractions": {
+    heading: "Big-stop attractions on St. Croix work best when you let geography decide the rest of the route.",
+    points: [
+      "A garden, distillery, or Buck Island-style attraction changes the drive pattern, meal timing, and energy left for the rest of the day.",
+      "Confirm access, admission, official guidance, and current programming directly with the source before you go.",
+      "VibeVI keeps these as planning profiles only and does not imply live ticketing, booking, or verified same-day availability.",
+    ],
+    guideHref: "/st-croix/things-to-do",
+    guideLabel: "Open the St. Croix field guide",
+  },
+  "st-thomas/culture-history": {
+    heading: "Use museums and forts as real day-shaping anchors, not filler stops.",
+    points: [
+      "Historic stops often work best when paired with port timing, downtown walking, or a rainy-day pivot.",
+      "Confirm admission, hours, event programming, and access details directly with the source or organization.",
+      "These profiles are planning starters and do not imply live ticketing or current exhibit information.",
+    ],
+    guideHref: "/st-thomas/things-to-do",
+    guideLabel: "Open the St. Thomas field guide",
+  },
+  "st-croix/culture-history": {
+    heading: "Let the island story shape the route, not just the stop list.",
+    points: [
+      "Christiansted, Frederiksted, Salt River, and west-end history each solve a different St. Croix day.",
+      "Confirm hours, ranger programming, exhibits, and local access details directly before you go.",
+      "Use these listings as route anchors for culture, family, and rainy-day planning rather than assuming full attraction coverage.",
+    ],
+    guideHref: "/st-croix/things-to-do",
+    guideLabel: "Open the St. Croix field guide",
+  },
+  "water-island/culture-history": {
+    heading: "Historic stops on Water Island only work if the ferry and return still stay protected.",
+    points: [
+      "Keep the ferry schedule visible before you commit to ruins, tunnels, or longer walks on a smaller island.",
+      "Confirm on-island access expectations directly and do not assume staffed attraction services.",
+      "Use culture stops to deepen the beach day, not to overbuild a thin island into a crowded itinerary.",
+    ],
+    guideHref: "/water-island/day-trip",
+    guideLabel: "Open the Water Island day-trip guide",
+  },
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -62,7 +189,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     islandParam as IslandSlug,
     categorySlug,
   );
-  const shouldIndexCategory = businesses.length > 0;
+  const realListingCount = businesses.filter((business) => !business.is_demo).length;
+  const shouldIndexCategory = shouldIndexCategoryPage(category.slug, realListingCount);
   const media = getCategoryMediaAsset(categorySlug, category.name);
   const ogImage = media.src
     ? absoluteUrl(media.src)
@@ -132,7 +260,7 @@ export default async function CategoryPage({ params }: Props) {
             href={`/${islandParam}`}
             className="w-fit text-xs font-semibold text-archipel-white/45 transition hover:text-aqua"
           >
-            ← Back to {islandName}
+            Back to {islandName}
           </Link>
           <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.45fr] lg:items-end">
             <div>
@@ -145,7 +273,13 @@ export default async function CategoryPage({ params }: Props) {
                   ? demoCount === businesses.length
                     ? `${demoCount} clearly labeled demo profile${demoCount === 1 ? "" : "s"} show how this channel will work while verified inventory is collected.`
                     : `${realCount} published listing${realCount === 1 ? "" : "s"}${demoCount ? ` plus ${demoCount} labeled demo profile${demoCount === 1 ? "" : "s"}` : ""}. Open a profile for source details.`
-                  : "This channel is being assembled. Use search or move laterally into another island category."}
+                  : categorySlug === "culture-history"
+                    ? "This island does not have enough published culture-and-history inventory yet. Use search or move laterally into another island category."
+                    : categorySlug === "attractions"
+                      ? "This island does not have enough published attraction inventory yet. Use search or step sideways into the island guide while this category deepens."
+                      : categorySlug === "tours-activities"
+                        ? "This island does not have enough published tours-and-activities inventory yet. Use search or the island guide while verified activity coverage grows."
+                        : "This channel is being assembled. Use search or move laterally into another island category."}
               </p>
             </div>
             <div className="command-surface rounded-[1.3rem] p-5">
@@ -158,7 +292,7 @@ export default async function CategoryPage({ params }: Props) {
               </p>
               <p className="mt-1 text-xs text-archipel-white/42">
                 {demoCount === businesses.length && businesses.length > 0
-                  ? "sample profiles · no real business claims"
+                  ? "sample profiles - no real business claims"
                   : "directory profiles"}
               </p>
             </div>
@@ -167,7 +301,7 @@ export default async function CategoryPage({ params }: Props) {
       </MediaBackdrop>
 
       <div className="section-shell py-12 sm:py-16 lg:py-20">
-        {guidance ? <section className="mb-12 grid gap-6 rounded-[1.5rem] border border-white/9 bg-white/[0.025] p-6 lg:grid-cols-[0.8fr_1.2fr]"><div><p className="eyebrow-label">Plan before you pick</p><h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">{guidance.heading}</h2>{guidance.guideHref ? <Link href={guidance.guideHref} className="mt-6 inline-flex text-sm font-semibold text-aqua">{guidance.guideLabel} <span className="ml-2" aria-hidden>→</span></Link> : null}</div><ul className="space-y-3">{guidance.points.map((point, index) => <li key={point} className="flex gap-3 rounded-xl border border-white/7 bg-midnight-950/30 p-4 text-sm leading-6 text-white/55"><span className="font-mono text-[10px] text-aqua/55">0{index + 1}</span>{point}</li>)}</ul></section> : null}
+        {guidance ? <section className="mb-12 grid gap-6 rounded-[1.5rem] border border-white/9 bg-white/[0.025] p-6 lg:grid-cols-[0.8fr_1.2fr]"><div><p className="eyebrow-label">Plan before you pick</p><h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">{guidance.heading}</h2>{guidance.guideHref ? <Link href={guidance.guideHref} className="mt-6 inline-flex text-sm font-semibold text-aqua">{guidance.guideLabel} <span className="ml-2" aria-hidden>Open guide</span></Link> : null}</div><ul className="space-y-3">{guidance.points.map((point, index) => <li key={point} className="flex gap-3 rounded-xl border border-white/7 bg-midnight-950/30 p-4 text-sm leading-6 text-white/55"><span className="font-mono text-[10px] text-aqua/55">0{index + 1}</span>{point}</li>)}</ul></section> : null}
         <div className="flex flex-col gap-4 border-b border-white/8 pb-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-mono text-[9px] uppercase tracking-[0.18em] text-archipel-white/32">
@@ -175,7 +309,7 @@ export default async function CategoryPage({ params }: Props) {
             </p>
             <p className="mt-1 text-sm text-archipel-white/55">
               {demoCount === businesses.length && businesses.length > 0
-                ? "Fictional demo inventory · unverified · no paid ranking"
+                ? "Fictional demo inventory - unverified - no paid ranking"
                 : "Published directory listings - no paid ranking in this view"}
             </p>
           </div>
@@ -183,7 +317,7 @@ export default async function CategoryPage({ params }: Props) {
             href={`/search?island=${islandParam}&category=${categorySlug}`}
             className="w-fit rounded-full border border-aqua/20 bg-aqua/7 px-4 py-2 text-xs font-semibold text-aqua transition hover:bg-aqua/12"
           >
-            Search this channel ↗
+            Search this channel
           </Link>
         </div>
 
@@ -217,7 +351,7 @@ export default async function CategoryPage({ params }: Props) {
             <SectionHeader
               align="center"
               eyebrow="Channel assembling"
-              title="No published listings here—yet."
+              title="No published listings here yet."
               description="Try the archipelago search, choose a neighboring category, or return as the launch set grows."
             />
             <Link

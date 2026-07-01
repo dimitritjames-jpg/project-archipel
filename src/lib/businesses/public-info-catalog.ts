@@ -59,10 +59,19 @@ const CATEGORY_NAMES: Record<string, { name: string; schema_type: string }> = {
     name: "Excursions & Charters",
     schema_type: "TouristInformationCenter",
   },
+  "tours-activities": {
+    name: "Tours & Activities",
+    schema_type: "TouristTrip",
+  },
+  attractions: {
+    name: "Attractions",
+    schema_type: "TouristAttraction",
+  },
   "indulgent-dining": { name: "Indulgent Dining", schema_type: "Restaurant" },
   "boutique-stays": { name: "Boutique Stays", schema_type: "LodgingBusiness" },
   "nightlife-rhythm": { name: "Nightlife & Rhythm", schema_type: "BarOrPub" },
   "wellness-spas": { name: "Wellness & Spas", schema_type: "HealthAndBeautyBusiness" },
+  "culture-history": { name: "Culture & History", schema_type: "TouristAttraction" },
   "local-provisions": { name: "Local Provisions", schema_type: "Store" },
 };
 

@@ -102,6 +102,10 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
     "Source-backed beach listings and shoreline anchors across the U.S. Virgin Islands.",
   "excursions-charters":
     "Published excursion and charter operators. Confirm availability, pickup, and inclusions directly.",
+  "tours-activities":
+    "Published guided activities and land-or-water tours that are not purely charter inventory. Confirm timing and inclusions directly.",
+  attractions:
+    "Published fixed attractions, marine parks, scenic lifts, gardens, distilleries, and landmark stops. Confirm current hours and admission details directly.",
   "indulgent-dining":
     "Published dining listings for tables worth planning around. Confirm hours and reservations directly.",
   "boutique-stays":
@@ -110,6 +114,8 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
     "Published nightlife and evening rhythm listings. Confirm current programming and opening hours directly.",
   "wellness-spas":
     "Published wellness and spa listings. Confirm services and appointment availability directly.",
+  "culture-history":
+    "Published culture and history listings for museums, forts, historic sites, ruins, and heritage stops.",
   "local-provisions":
     "Published local shops and provisions listings. Do not assume live inventory.",
 };
@@ -117,10 +123,13 @@ const CATEGORY_DESCRIPTIONS: Record<string, string> = {
 const CATEGORY_ICONS: Record<string, string> = {
   beaches: "beach",
   "excursions-charters": "boat",
+  "tours-activities": "map",
+  attractions: "compass",
   "indulgent-dining": "food",
   "boutique-stays": "hotel",
   "nightlife-rhythm": "moon",
   "wellness-spas": "leaf",
+  "culture-history": "museum",
   "local-provisions": "shop",
 };
 

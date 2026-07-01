@@ -42,9 +42,7 @@ export function getListingPlanningTags(
       text,
     ) ||
     (business.island === "STT" &&
-      ["excursions-charters", "indulgent-dining", "local-provisions"].includes(
-        categorySlug,
-      ));
+      ["beaches", "excursions-charters", "tours-activities", "attractions", "indulgent-dining", "local-provisions", "culture-history"].includes(categorySlug));
 
   if (cruiseContext) {
     tags.push({
@@ -64,9 +62,7 @@ export function getListingPlanningTags(
 
   if (
     tags.length > 0 ||
-    ["excursions-charters", "indulgent-dining", "nightlife-rhythm"].includes(
-      categorySlug,
-    )
+    ["beaches", "excursions-charters", "tours-activities", "attractions", "indulgent-dining", "nightlife-rhythm", "culture-history"].includes(categorySlug)
   ) {
     tags.push({
       label: "Confirm timing directly",

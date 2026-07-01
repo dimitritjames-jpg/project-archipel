@@ -93,6 +93,28 @@ export const ISLAND_GUIDES: Record<string, LaunchGuide> = {
       { question: "Are ferry times on VibeVI live?", answer: "No. They are schedule-based and should be confirmed with the operator before travel." },
     ],
   },
+  "water-island/things-to-do": {
+    path: "/water-island/things-to-do",
+    eyebrow: "Water Island field guide",
+    title: "Things to Do on Water Island",
+    description: "Plan a Water Island day around the ferry, Honeymoon Beach, Fort Segarra, slower beach routes, and a protected return.",
+    introduction: "Water Island works best when the day stays small on purpose. Start with the ferry, pick one or two meaningful stops, and protect enough time to get back off the island without turning the day into a scramble.",
+    essentials: [
+      { title: "Build around the ferry first", body: "Outbound and return crossings shape the whole plan. Confirm the current directional schedule directly before deciding how long the island day can really be." },
+      { title: "Keep the beach day simple", body: "Honeymoon Beach is the natural anchor, but rentals, shade, food, and walking energy still affect how much day is left for anything else." },
+      { title: "Treat history as a route add-on", body: "Fort Segarra and the island’s quieter historic traces work best as part of a beach-day loop, not as a packed attraction crawl with assumed services." },
+    ],
+    related: [
+      { href: "/water-island/day-trip", label: "Water Island day trip", description: "Use the ferry-first version of the island plan." },
+      { href: "/water-island/ferry-schedule", label: "Water Island ferry schedule", description: "Keep the return crossing visible before committing to the day." },
+      { href: "/water-island/culture-history", label: "Water Island culture & history", description: "See Fort Segarra and ruin-led stops without forcing them into a shop category." },
+      { href: "/islands/water-island", label: "Water Island hub", description: "Return to the island-first hub for beaches, rentals, and practical planning." },
+    ],
+    faq: [
+      { question: "Can Water Island fill a full day?", answer: "Yes, if the ferry schedule, beach plan, and slower island pace fit your group. The day is better when it stays intentionally simple." },
+      { question: "Does VibeVI show live ferry tracking for Water Island?", answer: "No. VibeVI uses schedule-based ferry planning only and does not claim live vessel positions or boarding guarantees." },
+    ],
+  },
   "st-john/beaches": {
     path: "/st-john/beaches",
     eyebrow: "Beach route planner",

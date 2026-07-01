@@ -260,7 +260,7 @@ export const EXPERIENCE_HERO_MEDIA: Record<string, MediaAsset> = {
 
 export const VIBE_FILTERS = [
   { id: "beach", label: "Beach day", href: "/search?vibe=beach" },
-  { id: "boat", label: "Boat charter", href: "/st-john/excursions-charters" },
+  { id: "boat", label: "Boat charter", href: "/search?q=boat" },
   { id: "food", label: "Local plate", href: "/experiences/culinary" },
   { id: "luxury", label: "Sunset dinner", href: "/search?vibe=luxury" },
   { id: "nightlife", label: "Boardwalk night", href: "/st-thomas/nightlife-rhythm" },
@@ -272,10 +272,13 @@ export const VIBE_FILTERS = [
 
 export const CATEGORY_MEDIA: Record<string, string> = {
   "excursions-charters": "from-teal-400/50 via-navy-900 to-cyan-500/40",
+  "tours-activities": "from-sky-300/45 via-blue-950 to-teal-400/30",
+  attractions: "from-cyan-300/35 via-blue-950 to-amber-300/28",
   "indulgent-dining": "from-orange-400/45 via-purple-950 to-rose-400/35",
   "boutique-stays": "from-amber-300/40 via-indigo-950 to-sky-400/30",
   "nightlife-rhythm": "from-fuchsia-500/40 via-indigo-950 to-violet-600/45",
   "wellness-spas": "from-emerald-300/45 via-teal-950 to-cyan-300/35",
+  "culture-history": "from-amber-300/50 via-purple-950 to-rose-500/35",
   "local-provisions": "from-lime-300/40 via-emerald-950 to-yellow-300/30",
 };
 
@@ -286,6 +289,20 @@ export const CATEGORY_MEDIA_ASSETS: Record<string, MediaAsset> = {
     gradient: CATEGORY_MEDIA["excursions-charters"],
     src: GENERATED_MEDIA_PATHS.boatDay,
     alt: "Generated atmospheric charter boat scene on turquoise USVI-style water",
+  },
+  "tours-activities": {
+    id: "category-tours-activities",
+    label: "Tours & activities",
+    gradient: CATEGORY_MEDIA["tours-activities"],
+    src: GENERATED_MEDIA_PATHS.cultureStreet,
+    alt: "Generated atmospheric island activity scene for guided tours, zipline days, and eco outings",
+  },
+  attractions: {
+    id: "category-attractions",
+    label: "Attractions",
+    gradient: CATEGORY_MEDIA.attractions,
+    src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
+    alt: "Generated atmospheric island attraction scene for marine parks, scenic lifts, gardens, and landmark stops",
   },
   "indulgent-dining": {
     id: "category-indulgent-dining",
@@ -314,6 +331,13 @@ export const CATEGORY_MEDIA_ASSETS: Record<string, MediaAsset> = {
     gradient: CATEGORY_MEDIA["wellness-spas"],
     src: GENERATED_MEDIA_PATHS.beachDay,
     alt: "Generated atmospheric quiet beach scene for island wellness and slow-day planning",
+  },
+  "culture-history": {
+    id: "category-culture-history",
+    label: "Culture & history",
+    gradient: CATEGORY_MEDIA["culture-history"],
+    src: GENERATED_MEDIA_PATHS.cultureStreet,
+    alt: "Generated atmospheric island culture and heritage scene for museums, forts, and historic routes",
   },
   "local-provisions": {
     id: "category-local-provisions",
@@ -355,7 +379,9 @@ export function getGuideMediaAsset(input: string, label = "Island guide"): Media
     asset = getCategoryMediaAsset("indulgent-dining", label);
   } else if (key.includes("night")) {
     asset = getCategoryMediaAsset("nightlife-rhythm", label);
-  } else if (key.includes("culture") || key.includes("things-to-do") || key.includes("shop") || key.includes("market")) {
+  } else if (key.includes("culture") || key.includes("history") || key.includes("museum") || key.includes("fort") || key.includes("ruins")) {
+    asset = getCategoryMediaAsset("culture-history", label);
+  } else if (key.includes("things-to-do") || key.includes("shop") || key.includes("market")) {
     asset = getCategoryMediaAsset("local-provisions", label);
   } else if (key.includes("cruise")) {
     asset = CRUISE_DAY_MEDIA;

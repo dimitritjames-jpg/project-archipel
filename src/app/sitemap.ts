@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl, getCanonicalSiteUrl } from "@/lib/site-url";
 import { CODE_TO_SLUG, ISLAND_SLUGS } from "@/lib/islands";
+import { getPublicInfoCategoryCountByIsland, shouldIndexCategoryPage } from "@/lib/category-indexing";
 import { CORE_CATEGORIES } from "@/lib/categories";
 import { PUBLIC_EXPERIENCE_PILLAR_SLUGS } from "@/lib/experience-pillars";
 import { PUBLIC_INFO_BUSINESSES } from "@/lib/businesses/public-info-catalog";
@@ -26,6 +27,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
 
     for (const category of CORE_CATEGORIES) {
+      const listingCount = getPublicInfoCategoryCountByIsland(island, category.slug);
+      if (!shouldIndexCategoryPage(category.slug, listingCount)) {
+        continue;
+      }
+
       entries.push({
         url: absoluteUrl(`/${island}/${category.slug}`),
         lastModified: now,
@@ -97,6 +103,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/st-thomas/things-to-do",
     "/st-croix/things-to-do",
     "/st-john/things-to-do",
+    "/water-island/things-to-do",
     "/st-john/beaches",
     "/st-john/best-snorkeling",
     "/st-thomas/cruise-day",

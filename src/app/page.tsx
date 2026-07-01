@@ -46,7 +46,7 @@ const dayMoves = [
   },
   {
     label: "Boat",
-    href: "/guides/usvi-charters",
+    href: "/search?q=boat",
     line: "Snorkel, beach-hop, or chase the sunset from the water.",
     motif: "Sails, coves, turtles, and one more swim stop.",
     className: "boat-day-card",
