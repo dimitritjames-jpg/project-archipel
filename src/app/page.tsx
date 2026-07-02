@@ -191,12 +191,12 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-4 sm:auto-rows-fr sm:grid-cols-2 xl:grid-cols-4">
               {dayMoves.map((move) => (
                 <Link
                   key={move.label}
                   href={move.href}
-                  className={`${move.className} island-vibe-poster group relative flex min-h-[330px] flex-col overflow-hidden rounded-[2rem] border border-white/55 p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)]`}
+                  className={`${move.className} island-vibe-poster group relative flex h-full min-h-[330px] flex-col overflow-hidden rounded-[2rem] border border-white/55 p-5 shadow-[0_26px_80px_rgba(7,151,166,0.16)] transition duration-500 hover:-translate-y-1.5 hover:shadow-[0_34px_110px_rgba(7,151,166,0.22)]`}
                 >
                   <Image
                     src={move.imageSrc}

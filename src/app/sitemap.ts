@@ -40,6 +40,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       });
     }
 
+    const beachListingCount = getPublicInfoCategoryCountByIsland(island, "beaches");
+    if (shouldIndexCategoryPage("beaches", beachListingCount)) {
+      entries.push({
+        url: absoluteUrl(`/${island}/beaches`),
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.8,
+      });
+    }
+
     if (island === "st-thomas" || island === "st-john" || island === "water-island") {
       entries.push({
         url: absoluteUrl(`/${island}/ferry-schedule`),
@@ -104,7 +114,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/st-croix/things-to-do",
     "/st-john/things-to-do",
     "/water-island/things-to-do",
-    "/st-john/beaches",
     "/st-john/best-snorkeling",
     "/st-thomas/cruise-day",
     "/st-thomas/havensight-cruise-day",

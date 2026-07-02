@@ -1,5 +1,5 @@
 import { TrackedLink } from "@/components/analytics/tracked-link";
-import { type IslandSlug } from "@/lib/islands";
+import { ISLAND_MAP, type IslandSlug } from "@/lib/islands";
 import { ISLAND_PORTALS } from "@/lib/media";
 import { cn } from "@/lib/utils";
 
@@ -12,11 +12,10 @@ type IslandVisualConfig = {
   eyebrow: string;
   accent: string;
   badgeGlow: string;
-  badgeFill: string;
-  outlinePath: string;
-  cayDots?: string[];
   badgeClassName?: string;
   accentOrbClassName: string;
+  signalLabel: string;
+  routeLabel: string;
 };
 
 const ISLAND_VISUALS: Record<IslandSlug, IslandVisualConfig> = {
@@ -24,52 +23,56 @@ const ISLAND_VISUALS: Record<IslandSlug, IslandVisualConfig> = {
     eyebrow: "Harbor pulse",
     accent: "from-cyan-200/85 via-sky-300/70 to-white/95",
     badgeGlow: "from-cyan-400/18 via-sky-400/10 to-transparent",
-    badgeFill: "rgba(156, 228, 239, 0.42)",
-    accentOrbClassName: "bg-[radial-gradient(circle_at_30%_30%,rgba(125,232,220,0.32),rgba(125,232,220,0.08)_45%,transparent_72%)]",
-    outlinePath:
-      "M20 82 L33 75 L49 73 L62 63 L80 55 L99 56 L114 51 L130 47 L147 50 L163 46 L180 49 L196 57 L212 58 L227 67 L236 78 L233 87 L220 90 L209 98 L191 101 L177 108 L161 109 L147 115 L128 113 L111 116 L94 113 L79 115 L63 110 L49 106 L37 98 L24 94 Z",
-    cayDots: ["225 56 4.2", "240 64 3.2", "15 95 2.8"],
+    accentOrbClassName:
+      "bg-[radial-gradient(circle_at_30%_30%,rgba(125,232,220,0.32),rgba(125,232,220,0.08)_45%,transparent_72%)]",
+    signalLabel: "Charlotte Amalie + East End",
+    routeLabel: "Beaches • nights • ferries",
   },
   "st-john": {
     eyebrow: "Park calm",
     accent: "from-emerald-200/85 via-teal-300/70 to-white/95",
     badgeGlow: "from-emerald-400/16 via-teal-400/10 to-transparent",
-    badgeFill: "rgba(156, 239, 208, 0.38)",
-    accentOrbClassName: "bg-[radial-gradient(circle_at_30%_30%,rgba(110,231,183,0.28),rgba(110,231,183,0.08)_45%,transparent_72%)]",
-    outlinePath:
-      "M24 92 L37 79 L50 72 L66 61 L85 56 L104 51 L121 56 L136 52 L152 55 L169 61 L186 68 L198 78 L214 82 L218 91 L207 98 L199 109 L184 116 L166 116 L151 121 L135 119 L118 123 L101 119 L87 122 L71 117 L54 112 L40 103 Z",
-    cayDots: ["212 71 3.4", "223 86 2.8", "31 105 2.5"],
+    accentOrbClassName:
+      "bg-[radial-gradient(circle_at_30%_30%,rgba(110,231,183,0.28),rgba(110,231,183,0.08)_45%,transparent_72%)]",
+    signalLabel: "Cruz Bay + park shoreline",
+    routeLabel: "Beaches • trails • ferry return",
   },
   "st-croix": {
     eyebrow: "Big-island depth",
     accent: "from-amber-200/88 via-orange-200/70 to-white/95",
     badgeGlow: "from-amber-400/16 via-rose-300/10 to-transparent",
-    badgeFill: "rgba(244, 209, 151, 0.34)",
-    accentOrbClassName: "bg-[radial-gradient(circle_at_30%_30%,rgba(251,191,36,0.26),rgba(251,191,36,0.08)_45%,transparent_72%)]",
-    outlinePath:
-      "M18 88 L33 79 L52 74 L72 66 L96 63 L120 63 L140 59 L163 58 L186 61 L207 68 L225 73 L238 82 L237 91 L223 96 L208 101 L192 109 L171 111 L149 115 L128 114 L108 117 L87 115 L67 113 L49 108 L34 102 L21 98 Z",
-    cayDots: ["241 84 2.8", "12 94 2.4"],
+    accentOrbClassName:
+      "bg-[radial-gradient(circle_at_30%_30%,rgba(251,191,36,0.26),rgba(251,191,36,0.08)_45%,transparent_72%)]",
+    signalLabel: "Christiansted + west-end loop",
+    routeLabel: "Food • culture • reef days",
   },
   "water-island": {
     eyebrow: "Ferry-hop ease",
     accent: "from-stone-100/92 via-sand/90 to-white/95",
     badgeGlow: "from-lime-300/16 via-aqua/10 to-transparent",
-    badgeFill: "rgba(244, 223, 184, 0.28)",
-    accentOrbClassName: "bg-[radial-gradient(circle_at_30%_30%,rgba(244,223,184,0.24),rgba(244,223,184,0.08)_45%,transparent_72%)]",
-    outlinePath:
-      "M84 90 L96 83 L110 78 L122 71 L138 68 L154 70 L166 66 L179 71 L190 79 L191 88 L181 93 L172 102 L158 106 L143 105 L129 109 L114 107 L101 104 L90 98 Z",
-    cayDots: ["196 75 2.8", "205 87 2.4", "79 101 2.2"],
-    badgeClassName: "sm:w-[8.3rem]",
+    badgeClassName: "sm:w-[8.2rem]",
+    accentOrbClassName:
+      "bg-[radial-gradient(circle_at_30%_30%,rgba(244,223,184,0.24),rgba(244,223,184,0.08)_45%,transparent_72%)]",
+    signalLabel: "Crown Bay ferry + Honeymoon",
+    routeLabel: "Slow day • beach • return ferry",
   },
 };
 
-function IslandMapBadge({
+function formatCoordinate(value: number, positiveLabel: string, negativeLabel: string) {
+  const label = value >= 0 ? positiveLabel : negativeLabel;
+  return `${Math.abs(value).toFixed(2)} ${label}`;
+}
+
+function IslandSignalBadge({
   islandSlug,
   visual,
 }: {
   islandSlug: IslandSlug;
   visual: IslandVisualConfig;
 }) {
+  const island = ISLAND_MAP[islandSlug];
+  const [longitude, latitude] = island.center;
+
   return (
     <div
       className={cn(
@@ -89,41 +92,39 @@ function IslandMapBadge({
           }}
         />
       </div>
-      <svg
-        viewBox="0 0 256 140"
-        className="relative z-10 h-[4.25rem] w-full"
-        role="presentation"
-      >
-        <defs>
-          <linearGradient id={`island-badge-fill-${islandSlug}`} x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={visual.badgeFill} />
-            <stop offset="100%" stopColor="rgba(255,255,255,0.08)" />
-          </linearGradient>
-        </defs>
-        <path
-          d={visual.outlinePath}
-          fill={`url(#island-badge-fill-${islandSlug})`}
-          stroke="rgba(16, 64, 73, 0.84)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {visual.cayDots?.map((dot) => {
-          const [cx, cy, r] = dot.split(" ");
-          return (
-            <circle
-              key={dot}
-              cx={cx}
-              cy={cy}
-              r={r}
-              fill="rgba(16, 64, 73, 0.76)"
-            />
-          );
-        })}
-      </svg>
+
+      <div className="relative z-10 rounded-[1rem] border border-[#0b4b55]/10 bg-white/74 p-3">
+        <div className="flex items-center justify-between text-[9px] font-semibold uppercase tracking-[0.18em] text-[#52717a]">
+          <span>{island.code}</span>
+          <span>Island note</span>
+        </div>
+
+        <div className="mt-3 flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#0b7b89]">
+              {visual.eyebrow}
+            </p>
+            <p className="mt-1 text-sm font-semibold leading-5 text-[#173941]">
+              {visual.signalLabel}
+            </p>
+          </div>
+          <span className="mt-1 inline-flex h-2.5 w-2.5 shrink-0 rounded-full bg-[#0b4b55] shadow-[0_0_0_6px_rgba(11,75,85,0.08)]" />
+        </div>
+
+        <div className="mt-4 h-[3px] rounded-full bg-[linear-gradient(90deg,rgba(11,75,85,0.2),rgba(11,123,137,0.9),rgba(11,75,85,0.2))]" />
+
+        <div className="mt-3 flex flex-wrap gap-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#52717a]">
+          <span>{formatCoordinate(latitude, "N", "S")}</span>
+          <span>&bull;</span>
+          <span>{formatCoordinate(longitude, "E", "W")}</span>
+        </div>
+      </div>
+
       <div className="relative z-10 mt-2 flex items-center justify-between text-[9px] font-semibold uppercase tracking-[0.16em] text-[#52717a]">
-        <span>Island map</span>
-        <span className="rounded-full bg-[#0b4b55]/8 px-2 py-1 text-[#0b4b55]">Guide</span>
+        <span>Field guide</span>
+        <span className="rounded-full bg-[#0b4b55]/8 px-2 py-1 text-[#0b4b55]">
+          Route first
+        </span>
       </div>
     </div>
   );
@@ -158,12 +159,21 @@ export function IslandSilhouetteCard({
             "radial-gradient(circle at 0% 0%, rgba(125,232,220,0.16), transparent 28%), radial-gradient(circle at 100% 0%, rgba(255,184,77,0.14), transparent 24%), linear-gradient(180deg, rgba(255,255,255,0.36), rgba(255,255,255,0.08))",
         }}
       />
-      <div className={cn("absolute -right-10 top-6 h-28 w-28 rounded-full blur-2xl", visual.accentOrbClassName)} aria-hidden />
+      <div
+        className={cn(
+          "absolute -right-10 top-6 h-28 w-28 rounded-full blur-2xl",
+          visual.accentOrbClassName,
+        )}
+        aria-hidden
+      />
       <div
         className="absolute inset-[14px] rounded-[1.5rem] border border-white/58"
         aria-hidden
       />
-      <div className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${visual.accent}`} aria-hidden />
+      <div
+        className={`absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r ${visual.accent}`}
+        aria-hidden
+      />
 
       <div className="relative z-10 flex h-full flex-col">
         <div className="flex items-start justify-between gap-4">
@@ -178,7 +188,7 @@ export function IslandSilhouetteCard({
               {portal.tagline}
             </p>
           </div>
-          <IslandMapBadge islandSlug={islandSlug} visual={visual} />
+          <IslandSignalBadge islandSlug={islandSlug} visual={visual} />
         </div>
 
         <div className="mt-5 rounded-[1.4rem] border border-[#0b4b55]/8 bg-white/58 px-4 py-3.5">
@@ -186,7 +196,7 @@ export function IslandSilhouetteCard({
             What this guide leans into
           </p>
           <p className="mt-2 text-sm leading-6 text-[#45636a]">
-            {portal.vibe}
+            {visual.routeLabel}
           </p>
         </div>
 

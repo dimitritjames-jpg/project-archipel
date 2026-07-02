@@ -271,6 +271,7 @@ export const VIBE_FILTERS = [
 ] as const;
 
 export const CATEGORY_MEDIA: Record<string, string> = {
+  beaches: "from-cyan-300/48 via-blue-950 to-emerald-400/28",
   "excursions-charters": "from-teal-400/50 via-navy-900 to-cyan-500/40",
   "tours-activities": "from-sky-300/45 via-blue-950 to-teal-400/30",
   attractions: "from-cyan-300/35 via-blue-950 to-amber-300/28",
@@ -283,6 +284,13 @@ export const CATEGORY_MEDIA: Record<string, string> = {
 };
 
 export const CATEGORY_MEDIA_ASSETS: Record<string, MediaAsset> = {
+  beaches: {
+    id: "category-beaches",
+    label: "Beaches",
+    gradient: CATEGORY_MEDIA.beaches,
+    src: GENERATED_MEDIA_PATHS.beachDay,
+    alt: "Editorial generated beach scene for island shoreline and beach-day planning",
+  },
   "excursions-charters": {
     id: "category-excursions-charters",
     label: "Boat days",

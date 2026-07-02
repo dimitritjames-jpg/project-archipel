@@ -459,6 +459,7 @@ body::before {
 .destination-move-board {
   display: grid;
   gap: 0.8rem;
+  grid-auto-rows: 1fr;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
@@ -469,6 +470,7 @@ body::before {
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.18);
   overflow: hidden;
   position: relative;
+  width: 100%;
   transition:
     border-color 260ms ease,
     box-shadow 260ms ease,
@@ -487,18 +489,6 @@ body::before {
 
 .destination-cover-hero .destination-move-photo-card :is(.text-white, [class*="text-white/"]) {
   color: white !important;
-}
-
-@media (min-width: 1024px) {
-  .destination-move-photo-card:nth-child(1),
-  .destination-move-photo-card:nth-child(4) {
-    transform: translateY(-1.4rem);
-  }
-
-  .destination-move-photo-card:nth-child(1):hover,
-  .destination-move-photo-card:nth-child(4):hover {
-    transform: translateY(-1.75rem);
-  }
 }
 
 @media (max-width: 640px) {
