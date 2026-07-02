@@ -58,6 +58,11 @@ export function BusinessProfileView({
     categorySlug,
     business.category?.name ?? "Island profile",
   );
+  const editorialProfileMedia = {
+    ...media,
+    src: null,
+    alt: `Editorial category backdrop for ${business.category?.name ?? "this category"} on ${islandName}; not a photo of ${business.name}`,
+  };
   const planningTags = getListingPlanningTags(business);
   const searchHref = "/search";
   const islandHubHref = `/islands/${islandSlug}`;
@@ -115,10 +120,10 @@ export function BusinessProfileView({
 
       <MediaBackdrop
         media={{
-          ...media,
+          ...editorialProfileMedia,
           id: business.slug,
           label: business.name,
-          alt: `${media.alt}; category artwork for ${business.name}`,
+          alt: editorialProfileMedia.alt,
         }}
         overlay="hero"
         className="min-h-[min(68vh,620px)]"
@@ -146,6 +151,9 @@ export function BusinessProfileView({
                     Unclaimed listing
                   </span>
                 ) : null}
+                <span className="rounded-full border border-white/12 bg-white/6 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-archipel-white/66">
+                  Editorial backdrop
+                </span>
                 {trustState === "verified" || trustState === "verified_claimed" ? (
                   <span className="rounded-full border border-botanical/25 bg-botanical/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-botanical">
                     Verified local listing
@@ -258,6 +266,9 @@ export function BusinessProfileView({
                     : schemaEligible
                       ? "Source verified. Confirm hours, availability, and booking details directly with the business."
                       : "This listing is still in source review. Direct contact actions remain hidden until verification and permission checks pass."}
+              </p>
+              <p className="mt-2 text-[10px] leading-relaxed text-archipel-white/30">
+                Hero artwork is category-led editorial design, not a photo of {business.name}.
               </p>
               {isPublicInfo && sourceLabels.length > 0 ? (
                 <div className="mt-4 flex flex-wrap gap-2">

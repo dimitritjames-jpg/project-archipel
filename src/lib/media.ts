@@ -73,7 +73,7 @@ export const ISLAND_PORTALS: Record<
       label: "St. Thomas",
       gradient: "from-cyan-200/65 via-sky-950/95 to-orange-400/45",
       src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-      alt: "Generated atmospheric St. Thomas-style harbor and green hillside scene with turquoise water",
+      alt: "Editorial generated St. Thomas-style harbor scene with green hills and turquoise water; not a photo of a specific business or listing",
     },
   },
   "st-john": {
@@ -85,7 +85,7 @@ export const ISLAND_PORTALS: Record<
       label: "St. John",
       gradient: "from-emerald-300/50 via-teal-950/95 to-cyan-500/35",
       src: GENERATED_MEDIA_PATHS.beachDay,
-      alt: "Generated atmospheric St. John-style cove scene with cream sand, palms, and turquoise water",
+      alt: "Editorial generated St. John-style cove scene with cream sand, palms, and turquoise water; not a photo of a specific business or listing",
     },
   },
   "st-croix": {
@@ -97,7 +97,7 @@ export const ISLAND_PORTALS: Record<
       label: "St. Croix",
       gradient: "from-amber-300/45 via-indigo-950/95 to-rose-500/35",
       src: GENERATED_MEDIA_PATHS.cultureStreet,
-      alt: "Generated atmospheric St. Croix-style island culture street scene with warm color and waterfront light",
+      alt: "Editorial generated St. Croix-style culture street scene with warm color and waterfront light; not a photo of a specific business or listing",
     },
   },
   "water-island": {
@@ -109,7 +109,7 @@ export const ISLAND_PORTALS: Record<
       label: "Water Island",
       gradient: "from-sky-200/55 via-blue-950/95 to-lime-400/30",
       src: GENERATED_MEDIA_PATHS.beachDay,
-      alt: "Generated atmospheric Water Island-style slow beach day scene with soft sand and turquoise water",
+      alt: "Editorial generated Water Island-style slow beach-day scene with soft sand and turquoise water; not a photo of a specific business or listing",
     },
   },
 };
@@ -120,56 +120,56 @@ export const EXPERIENCE_MOSAIC: MediaAsset[] = [
     label: "Beach day",
     gradient: "from-cyan-300/60 via-sky-800 to-amber-200/30",
     src: GENERATED_MEDIA_PATHS.beachDay,
-    alt: "Generated atmospheric beach-day scene with cream sand, turquoise water, palm shade, and a quiet island cove",
+    alt: "Editorial generated beach-day scene with cream sand, turquoise water, palm shade, and a quiet island cove",
   },
   {
     id: "boat-charter",
     label: "Boat charter",
     gradient: "from-teal-400/50 via-navy-900 to-indigo-500/40",
     src: GENERATED_MEDIA_PATHS.boatDay,
-    alt: "Generated atmospheric boat-day scene with an unbranded sailboat on turquoise water near a green island cove",
+    alt: "Editorial generated boat-day scene with an unbranded sailboat on turquoise water near a green island cove",
   },
   {
     id: "snorkel-dive",
     label: "Snorkel + dive",
     gradient: "from-emerald-400/55 via-cyan-950 to-blue-600/45",
     src: GENERATED_MEDIA_PATHS.boatDay,
-    alt: "Generated atmospheric turquoise-water boat scene for snorkeling and reef-day planning",
+    alt: "Editorial generated turquoise-water boat scene for snorkeling and reef-day planning",
   },
   {
     id: "sunset-dinner",
     label: "Sunset dinner",
     gradient: "from-orange-400/50 via-purple-950 to-rose-500/45",
     src: GENERATED_MEDIA_PATHS.biteWaterfront,
-    alt: "Generated atmospheric waterfront dining scene with island plates, tropical drink, and golden-hour ocean light",
+    alt: "Editorial generated waterfront dining scene with island plates, tropical drink, and golden-hour ocean light",
   },
   {
     id: "nightlife",
     label: "Nightlife + rhythm",
     gradient: "from-fuchsia-500/40 via-indigo-950 to-violet-600/50",
     src: GENERATED_MEDIA_PATHS.nightBoardwalk,
-    alt: "Generated atmospheric waterfront boardwalk night scene with warm lights, blue-hour water, and music energy",
+    alt: "Editorial generated waterfront boardwalk night scene with warm lights, blue-hour water, and music energy",
   },
   {
     id: "local-shops",
     label: "Local shops",
     gradient: "from-lime-300/40 via-emerald-950 to-yellow-400/30",
     src: GENERATED_MEDIA_PATHS.cultureStreet,
-    alt: "Generated atmospheric island market street scene for local shops and provisions",
+    alt: "Editorial generated island market street scene for local shops and provisions",
   },
   {
     id: "wellness",
     label: "Wellness + spa",
     gradient: "from-green-300/45 via-teal-950 to-cyan-400/35",
     src: GENERATED_MEDIA_PATHS.beachDay,
-    alt: "Generated atmospheric quiet beach scene for wellness discovery",
+    alt: "Editorial generated quiet beach scene for wellness discovery",
   },
   {
     id: "family-day",
     label: "Family day",
     gradient: "from-sky-300/55 via-blue-900 to-amber-300/35",
     src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-    alt: "Generated atmospheric island sunrise scene for a family island day",
+    alt: "Editorial generated island sunrise scene for a family island day",
   },
 ];
 
@@ -178,7 +178,7 @@ export const HERO_MEDIA: MediaAsset = {
   label: "US Virgin Islands",
   gradient: "from-cyan-200/45 via-midnight-950 to-orange-400/35",
   src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-  alt: "Generated atmospheric island sunrise scene with turquoise water, green hills, beach shoreline, and a distant unbranded sailboat",
+  alt: "Editorial generated island sunrise scene with turquoise water, green hills, beach shoreline, and a distant unbranded sailboat",
 };
 
 export const GET_LISTED_MEDIA: MediaAsset = {
@@ -186,7 +186,7 @@ export const GET_LISTED_MEDIA: MediaAsset = {
   label: "VibeVI for business",
   gradient: "from-coral/35 via-midnight-950 to-aqua/25",
   src: GENERATED_MEDIA_PATHS.cultureStreet,
-  alt: "Generated atmospheric island business district scene with colorful local storefront energy and waterfront light",
+  alt: "Editorial generated island business district scene with colorful local storefront energy and waterfront light",
 };
 
 export const FERRY_MEDIA: MediaAsset = {
@@ -194,7 +194,7 @@ export const FERRY_MEDIA: MediaAsset = {
   label: "Ferry routes",
   gradient: "from-cyan-300/45 via-midnight-950 to-teal-600/35",
   src: GENERATED_MEDIA_PATHS.boatDay,
-  alt: "Generated atmospheric boat and turquoise channel scene for ferry planning",
+  alt: "Editorial generated boat and turquoise channel scene for ferry planning",
 };
 
 export const CRUISE_DAY_MEDIA: MediaAsset = {
@@ -202,7 +202,7 @@ export const CRUISE_DAY_MEDIA: MediaAsset = {
   label: "Cruise-day planning",
   gradient: "from-rose-400/35 via-midnight-950 to-amber-500/30",
   src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-  alt: "Generated atmospheric island harbor scene for cruise-day planning",
+  alt: "Editorial generated island harbor scene for cruise-day planning",
 };
 
 export const EXPERIENCE_HERO_MEDIA: Record<string, MediaAsset> = {
@@ -211,21 +211,21 @@ export const EXPERIENCE_HERO_MEDIA: Record<string, MediaAsset> = {
     label: "Adventure",
     gradient: "from-teal-300/55 via-blue-950 to-cyan-500/35",
     src: GENERATED_MEDIA_PATHS.boatDay,
-    alt: "Generated atmospheric island boat-day scene for USVI adventure planning",
+    alt: "Editorial generated island boat-day scene for USVI adventure planning",
   },
   culture: {
     id: "generated-experience-culture",
     label: "Culture",
     gradient: "from-amber-300/50 via-purple-950 to-rose-500/35",
     src: GENERATED_MEDIA_PATHS.cultureStreet,
-    alt: "Generated atmospheric island culture street scene with market color and waterfront light",
+    alt: "Editorial generated island culture street scene with market color and waterfront light",
   },
   culinary: {
     id: "generated-experience-culinary",
     label: "Culinary",
     gradient: "from-orange-300/55 via-fuchsia-950 to-coral-500/35",
     src: GENERATED_MEDIA_PATHS.biteWaterfront,
-    alt: "Generated atmospheric waterfront dining scene for USVI culinary discovery",
+    alt: "Editorial generated waterfront dining scene for USVI culinary discovery",
   },
   "cruise-day": CRUISE_DAY_MEDIA,
   nightlife: {
@@ -233,28 +233,28 @@ export const EXPERIENCE_HERO_MEDIA: Record<string, MediaAsset> = {
     label: "Nightlife",
     gradient: "from-fuchsia-500/45 via-indigo-950 to-violet-500/40",
     src: GENERATED_MEDIA_PATHS.nightBoardwalk,
-    alt: "Generated atmospheric island boardwalk night scene with music and warm lights",
+    alt: "Editorial generated island boardwalk night scene with music and warm lights",
   },
   wellness: {
     id: "generated-experience-wellness",
     label: "Wellness",
     gradient: "from-emerald-300/45 via-teal-950 to-cyan-300/35",
     src: GENERATED_MEDIA_PATHS.beachDay,
-    alt: "Generated atmospheric quiet beach scene for a slow wellness day",
+    alt: "Editorial generated quiet beach scene for a slow wellness day",
   },
   stays: {
     id: "generated-experience-stays",
     label: "Stays",
     gradient: "from-amber-300/40 via-indigo-950 to-sky-400/30",
     src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-    alt: "Generated atmospheric island sunrise scene for choosing a USVI home base",
+    alt: "Editorial generated island sunrise scene for choosing a USVI home base",
   },
   "local-shops": {
     id: "generated-experience-local-shops",
     label: "Local shops",
     gradient: "from-lime-300/40 via-emerald-950 to-yellow-300/30",
     src: GENERATED_MEDIA_PATHS.cultureStreet,
-    alt: "Generated atmospheric island maker and market street scene",
+    alt: "Editorial generated island maker and market street scene",
   },
 };
 
@@ -288,63 +288,63 @@ export const CATEGORY_MEDIA_ASSETS: Record<string, MediaAsset> = {
     label: "Boat days",
     gradient: CATEGORY_MEDIA["excursions-charters"],
     src: GENERATED_MEDIA_PATHS.boatDay,
-    alt: "Generated atmospheric charter boat scene on turquoise USVI-style water",
+    alt: "Editorial generated charter-boat scene on turquoise USVI-style water",
   },
   "tours-activities": {
     id: "category-tours-activities",
     label: "Tours & activities",
     gradient: CATEGORY_MEDIA["tours-activities"],
     src: GENERATED_MEDIA_PATHS.cultureStreet,
-    alt: "Generated atmospheric island activity scene for guided tours, zipline days, and eco outings",
+    alt: "Editorial generated island activity scene for guided tours, zipline days, and eco outings",
   },
   attractions: {
     id: "category-attractions",
     label: "Attractions",
     gradient: CATEGORY_MEDIA.attractions,
     src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-    alt: "Generated atmospheric island attraction scene for marine parks, scenic lifts, gardens, and landmark stops",
+    alt: "Editorial generated island attraction scene for marine parks, scenic lifts, gardens, and landmark stops",
   },
   "indulgent-dining": {
     id: "category-indulgent-dining",
     label: "Island dining",
     gradient: CATEGORY_MEDIA["indulgent-dining"],
     src: GENERATED_MEDIA_PATHS.biteWaterfront,
-    alt: "Generated atmospheric waterfront dining scene with island plates and golden-hour light",
+    alt: "Editorial generated waterfront dining scene with island plates and golden-hour light",
   },
   "boutique-stays": {
     id: "category-boutique-stays",
     label: "Island stays",
     gradient: CATEGORY_MEDIA["boutique-stays"],
     src: GENERATED_MEDIA_PATHS.heroIslandSunrise,
-    alt: "Generated atmospheric island sunrise scene for USVI stays and home bases",
+    alt: "Editorial generated island sunrise scene for USVI stays and home bases",
   },
   "nightlife-rhythm": {
     id: "category-nightlife-rhythm",
     label: "Island nightlife",
     gradient: CATEGORY_MEDIA["nightlife-rhythm"],
     src: GENERATED_MEDIA_PATHS.nightBoardwalk,
-    alt: "Generated atmospheric waterfront boardwalk night scene with warm lights",
+    alt: "Editorial generated waterfront boardwalk night scene with warm lights",
   },
   "wellness-spas": {
     id: "category-wellness-spas",
     label: "Island wellness",
     gradient: CATEGORY_MEDIA["wellness-spas"],
     src: GENERATED_MEDIA_PATHS.beachDay,
-    alt: "Generated atmospheric quiet beach scene for island wellness and slow-day planning",
+    alt: "Editorial generated quiet beach scene for island wellness and slow-day planning",
   },
   "culture-history": {
     id: "category-culture-history",
     label: "Culture & history",
     gradient: CATEGORY_MEDIA["culture-history"],
     src: GENERATED_MEDIA_PATHS.cultureStreet,
-    alt: "Generated atmospheric island culture and heritage scene for museums, forts, and historic routes",
+    alt: "Editorial generated island culture and heritage scene for museums, forts, and historic routes",
   },
   "local-provisions": {
     id: "category-local-provisions",
     label: "Local provisions",
     gradient: CATEGORY_MEDIA["local-provisions"],
     src: GENERATED_MEDIA_PATHS.cultureStreet,
-    alt: "Generated atmospheric island market and local provisions scene",
+    alt: "Editorial generated island market and local-provisions scene",
   },
 };
 
@@ -371,7 +371,7 @@ export function getGuideMediaAsset(input: string, label = "Island guide"): Media
       label: "Beach guide",
       gradient: "from-cyan-300/45 via-midnight-950 to-emerald-500/30",
       src: GENERATED_MEDIA_PATHS.beachDay,
-      alt: "Generated atmospheric beach guide scene with turquoise water and cream sand",
+      alt: "Editorial generated beach guide scene with turquoise water and cream sand",
     };
   } else if (key.includes("charter") || key.includes("snorkel") || key.includes("buck") || key.includes("ferry")) {
     asset = FERRY_MEDIA;

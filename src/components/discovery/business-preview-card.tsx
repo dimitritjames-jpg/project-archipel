@@ -36,6 +36,11 @@ export function BusinessPreviewCard({
     categorySlug,
     business.category?.name ?? "Island listing",
   );
+  const editorialCardMedia = {
+    ...media,
+    src: null,
+    alt: `Editorial category backdrop for ${business.category?.name ?? "this category"} on ${getIslandName(islandSlug as IslandSlug)}; not a photo of ${business.name}`,
+  };
   const planningTags = getListingPlanningTags(business);
 
   return (
@@ -49,10 +54,10 @@ export function BusinessPreviewCard({
         <div className="relative h-44 sm:h-52">
           <MediaBackdrop
             media={{
-              ...media,
+              ...editorialCardMedia,
               id: business.slug,
               label: business.name,
-              alt: `${media.alt}; category artwork for ${business.name}`,
+              alt: editorialCardMedia.alt,
             }}
             overlay="subtle"
             className="h-full w-full"
@@ -68,6 +73,9 @@ export function BusinessPreviewCard({
                   Unclaimed
                 </span>
               ) : null}
+              <span className="rounded-full border border-white/12 bg-white/8 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white/72">
+                Editorial backdrop
+              </span>
               {trustState === "verified" || trustState === "verified_claimed" ? (
                 <span className="rounded-full border border-lime/30 bg-lime/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-lime">
                   Verified local
@@ -122,6 +130,9 @@ export function BusinessPreviewCard({
               </span>
             ) : null}
           </div>
+          <p className="mt-3 text-[11px] leading-5 text-archipel-white/34">
+            Category artwork only. VibeVI does not present this as a real photo of {business.name}.
+          </p>
         </div>
       </Link>
       {isPublicInfo ? (

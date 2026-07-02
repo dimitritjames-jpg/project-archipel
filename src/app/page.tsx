@@ -42,7 +42,7 @@ const dayMoves = [
     motif: "Reef-blue shallows, towel down, easy swim.",
     className: "beach-day-card",
     imageSrc: GENERATED_MEDIA_PATHS.beachDay,
-    imageAlt: "Generated atmospheric beach-day scene with cream sand and turquoise water",
+    imageAlt: "Editorial generated beach-day scene with cream sand and turquoise water",
   },
   {
     label: "Boat",
@@ -51,7 +51,7 @@ const dayMoves = [
     motif: "Sails, coves, turtles, and one more swim stop.",
     className: "boat-day-card",
     imageSrc: GENERATED_MEDIA_PATHS.boatDay,
-    imageAlt: "Generated atmospheric boat-day scene with an unbranded sailboat on turquoise water",
+    imageAlt: "Editorial generated boat-day scene with an unbranded sailboat on turquoise water",
   },
   {
     label: "Bite",
@@ -60,7 +60,7 @@ const dayMoves = [
     motif: "Johnny cakes, pate, fresh fish, rum-bar gold.",
     className: "bite-day-card",
     imageSrc: GENERATED_MEDIA_PATHS.biteWaterfront,
-    imageAlt: "Generated atmospheric waterfront dining scene with island plates and golden-hour light",
+    imageAlt: "Editorial generated waterfront dining scene with island plates and golden-hour light",
   },
   {
     label: "Night",
@@ -69,7 +69,7 @@ const dayMoves = [
     motif: "Sunset dinner into harbor lights.",
     className: "night-day-card",
     imageSrc: GENERATED_MEDIA_PATHS.nightBoardwalk,
-    imageAlt: "Generated atmospheric waterfront boardwalk night scene with warm lights",
+    imageAlt: "Editorial generated waterfront boardwalk night scene with warm lights",
   },
 ] as const;
 
@@ -83,7 +83,7 @@ const editorialSections = [
     accent: "from-mango/38 via-coral/24 to-rum-amber/22",
     items: ["Waterfront tables", "Local plates", "Beach bars", "Rum + sunset drinks"],
     imageSrc: GENERATED_MEDIA_PATHS.biteWaterfront,
-    imageAlt: "Generated atmospheric waterfront dining scene for VibeVI culinary discovery",
+    imageAlt: "Editorial generated waterfront dining scene for VibeVI culinary discovery",
   },
   {
     eyebrow: "Feel the rhythm",
@@ -94,7 +94,7 @@ const editorialSections = [
     accent: "from-bougainvillea/30 via-violet-500/24 to-mango/22",
     items: ["Carnival color", "Music roots", "Harbor nights", "Local makers"],
     imageSrc: GENERATED_MEDIA_PATHS.cultureStreet,
-    imageAlt: "Generated atmospheric island culture street scene with color, market textures, and waterfront light",
+    imageAlt: "Editorial generated island culture street scene with color, market textures, and waterfront light",
   },
   {
     eyebrow: "Pick your water",
@@ -105,7 +105,7 @@ const editorialSections = [
     accent: "from-aqua/42 via-reef-blue/24 to-lime/20",
     items: ["Beach day", "Boat charter", "Snorkel route", "Ferry hop"],
     imageSrc: GENERATED_MEDIA_PATHS.boatDay,
-    imageAlt: "Generated atmospheric boat-day scene for VibeVI water discovery",
+    imageAlt: "Editorial generated boat-day scene for VibeVI water discovery",
   },
 ] as const;
 
