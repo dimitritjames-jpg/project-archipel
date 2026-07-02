@@ -8,7 +8,7 @@ import { GENERATED_MEDIA_PATHS, HERO_MEDIA } from "@/lib/media";
 const heroMoves = [
   {
     label: "Beach",
-    href: "/guides/best-beaches-usvi",
+    href: "/search?q=beach",
     imageSrc: GENERATED_MEDIA_PATHS.beachDay,
     alt: "Editorial generated beach-day scene with cream sand and turquoise water",
     detail: "Sand, shade, shallow water.",
@@ -22,14 +22,14 @@ const heroMoves = [
   },
   {
     label: "Bite",
-    href: "/experiences/culinary",
+    href: "/search?q=food",
     imageSrc: GENERATED_MEDIA_PATHS.biteWaterfront,
     alt: "Editorial generated waterfront dining scene with island plates and golden-hour light",
     detail: "Local plates, sunset tables.",
   },
   {
     label: "Night",
-    href: "/st-thomas/nightlife-rhythm",
+    href: "/search?q=nightlife",
     imageSrc: GENERATED_MEDIA_PATHS.nightBoardwalk,
     alt: "Editorial generated waterfront boardwalk night scene with warm lights",
     detail: "Music, rum, waterfront glow.",

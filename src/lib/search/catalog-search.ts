@@ -5,7 +5,9 @@ import {
   getExpandedSearchTerms,
   getGuideShortcuts,
   guideShortcutToSearchFields,
+  isBoatIntentQuery,
   normalizeSearchText,
+  resolveSearchIsland,
   shouldPrependGuideShortcuts,
   type GuideShortcut,
 } from "@/lib/search/query-expansion";
@@ -140,6 +142,52 @@ const NIGHTLIFE_SIGNALS = [
   "late night",
   "dancing",
   "dance",
+];
+
+const BOAT_OPERATOR_SIGNALS = [
+  "boat",
+  "charter",
+  "private charter",
+  "sail",
+  "sailing",
+  "catamaran",
+  "snorkel charter",
+  "sunset sail",
+  "yacht",
+  "fishing",
+  "powerboat",
+  "rental",
+  "watersports",
+  "water sports",
+  "cruise",
+];
+
+const BOAT_SUPPORT_SIGNALS = [
+  ...BOAT_OPERATOR_SIGNALS,
+  "snorkel",
+  "dive",
+  "dive shop",
+  "kayak",
+  "paddle",
+  "reef",
+];
+
+const BOAT_NEGATIVE_SIGNALS = [
+  "ocean park",
+  "marine park",
+  "museum",
+  "fort",
+  "gallery",
+  "market",
+  "restaurant",
+  "cafe",
+  "grill",
+  "boardwalk",
+  "zipline",
+  "skyride",
+  "distillery",
+  "botanical",
+  "garden",
 ];
 
 type MatchTiers = {
@@ -316,11 +364,11 @@ function hasStrongMatch(tiers: MatchTiers): boolean {
   return tiers.name > 0 || tiers.slug > 0 || tiers.category > 0 || tiers.island > 0;
 }
 
-function hasAnyFieldSignal(
+function matchesAnySignal(
   fields: ReturnType<typeof businessSearchFields>,
-  terms: string[],
+  signals: readonly string[],
 ): boolean {
-  return terms.some(
+  return signals.some(
     (term) =>
       fields.name.includes(term) ||
       fields.slug.includes(term) ||
@@ -402,29 +450,39 @@ function applyDescriptionNoisePenalty(
     return SCORE_DESCRIPTION_WEAK;
   }
 
-  if (["boat", "yacht", "charter", "snorkel charter", "sunset sail"].includes(normalizedQuery)) {
-    const boatSignals = ["boat", "charter", "sail", "catamaran", "snorkel", "kayak", "paddle", "cruise", "fishing", "yacht"];
-    const operatorSignals = ["charter", "tour", "tours", "excursion", "excursions", "sail", "catamaran", "snorkel", "cruise", "fishing", "kayak", "paddle", "adventure", "adventures", "ecotours"];
-    const hasBoatSignal = hasAnyFieldSignal(fields, boatSignals);
-    const hasOperatorSignal = hasAnyFieldSignal(fields, operatorSignals);
+  if (isBoatIntentQuery(normalizedQuery)) {
+    const hasBoatSignal = matchesAnySignal(fields, BOAT_SUPPORT_SIGNALS);
+    const hasOperatorSignal = matchesAnySignal(fields, BOAT_OPERATOR_SIGNALS);
+    const hasNegativeBoatSignal = matchesAnySignal(fields, BOAT_NEGATIVE_SIGNALS);
     const harborUtility = isHarborUtilityForBoatIntent(fields);
 
     if (categorySlug === "excursions-charters") {
       if (harborUtility) {
-        return Math.max(tiers.description, SCORE_CATEGORY - 18);
+        return Math.max(tiers.description, SCORE_DESCRIPTION_WEAK);
+      }
+
+      if (hasNegativeBoatSignal && !hasBoatSignal) {
+        return 0;
       }
 
       return Math.max(
         tiers.description,
-        hasOperatorSignal ? SCORE_CATEGORY : hasBoatSignal ? SCORE_CATEGORY - 8 : SCORE_CATEGORY - 12,
+        hasOperatorSignal ? SCORE_CATEGORY + 2 : hasBoatSignal ? SCORE_CATEGORY - 8 : 0,
       );
     }
 
-    if (categorySlug === "tours-activities" && hasBoatSignal) {
-      return Math.max(tiers.description, hasOperatorSignal ? SCORE_CATEGORY - 6 : SCORE_CATEGORY - 12);
+    if (categorySlug === "tours-activities") {
+      if (!hasBoatSignal || hasNegativeBoatSignal) {
+        return 0;
+      }
+
+      return Math.max(
+        tiers.description,
+        hasOperatorSignal ? SCORE_CATEGORY - 8 : SCORE_CATEGORY - 14,
+      );
     }
 
-    return 0;
+    return hasBoatSignal && !hasNegativeBoatSignal ? tiers.description : 0;
   }
 
   if (["attraction", "attractions", "marine park", "coki point"].includes(normalizedQuery)) {
@@ -550,6 +608,7 @@ function scoreBusinessMatch(
 
   const fields = businessSearchFields(business);
   const categoryBoosts = CATEGORY_BOOSTS[normalizedQuery] ?? [];
+  const scopedIsland = resolveSearchIsland(normalizedQuery);
   if (
     business.category?.slug &&
     categoryBoosts.includes(business.category.slug)
@@ -561,48 +620,45 @@ function scoreBusinessMatch(
     score += 25;
   }
 
-  if (normalizedQuery === "boat" || normalizedQuery === "yacht") {
-    const boatSignals = ["boat", "charter", "sail", "catamaran", "snorkel", "kayak", "paddle", "cruise", "fishing", "yacht"];
-    const operatorSignals = ["charter", "tour", "tours", "excursion", "excursions", "sail", "catamaran", "snorkel", "cruise", "fishing", "kayak", "paddle", "adventure", "adventures", "ecotours"];
-    const hasBoatSignal = hasAnyFieldSignal(fields, boatSignals);
-    const hasOperatorSignal = hasAnyFieldSignal(fields, operatorSignals);
+  if (isBoatIntentQuery(normalizedQuery)) {
+    const hasBoatSignal = matchesAnySignal(fields, BOAT_SUPPORT_SIGNALS);
+    const hasOperatorSignal = matchesAnySignal(fields, BOAT_OPERATOR_SIGNALS);
+    const hasNegativeBoatSignal = matchesAnySignal(fields, BOAT_NEGATIVE_SIGNALS);
     const harborUtility = isHarborUtilityForBoatIntent(fields);
 
     if (business.category?.slug === "excursions-charters") {
       if (harborUtility) {
-        score = Math.min(score, 68);
+        score = Math.min(score, 42);
       } else {
-        score = Math.max(score, hasOperatorSignal ? 96 : hasBoatSignal ? 84 : 72);
+        if (hasNegativeBoatSignal && !hasBoatSignal) {
+          return 0;
+        }
+
+        score = Math.max(score, hasOperatorSignal ? 99 : hasBoatSignal ? 84 : 0);
       }
     } else if (business.category?.slug === "tours-activities") {
-      if (!hasBoatSignal && !hasStrongMatch(tiers)) {
+      if (!hasBoatSignal || hasNegativeBoatSignal) {
         return 0;
       }
-      score = Math.max(score, hasOperatorSignal ? 82 : 74);
-    } else if (!hasBoatSignal && !hasStrongMatch(tiers)) {
-      return 0;
+
+      score = Math.max(score, hasOperatorSignal ? 78 : 70);
+    } else {
+      if (!hasBoatSignal || hasNegativeBoatSignal) {
+        return 0;
+      }
+
+      score = Math.min(score, 60);
     }
-  }
 
-  if (normalizedQuery === "charter" || normalizedQuery === "snorkel charter" || normalizedQuery === "sunset sail") {
-    const sailSignals = ["charter", "sail", "catamaran", "snorkel", "boat", "cruise", "fishing"];
-    const operatorSignals = ["charter", "tour", "tours", "excursion", "excursions", "sail", "catamaran", "snorkel", "cruise", "fishing", "adventure", "adventures", "ecotours"];
-    const hasSailSignal = hasAnyFieldSignal(fields, sailSignals);
-    const hasOperatorSignal = hasAnyFieldSignal(fields, operatorSignals);
-    const harborUtility = isHarborUtilityForBoatIntent(fields);
-
-    if (business.category?.slug === "excursions-charters") {
-      if (harborUtility) {
-        score = Math.min(score, 66);
-      } else {
-        score = Math.max(score, normalizedQuery === "charter" ? 97 : 93);
-      }
-    } else if (business.category?.slug === "tours-activities") {
-      if (!hasSailSignal && !hasStrongMatch(tiers)) {
+    if (scopedIsland) {
+      if (business.island !== scopedIsland) {
         return 0;
       }
-      score = Math.max(score, hasOperatorSignal ? 76 : 70);
-    } else if (!hasSailSignal && !hasStrongMatch(tiers)) {
+
+      score += 16;
+    }
+
+    if (score <= 0) {
       return 0;
     }
   }

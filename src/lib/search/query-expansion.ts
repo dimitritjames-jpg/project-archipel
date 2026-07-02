@@ -1,5 +1,57 @@
 import { CODE_TO_SLUG, ISLAND_MAP, type IslandCode } from "@/lib/islands";
 
+export type SearchPlanningIntent =
+  | "boat"
+  | "beach"
+  | "food"
+  | "nightlife"
+  | "attractions"
+  | "culture"
+  | "wellness"
+  | "stays"
+  | "local-shops"
+  | "family"
+  | "rainy-day";
+
+const BOAT_INTENT_PHRASES = [
+  "private charter",
+  "snorkel charter",
+  "sunset sail",
+  "boat charter",
+  "boat day",
+  "catamaran",
+  "boating",
+  "charter",
+  "yacht",
+  "boat",
+] as const;
+
+const PLANNING_INTENT_PATTERNS: Array<{
+  intent: SearchPlanningIntent;
+  phrases: readonly string[];
+}> = [
+  { intent: "boat", phrases: BOAT_INTENT_PHRASES },
+  { intent: "beach", phrases: ["beach day", "beaches", "beach"] },
+  {
+    intent: "food",
+    phrases: ["sunset dinner", "local plate", "restaurants", "restaurant", "dining", "food", "bite"],
+  },
+  {
+    intent: "nightlife",
+    phrases: ["live music", "rum bar", "boardwalk night", "nightlife", "dancing", "night", "bar"],
+  },
+  { intent: "attractions", phrases: ["attractions", "attraction"] },
+  { intent: "culture", phrases: ["culture walk", "culture", "history"] },
+  { intent: "wellness", phrases: ["wellness", "spa"] },
+  { intent: "stays", phrases: ["stays", "stay", "hotel", "resort"] },
+  {
+    intent: "local-shops",
+    phrases: ["local shops", "local market", "market", "gifts", "shops", "shop"],
+  },
+  { intent: "family", phrases: ["family day", "family", "kids"] },
+  { intent: "rainy-day", phrases: ["rainy day"] },
+];
+
 export function normalizeSearchText(value: string): string {
   return value
     .toLowerCase()
@@ -1241,6 +1293,38 @@ function resolveIslandAlias(query: string): IslandCode | null {
   return null;
 }
 
+function matchesPlanningPhrase(
+  query: string,
+  phrase: string,
+): boolean {
+  return query === phrase || query.includes(phrase);
+}
+
+export function resolveSearchIsland(query: string): IslandCode | null {
+  return resolveIslandAlias(normalizeSearchText(query));
+}
+
+export function isBoatIntentQuery(query: string): boolean {
+  const normalized = normalizeSearchText(query);
+  return BOAT_INTENT_PHRASES.some((phrase) =>
+    matchesPlanningPhrase(normalized, phrase),
+  );
+}
+
+export function detectSearchPlanningIntent(
+  query: string,
+): SearchPlanningIntent | null {
+  const normalized = normalizeSearchText(query);
+
+  for (const { intent, phrases } of PLANNING_INTENT_PATTERNS) {
+    if (phrases.some((phrase) => matchesPlanningPhrase(normalized, phrase))) {
+      return intent;
+    }
+  }
+
+  return null;
+}
+
 function isExactIslandQuery(query: string): boolean {
   return Object.entries(ISLAND_ALIAS_TERMS).some(([alias, extras]) => {
     if (query === alias) return true;
@@ -1377,6 +1461,10 @@ export function getExpandedSearchTerms(query: string): string[] {
 
 export function isGuideStyleQuery(query: string): boolean {
   const normalized = normalizeSearchText(query);
+  if (isBoatIntentQuery(normalized)) {
+    return resolveSearchIsland(normalized) === "WI";
+  }
+
   return (
     GUIDE_STYLE_QUERIES.has(normalized) ||
     getIslandSpecificThingsToDoShortcuts(normalized) !== null ||
@@ -1387,6 +1475,10 @@ export function isGuideStyleQuery(query: string): boolean {
 
 export function shouldPrependGuideShortcuts(query: string): boolean {
   const normalized = normalizeSearchText(query);
+  if (isBoatIntentQuery(normalized)) {
+    return resolveSearchIsland(normalized) === "WI";
+  }
+
   return (
     GUIDE_STYLE_QUERIES.has(normalized) ||
     getIslandSpecificThingsToDoShortcuts(normalized) !== null ||
