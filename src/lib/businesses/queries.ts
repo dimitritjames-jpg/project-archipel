@@ -1,5 +1,6 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { CODE_TO_SLUG, type IslandSlug } from "@/lib/islands";
+import { CORE_CATEGORIES } from "@/lib/categories";
 import {
   findLaunchPreviewBusiness,
   findLaunchPreviewBusinesses,
@@ -57,6 +58,40 @@ export const SEEDED_BUSINESS_STATIC_PARAMS: BusinessStaticParam[] =
     slug: business.slug,
   }));
 
+const PUBLISHED_BUSINESS_SELECT = `
+  id,
+  name,
+  slug,
+  island,
+  description_plain,
+  description_json,
+  street_address,
+  address_locality,
+  phone,
+  email,
+  website_url,
+  same_as,
+  price_range,
+  is_verified,
+  is_demo,
+  verification_status,
+  verification_source,
+  last_verified_at,
+  contact_permission_status,
+  robots_noindex,
+  is_claimed,
+  claimed_at,
+  premium_tier,
+  published_at,
+  public_info_listing,
+  public_info_disclosure,
+  booking_enabled,
+  partner_status,
+  media_rights_status,
+  source_urls,
+  category:categories!primary_category_id ( slug, name, schema_type )
+`;
+
 function createBuildTimeClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key =
@@ -81,6 +116,20 @@ function normalizeCategory(
 ): PublishedBusinessRow["category"] {
   if (!category) return null;
   return Array.isArray(category) ? (category[0] ?? null) : category;
+}
+
+function mapPublishedBusinessRow(
+  row: Omit<PublishedBusinessRow, "category"> & {
+    category:
+      | PublishedBusinessRow["category"]
+      | NonNullable<PublishedBusinessRow["category"]>[]
+      | null;
+  },
+): PublishedBusinessRow {
+  return {
+    ...(row as Omit<PublishedBusinessRow, "category">),
+    category: normalizeCategory(row.category),
+  };
 }
 
 export async function fetchPublishedBusinessStaticParams(): Promise<
@@ -135,35 +184,7 @@ export async function fetchPublishedBusiness(
 
   const { data, error } = await supabase
     .from("businesses")
-    .select(
-      `
-      id,
-      name,
-      slug,
-      island,
-      description_plain,
-      description_json,
-      street_address,
-      address_locality,
-      phone,
-      email,
-      website_url,
-      same_as,
-      price_range,
-      is_verified,
-      is_demo,
-      verification_status,
-      verification_source,
-      last_verified_at,
-      contact_permission_status,
-      robots_noindex,
-      is_claimed,
-      claimed_at,
-      premium_tier,
-      published_at,
-      category:categories!primary_category_id ( slug, name, schema_type )
-    `,
-    )
+    .select(PUBLISHED_BUSINESS_SELECT)
     .eq("status", "published")
     .eq("island", islandCode)
     .eq("slug", businessSlug)
@@ -182,15 +203,14 @@ export async function fetchPublishedBusiness(
     );
   }
 
-  return {
-    ...(data as Omit<PublishedBusinessRow, "category">),
-    category: normalizeCategory(
-      data.category as
+  return mapPublishedBusinessRow(
+    data as Omit<PublishedBusinessRow, "category"> & {
+      category:
         | PublishedBusinessRow["category"]
         | NonNullable<PublishedBusinessRow["category"]>[]
-        | null,
-    ),
-  };
+        | null;
+    },
+  );
 }
 
 export async function fetchPublishedBusinessesByCategory(
@@ -235,35 +255,7 @@ export async function fetchPublishedBusinessesByCategory(
 
   const { data, error } = await supabase
     .from("businesses")
-    .select(
-      `
-      id,
-      name,
-      slug,
-      island,
-      description_plain,
-      description_json,
-      street_address,
-      address_locality,
-      phone,
-      email,
-      website_url,
-      same_as,
-      price_range,
-      is_verified,
-      is_demo,
-      verification_status,
-      verification_source,
-      last_verified_at,
-      contact_permission_status,
-      robots_noindex,
-      is_claimed,
-      claimed_at,
-      premium_tier,
-      published_at,
-      category:categories!primary_category_id ( slug, name, schema_type )
-    `,
-    )
+    .select(PUBLISHED_BUSINESS_SELECT)
     .eq("status", "published")
     .eq("island", islandCode)
     .eq("primary_category_id", category.id)
@@ -273,13 +265,36 @@ export async function fetchPublishedBusinessesByCategory(
     return previewFallback();
   }
 
-  return data.map((row) => ({
-    ...(row as Omit<PublishedBusinessRow, "category">),
-    category: normalizeCategory(
-      row.category as
-        | PublishedBusinessRow["category"]
-        | NonNullable<PublishedBusinessRow["category"]>[]
-        | null,
+  return data.map((row) =>
+    mapPublishedBusinessRow(
+      row as Omit<PublishedBusinessRow, "category"> & {
+        category:
+          | PublishedBusinessRow["category"]
+          | NonNullable<PublishedBusinessRow["category"]>[]
+          | null;
+      },
     ),
-  }));
+  );
+}
+
+export async function fetchPublishedBusinessesByIsland(
+  islandSlug: IslandSlug,
+): Promise<PublishedBusinessRow[]> {
+  const categorySlugs = ["beaches", ...CORE_CATEGORIES.map((category) => category.slug)];
+  const categoryResults = await Promise.all(
+    categorySlugs.map((categorySlug) =>
+      fetchPublishedBusinessesByCategory(islandSlug, categorySlug),
+    ),
+  );
+
+  const seen = new Set<string>();
+
+  return categoryResults
+    .flat()
+    .filter((business) => {
+      if (seen.has(business.id)) return false;
+      seen.add(business.id);
+      return true;
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 }

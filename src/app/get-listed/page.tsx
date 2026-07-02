@@ -99,7 +99,7 @@ const growthActions = [
 const intakeChecklist = [
   "Official business name, island, and best category",
   "Official website or business-owned social profile",
-  "Best contact for listing corrections or future owner verification",
+  "Best contact for listing corrections or future owner follow-up",
   "Public phone, email, address, or area you approve for display",
   "Short factual description written for publication",
   "Photos you own or have rights to share, plus any required credit",
@@ -155,7 +155,7 @@ const intentConfig: Record<
       "[ ] Claim interest",
       "[ ] Owner or operator name",
       "[ ] Role or title",
-      "[ ] Best contact for future owner verification",
+      "[ ] Best contact for future owner follow-up",
     ],
   },
   "featured-placement": {
@@ -257,15 +257,15 @@ export default async function GetListedPage({ searchParams }: Props) {
         <div className="section-shell flex min-h-[62svh] flex-col justify-end pb-12 pt-32 sm:pb-16">
           <div className="flex flex-wrap items-center gap-3">
             <p className="eyebrow-label !text-coral-sunset">For USVI businesses</p>
-            <ComingSoonBadge label="Owner dashboard coming soon" />
+            <ComingSoonBadge label="Human-reviewed beta intake" />
           </div>
           <h1 className="display-type mt-5 max-w-5xl text-5xl font-semibold text-white sm:text-7xl lg:text-8xl">
             Put your business where island discovery starts.
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-8 text-white/68 sm:text-lg">
             Claim or correct your listing, send approved photos, ask about future
-            featured placement, or add your business through the VibeVI launch
-            inbox.
+            featured placement interest, or add your business through the VibeVI
+            launch inbox.
           </p>
           {businessName ? (
             <div className="mt-6 max-w-2xl rounded-[1.2rem] border border-white/10 bg-white/6 px-5 py-4 text-sm leading-7 text-white/70">
@@ -494,15 +494,15 @@ export default async function GetListedPage({ searchParams }: Props) {
                 VibeVI currently supports published listing pages, island/category
                 routes, guide connections, and direct-source profile fields. Self-serve
                 claiming, owner login, payments, sponsor checkout, and analytics
-                dashboards are not active.
+                dashboards are not active in beta.
               </p>
             </div>
             <div className="rounded-[1.3rem] border border-aqua/15 bg-aqua/6 p-6">
               <p className="font-semibold text-white">Future lead routing</p>
               <p className="mt-3 text-sm leading-6 text-white/50">
                 We can note interest in future owner tools and lead routing, but we do
-                not claim that inquiry delivery, paid placement, or owner dashboards
-                are live today.
+                not claim that inquiry delivery, paid placement, or a business
+                dashboard is live today.
               </p>
               {inquiryHref ? (
                 <TrackedAnchor
@@ -523,6 +523,51 @@ export default async function GetListedPage({ searchParams }: Props) {
                 </p>
               )}
             </div>
+          </div>
+        </section>
+
+        <section
+          className="mt-20 grid gap-8 border-t border-white/8 pt-14 lg:grid-cols-[0.72fr_1.28fr]"
+          aria-labelledby="what-happens-next"
+        >
+          <div>
+            <p className="eyebrow-label">What happens next</p>
+            <h2
+              id="what-happens-next"
+              className="display-type mt-4 text-3xl font-semibold text-white sm:text-5xl"
+            >
+              A person reviews the request before anything changes.
+            </h2>
+            <p className="mt-5 text-sm leading-7 text-white/56">
+              VibeVI does not auto-approve listings, claims, photos, sponsor requests,
+              or featured requests in beta. We review the request, check the source
+              context, and then follow up by email if more detail or permission review
+              is needed.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              {
+                title: "1. We read the message",
+                body: "The inbox is manual-review only. There is no instant claim, no auto-verification, and no self-serve activation in beta.",
+              },
+              {
+                title: "2. We compare it to the listing",
+                body: "We check the request against the current public-info profile, contact path, and any source context already attached.",
+              },
+              {
+                title: "3. We follow up directly",
+                body: "If the request is usable, we reply about next steps, missing facts, approved-photo needs, or future interest tracking.",
+              },
+            ].map((item) => (
+              <article
+                key={item.title}
+                className="rounded-[1.2rem] border border-white/9 bg-white/[0.035] p-5"
+              >
+                <h3 className="text-sm font-semibold text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/52">{item.body}</p>
+              </article>
+            ))}
           </div>
         </section>
 

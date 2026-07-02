@@ -3,9 +3,12 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { BusinessProfileView } from "@/components/business/business-profile-view";
 import {
   fetchPublishedBusiness,
+  fetchPublishedBusinessesByCategory,
+  fetchPublishedBusinessesByIsland,
   fetchPublishedBusinessStaticParams,
   SEEDED_BUSINESS_STATIC_PARAMS,
 } from "@/lib/businesses/queries";
+import { buildProfileRelatedLinks } from "@/lib/businesses/profile-related";
 import { findLaunchPreviewCategorySlug } from "@/lib/businesses/launch-preview-catalog";
 import { findPublicInfoCategorySlug } from "@/lib/businesses/public-info-catalog";
 import { shouldIndexListing } from "@/lib/businesses/listing-trust";
@@ -198,12 +201,25 @@ export default async function CanonicalBusinessPage({ params }: Props) {
   }
 
   const canonical = absoluteUrl(`/${islandParam}/${canonicalCategorySlug}/${businessSlug}`);
+  const [categoryBusinesses, islandBusinesses] = await Promise.all([
+    fetchPublishedBusinessesByCategory(
+      islandParam as IslandSlug,
+      canonicalCategorySlug,
+    ),
+    fetchPublishedBusinessesByIsland(islandParam as IslandSlug),
+  ]);
+  const relatedLinks = buildProfileRelatedLinks({
+    business,
+    categoryBusinesses,
+    islandBusinesses,
+  });
 
   return (
     <BusinessProfileView
       business={business}
       islandSlug={islandParam as IslandSlug}
       canonicalUrl={canonical}
+      relatedLinks={relatedLinks}
     />
   );
 }
