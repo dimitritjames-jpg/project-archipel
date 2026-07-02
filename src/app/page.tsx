@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 const dayMoves = [
   {
     label: "Beach",
-    href: "/guides/best-beaches-usvi",
+    href: "/search?q=beach",
     line: "Find the sand, shade, and water that fit the day.",
     motif: "Reef-blue shallows, towel down, easy swim.",
     className: "beach-day-card",
@@ -55,7 +55,7 @@ const dayMoves = [
   },
   {
     label: "Bite",
-    href: "/experiences/culinary",
+    href: "/search?q=food",
     line: "Local plates, boardwalk tables, beach bars, and chef-led nights.",
     motif: "Johnny cakes, pate, fresh fish, rum-bar gold.",
     className: "bite-day-card",
@@ -64,7 +64,7 @@ const dayMoves = [
   },
   {
     label: "Night",
-    href: "/st-thomas/nightlife-rhythm",
+    href: "/search?q=nightlife",
     line: "Music, rum, waterfront energy, and late moves.",
     motif: "Sunset dinner into harbor lights.",
     className: "night-day-card",

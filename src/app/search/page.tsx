@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { VibeFilterRail } from "@/components/home/vibe-filter-rail";
 import { IslandAskBar } from "@/components/search/island-ask-bar";
+import { IntentIslandChooser } from "@/components/search/intent-island-chooser";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -10,6 +11,7 @@ import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
 import { hasBusinessInquiryInbox } from "@/lib/get-listed";
 import { getIslandBySlug, ISLAND_MAP, ISLAND_SLUGS } from "@/lib/islands";
 import { HERO_MEDIA, ISLAND_PORTALS } from "@/lib/media";
+import { getIslandPlanningChooser } from "@/lib/search/island-planning";
 import {
   searchPublicInfoCatalogWithScope,
   type LocalSearchResult,
@@ -91,6 +93,7 @@ export default async function SearchPage({ searchParams }: Props) {
         categorySlug: scopedCategory ? category : null,
       })
     : [];
+  const planningChooser = hasQuery ? getIslandPlanningChooser(query) : null;
   const topResult = searchResults[0] ?? null;
   const scopeSummary = [scopedIsland?.name, scopedCategory?.name]
     .filter(Boolean)
@@ -146,6 +149,11 @@ export default async function SearchPage({ searchParams }: Props) {
                 release.
               </p>
             </div>
+            {planningChooser ? (
+              <div className="mt-5 max-w-5xl">
+                <IntentIslandChooser chooser={planningChooser} />
+              </div>
+            ) : null}
             {topResult ? (
               <div className="mt-5 max-w-2xl">
                 <SearchResultCard
