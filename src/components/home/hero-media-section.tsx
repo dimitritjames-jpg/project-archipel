@@ -10,28 +10,28 @@ const heroMoves = [
     label: "Beach",
     href: "/guides/best-beaches-usvi",
     imageSrc: GENERATED_MEDIA_PATHS.beachDay,
-    alt: "Generated atmospheric beach-day scene with cream sand and turquoise water",
+    alt: "Editorial generated beach-day scene with cream sand and turquoise water",
     detail: "Sand, shade, shallow water.",
   },
   {
     label: "Boat",
     href: "/search?q=boat",
     imageSrc: GENERATED_MEDIA_PATHS.boatDay,
-    alt: "Generated atmospheric boat-day scene with an unbranded sailboat on turquoise water",
+    alt: "Editorial generated boat-day scene with an unbranded sailboat on turquoise water",
     detail: "Snorkel, sail, beach-hop.",
   },
   {
     label: "Bite",
     href: "/experiences/culinary",
     imageSrc: GENERATED_MEDIA_PATHS.biteWaterfront,
-    alt: "Generated atmospheric waterfront dining scene with island plates and golden-hour light",
+    alt: "Editorial generated waterfront dining scene with island plates and golden-hour light",
     detail: "Local plates, sunset tables.",
   },
   {
     label: "Night",
     href: "/st-thomas/nightlife-rhythm",
     imageSrc: GENERATED_MEDIA_PATHS.nightBoardwalk,
-    alt: "Generated atmospheric waterfront boardwalk night scene with warm lights",
+    alt: "Editorial generated waterfront boardwalk night scene with warm lights",
     detail: "Music, rum, waterfront glow.",
   },
 ] as const;
@@ -59,6 +59,10 @@ export function HeroMediaSection() {
               <p className="mt-5 max-w-xl text-base leading-7 text-[#315057] sm:text-lg">
                 Beach days, boat trips, local plates, culture, nightlife, and
                 ferry hops across the U.S. Virgin Islands.
+              </p>
+              <p className="mt-4 max-w-xl text-xs leading-6 text-[#496871]">
+                Homepage visuals use editorial island artwork to set the mood.
+                They are not real-business photos or live listing media.
               </p>
 
               <div className="mt-7 max-w-xl">

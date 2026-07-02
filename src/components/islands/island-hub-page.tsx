@@ -484,6 +484,9 @@ export async function IslandHubPage({
               <p className="mt-4 max-w-2xl text-sm leading-7 text-archipel-white/52 sm:text-base">
                 Built for {meta.intentTitle}, with every section scoped to {islandName} so you can stay island-first before widening the search.
               </p>
+              <p className="mt-3 max-w-2xl text-xs leading-6 text-archipel-white/42">
+                Island hero artwork is editorial scene-setting, not a photo of one specific venue, business, or listing.
+              </p>
             </div>
 
             <div className="command-surface rounded-[1.45rem] p-5">

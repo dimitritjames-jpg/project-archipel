@@ -281,6 +281,9 @@ export default async function CategoryPage({ params }: Props) {
                         ? "This island does not have enough published tours-and-activities inventory yet. Use search or the island guide while verified activity coverage grows."
                         : "This channel is being assembled. Use search or move laterally into another island category."}
               </p>
+              <p className="mt-3 max-w-2xl text-xs leading-6 text-archipel-white/42">
+                Category hero artwork is editorial and mood-led. It is not a photo of a specific listed business in this channel.
+              </p>
             </div>
             <div className="command-surface rounded-[1.3rem] p-5">
               <div className="flex items-center justify-between">
