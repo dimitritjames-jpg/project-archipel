@@ -14,7 +14,7 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
   "snorkel charter": ["boat", "charter", "snorkel", "sail", "excursions-charters"],
   "sunset sail": ["boat", "charter", "sail", "catamaran", "sunset"],
   bite: ["culinary", "food", "restaurant", "dining", "beach bar"],
-  bar: ["nightlife", "music", "pub", "cantina"],
+  bar: ["nightlife", "music", "pub", "cantina", "beach bar", "cocktails"],
   beaches: ["beach", "bay", "cove", "shore", "sand"],
   boating: ["boat", "charter", "sail", "snorkel", "excursions-charters", "yacht"],
   yacht: ["boat", "charter", "sail", "catamaran", "excursions-charters"],
@@ -33,9 +33,13 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
     "gallery",
     "boutique",
     "maker",
+    "gift shop",
+    "souvenir",
   ],
   kids: ["family", "museum", "beach", "park", "attractions", "things to do"],
-  "live music": ["music", "bar", "nightlife", "night"],
+  "live music": ["music", "bar", "nightlife", "night", "band", "beach bar"],
+  "rum bar": ["bar", "nightlife", "rum", "cocktail", "beach bar"],
+  dancing: ["nightlife", "bar", "live music", "dance", "late night"],
   "get listed": ["claim listing", "update listing", "business", "owner", "listing"],
   "claim listing": ["get listed", "claim interest", "owner", "business", "listing"],
   "update listing": ["get listed", "correct my info", "owner", "business", "listing"],
@@ -64,11 +68,13 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
   ],
   market: [
     "local-provisions",
-    "shopping",
     "market",
-    "gifts",
-    "boutique",
+    "grocery",
+    "fresh",
+    "provisions",
+    "local shops",
   ],
+  "local market": ["market", "local shops", "grocery", "fresh", "provisions"],
   culture: ["culture-history", "museum", "fort", "history", "heritage"],
   history: ["culture-history", "museum", "historic site", "fort", "ruins", "heritage"],
   museum: ["culture-history", "museum", "history", "rainy day"],
@@ -105,8 +111,10 @@ const QUERY_EXPANSION_TERMS: Record<string, string[]> = {
   night: ["nightlife", "bar", "music", "dinner", "late", "rhythm"],
   spa: ["spa", "wellness", "massage", "reset"],
   sunset: ["romantic", "beach", "bar", "dinner", "waterfront"],
+  "sunset drinks": ["sunset", "bar", "beach bar", "cocktail", "waterfront", "culinary"],
   wellness: ["spa", "wellness", "calm", "reset"],
   ferry: ["ferry", "water island ferry"],
+  "near cruise port": ["cruise day", "cruise", "port", "havensight", "crown bay"],
 };
 
 const ISLAND_ALIAS_TERMS: Record<string, string[]> = {
@@ -129,7 +137,12 @@ const GUIDE_STYLE_QUERIES = new Set([
   "ruins",
   "cruise day",
   "nightlife",
+  "live music",
+  "bar",
+  "rum bar",
+  "dancing",
   "sunset",
+  "sunset drinks",
   "kids",
   "attraction",
   "attractions",
@@ -141,6 +154,7 @@ const GUIDE_STYLE_QUERIES = new Set([
   "eco tour",
   "shops",
   "local shops",
+  "near cruise port",
   "get listed",
   "claim listing",
   "update listing",
@@ -523,14 +537,6 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
     ),
   ],
   family: [
-    guideShortcut(
-      "guide-family-beaches",
-      "Best beaches in the USVI",
-      "best-beaches-usvi",
-      "STT",
-      "Family-friendly beach comparisons across all four islands.",
-      "/guides/best-beaches-usvi",
-    ),
     categoryShortcut(
       "category-family-attractions-stt",
       "St. Thomas attractions",
@@ -538,6 +544,14 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "STT",
       "Coral World, Skyride, and family-friendly anchor stops on St. Thomas.",
       "/st-thomas/attractions",
+    ),
+    guideShortcut(
+      "guide-family-beaches",
+      "Best beaches in the USVI",
+      "best-beaches-usvi",
+      "STT",
+      "Family-friendly beach comparisons across all four islands.",
+      "/guides/best-beaches-usvi",
     ),
     guideShortcut(
       "guide-water-island-day-trip",
@@ -678,11 +692,139 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "/st-thomas/nightlife-rhythm",
     ),
     categoryShortcut(
+      "category-nightlife-stj-query",
+      "St. John nightlife",
+      "nightlife-rhythm",
+      "STJ",
+      "Published nightlife, beach bar, and after-dark listings for St. John.",
+      "/st-john/nightlife-rhythm",
+    ),
+    categoryShortcut(
       "category-nightlife-stx-query",
       "St. Croix nightlife",
       "nightlife-rhythm",
       "STX",
       "Published nightlife, boardwalk, and after-dark listings for St. Croix.",
+      "/st-croix/nightlife-rhythm",
+    ),
+  ],
+  bar: [
+    experienceShortcut(
+      "experience-bar-query",
+      "Nightlife experiences",
+      "nightlife",
+      "STT",
+      "Beach bars, late-night stops, and music-forward routes across the USVI.",
+      "/experiences/nightlife",
+    ),
+    categoryShortcut(
+      "category-bar-stt-query",
+      "St. Thomas nightlife",
+      "nightlife-rhythm",
+      "STT",
+      "Published bars, beach bars, and after-dark listings for St. Thomas.",
+      "/st-thomas/nightlife-rhythm",
+    ),
+    categoryShortcut(
+      "category-bar-stj-query",
+      "St. John nightlife",
+      "nightlife-rhythm",
+      "STJ",
+      "Published beach bars, rum bars, and late-night listings for St. John.",
+      "/st-john/nightlife-rhythm",
+    ),
+    categoryShortcut(
+      "category-bar-stx-query",
+      "St. Croix nightlife",
+      "nightlife-rhythm",
+      "STX",
+      "Published bars, boardwalk stops, and late-night listings for St. Croix.",
+      "/st-croix/nightlife-rhythm",
+    ),
+  ],
+  "live music": [
+    experienceShortcut(
+      "experience-live-music-query",
+      "Nightlife experiences",
+      "nightlife",
+      "STX",
+      "Live music, boardwalk energy, and late-night island routes across the USVI.",
+      "/experiences/nightlife",
+    ),
+    categoryShortcut(
+      "category-live-music-stx-query",
+      "St. Croix nightlife",
+      "nightlife-rhythm",
+      "STX",
+      "Published boardwalk, pub, and live-music-friendly listings for St. Croix.",
+      "/st-croix/nightlife-rhythm",
+    ),
+    categoryShortcut(
+      "category-live-music-stt-query",
+      "St. Thomas nightlife",
+      "nightlife-rhythm",
+      "STT",
+      "Published bar and after-dark listings for St. Thomas.",
+      "/st-thomas/nightlife-rhythm",
+    ),
+    categoryShortcut(
+      "category-live-music-stj-query",
+      "St. John nightlife",
+      "nightlife-rhythm",
+      "STJ",
+      "Published beach bar and late-night listings for St. John.",
+      "/st-john/nightlife-rhythm",
+    ),
+  ],
+  "rum bar": [
+    experienceShortcut(
+      "experience-rum-bar-query",
+      "Nightlife experiences",
+      "nightlife",
+      "STJ",
+      "Rum-forward bars, beach pours, and after-dark island routes across the USVI.",
+      "/experiences/nightlife",
+    ),
+    categoryShortcut(
+      "category-rum-bar-stj-query",
+      "St. John nightlife",
+      "nightlife-rhythm",
+      "STJ",
+      "Published rum bar, cantina, and beach bar listings for St. John.",
+      "/st-john/nightlife-rhythm",
+    ),
+    categoryShortcut(
+      "category-rum-bar-stt-query",
+      "St. Thomas nightlife",
+      "nightlife-rhythm",
+      "STT",
+      "Published rum-forward bar and after-dark listings for St. Thomas.",
+      "/st-thomas/nightlife-rhythm",
+    ),
+  ],
+  dancing: [
+    experienceShortcut(
+      "experience-dancing-query",
+      "Nightlife experiences",
+      "nightlife",
+      "STT",
+      "After-dark routes with beach bars, pub energy, and late-night island rhythm.",
+      "/experiences/nightlife",
+    ),
+    categoryShortcut(
+      "category-dancing-stt-query",
+      "St. Thomas nightlife",
+      "nightlife-rhythm",
+      "STT",
+      "Published nightlife listings for a stronger St. Thomas after-dark starting point.",
+      "/st-thomas/nightlife-rhythm",
+    ),
+    categoryShortcut(
+      "category-dancing-stx-query",
+      "St. Croix nightlife",
+      "nightlife-rhythm",
+      "STX",
+      "Published boardwalk and pub listings for a stronger St. Croix night route.",
       "/st-croix/nightlife-rhythm",
     ),
   ],
@@ -702,6 +844,74 @@ const GUIDE_SHORTCUTS: Record<string, GuideShortcut[]> = {
       "STT",
       "Waterfront tables, beach bars, and date-night routes that work better than a random lexical match.",
       "/experiences/culinary",
+    ),
+    experienceShortcut(
+      "experience-sunset-nightlife",
+      "Nightlife experiences",
+      "nightlife",
+      "STT",
+      "Beach bars, boardwalk stops, and after-dark island routes that pair better with sunset drinks intent.",
+      "/experiences/nightlife",
+    ),
+  ],
+  "sunset drinks": [
+    experienceShortcut(
+      "experience-sunset-drinks-culinary",
+      "Culinary experiences",
+      "culinary",
+      "STT",
+      "Waterfront tables, beach bars, and cocktail-friendly routes for a sunset-first plan.",
+      "/experiences/culinary",
+    ),
+    experienceShortcut(
+      "experience-sunset-drinks-nightlife",
+      "Nightlife experiences",
+      "nightlife",
+      "STT",
+      "Beach bars, boardwalk stops, and after-dark routes that work better than a random lexical match.",
+      "/experiences/nightlife",
+    ),
+    guideShortcut(
+      "guide-sunset-drinks-beaches",
+      "Best beaches in the USVI",
+      "best-beaches-usvi",
+      "STJ",
+      "Use beach access and pace to back into a better sunset-drinks route without implying live availability.",
+      "/guides/best-beaches-usvi",
+    ),
+  ],
+  "near cruise port": [
+    utilityShortcut(
+      "utility-near-cruise-port-hub",
+      "USVI cruise-day guide",
+      "cruise-day",
+      "STT",
+      "Start with the cruise-day guide for port-aware routes near Havensight and Crown Bay.",
+      "/cruise-day",
+    ),
+    utilityShortcut(
+      "utility-near-cruise-port-schedule",
+      "St. Thomas cruise schedule",
+      "cruise-schedule",
+      "STT",
+      "Check scheduled ship load before choosing a near-port route.",
+      "/st-thomas/cruise-schedule",
+    ),
+    guideShortcut(
+      "utility-near-cruise-port-havensight",
+      "Havensight cruise-day guide",
+      "havensight-cruise-day",
+      "STT",
+      "Walkable shops, culture stops, and port-aware moves from Havensight.",
+      "/st-thomas/havensight-cruise-day",
+    ),
+    guideShortcut(
+      "utility-near-cruise-port-crown-bay",
+      "Crown Bay cruise-day guide",
+      "crown-bay-cruise-day",
+      "STT",
+      "Crown Bay pickup, Water Island caution, and conservative return planning.",
+      "/st-thomas/crown-bay-cruise-day",
     ),
   ],
   "get listed": [
@@ -1094,7 +1304,14 @@ function getIslandIntentShortcuts(query: string): GuideShortcut[] | null {
     return [buildIslandIntentShortcut(island, "attractions")].filter(Boolean) as GuideShortcut[];
   }
 
-  if (query.includes("nightlife") || query.includes(" night")) {
+  if (
+    query.includes("nightlife") ||
+    query.includes(" night") ||
+    query.includes("bar") ||
+    query.includes("live music") ||
+    query.includes("rum bar") ||
+    query.includes("dancing")
+  ) {
     return [buildIslandIntentShortcut(island, "nightlife")].filter(Boolean) as GuideShortcut[];
   }
 
@@ -1102,6 +1319,7 @@ function getIslandIntentShortcuts(query: string): GuideShortcut[] | null {
     query.includes("local shops") ||
     query.includes("shops") ||
     query.includes("market") ||
+    query.includes("local market") ||
     query.includes("gifts")
   ) {
     return [buildIslandIntentShortcut(island, "local-provisions")].filter(Boolean) as GuideShortcut[];

@@ -51,10 +51,14 @@ const CATEGORY_BOOSTS: Record<string, string[]> = {
   "coki point": ["attractions", "beaches"],
   gifts: ["local-provisions"],
   "live music": ["nightlife-rhythm"],
+  "local market": ["local-provisions"],
   market: ["local-provisions"],
   massage: ["wellness-spas"],
   night: ["nightlife-rhythm"],
   nightlife: ["nightlife-rhythm"],
+  "rum bar": ["nightlife-rhythm"],
+  dancing: ["nightlife-rhythm"],
+  "sunset drinks": ["indulgent-dining", "nightlife-rhythm"],
   culture: ["culture-history"],
   history: ["culture-history"],
   museum: ["culture-history", "attractions"],
@@ -81,6 +85,10 @@ const BEACH_FRIENDLY_CATEGORIES = new Set([
   "boutique-stays",
 ]);
 
+const NIGHTLIFE_FRIENDLY_CATEGORIES = new Set([
+  "nightlife-rhythm",
+]);
+
 const FAMILY_FRIENDLY_CATEGORIES = new Set([
   "attractions",
   "beaches",
@@ -91,6 +99,48 @@ const FAMILY_FRIENDLY_CATEGORIES = new Set([
 const FOOD_FRIENDLY_CATEGORIES = new Set([
   "indulgent-dining",
 ]);
+
+const MARKET_SIGNALS = [
+  "market",
+  "grocery",
+  "fresh",
+  "drugstore",
+  "provision",
+  "provisions",
+];
+
+const RETAIL_SIGNALS = [
+  "gift",
+  "gifts",
+  "shop",
+  "shops",
+  "gallery",
+  "boutique",
+  "jewelry",
+  "maker",
+  "spice",
+  "art",
+  "store",
+];
+
+const NIGHTLIFE_SIGNALS = [
+  "bar",
+  "pub",
+  "music",
+  "nightlife",
+  "rum",
+  "cantina",
+  "speakeasy",
+  "brew",
+  "boardwalk",
+  "cocktail",
+  "saloon",
+  "tap room",
+  "beach bar",
+  "late night",
+  "dancing",
+  "dance",
+];
 
 type MatchTiers = {
   name: number;
@@ -414,6 +464,75 @@ function applyDescriptionNoisePenalty(
     }
   }
 
+  if (
+    ["nightlife", "bar", "live music", "rum bar", "dancing"].includes(normalizedQuery)
+  ) {
+    const hasNightlifeSignal = NIGHTLIFE_SIGNALS.some(
+      (term) =>
+        fields.name.includes(term) ||
+        fields.description.includes(term) ||
+        fields.slug.includes(term),
+    );
+
+    if (NIGHTLIFE_FRIENDLY_CATEGORIES.has(categorySlug) || hasNightlifeSignal) {
+      return Math.max(tiers.description, SCORE_CATEGORY - 4);
+    }
+
+    return 0;
+  }
+
+  if (normalizedQuery === "sunset" || normalizedQuery === "sunset drinks") {
+    const sunsetSignals = [
+      "sunset",
+      "waterfront",
+      "beach",
+      "bar",
+      "cocktail",
+      "drink",
+      "drinks",
+      "dinner",
+      "bay",
+      "harbor",
+    ];
+    const hasSunsetSignal = sunsetSignals.some(
+      (term) =>
+        fields.name.includes(term) ||
+        fields.description.includes(term) ||
+        fields.slug.includes(term),
+    );
+
+    if (
+      categorySlug === "indulgent-dining" ||
+      categorySlug === "nightlife-rhythm"
+    ) {
+      return Math.max(
+        tiers.description,
+        hasSunsetSignal ? SCORE_CATEGORY - 4 : SCORE_CATEGORY - 10,
+      );
+    }
+
+    if (normalizedQuery === "sunset" && categorySlug === "beaches") {
+      return Math.max(tiers.description, SCORE_CATEGORY - 10);
+    }
+
+    return 0;
+  }
+
+  if (normalizedQuery === "local market") {
+    const hasMarketSignal = MARKET_SIGNALS.some(
+      (term) =>
+        fields.name.includes(term) ||
+        fields.description.includes(term) ||
+        fields.slug.includes(term),
+    );
+
+    if (categorySlug === "local-provisions" && hasMarketSignal) {
+      return Math.max(tiers.description, SCORE_CATEGORY);
+    }
+
+    return 0;
+  }
+
   return tiers.description;
 }
 
@@ -612,35 +731,53 @@ function scoreBusinessMatch(
     score += 35;
   }
 
+  if (normalizedQuery === "nightlife" && business.category?.slug === "nightlife-rhythm") {
+    score = Math.max(score, 90);
+  }
+
   if (normalizedQuery === "night" && business.category?.slug === "nightlife-rhythm") {
     score = Math.max(score, 85);
   }
 
   if (
-    (normalizedQuery === "bar" || normalizedQuery === "live music") &&
+    ["bar", "live music", "rum bar", "dancing"].includes(normalizedQuery) &&
     business.category?.slug === "nightlife-rhythm"
   ) {
-    score = Math.max(score, 82);
+    const nightlifeSignals = NIGHTLIFE_SIGNALS.some(
+      (term) =>
+        fields.name.includes(term) ||
+        fields.description.includes(term) ||
+        fields.slug.includes(term),
+    );
+
+    if (normalizedQuery === "rum bar") {
+      if (fields.name.includes("rum") || fields.description.includes("rum")) {
+        score = Math.max(score, 97);
+      } else if (nightlifeSignals) {
+        score = Math.max(score, 82);
+      }
+    } else if (normalizedQuery === "live music") {
+      const liveMusicSignals = ["music", "boardwalk", "brew", "pub", "tap", "speakeasy"];
+      const hasLiveMusicSignal = liveMusicSignals.some(
+        (term) =>
+          fields.name.includes(term) ||
+          fields.description.includes(term) ||
+          fields.slug.includes(term),
+      );
+      score = Math.max(score, hasLiveMusicSignal ? 92 : 82);
+    } else if (normalizedQuery === "dancing") {
+      score = Math.max(score, 84);
+    } else {
+      score = Math.max(score, 88);
+    }
   }
 
   if (
-    (normalizedQuery === "gifts" || normalizedQuery === "market") &&
+    (normalizedQuery === "gifts" || normalizedQuery === "market" || normalizedQuery === "local market") &&
     business.category?.slug === "local-provisions"
   ) {
-    if (normalizedQuery === "market") {
-      const marketSignals = [
-        "market",
-        "provision",
-        "grocery",
-        "fresh",
-        "drugstore",
-        "shop",
-        "shops",
-        "store",
-        "mall",
-        "spice",
-      ];
-      const hasMarketSignal = marketSignals.some(
+    if (normalizedQuery === "market" || normalizedQuery === "local market") {
+      const hasMarketSignal = MARKET_SIGNALS.some(
         (term) =>
           fields.name.includes(term) ||
           fields.description.includes(term) ||
@@ -651,18 +788,44 @@ function scoreBusinessMatch(
         return 0;
       }
 
-      score = Math.max(score, fields.name.includes("market") ? 95 : 84);
+      score = Math.max(
+        score,
+        fields.name.includes("market")
+          ? 95
+          : normalizedQuery === "local market"
+            ? 88
+            : 84,
+      );
     } else {
-      score = Math.max(score, 78);
+      const hasRetailSignal = RETAIL_SIGNALS.some(
+        (term) =>
+          fields.name.includes(term) ||
+          fields.description.includes(term) ||
+          fields.slug.includes(term),
+      );
+
+      if (!hasRetailSignal) {
+        return 0;
+      }
+
+      score = Math.max(score, 84);
     }
   }
 
   if (
-    normalizedQuery === "market" &&
+    (normalizedQuery === "market" || normalizedQuery === "local market") &&
     business.category?.slug === "indulgent-dining" &&
     fields.name.includes("market")
   ) {
-    score = Math.min(score, 68);
+    score = Math.min(score, 62);
+  }
+
+  if (
+    (normalizedQuery === "market" || normalizedQuery === "local market") &&
+    business.category?.slug !== "local-provisions" &&
+    business.category?.slug !== "indulgent-dining"
+  ) {
+    return 0;
   }
 
   if (
@@ -674,10 +837,12 @@ function scoreBusinessMatch(
 
   if (normalizedQuery === "shops" || normalizedQuery === "local shops") {
     if (business.category?.slug === "local-provisions") {
-      score = Math.max(score, 84);
+      const hasRetailSignal = RETAIL_SIGNALS.some(
+        (term) => fields.name.includes(term) || fields.description.includes(term),
+      );
+      score = Math.max(score, hasRetailSignal ? 86 : 80);
     } else {
-      const retailTerms = ["shop", "shops", "gallery", "boutique", "gift", "store"];
-      const hasRetailSignal = retailTerms.some(
+      const hasRetailSignal = RETAIL_SIGNALS.some(
         (term) => fields.name.includes(term) || fields.description.includes(term),
       );
 
@@ -689,6 +854,30 @@ function scoreBusinessMatch(
 
   if (normalizedQuery === "food" && business.category?.slug === "indulgent-dining") {
     score = Math.max(score, 75);
+  }
+
+  if (normalizedQuery === "sunset" || normalizedQuery === "sunset drinks") {
+    const sunsetSignals = ["sunset", "waterfront", "beach", "bar", "cocktail", "drink", "drinks", "bay", "harbor"];
+    const hasSunsetSignal = sunsetSignals.some(
+      (term) =>
+        fields.name.includes(term) ||
+        fields.description.includes(term) ||
+        fields.slug.includes(term),
+    );
+
+    if (business.category?.slug === "indulgent-dining") {
+      score = Math.max(score, hasSunsetSignal ? 90 : 80);
+    } else if (business.category?.slug === "nightlife-rhythm") {
+      score = Math.max(score, hasSunsetSignal ? 88 : 78);
+    } else if (normalizedQuery === "sunset" && business.category?.slug === "beaches") {
+      score = Math.max(score, 84);
+    } else if (normalizedQuery === "sunset drinks" && !hasStrongMatch(tiers)) {
+      return 0;
+    }
+  }
+
+  if (normalizedQuery === "near cruise port") {
+    return 0;
   }
 
   if (
@@ -762,6 +951,43 @@ function scoreGuideMatch(
 
   if (normalizedQuery === "rainy day" && shortcut.href === "/experiences/culture") {
     return SCORE_GUIDE + 8;
+  }
+
+  if (
+    ["bar", "live music", "dancing"].includes(normalizedQuery) &&
+    shortcut.href === "/experiences/nightlife"
+  ) {
+    return SCORE_GUIDE + 10;
+  }
+
+  if (normalizedQuery === "rum bar") {
+    if (shortcut.href === "/st-john/nightlife-rhythm") {
+      return SCORE_GUIDE + 12;
+    }
+
+    if (shortcut.href === "/experiences/nightlife") {
+      return SCORE_GUIDE + 9;
+    }
+  }
+
+  if (normalizedQuery === "sunset drinks") {
+    if (shortcut.href === "/experiences/culinary") {
+      return SCORE_GUIDE + 12;
+    }
+
+    if (shortcut.href === "/experiences/nightlife") {
+      return SCORE_GUIDE + 9;
+    }
+  }
+
+  if (normalizedQuery === "near cruise port") {
+    if (shortcut.href === "/cruise-day") {
+      return SCORE_UTILITY + 6;
+    }
+
+    if (shortcut.href === "/st-thomas/cruise-schedule") {
+      return SCORE_UTILITY + 4;
+    }
   }
 
   if (shortcut.categoryName === "Utility") {
