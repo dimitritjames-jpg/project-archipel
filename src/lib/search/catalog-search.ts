@@ -173,6 +173,10 @@ const BOAT_SUPPORT_SIGNALS = [
 ];
 
 const BOAT_NEGATIVE_SIGNALS = [
+  "american yacht harbor",
+  "harbor",
+  "harbour",
+  "marina",
   "ocean park",
   "marine park",
   "museum",
@@ -183,6 +187,7 @@ const BOAT_NEGATIVE_SIGNALS = [
   "cafe",
   "grill",
   "boardwalk",
+  "yacht haven",
   "zipline",
   "skyride",
   "distillery",
@@ -409,6 +414,10 @@ function isHarborUtilityForBoatIntent(
   return hasHarborSignal && !hasOperatorSignal;
 }
 
+function isEligibleBoatIntentCategory(categorySlug: string): boolean {
+  return categorySlug === "excursions-charters" || categorySlug === "tours-activities";
+}
+
 function applyDescriptionNoisePenalty(
   business: PublishedBusinessRow,
   normalizedQuery: string,
@@ -457,11 +466,7 @@ function applyDescriptionNoisePenalty(
     const harborUtility = isHarborUtilityForBoatIntent(fields);
 
     if (categorySlug === "excursions-charters") {
-      if (harborUtility) {
-        return Math.max(tiers.description, SCORE_DESCRIPTION_WEAK);
-      }
-
-      if (hasNegativeBoatSignal && !hasBoatSignal) {
+      if (harborUtility || (hasNegativeBoatSignal && !hasBoatSignal)) {
         return 0;
       }
 
@@ -472,17 +477,18 @@ function applyDescriptionNoisePenalty(
     }
 
     if (categorySlug === "tours-activities") {
-      if (!hasBoatSignal || hasNegativeBoatSignal) {
+      if (!hasOperatorSignal || hasNegativeBoatSignal) {
         return 0;
       }
 
-      return Math.max(
-        tiers.description,
-        hasOperatorSignal ? SCORE_CATEGORY - 8 : SCORE_CATEGORY - 14,
-      );
+      return Math.max(tiers.description, SCORE_CATEGORY - 8);
     }
 
-    return hasBoatSignal && !hasNegativeBoatSignal ? tiers.description : 0;
+    if (!isEligibleBoatIntentCategory(categorySlug)) {
+      return 0;
+    }
+
+    return hasOperatorSignal && !hasNegativeBoatSignal ? tiers.description : 0;
   }
 
   if (["attraction", "attractions", "marine park", "coki point"].includes(normalizedQuery)) {
@@ -627,27 +633,19 @@ function scoreBusinessMatch(
     const harborUtility = isHarborUtilityForBoatIntent(fields);
 
     if (business.category?.slug === "excursions-charters") {
-      if (harborUtility) {
-        score = Math.min(score, 42);
-      } else {
-        if (hasNegativeBoatSignal && !hasBoatSignal) {
-          return 0;
-        }
-
-        score = Math.max(score, hasOperatorSignal ? 99 : hasBoatSignal ? 84 : 0);
+      if (harborUtility || (hasNegativeBoatSignal && !hasBoatSignal)) {
+        return 0;
       }
+
+      score = Math.max(score, hasOperatorSignal ? 99 : hasBoatSignal ? 84 : 0);
     } else if (business.category?.slug === "tours-activities") {
-      if (!hasBoatSignal || hasNegativeBoatSignal) {
+      if (!hasOperatorSignal || hasNegativeBoatSignal) {
         return 0;
       }
 
-      score = Math.max(score, hasOperatorSignal ? 78 : 70);
+      score = Math.max(score, 78);
     } else {
-      if (!hasBoatSignal || hasNegativeBoatSignal) {
-        return 0;
-      }
-
-      score = Math.min(score, 60);
+      return 0;
     }
 
     if (scopedIsland) {

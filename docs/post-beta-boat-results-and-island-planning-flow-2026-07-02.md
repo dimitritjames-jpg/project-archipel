@@ -4,8 +4,8 @@
 
 Two separate issues were still making the public-beta flow feel too broad:
 
-1. Boat-intent search only had strict scoring for a few exact queries such as `boat` and `charter`.
-   Variants like `boat st thomas`, `private charter`, `boat day`, and `catamaran` fell back into looser lexical matching.
+1. Boat-intent search still let weak lexical matches survive lower in the result stack.
+   Names such as `Yacht Haven` or `American Yacht Harbor` could still slip into boat results even though they are not operator choices.
 2. Broad intent paths were still letting users jump from a mood choice straight into mixed-island results instead of choosing the island first.
 
 ## What Changed
@@ -27,8 +27,8 @@ Two separate issues were still making the public-beta flow feel too broad:
 - For boat intent:
   - real charter and sailing operators now lead
   - `excursions-charters` is strongly preferred when the listing actually reads like a boat operator
-  - harbor/marina utility listings are heavily demoted
-  - `tours-activities` only stays in play when the listing has explicit water/boat signals
+  - harbor and marina utility listings are removed from boat-intent result sets instead of surviving as lower-ranked noise
+  - `tours-activities` only stays in play when the listing has explicit operator-style boat signals
   - attractions, food tours, zipline, Skyride, Coral World, culture/history, retail, dining, nightlife, wellness, and stays are blocked from leading boat-intent results unless the listing genuinely reads like a boat operator
 - Island-specific boat queries now hard-scope to the requested island instead of leaking mixed-island operators into the result set.
 - Water Island remains honest:
@@ -52,7 +52,7 @@ Two separate issues were still making the public-beta flow feel too broad:
 - The chooser routes to the most useful island-first destination for that intent:
   - clean category routes where they are strong
   - island-specific search queries for boat intent
-  - honest guide/day-trip fallbacks for thin Water Island or St. John cases
+  - honest guide and day-trip fallbacks for thin Water Island or St. John cases
 
 ### Homepage planning flow
 
@@ -63,7 +63,7 @@ Two separate issues were still making the public-beta flow feel too broad:
   - `/search?q=nightlife`
 - This keeps the existing homepage structure but makes the next step island-first instead of dropping users straight into a mixed-island destination.
 
-## Local Routes Checked
+## Routes Checked
 
 ### Intent routes
 
@@ -102,7 +102,7 @@ Two separate issues were still making the public-beta flow feel too broad:
 - `/sitemap.xml`
 - `/robots.txt`
 
-## Local QA Summary
+## QA Summary
 
 ### Boat intent
 
@@ -112,17 +112,19 @@ Two separate issues were still making the public-beta flow feel too broad:
 - `boat st croix` top result: `Big Beard's Adventure Tours`
 - `boat water island` top result: `Water Island day-trip planning`
 - Island chooser rendered on all checked broad boat and island-specific boat routes.
-- Checked non-boat contaminants were not present in rendered boat-result pages:
+- Checked non-boat contaminants were not present in rebuilt boat-result pages:
   - Coral World Ocean Park
   - Skyride to Paradise Point
   - Tree Limin' Extreme Zipline
   - Flavors of St. Thomas Food Tours
   - Virgin Islands Food Tours
+  - American Yacht Harbor
+  - Shops at Yacht Haven Grande
 
 ### Other intent checks
 
 - `food` rendered the island chooser and kept food-led results.
-- `nightlife` rendered the island chooser and kept nightlife guidance/results.
+- `nightlife` rendered the island chooser and kept nightlife guidance and results.
 - `attractions` rendered the island chooser and kept attraction-led results.
 - `coral world` still resolved to `Coral World Ocean Park` and did not render the boat chooser.
 - `claim listing` remained owner-intent and did not render the island chooser.
@@ -134,7 +136,7 @@ Two separate issues were still making the public-beta flow feel too broad:
 - sitemap count remains `253`
 - no filtered query URLs were added to the sitemap
 - canonical host remains `https://www.myvibevi.com`
-- no `localhost` or `127.0.0.1` leakage found in checked local rendered output
+- no `localhost` or `127.0.0.1` leakage found in checked output
 - base island hubs remain unchanged
 - filtered island-hub indexing policy remains unchanged
 - `/biz` aliases remain excluded from the sitemap
@@ -143,12 +145,12 @@ Two separate issues were still making the public-beta flow feel too broad:
 
 ## Remaining Weak Spots
 
-- Broad beach search still mixes some beach-adjacent dining because exact-name lexical matching is still strong there.
-- Broad nightlife is improved by chooser/context, but nightlife ranking can still benefit from a later dedicated tuning pass.
+- Broad beach search still mixes some beach-adjacent dining because exact-name lexical matching remains strong there.
+- Broad nightlife is improved by chooser and context, but nightlife ranking can still benefit from a later dedicated tuning pass.
 - Water Island boat inventory remains genuinely thin, so the flow depends on honest guidance rather than a deep local operator set.
 
 ## Validation
 
-- `npm run typecheck` ✅
-- `npm run lint` ✅
-- `NODE_OPTIONS=--use-system-ca npm run build` ✅
+- `npm run typecheck` passed
+- `npm run lint` passed
+- `NODE_OPTIONS=--use-system-ca npm run build` passed
