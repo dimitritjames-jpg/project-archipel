@@ -4,19 +4,23 @@ import { TrackedAnchor, TrackedLink } from "@/components/analytics/tracked-link"
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { env } from "@/lib/env";
-import { type GetListedIntent, isGetListedIntent } from "@/lib/get-listed";
+import {
+  hasBusinessInquiryInbox,
+  type GetListedIntent,
+  isGetListedIntent,
+} from "@/lib/get-listed";
 import { GET_LISTED_MEDIA } from "@/lib/media";
 import { absoluteUrl } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Get Listed on VibeVI",
   description:
-    "Claim or correct your listing, send approved photos, ask about featured placement, or add your USVI business to VibeVI.",
+    "Review the VibeVI owner-tools preview, confirm listing requirements, and use the manual intake path when the launch inbox is active.",
   alternates: { canonical: absoluteUrl("/get-listed") },
   openGraph: {
     title: "Get Listed on VibeVI",
     description:
-      "Use the VibeVI launch inbox to confirm a listing, send approved photos, or register featured and sponsor interest.",
+      "Review the VibeVI owner-tools preview, confirm listing requirements, and use the manual intake path when the launch inbox is active.",
     url: absoluteUrl("/get-listed"),
   },
   robots: { index: true, follow: true },
@@ -242,6 +246,7 @@ export default async function GetListedPage({ searchParams }: Props) {
   const island = formatPrefillLabel(params.island);
   const category = formatPrefillLabel(params.category);
   const inquiryEmail = env.NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL;
+  const inboxReady = hasBusinessInquiryInbox();
   const inquiryHref = inquiryEmail
     ? buildInquiryHref(inquiryEmail, intent, businessName, island, category)
     : null;
@@ -263,9 +268,9 @@ export default async function GetListedPage({ searchParams }: Props) {
             Put your business where island discovery starts.
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-8 text-white/68 sm:text-lg">
-            Claim or correct your listing, send approved photos, ask about future
-            featured placement interest, or add your business through the VibeVI
-            launch inbox.
+            {inboxReady
+              ? "Claim or correct your listing, send approved photos, ask about future featured placement interest, or add your business through the VibeVI launch inbox."
+              : "Review the owner-tools preview, confirm what VibeVI can and cannot process yet, and check the intake requirements before the launch inbox goes live."}
           </p>
           {businessName ? (
             <div className="mt-6 max-w-2xl rounded-[1.2rem] border border-white/10 bg-white/6 px-5 py-4 text-sm leading-7 text-white/70">
@@ -287,7 +292,7 @@ export default async function GetListedPage({ searchParams }: Props) {
               </TrackedAnchor>
             ) : (
               <span className="rounded-full border border-coral/20 bg-coral/8 px-6 py-3 text-sm font-semibold text-coral-sunset">
-                Inquiry email awaiting launch configuration
+                Owner intake preview only
               </span>
             )}
             <TrackedLink
@@ -519,7 +524,7 @@ export default async function GetListedPage({ searchParams }: Props) {
                 </TrackedAnchor>
               ) : (
                 <p className="mt-6 text-xs font-semibold uppercase tracking-[0.12em] text-aqua">
-                  Listing inbox configuration pending
+                  Launch inbox not active yet
                 </p>
               )}
             </div>

@@ -1,3 +1,5 @@
+import { env } from "@/lib/env";
+
 export const GET_LISTED_INTENTS = [
   "confirm-my-listing",
   "correct-my-info",
@@ -37,4 +39,8 @@ export function buildGetListedHref({
 
   const query = params.toString();
   return query ? `/get-listed?${query}` : "/get-listed";
+}
+
+export function hasBusinessInquiryInbox(): boolean {
+  return Boolean(env.NEXT_PUBLIC_BUSINESS_INQUIRY_EMAIL?.trim());
 }

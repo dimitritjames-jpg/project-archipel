@@ -7,6 +7,7 @@ import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { CORE_CATEGORIES, getCategoryBySlug } from "@/lib/categories";
+import { hasBusinessInquiryInbox } from "@/lib/get-listed";
 import { getIslandBySlug, ISLAND_MAP, ISLAND_SLUGS } from "@/lib/islands";
 import { HERO_MEDIA, ISLAND_PORTALS } from "@/lib/media";
 import {
@@ -81,6 +82,7 @@ export default async function SearchPage({ searchParams }: Props) {
   const query = q.trim();
   const hasQuery = query.length >= 2;
   const isOwnerIntent = hasQuery && isOwnerIntentQuery(query);
+  const inboxReady = hasBusinessInquiryInbox();
   const scopedIsland = island ? getIslandBySlug(island) : null;
   const scopedCategory = category ? getCategoryBySlug(category) : null;
   const searchResults = hasQuery
@@ -150,6 +152,7 @@ export default async function SearchPage({ searchParams }: Props) {
                   result={topResult}
                   rank={0}
                   ownerIntent={isOwnerIntent}
+                  inboxReady={inboxReady}
                   compact
                 />
               </div>
@@ -192,7 +195,9 @@ export default async function SearchPage({ searchParams }: Props) {
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-7 text-[#45636a] sm:text-base">
                   {isOwnerIntent
-                    ? "Use the launch inbox to submit a new listing, claim public-info details, send source-backed updates, or ask about future growth placement."
+                    ? inboxReady
+                      ? "Use the launch inbox to submit a new listing, claim public-info details, send source-backed updates, or ask about future growth placement."
+                      : "Owner tools are still preview-only. Review the intake requirements and current limitations before the launch inbox is activated."
                     : scopeSummary
                       ? "These results stay inside the selected island or category first. Use Search all islands to widen back out to the full archipelago."
                       : "These results come from published business names, descriptions, island hubs, and route-aware utility pages."}
@@ -224,6 +229,7 @@ export default async function SearchPage({ searchParams }: Props) {
                     result={result}
                     rank={index}
                     ownerIntent={isOwnerIntent}
+                    inboxReady={inboxReady}
                     suppressTopResult={index === 0}
                   />
                 ))}
@@ -356,12 +362,14 @@ function SearchResultCard({
   result,
   rank,
   ownerIntent,
+  inboxReady,
   compact = false,
   suppressTopResult = false,
 }: {
   result: LocalSearchResult;
   rank: number;
   ownerIntent: boolean;
+  inboxReady: boolean;
   compact?: boolean;
   suppressTopResult?: boolean;
 }) {
@@ -372,14 +380,22 @@ function SearchResultCard({
   const isUtility = result.href === "/get-listed";
   const detailLabel = result.categoryName ?? "Business";
   const cardTitle =
-    isUtility && ownerIntent ? "Get listed on VibeVI" : result.name;
+    isUtility && ownerIntent
+      ? inboxReady
+        ? "Get listed on VibeVI"
+        : "Owner tools preview"
+      : result.name;
   const cardDescription =
     isUtility && ownerIntent
-      ? "Own or manage a Virgin Islands business? Submit a new listing, claim public-info details, send updates, or ask about growth placement."
+      ? inboxReady
+        ? "Own or manage a Virgin Islands business? Submit a new listing, claim public-info details, send updates, or ask about growth placement."
+        : "Own or manage a Virgin Islands business? Review the intake requirements, current limits, and human-reviewed workflow before the launch inbox goes live."
       : result.descriptionPlain;
   const trustNote =
     isUtility && ownerIntent
-      ? "Public-info listings are reviewed before publishing. No instant verification or paid placement is implied."
+      ? inboxReady
+        ? "Public-info listings are reviewed before publishing. No instant verification or paid placement is implied."
+        : "The owner workflow is still preview-only. No instant verification, active intake inbox, or paid placement is implied."
       : null;
 
   return (
@@ -430,11 +446,13 @@ function SearchResultCard({
                 : "bg-[#0b4b55] text-white hover:bg-[#0f6874]"
             }`}
           >
-            {isUtility ? "Start listing request" : "Open result"}
+            {isUtility ? (inboxReady ? "Start listing request" : "Review owner preview") : "Open result"}
           </Link>
           {isUtility ? (
             <span className="text-right text-[11px] leading-5 text-[#5c6f75]">
-              Claim or update your VibeVI listing
+              {inboxReady
+                ? "Claim or update your VibeVI listing"
+                : "Owner workflow preview only until the launch inbox is active"}
             </span>
           ) : null}
         </div>

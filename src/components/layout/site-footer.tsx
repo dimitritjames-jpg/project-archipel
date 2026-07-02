@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { ArchipelMark } from "@/components/ui/archipel-mark";
 import { SITE_TIMEZONE } from "@/lib/env";
+import { hasBusinessInquiryInbox } from "@/lib/get-listed";
 import { ISLAND_MAP, ISLAND_SLUGS } from "@/lib/islands";
 
 const utilityLinks = [
@@ -19,6 +20,8 @@ const utilityLinks = [
 ] as const;
 
 export function SiteFooter() {
+  const inboxReady = hasBusinessInquiryInbox();
+
   return (
     <footer className="relative overflow-hidden border-t border-[#0b4b55]/10 bg-[#fff4d6] text-[#173941]">
       <div className="topographic-field absolute inset-y-0 right-0 w-1/2 opacity-25" aria-hidden />
@@ -97,15 +100,17 @@ export function SiteFooter() {
               </span>
             </div>
             <p className="mt-2 text-sm text-[#45636a]">
-              Get listed on VibeVI now so visitors can find the beach bar, boat day, local plate, shop, stay, or night out that fits.
+              {inboxReady
+                ? "Get listed on VibeVI now so visitors can find the beach bar, boat day, local plate, shop, stay, or night out that fits."
+                : "Owner tools are still preview-only while the manual inbox is being configured. Review the intake path and requirements before launch activation."}
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Link href="/get-listed" className="rounded-full bg-coral px-5 py-2.5 text-sm font-bold text-midnight-950">
-              Get listed on VibeVI
+              {inboxReady ? "Get listed on VibeVI" : "Owner tools preview"}
             </Link>
             <Link href="/get-listed#active-now" className="rounded-full border border-[#0b4b55]/12 bg-white px-5 py-2.5 text-sm font-semibold text-[#173941]">
-              Claim your business
+              {inboxReady ? "Claim your business" : "See what is active now"}
             </Link>
           </div>
         </div>
