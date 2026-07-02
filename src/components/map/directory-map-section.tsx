@@ -18,8 +18,8 @@ const DirectoryMap = dynamic(
 
 const legend = [
   ["bg-aqua", "Published listing"],
-  ["bg-coral", "Port utility"],
-  ["bg-lime", "Island portal"],
+  ["bg-coral", "Ferry / port planning"],
+  ["bg-lime", "Island hub"],
 ] as const;
 
 export function DirectoryMapSection({
@@ -65,9 +65,9 @@ export function DirectoryMapSection({
         <DirectoryMap height="min(64vh, 600px)" className="!rounded-none !border-0" />
       </div>
 
-      <div className="flex flex-col gap-2 border-t border-white/8 px-5 py-4 text-[11px] text-archipel-white/38 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-        <p>Interactive map view appears when fully configured.</p>
-        <p>Search and island pages remain available without the map.</p>
+      <div className="flex flex-col gap-2 border-t border-white/8 px-5 py-4 text-[11px] leading-5 text-archipel-white/38 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+        <p>VibeVI uses the map as planning context, not live navigation, live traffic, or real-time availability.</p>
+        <p>Use island hubs, search, ferry boards, and cruise-day guides to finish the plan.</p>
       </div>
     </section>
   );

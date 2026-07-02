@@ -5,10 +5,15 @@ import { DirectoryMapSection } from "@/components/map/directory-map-section";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import { SectionHeader } from "@/components/ui/section-header";
 import { HERO_MEDIA, ISLAND_PORTALS } from "@/lib/media";
+import { absoluteUrl } from "@/lib/site-url";
+
+const mapCanonical = absoluteUrl("/map");
 
 export const metadata: Metadata = {
-  title: "Island Map",
-  description: "See VibeVI places across the U.S. Virgin Islands and follow the water, road, or ferry to the next move.",
+  title: "Island Planning Map",
+  description:
+    "Use the VibeVI island map preview to place beaches, ferries, cruise-day routes, and island hubs before you commit to the next move.",
+  alternates: { canonical: mapCanonical },
   robots: { index: false, follow: true },
 };
 
@@ -26,8 +31,8 @@ export default function MapPage() {
         <section className="section-shell grid gap-8 px-4 py-20 sm:px-6 lg:grid-cols-[1fr_0.6fr] lg:items-end lg:py-28">
           <SectionHeader
             eyebrow="Island map"
-            title="Find the beach, boat, bite, or night."
-            description="See the islands as one connected day. Find what is nearby, then follow the water, road, or ferry."
+            title="Place the islands before you pick the next move."
+            description="Use the beta map preview to orient ferries, beaches, hubs, and category paths. It is built for planning, not live navigation."
           />
           <div className="grid grid-cols-2 gap-3">
             {mapRoutes.map(([label, href, slug], index) => {
