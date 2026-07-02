@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
+import { hasBusinessInquiryInbox } from "@/lib/get-listed";
 import type { LaunchGuide } from "@/lib/guides";
 import { getGuideMediaAsset } from "@/lib/media";
 import { absoluteUrl } from "@/lib/site-url";
@@ -9,6 +10,7 @@ import { serializeJsonLd } from "@/lib/utils";
 const GUIDE_SCHEMA_LAST_MODIFIED = "2026-06-29";
 
 export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
+  const inboxReady = hasBusinessInquiryInbox();
   const canonical = absoluteUrl(guide.path);
   const islandSegment = guide.path.split("/")[1];
   const islandHub = ["st-thomas", "st-croix", "st-john", "water-island"].includes(islandSegment)
@@ -68,7 +70,7 @@ export function SeoGuidePage({ guide }: { guide: LaunchGuide }) {
           {islandHub ? <Link href={islandHub} className="rounded-full border border-aqua/20 bg-aqua/7 px-4 py-2 text-sm font-semibold text-aqua">Open the island hub</Link> : null}
           <Link href="/search" className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-sm text-white/62">Search businesses</Link>
           <Link href="/map" className="rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-sm text-white/62">Open the map</Link>
-          <Link href="/get-listed" className="rounded-full border border-coral/20 bg-coral/7 px-4 py-2 text-sm font-semibold text-coral-sunset">Get listed on VibeVI</Link>
+          <Link href="/get-listed" className="rounded-full border border-coral/20 bg-coral/7 px-4 py-2 text-sm font-semibold text-coral-sunset">{inboxReady ? "Get listed on VibeVI" : "Owner tools preview"}</Link>
         </nav>
       </main>
     </>

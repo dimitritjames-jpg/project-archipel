@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { hasBusinessInquiryInbox } from "@/lib/get-listed";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 
 const businessBenefits = [
@@ -8,6 +9,8 @@ const businessBenefits = [
 ] as const;
 
 export function PartnerClaimCTA() {
+  const inboxReady = hasBusinessInquiryInbox();
+
   return (
     <section className="px-4 py-20 sm:px-6 lg:py-28" aria-labelledby="partner-cta">
       <div className="mx-auto max-w-7xl">
@@ -33,17 +36,17 @@ export function PartnerClaimCTA() {
                 Be part of the move people make next.
               </h2>
               <p className="text-pretty mt-5 max-w-2xl text-base leading-relaxed text-archipel-white/62 sm:text-lg">
-                VibeVI connects local businesses with visitors, residents, and crews
-                deciding where their island day goes next. Owner tools are still in
-                preview, but you can already confirm a listing, correct details,
-                send approved photos, or register claim interest.
+                {inboxReady
+                  ? "VibeVI connects local businesses with visitors, residents, and crews deciding where their island day goes next. Owner tools are still in preview, but you can already confirm a listing, correct details, send approved photos, or register claim interest."
+                  : "VibeVI connects local businesses with visitors, residents, and crews deciding where their island day goes next. Owner tools are still in preview, and the current page explains the intake requirements before the launch inbox opens."}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href="/get-listed"
                   className="inline-flex min-h-12 items-center gap-2 rounded-full bg-coral px-6 text-sm font-bold text-midnight-950 transition hover:-translate-y-0.5 hover:bg-[#ff9b8e]"
                 >
-                  Confirm or add your business <span aria-hidden>&rarr;</span>
+                  {inboxReady ? "Confirm or add your business" : "Review owner tools"}
+                  <span aria-hidden>&rarr;</span>
                 </Link>
                 <Link
                   href="/get-listed#growth-actions"
