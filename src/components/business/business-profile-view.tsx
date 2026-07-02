@@ -4,6 +4,7 @@ import { TrackedLink } from "@/components/analytics/tracked-link";
 import { ComingSoonBadge } from "@/components/ui/coming-soon-badge";
 import { MediaBackdrop } from "@/components/ui/media-backdrop";
 import type { PublishedBusinessRow } from "@/lib/businesses/queries";
+import type { ProfileRelatedLinks } from "@/lib/businesses/profile-related";
 import {
   canShowDirectContact,
   getListingTrustState,
@@ -20,12 +21,23 @@ type BusinessProfileViewProps = {
   business: PublishedBusinessRow;
   islandSlug: IslandSlug;
   canonicalUrl: string;
+  relatedLinks: ProfileRelatedLinks;
 };
+
+function formatSourceLabel(sourceUrl: string) {
+  try {
+    const url = new URL(sourceUrl);
+    return url.hostname.replace(/^www\./, "");
+  } catch {
+    return sourceUrl;
+  }
+}
 
 export function BusinessProfileView({
   business,
   islandSlug,
   canonicalUrl,
+  relatedLinks,
 }: BusinessProfileViewProps) {
   const islandName = getIslandName(islandSlug);
   const categorySlug = business.category?.slug ?? "directory";
@@ -55,6 +67,12 @@ export function BusinessProfileView({
     islandSlug,
     categorySlug,
   };
+  const publicInfoDisclosure =
+    business.public_info_disclosure?.trim() ||
+    "This profile is based on published public business sources and remains clearly unclaimed until a business representative confirms details with VibeVI.";
+  const sourceLabels = Array.from(
+    new Set((business.source_urls ?? []).map(formatSourceLabel)),
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -153,8 +171,47 @@ export function BusinessProfileView({
 
             <aside className="command-surface rounded-[1.35rem] p-5">
               <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-aqua/65">
-                Profile controls
+                Profile actions
               </p>
+              <div className="mt-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-1">
+                <TrackedLink
+                  href={islandHubHref}
+                  eventName="island_selected"
+                  eventProperties={{
+                    island: islandSlug,
+                    source: "business_profile_top_return",
+                  }}
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-archipel-white/75 transition hover:border-aqua/25 hover:text-aqua"
+                >
+                  Back to {islandName}
+                </TrackedLink>
+                <TrackedLink
+                  href={`/${islandSlug}/${categorySlug}`}
+                  eventName="category_clicked"
+                  eventProperties={{
+                    island: islandSlug,
+                    category: categorySlug,
+                    source: "business_profile_top_return",
+                  }}
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-archipel-white/75 transition hover:border-aqua/25 hover:text-aqua"
+                >
+                  Open {business.category?.name ?? "category"}
+                </TrackedLink>
+                <TrackedLink
+                  href={`/search?island=${islandSlug}&q=${encodeURIComponent(
+                    business.category?.name ?? business.name,
+                  )}`}
+                  eventName="search_submitted"
+                  eventProperties={{
+                    placement: "business_profile_top_return",
+                    listing_state: trustState,
+                    island: islandSlug,
+                  }}
+                  className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-center text-sm font-semibold text-archipel-white/75 transition hover:border-aqua/25 hover:text-aqua"
+                >
+                  Search this island
+                </TrackedLink>
+              </div>
               <div className="mt-4 grid gap-2">
                 {showDirectContact && business.phone ? (
                   <a
@@ -197,11 +254,23 @@ export function BusinessProfileView({
                 {isDemo
                   ? "Demonstration only. This does not represent a real business or active offer."
                   : isPublicInfo
-                    ? "Details are sourced from public business pages. Confirm directly with the business before making plans."
+                    ? publicInfoDisclosure
                     : schemaEligible
                       ? "Source verified. Confirm hours, availability, and booking details directly with the business."
                       : "This listing is still in source review. Direct contact actions remain hidden until verification and permission checks pass."}
               </p>
+              {isPublicInfo && sourceLabels.length > 0 ? (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {sourceLabels.slice(0, 3).map((label) => (
+                    <span
+                      key={label}
+                      className="rounded-full border border-aqua/18 bg-aqua/7 px-2.5 py-1 text-[10px] font-semibold text-aqua/82"
+                    >
+                      Source: {label}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
             </aside>
           </div>
         </div>
@@ -210,6 +279,42 @@ export function BusinessProfileView({
       <article className="section-shell py-14 sm:py-18 lg:py-22">
         <div className="grid gap-10 lg:grid-cols-[1fr_0.42fr] lg:gap-16">
           <div>
+            <div className="command-surface rounded-[1.35rem] p-6">
+              <p className="eyebrow-label !text-aqua">Source and trust</p>
+              <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">
+                {isDemo
+                  ? "This page is a launch demonstration."
+                  : isPublicInfo
+                    ? "This is an unclaimed public-info profile."
+                    : schemaEligible
+                      ? "This profile cleared VibeVI source review."
+                      : "This profile is still under source review."}
+              </h2>
+              <p className="mt-4 max-w-3xl text-sm leading-7 text-archipel-white/58">
+                {isDemo
+                  ? "Use it to understand page structure only. It does not represent a real business, live offer, or active contact path."
+                  : isPublicInfo
+                    ? `${publicInfoDisclosure} VibeVI does not claim live hours, prices, availability, or booking support on this page.`
+                    : schemaEligible
+                      ? "Key identity fields were sourced and reviewed, but time-sensitive details such as hours, pricing, booking, and availability still belong to the business."
+                      : "VibeVI keeps contact actions, rich schema, and stronger trust labels restrained until the source and permission review is complete."}
+              </p>
+              {isPublicInfo && business.source_urls?.length ? (
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {business.source_urls.slice(0, 4).map((sourceUrl) => (
+                    <a
+                      key={sourceUrl}
+                      href={sourceUrl}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-xs font-semibold text-aqua transition hover:border-aqua/25 hover:text-white"
+                    >
+                      {formatSourceLabel(sourceUrl)}
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </div>
             <p className="eyebrow-label">
               {isDemo ? "What this preview demonstrates" : "Why it is on the board"}
             </p>
@@ -263,7 +368,7 @@ export function BusinessProfileView({
               {isDemo
                 ? "Fictional demo inventory. No contact, availability, pricing, or service claim is active."
                 : isPublicInfo
-                  ? `Public info - unclaimed listing${business.last_verified_at ? ` - last checked ${new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeZone: "America/St_Thomas" }).format(new Date(business.last_verified_at))}` : ""}. Details are sourced from public business pages. Confirm directly with the business before making plans.`
+                  ? `Public info - unclaimed listing${business.last_verified_at ? ` - last checked ${new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeZone: "America/St_Thomas" }).format(new Date(business.last_verified_at))}` : ""}. ${publicInfoDisclosure}`
                   : schemaEligible
                     ? `Source-verified listing${business.last_verified_at ? ` - last checked ${new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeZone: "America/St_Thomas" }).format(new Date(business.last_verified_at))}` : ""}. Confirm time-sensitive details directly.`
                     : "Submitted or unverified listing. Public contact actions and LocalBusiness schema remain disabled pending source review."}
@@ -385,20 +490,82 @@ export function BusinessProfileView({
               </TrackedLink>
             </div>
           </div>
+          {relatedLinks.sameCategory.length > 0 || relatedLinks.similarIntent.length > 0 ? (
+            <div className="mb-8 grid gap-8 border-b border-white/8 pb-8 lg:grid-cols-2">
+              {relatedLinks.sameCategory.length > 0 ? (
+                <div>
+                  <p className="eyebrow-label !text-aqua">Same category</p>
+                  <h3 className="mt-4 text-xl font-semibold text-white">
+                    More in {business.category?.name ?? "this category"}
+                  </h3>
+                  <div className="mt-5 space-y-3">
+                    {relatedLinks.sameCategory.map((link) => (
+                      <TrackedLink
+                        key={link.href}
+                        href={link.href}
+                        eventName="category_clicked"
+                        eventProperties={{
+                          island: islandSlug,
+                          category: categorySlug,
+                          source: "business_profile_related_same_category",
+                        }}
+                        className="block rounded-[1.1rem] border border-white/10 bg-white/[0.035] p-4 transition hover:border-aqua/25 hover:text-aqua"
+                      >
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-aqua/72">
+                          {link.categoryName} / {link.islandName}
+                        </p>
+                        <p className="mt-2 text-sm font-semibold text-white">{link.name}</p>
+                        <p className="mt-2 text-xs leading-6 text-white/48">
+                          {link.summary}
+                        </p>
+                      </TrackedLink>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {relatedLinks.similarIntent.length > 0 ? (
+                <div>
+                  <p className="eyebrow-label !text-coral-sunset">Same island, similar fit</p>
+                  <h3 className="mt-4 text-xl font-semibold text-white">
+                    Other {islandName} stops that fit a similar plan
+                  </h3>
+                  <div className="mt-5 space-y-3">
+                    {relatedLinks.similarIntent.map((link) => (
+                      <TrackedLink
+                        key={link.href}
+                        href={link.href}
+                        eventName="island_selected"
+                        eventProperties={{
+                          island: islandSlug,
+                          source: "business_profile_related_same_island",
+                        }}
+                        className="block rounded-[1.1rem] border border-white/10 bg-white/[0.035] p-4 transition hover:border-aqua/25 hover:text-aqua"
+                      >
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral-sunset/80">
+                          {link.categoryName}
+                        </p>
+                        <p className="mt-2 text-sm font-semibold text-white">{link.name}</p>
+                        <p className="mt-2 text-xs leading-6 text-white/48">
+                          {link.summary}
+                        </p>
+                      </TrackedLink>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
           {!isDemo ? (
             <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <div className="flex flex-wrap items-center gap-3">
-                  <p className="eyebrow-label !text-coral-sunset">Is this your business?</p>
-                  <ComingSoonBadge label="Owner tools coming soon" />
-                </div>
+                <p className="eyebrow-label !text-coral-sunset">Is this your business?</p>
                 <h2 className="mt-4 text-2xl font-semibold tracking-[-0.04em] text-white">
                   Own or manage this business?
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-white/52">
-                  Use the launch workflow to confirm details, send approved photos, or
-                  register claim interest. Owner tools are not self-serve yet, and this
-                  listing stays clearly public-info until business confirmation is
+                  Use the beta intake to correct details, send approved photos, or
+                  register claim interest. The intake is human-reviewed, and this
+                  listing stays clearly public-info until a business contact is
                   reviewed.
                 </p>
               </div>
@@ -414,37 +581,22 @@ export function BusinessProfileView({
                     listing_state: trustState,
                     intent: "correct-my-info",
                   }}
-                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-coral px-5 text-sm font-bold text-midnight-950 transition hover:bg-[#ff9b8e]"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-coral/20 bg-coral/8 px-5 text-sm font-semibold text-coral-sunset transition hover:bg-coral/14"
                 >
-                  Update this listing
+                  Correct or update this listing
                 </TrackedLink>
                 <TrackedLink
                   href={buildGetListedHref({
-                    intent: "send-approved-photos",
+                    intent: "claim-interest",
                     ...ownerActionContext,
                   })}
                   eventName="get_listed_cta_clicked"
                   eventProperties={{
                     placement: "business_profile",
                     listing_state: trustState,
-                    intent: "send-approved-photos",
+                    intent: "claim-interest",
                   }}
                   className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/12 bg-white/5 px-5 text-sm font-semibold text-white transition hover:border-aqua/25 hover:text-aqua"
-                >
-                  Send approved photos
-                </TrackedLink>
-                <TrackedLink
-                  href={buildGetListedHref({
-                    intent: "claim-interest",
-                    ...ownerActionContext,
-                  })}
-                  eventName="get_listed_cta_clicked"
-                  eventProperties={{
-                    placement: "business_profile",
-                    listing_state: trustState,
-                    intent: "claim-interest",
-                  }}
-                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-coral/20 bg-coral/7 px-5 text-sm font-semibold text-coral-sunset transition hover:bg-coral/12"
                 >
                   Claim interest
                 </TrackedLink>
